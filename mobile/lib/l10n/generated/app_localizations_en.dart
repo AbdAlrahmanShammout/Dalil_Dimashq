@@ -46,4 +46,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchHint => 'Search by name, cuisine, street, or area';
+
+  @override
+  String get categoryAll => 'All';
+
+  @override
+  String get categoryHotels => 'Hotels';
+
+  @override
+  String get categoryRestaurants => 'Restaurants';
+
+  @override
+  String get categoryCafes => 'Cafés';
 }

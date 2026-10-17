@@ -12,5 +12,9 @@
   "signInRequired": "يلزم تسجيل الدخول",
   "owner": "صاحب المنشأة",
   "myPlaces": "منشآتي",
-  "searchHint": "ابحث بالاسم أو المطبخ أو الشارع أو المنطقة"
+  "searchHint": "ابحث بالاسم أو المطبخ أو الشارع أو المنطقة",
+  "categoryAll": "الكل",
+  "categoryHotels": "فنادق",
+  "categoryRestaurants": "مطاعم",
+  "categoryCafes": "مقاهي"
 }

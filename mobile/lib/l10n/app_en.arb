@@ -12,5 +12,9 @@
   "signInRequired": "Sign in required",
   "owner": "Owner",
   "myPlaces": "My places",
-  "searchHint": "Search by name, cuisine, street, or area"
+  "searchHint": "Search by name, cuisine, street, or area",
+  "categoryAll": "All",
+  "categoryHotels": "Hotels",
+  "categoryRestaurants": "Restaurants",
+  "categoryCafes": "Cafés"
 }

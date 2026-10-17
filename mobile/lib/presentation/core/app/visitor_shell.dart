@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dalil_dimashq/core/di/injection.dart';
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_event.dart';
+import 'package:dalil_dimashq/presentation/features/explore/widgets/category_chips.dart';
 import 'package:dalil_dimashq/presentation/features/explore/widgets/explore_search_bar.dart';
 import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
@@ -77,6 +78,7 @@ class _ExploreBody extends StatelessWidget {
     return const Column(
       children: <Widget>[
         Padding(padding: EdgeInsets.all(16), child: ExploreSearchBar()),
+        CategoryChips(),
         Expanded(child: ExploreResults()),
       ],
     );

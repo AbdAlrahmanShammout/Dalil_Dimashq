@@ -175,6 +175,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search by name, cuisine, street, or area'**
   String get searchHint;
+
+  /// No description provided for @categoryAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get categoryAll;
+
+  /// No description provided for @categoryHotels.
+  ///
+  /// In en, this message translates to:
+  /// **'Hotels'**
+  String get categoryHotels;
+
+  /// No description provided for @categoryRestaurants.
+  ///
+  /// In en, this message translates to:
+  /// **'Restaurants'**
+  String get categoryRestaurants;
+
+  /// No description provided for @categoryCafes.
+  ///
+  /// In en, this message translates to:
+  /// **'Cafés'**
+  String get categoryCafes;
 }
 
 class _AppLocalizationsDelegate
