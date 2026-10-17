@@ -1,0 +1,15 @@
+{
+  "@@locale": "en",
+  "appTitle": "Dalil Dimashq",
+  "directorySection": "Directory",
+  "explore": "Explore",
+  "map": "Map",
+  "events": "Events",
+  "account": "Account",
+  "language": "Language",
+  "english": "English",
+  "arabic": "Arabic",
+  "signInRequired": "Sign in required",
+  "owner": "Owner",
+  "myPlaces": "My places"
+}

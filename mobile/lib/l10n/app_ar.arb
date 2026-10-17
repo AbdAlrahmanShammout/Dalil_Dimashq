@@ -1,0 +1,15 @@
+{
+  "@@locale": "ar",
+  "appTitle": "دليل دمشق",
+  "directorySection": "الدليل",
+  "explore": "استكشف",
+  "map": "الخريطة",
+  "events": "الفعاليات",
+  "account": "حسابي",
+  "language": "اللغة",
+  "english": "الإنجليزية",
+  "arabic": "العربية",
+  "signInRequired": "يلزم تسجيل الدخول",
+  "owner": "صاحب المنشأة",
+  "myPlaces": "منشآتي"
+}

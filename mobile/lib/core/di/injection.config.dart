@@ -11,6 +11,16 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dalil_dimashq/core/di/register_module.dart' as _i111;
 import 'package:dalil_dimashq/core/storage/token_storage.dart' as _i944;
+import 'package:dalil_dimashq/data/repository/locale_repository_impl.dart'
+    as _i289;
+import 'package:dalil_dimashq/domain/repositories/locale_repository.dart'
+    as _i149;
+import 'package:dalil_dimashq/domain/usecase/read_locale_use_case.dart'
+    as _i1013;
+import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart'
+    as _i399;
+import 'package:dalil_dimashq/presentation/features/language/bloc/language_bloc.dart'
+    as _i308;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -28,11 +38,26 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.preferences,
       preResolve: true,
     );
+    gh.lazySingleton<_i149.LocaleRepository>(
+      () => _i289.LocaleRepositoryImpl(gh<_i460.SharedPreferences>()),
+    );
     gh.lazySingleton<_i944.TokenStorage>(
       () => _i944.TokenStorage(gh<_i460.SharedPreferences>()),
     );
     gh.lazySingleton<_i361.Dio>(
       () => registerModule.dio(gh<_i944.TokenStorage>()),
+    );
+    gh.factory<_i1013.ReadLocaleUseCase>(
+      () => _i1013.ReadLocaleUseCase(gh<_i149.LocaleRepository>()),
+    );
+    gh.factory<_i399.SaveLocaleUseCase>(
+      () => _i399.SaveLocaleUseCase(gh<_i149.LocaleRepository>()),
+    );
+    gh.factory<_i308.LanguageBloc>(
+      () => _i308.LanguageBloc(
+        gh<_i1013.ReadLocaleUseCase>(),
+        gh<_i399.SaveLocaleUseCase>(),
+      ),
     );
     return this;
   }

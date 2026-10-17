@@ -6,9 +6,10 @@ void main() {
   testWidgets('home renders the shared scaffold, section, and button', (
     WidgetTester tester,
   ) async {
-    await tester.pumpWidget(const DalilApp());
+    await tester.pumpWidget(const DalilApp(locale: Locale('en')));
     expect(find.text('Dalil Dimashq'), findsOneWidget);
     expect(find.text('Directory'), findsOneWidget);
-    expect(find.widgetWithText(FilledButton, 'Explore'), findsOneWidget);
+    expect(find.widgetWithText(FilledButton, 'English'), findsNothing);
+    expect(find.widgetWithText(FilledButton, 'Arabic'), findsOneWidget);
   });
 }
