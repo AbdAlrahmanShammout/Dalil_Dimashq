@@ -4,6 +4,7 @@ import 'package:dalil_dimashq/core/di/injection.dart';
 import 'package:dalil_dimashq/domain/entities/place_summary.dart';
 import 'package:dalil_dimashq/presentation/features/map/bloc/map_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/map/widgets/cluster_map.dart';
+import 'package:dalil_dimashq/presentation/features/place/pages/place_page.dart';
 
 class MapPage extends StatelessWidget {
   const MapPage({this.places, this.mapBloc, this.center, super.key});
@@ -14,15 +15,30 @@ class MapPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void openPlace(PlaceSummary place) {
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => PlacePage(placeId: place.id),
+        ),
+      );
+    }
     if (places != null) {
-      return ClusterMap(places: places!, center: center);
+      return ClusterMap(
+        places: places!,
+        center: center,
+        onOpenPlace: openPlace,
+      );
     }
     final MapBloc bloc = mapBloc ?? getIt<MapBloc>();
     return BlocProvider<MapBloc>.value(
       value: bloc..add(const MapStarted()),
       child: BlocBuilder<MapBloc, MapState>(
         builder: (BuildContext context, MapState state) {
-          return ClusterMap(places: state.places, center: center);
+          return ClusterMap(
+            places: state.places,
+            center: center,
+            onOpenPlace: openPlace,
+          );
         },
       ),
     );

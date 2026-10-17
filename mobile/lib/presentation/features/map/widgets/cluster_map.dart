@@ -3,10 +3,16 @@ import 'package:dalil_dimashq/domain/entities/place_cluster.dart';
 import 'package:dalil_dimashq/domain/entities/place_summary.dart';
 
 class ClusterMap extends StatefulWidget {
-  const ClusterMap({required this.places, this.center, super.key});
+  const ClusterMap({
+    required this.places,
+    this.center,
+    this.onOpenPlace,
+    super.key,
+  });
 
   final List<PlaceSummary> places;
   final String? center;
+  final ValueChanged<PlaceSummary>? onOpenPlace;
 
   @override
   State<ClusterMap> createState() => _ClusterMapState();
@@ -19,6 +25,7 @@ class _ClusterMapState extends State<ClusterMap> {
   @override
   Widget build(BuildContext context) {
     final List<PlaceCluster> clusters = clusterPlaces(widget.places);
+    final PlaceSummary? selected = _selected();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -48,7 +55,24 @@ class _ClusterMapState extends State<ClusterMap> {
         ),
         if (_selectedId != null)
           Text(_selectedId!, key: const Key('map-selected')),
+        if (selected != null)
+          ListTile(
+            key: const Key('marker-preview'),
+            title: Text(selected.nameEn ?? selected.nameAr),
+            onTap: widget.onOpenPlace == null
+                ? null
+                : () => widget.onOpenPlace!(selected),
+          ),
       ],
     );
+  }
+
+  PlaceSummary? _selected() {
+    for (final PlaceSummary place in widget.places) {
+      if (place.id == _selectedId) {
+        return place;
+      }
+    }
+    return null;
   }
 }
