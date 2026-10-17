@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dalil_dimashq/core/network/place_photo_url.dart';
+import 'package:dalil_dimashq/core/theme/category_fallback.dart';
 import 'package:dalil_dimashq/core/theme/app_colors.dart';
 import 'package:dalil_dimashq/domain/entities/place_detail.dart';
 import 'package:dalil_dimashq/domain/entities/place_enums.dart';
@@ -21,6 +22,7 @@ class PlaceHeader extends StatelessWidget {
         _PhotoSlot(
           slotKey: const Key('place-cover'),
           path: place.coverPath,
+          fallbackType: place.type,
           height: 180,
           icon: Icons.storefront,
         ),
@@ -78,11 +80,13 @@ class _PhotoSlot extends StatelessWidget {
     required this.path,
     required this.height,
     required this.icon,
+    this.fallbackType,
     this.width,
   });
 
   final Key slotKey;
   final String? path;
+  final String? fallbackType;
   final double height;
   final double? width;
   final IconData icon;
@@ -94,12 +98,17 @@ class _PhotoSlot extends StatelessWidget {
       key: slotKey,
       width: width ?? double.infinity,
       height: height,
-      child: url == null
+      child: url != null
+          ? Image.network(url, fit: BoxFit.cover)
+          : fallbackType == null
           ? ColoredBox(
               color: AppColors.charcoalRaised,
               child: Icon(icon, color: AppColors.gold),
             )
-          : Image.network(url, fit: BoxFit.cover),
+          : Image.asset(
+              categoryFallbackAsset(fallbackType!),
+              fit: BoxFit.cover,
+            ),
     );
   }
 }

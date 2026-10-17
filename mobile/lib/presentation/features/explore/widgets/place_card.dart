@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dalil_dimashq/core/network/place_photo_url.dart';
+import 'package:dalil_dimashq/core/theme/category_fallback.dart';
 import 'package:dalil_dimashq/core/theme/app_colors.dart';
 import 'package:dalil_dimashq/domain/entities/place_open_now.dart';
 import 'package:dalil_dimashq/domain/entities/place_summary.dart';
@@ -26,7 +27,13 @@ class PlaceCard extends StatelessWidget {
       color: AppColors.charcoalRaised,
       child: ListTile(
         leading: cover == null
-            ? const Icon(Icons.storefront)
+            ? Image.asset(
+                categoryFallbackAsset(place.type),
+                key: Key('fallback-${place.type}'),
+                width: 48,
+                height: 48,
+                fit: BoxFit.cover,
+              )
             : Image.network(cover, width: 48, height: 48, fit: BoxFit.cover),
         title: Text(isArabic ? place.nameAr : (place.nameEn ?? place.nameAr)),
         subtitle: Text(
