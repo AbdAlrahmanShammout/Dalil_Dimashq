@@ -28,6 +28,8 @@ PlaceSummaryDto _$PlaceSummaryDtoFromJson(Map<String, dynamic> json) =>
               ?.map((e) => PlaceHourDto.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const <PlaceHourDto>[],
+      latitude: (json['lat'] as num?)?.toDouble(),
+      longitude: (json['lon'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$PlaceSummaryDtoToJson(PlaceSummaryDto instance) =>
@@ -44,4 +46,6 @@ Map<String, dynamic> _$PlaceSummaryDtoToJson(PlaceSummaryDto instance) =>
       'is_featured': instance.isFeatured,
       'cover_path': instance.coverPath,
       'hours': instance.hours.map((e) => e.toJson()).toList(),
+      'lat': instance.latitude,
+      'lon': instance.longitude,
     };

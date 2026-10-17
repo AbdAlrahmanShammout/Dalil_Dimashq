@@ -7,6 +7,7 @@ import 'package:dalil_dimashq/presentation/features/explore/widgets/category_chi
 import 'package:dalil_dimashq/presentation/features/explore/widgets/featured_strip.dart';
 import 'package:dalil_dimashq/presentation/features/explore/widgets/filters_sheet.dart';
 import 'package:dalil_dimashq/presentation/features/events/pages/events_page.dart';
+import 'package:dalil_dimashq/presentation/features/map/pages/map_page.dart';
 import 'package:dalil_dimashq/presentation/features/explore/widgets/explore_search_bar.dart';
 import 'package:dalil_dimashq/presentation/features/offers/pages/offers_page.dart';
 import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart';
@@ -44,7 +45,7 @@ class _VisitorShellState extends State<VisitorShell> {
               value: widget.exploreBloc!..add(const ExploreStarted()),
               child: const _ExploreBody(),
             ),
-      _EmptyTab(title: l10n.map),
+      const MapPage(),
       const EventsPage(),
       const _AccountTab(),
     ];
@@ -89,17 +90,6 @@ class _ExploreBody extends StatelessWidget {
         Expanded(child: ExploreResults()),
       ],
     );
-  }
-}
-
-class _EmptyTab extends StatelessWidget {
-  const _EmptyTab({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text(title));
   }
 }
 

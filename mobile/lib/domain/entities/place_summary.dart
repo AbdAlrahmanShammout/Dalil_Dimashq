@@ -15,6 +15,8 @@ class PlaceSummary {
     this.isFeatured = false,
     this.coverPath,
     this.hours = const <PlaceHour>[],
+    this.latitude,
+    this.longitude,
   });
 
   final String id;
@@ -29,4 +31,6 @@ class PlaceSummary {
   final bool isFeatured;
   final String? coverPath;
   final List<PlaceHour> hours;
+  final double? latitude;
+  final double? longitude;
 }

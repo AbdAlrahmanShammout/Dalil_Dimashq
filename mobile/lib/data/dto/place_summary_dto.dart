@@ -21,6 +21,8 @@ class PlaceSummaryDto {
     this.isFeatured = false,
     this.coverPath,
     this.hours = const <PlaceHourDto>[],
+    this.latitude,
+    this.longitude,
   });
 
   factory PlaceSummaryDto.fromJson(Map<String, dynamic> json) =>
@@ -45,6 +47,10 @@ class PlaceSummaryDto {
   @JsonKey(name: 'cover_path')
   final String? coverPath;
   final List<PlaceHourDto> hours;
+  @JsonKey(name: 'lat')
+  final double? latitude;
+  @JsonKey(name: 'lon')
+  final double? longitude;
 
   Map<String, dynamic> toJson() => _$PlaceSummaryDtoToJson(this);
 
@@ -74,6 +80,8 @@ class PlaceSummaryDto {
             ),
           )
           .toList(),
+      latitude: latitude,
+      longitude: longitude,
     );
   }
 }

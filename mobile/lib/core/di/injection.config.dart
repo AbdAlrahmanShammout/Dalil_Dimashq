@@ -58,6 +58,8 @@ import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_bloc.da
     as _i805;
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_bloc.dart'
     as _i308;
+import 'package:dalil_dimashq/presentation/features/map/bloc/map_bloc.dart'
+    as _i600;
 import 'package:dalil_dimashq/presentation/features/offers/bloc/offers_bloc.dart'
     as _i367;
 import 'package:dalil_dimashq/presentation/features/place/bloc/place_bloc.dart'
@@ -148,6 +150,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i116.SearchPlacesUseCase>(),
         gh<_i80.ListAreasUseCase>(),
       ),
+    );
+    gh.factory<_i600.MapBloc>(
+      () => _i600.MapBloc(gh<_i116.SearchPlacesUseCase>()),
     );
     gh.factory<_i367.OffersBloc>(
       () => _i367.OffersBloc(gh<_i1024.ListOffersUseCase>()),
