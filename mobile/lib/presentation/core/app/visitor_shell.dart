@@ -6,6 +6,7 @@ import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_event.d
 import 'package:dalil_dimashq/presentation/features/explore/widgets/category_chips.dart';
 import 'package:dalil_dimashq/presentation/features/explore/widgets/featured_strip.dart';
 import 'package:dalil_dimashq/presentation/features/explore/widgets/filters_sheet.dart';
+import 'package:dalil_dimashq/presentation/features/events/pages/events_page.dart';
 import 'package:dalil_dimashq/presentation/features/explore/widgets/explore_search_bar.dart';
 import 'package:dalil_dimashq/presentation/features/offers/pages/offers_page.dart';
 import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart';
@@ -44,7 +45,7 @@ class _VisitorShellState extends State<VisitorShell> {
               child: const _ExploreBody(),
             ),
       _EmptyTab(title: l10n.map),
-      _EmptyTab(title: l10n.events),
+      const EventsPage(),
       const _AccountTab(),
     ];
     return AppScaffold(

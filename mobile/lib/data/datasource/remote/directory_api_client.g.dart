@@ -335,6 +335,43 @@ class _DirectoryApiClient implements DirectoryApiClient {
   }
 
   @override
+  Future<List<EventDto>> events(
+    String status,
+    String select,
+    String order,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'status': status,
+      r'select': select,
+      r'order': order,
+    };
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<EventDto>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/rest/v1/events',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<EventDto> _value;
+    try {
+      _value = _result.data!
+          .map((dynamic i) => EventDto.fromJson(i as Map<String, dynamic>))
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<List<PlaceHourDto>> placeHours(
     String placeId,
     String season,

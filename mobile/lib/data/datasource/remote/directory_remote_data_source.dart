@@ -2,6 +2,7 @@ import 'package:dalil_dimashq/data/datasource/remote/directory_api_client.dart';
 import 'package:dalil_dimashq/data/dto/area_dto.dart';
 import 'package:dalil_dimashq/data/dto/featured_now_dto.dart';
 import 'package:dalil_dimashq/data/dto/amenity_dto.dart';
+import 'package:dalil_dimashq/data/dto/event_dto.dart';
 import 'package:dalil_dimashq/data/dto/offer_dto.dart';
 import 'package:dalil_dimashq/data/dto/photo_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_hour_dto.dart';
@@ -71,6 +72,14 @@ class DirectoryRemoteDataSource {
 
   Future<List<AmenityDto>> amenities() {
     return _client.amenities('code,name_ar,name_en');
+  }
+
+  Future<List<EventDto>> events() {
+    return _client.events(
+      'eq.published',
+      'id,title_ar,title_en,venue_name,starts_at,poster_path,description_ar,description_en,venue_address,contact_phone,place_id,ends_at,publish_from,status',
+      'starts_at.asc',
+    );
   }
 
   Future<List<PlaceHourDto>> regularHours(String placeId) {

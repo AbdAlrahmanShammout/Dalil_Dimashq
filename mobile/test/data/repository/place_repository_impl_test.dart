@@ -4,6 +4,7 @@ import 'package:dalil_dimashq/data/dto/place_summary_dto.dart';
 import 'package:dalil_dimashq/data/dto/area_dto.dart';
 import 'package:dalil_dimashq/data/dto/featured_now_dto.dart';
 import 'package:dalil_dimashq/data/dto/amenity_dto.dart';
+import 'package:dalil_dimashq/data/dto/event_dto.dart';
 import 'package:dalil_dimashq/data/dto/offer_dto.dart';
 import 'package:dalil_dimashq/data/dto/photo_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_hour_dto.dart';
@@ -97,6 +98,11 @@ class _UnusedClient implements DirectoryApiClient {
 
   @override
   Future<List<PlaceAmenityDto>> placeAmenities(String placeId, String select) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<EventDto>> events(String status, String select, String order) {
     throw UnimplementedError();
   }
 

@@ -1,6 +1,7 @@
 import 'package:dalil_dimashq/data/dto/area_dto.dart';
 import 'package:dalil_dimashq/data/dto/featured_now_dto.dart';
 import 'package:dalil_dimashq/data/dto/amenity_dto.dart';
+import 'package:dalil_dimashq/data/dto/event_dto.dart';
 import 'package:dalil_dimashq/data/dto/offer_dto.dart';
 import 'package:dalil_dimashq/data/dto/photo_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_hour_dto.dart';
@@ -64,6 +65,13 @@ abstract class DirectoryApiClient {
 
   @GET('/rest/v1/amenities')
   Future<List<AmenityDto>> amenities(@Query('select') String select);
+
+  @GET('/rest/v1/events')
+  Future<List<EventDto>> events(
+    @Query('status') String status,
+    @Query('select') String select,
+    @Query('order') String order,
+  );
 
   @GET('/rest/v1/place_hours')
   Future<List<PlaceHourDto>> placeHours(
