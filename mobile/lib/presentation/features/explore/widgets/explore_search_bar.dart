@@ -6,6 +6,7 @@ import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_event.dart';
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_state.dart';
+import 'package:dalil_dimashq/presentation/features/explore/widgets/place_card.dart';
 
 class ExploreSearchBar extends StatefulWidget {
   const ExploreSearchBar({super.key});
@@ -49,7 +50,7 @@ class ExploreResults extends StatelessWidget {
       builder: (BuildContext context, ExploreState state) {
         return ListView(
           children: state.places
-              .map((place) => ListTile(title: Text(place.nameAr)))
+              .map((place) => PlaceCard(place: place))
               .toList(),
         );
       },

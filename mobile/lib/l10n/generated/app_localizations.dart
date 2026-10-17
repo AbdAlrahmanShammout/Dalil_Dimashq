@@ -205,6 +205,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Featured'**
   String get featured;
+
+  /// No description provided for @notRated.
+  ///
+  /// In en, this message translates to:
+  /// **'Not rated'**
+  String get notRated;
+
+  /// No description provided for @openNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Open now'**
+  String get openNow;
+
+  /// No description provided for @closedNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed now'**
+  String get closedNow;
 }
 
 class _AppLocalizationsDelegate

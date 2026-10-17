@@ -61,4 +61,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get featured => 'Featured';
+
+  @override
+  String get notRated => 'Not rated';
+
+  @override
+  String get openNow => 'Open now';
+
+  @override
+  String get closedNow => 'Closed now';
 }

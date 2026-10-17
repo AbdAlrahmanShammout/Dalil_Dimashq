@@ -61,4 +61,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get featured => 'مميز';
+
+  @override
+  String get notRated => 'غير مقيّم';
+
+  @override
+  String get openNow => 'مفتوح الآن';
+
+  @override
+  String get closedNow => 'مغلق الآن';
 }

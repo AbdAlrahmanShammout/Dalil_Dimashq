@@ -17,5 +17,8 @@
   "categoryHotels": "فنادق",
   "categoryRestaurants": "مطاعم",
   "categoryCafes": "مقاهي",
-  "featured": "مميز"
+  "featured": "مميز",
+  "notRated": "غير مقيّم",
+  "openNow": "مفتوح الآن",
+  "closedNow": "مغلق الآن"
 }

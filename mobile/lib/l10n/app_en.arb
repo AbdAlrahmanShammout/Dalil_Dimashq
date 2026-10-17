@@ -17,5 +17,8 @@
   "categoryHotels": "Hotels",
   "categoryRestaurants": "Restaurants",
   "categoryCafes": "Cafés",
-  "featured": "Featured"
+  "featured": "Featured",
+  "notRated": "Not rated",
+  "openNow": "Open now",
+  "closedNow": "Closed now"
 }
