@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dalil_dimashq/core/theme/app_theme.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
-import 'package:dalil_dimashq/presentation/core/app/home_page.dart';
-import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
+import 'package:dalil_dimashq/presentation/core/app/visitor_shell.dart';
 
 class DalilApp extends StatelessWidget {
   const DalilApp({super.key, this.locale = const Locale('ar'), this.home});
@@ -21,14 +20,7 @@ class DalilApp extends StatelessWidget {
       theme: AppTheme.dark,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.dark,
-      home: Builder(
-        builder: (BuildContext context) {
-          return AppScaffold(
-            title: AppLocalizations.of(context).appTitle,
-            body: home ?? const HomePage(),
-          );
-        },
-      ),
+      home: home ?? const VisitorShell(),
     );
   }
 }

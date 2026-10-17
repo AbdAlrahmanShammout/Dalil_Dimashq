@@ -27,16 +27,18 @@ void main() {
         ),
       ),
     );
-    expect(find.text('الدليل'), findsOneWidget);
+    expect(find.text('استكشف'), findsWidgets);
     expect(
-      Directionality.of(tester.element(find.text('الدليل'))),
+      Directionality.of(tester.element(find.text('استكشف').first)),
       TextDirection.rtl,
     );
+    await tester.tap(find.text('حسابي'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('الإنجليزية'));
     await tester.pumpAndSettle();
-    expect(find.text('Directory'), findsOneWidget);
+    expect(find.text('Language'), findsOneWidget);
     expect(
-      Directionality.of(tester.element(find.text('Directory'))),
+      Directionality.of(tester.element(find.text('Language'))),
       TextDirection.ltr,
     );
     bloc.close();
