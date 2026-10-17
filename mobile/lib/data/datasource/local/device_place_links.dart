@@ -31,4 +31,9 @@ class DevicePlaceLinks implements PlaceLinks {
   Future<void> copyPhone(String phone) async {
     await Clipboard.setData(ClipboardData(text: phone));
   }
+
+  @override
+  Future<void> openUrl(Uri uri) async {
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
 }

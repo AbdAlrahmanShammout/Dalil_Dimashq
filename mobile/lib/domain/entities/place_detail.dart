@@ -26,6 +26,10 @@ class PlaceDetail {
     this.descriptionEn,
     this.amenities = const <Amenity>[],
     this.hours = const <PlaceHour>[],
+    this.website,
+    this.email,
+    this.facebook,
+    this.instagram,
   });
 
   final String id;
@@ -48,4 +52,8 @@ class PlaceDetail {
   final String? descriptionEn;
   final List<Amenity> amenities;
   final List<PlaceHour> hours;
+  final String? website;
+  final String? email;
+  final String? facebook;
+  final String? instagram;
 }

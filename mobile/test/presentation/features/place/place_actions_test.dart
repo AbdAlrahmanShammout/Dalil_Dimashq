@@ -85,4 +85,7 @@ class _RecordingLinks implements PlaceLinks {
   Future<void> copyPhone(String phone) async {
     copied = phone;
   }
+
+  @override
+  Future<void> openUrl(Uri uri) async {}
 }

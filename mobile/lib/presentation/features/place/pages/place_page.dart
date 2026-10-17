@@ -9,6 +9,7 @@ import 'package:dalil_dimashq/presentation/features/place/bloc/place_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/place/bloc/place_event.dart';
 import 'package:dalil_dimashq/presentation/features/place/bloc/place_state.dart';
 import 'package:dalil_dimashq/presentation/features/place/widgets/place_actions.dart';
+import 'package:dalil_dimashq/presentation/features/place/widgets/place_contact_section.dart';
 import 'package:dalil_dimashq/presentation/features/place/widgets/place_hours_section.dart';
 import 'package:dalil_dimashq/presentation/features/place/widgets/place_map_preview.dart';
 import 'package:dalil_dimashq/presentation/features/place/widgets/place_overview_section.dart';
@@ -79,6 +80,7 @@ class _PlaceView extends StatelessWidget {
               PlaceOverviewSection(place: state.place!),
               PlaceMapPreview(place: state.place!, links: links),
               PlaceHoursSection(place: state.place!, now: now),
+              PlaceContactSection(place: state.place!, links: links),
             ],
           );
         },

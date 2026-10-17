@@ -50,6 +50,10 @@ PlaceDetail mapPlaceHeader({
     descriptionEn: place.descriptionEn,
     amenities: amenities,
     hours: hours.map((PlaceHourDto hour) => hour.toEntity()).toList(),
+    website: place.website,
+    email: place.email,
+    facebook: place.facebook,
+    instagram: place.instagram,
   );
 }
 

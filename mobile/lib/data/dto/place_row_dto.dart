@@ -17,6 +17,10 @@ class PlaceRowDto {
     this.lon,
     this.descriptionAr,
     this.descriptionEn,
+    this.website,
+    this.email,
+    this.facebook,
+    this.instagram,
   });
 
   factory PlaceRowDto.fromJson(Map<String, dynamic> json) =>
@@ -41,6 +45,10 @@ class PlaceRowDto {
   final String? descriptionAr;
   @JsonKey(name: 'description_en')
   final String? descriptionEn;
+  final String? website;
+  final String? email;
+  final String? facebook;
+  final String? instagram;
 
   Map<String, dynamic> toJson() => _$PlaceRowDtoToJson(this);
 }

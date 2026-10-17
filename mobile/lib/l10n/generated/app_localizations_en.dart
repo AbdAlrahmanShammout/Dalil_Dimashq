@@ -168,4 +168,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saturday => 'Saturday';
+
+  @override
+  String get contact => 'Contact';
+
+  @override
+  String get website => 'Website';
+
+  @override
+  String get facebook => 'Facebook';
+
+  @override
+  String get instagram => 'Instagram';
+
+  @override
+  String get email => 'Email';
 }

@@ -9,4 +9,6 @@ abstract class PlaceLinks {
   Future<void> share(String text);
 
   Future<void> copyPhone(String phone);
+
+  Future<void> openUrl(Uri uri);
 }

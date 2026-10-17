@@ -52,5 +52,10 @@
   "wednesday": "الأربعاء",
   "thursday": "الخميس",
   "friday": "الجمعة",
-  "saturday": "السبت"
+  "saturday": "السبت",
+  "contact": "التواصل",
+  "website": "الموقع",
+  "facebook": "فيسبوك",
+  "instagram": "إنستغرام",
+  "email": "البريد"
 }

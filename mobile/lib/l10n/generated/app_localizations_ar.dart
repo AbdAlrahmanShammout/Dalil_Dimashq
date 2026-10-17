@@ -168,4 +168,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get saturday => 'السبت';
+
+  @override
+  String get contact => 'التواصل';
+
+  @override
+  String get website => 'الموقع';
+
+  @override
+  String get facebook => 'فيسبوك';
+
+  @override
+  String get instagram => 'إنستغرام';
+
+  @override
+  String get email => 'البريد';
 }

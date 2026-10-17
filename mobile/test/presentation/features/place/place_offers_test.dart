@@ -80,4 +80,7 @@ class _SilentLinks implements PlaceLinks {
 
   @override
   Future<void> share(String text) async {}
+
+  @override
+  Future<void> openUrl(Uri uri) async {}
 }
