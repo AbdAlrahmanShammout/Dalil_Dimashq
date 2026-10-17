@@ -21,6 +21,8 @@ import 'package:dalil_dimashq/data/datasource/remote/directory_api_client.dart'
     as _i807;
 import 'package:dalil_dimashq/data/datasource/remote/directory_remote_data_source.dart'
     as _i360;
+import 'package:dalil_dimashq/data/datasource/remote/profile_api_client.dart'
+    as _i413;
 import 'package:dalil_dimashq/data/repository/auth_repository_impl.dart'
     as _i327;
 import 'package:dalil_dimashq/data/repository/event_repository_impl.dart'
@@ -31,6 +33,8 @@ import 'package:dalil_dimashq/data/repository/offer_repository_impl.dart'
     as _i908;
 import 'package:dalil_dimashq/data/repository/place_repository_impl.dart'
     as _i401;
+import 'package:dalil_dimashq/data/repository/profile_repository_impl.dart'
+    as _i352;
 import 'package:dalil_dimashq/data/repository/session_repository_impl.dart'
     as _i88;
 import 'package:dalil_dimashq/domain/repositories/auth_repository.dart'
@@ -43,6 +47,8 @@ import 'package:dalil_dimashq/domain/repositories/offer_repository.dart'
     as _i921;
 import 'package:dalil_dimashq/domain/repositories/place_repository.dart'
     as _i823;
+import 'package:dalil_dimashq/domain/repositories/profile_repository.dart'
+    as _i539;
 import 'package:dalil_dimashq/domain/repositories/session_repository.dart'
     as _i366;
 import 'package:dalil_dimashq/domain/services/device_location.dart' as _i845;
@@ -55,12 +61,16 @@ import 'package:dalil_dimashq/domain/usecase/list_events_use_case.dart'
     as _i460;
 import 'package:dalil_dimashq/domain/usecase/list_offers_use_case.dart'
     as _i1024;
+import 'package:dalil_dimashq/domain/usecase/load_profile_use_case.dart'
+    as _i525;
 import 'package:dalil_dimashq/domain/usecase/read_locale_use_case.dart'
     as _i1013;
 import 'package:dalil_dimashq/domain/usecase/recover_password_use_case.dart'
     as _i244;
 import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart'
     as _i399;
+import 'package:dalil_dimashq/domain/usecase/save_profile_use_case.dart'
+    as _i761;
 import 'package:dalil_dimashq/domain/usecase/search_places_use_case.dart'
     as _i116;
 import 'package:dalil_dimashq/domain/usecase/sign_in_use_case.dart' as _i873;
@@ -83,6 +93,8 @@ import 'package:dalil_dimashq/presentation/features/offers/bloc/offers_bloc.dart
     as _i367;
 import 'package:dalil_dimashq/presentation/features/place/bloc/place_bloc.dart'
     as _i489;
+import 'package:dalil_dimashq/presentation/features/profile/bloc/profile_bloc.dart'
+    as _i700;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -131,6 +143,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i371.AuthApiClient>(
       () => registerModule.authApiClient(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i413.ProfileApiClient>(
+      () => registerModule.profileApiClient(gh<_i361.Dio>()),
+    );
     gh.factory<_i308.LanguageBloc>(
       () => _i308.LanguageBloc(
         gh<_i1013.ReadLocaleUseCase>(),
@@ -139,6 +154,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i360.DirectoryRemoteDataSource>(
       () => _i360.DirectoryRemoteDataSource(gh<_i807.DirectoryApiClient>()),
+    );
+    gh.lazySingleton<_i539.ProfileRepository>(
+      () => _i352.ProfileRepositoryImpl(gh<_i413.ProfileApiClient>()),
     );
     gh.lazySingleton<_i242.AuthRepository>(
       () => _i327.AuthRepositoryImpl(
@@ -155,6 +173,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i62.SignUpUseCase>(
       () => _i62.SignUpUseCase(gh<_i242.AuthRepository>()),
     );
+    gh.factory<_i525.LoadProfileUseCase>(
+      () => _i525.LoadProfileUseCase(gh<_i539.ProfileRepository>()),
+    );
+    gh.factory<_i761.SaveProfileUseCase>(
+      () => _i761.SaveProfileUseCase(gh<_i539.ProfileRepository>()),
+    );
     gh.lazySingleton<_i203.EventRepository>(
       () => _i215.EventRepositoryImpl(gh<_i360.DirectoryRemoteDataSource>()),
     );
@@ -166,6 +190,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i1047.SignInBloc>(
       () => _i1047.SignInBloc(gh<_i873.SignInUseCase>()),
+    );
+    gh.factory<_i700.ProfileBloc>(
+      () => _i700.ProfileBloc(
+        gh<_i525.LoadProfileUseCase>(),
+        gh<_i761.SaveProfileUseCase>(),
+      ),
     );
     gh.factory<_i654.GetPlaceUseCase>(
       () => _i654.GetPlaceUseCase(gh<_i823.PlaceRepository>()),

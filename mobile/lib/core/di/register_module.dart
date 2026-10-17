@@ -5,6 +5,7 @@ import 'package:dalil_dimashq/core/network/dio_factory.dart';
 import 'package:dalil_dimashq/core/storage/token_storage.dart';
 import 'package:dalil_dimashq/data/datasource/remote/auth_api_client.dart';
 import 'package:dalil_dimashq/data/datasource/remote/directory_api_client.dart';
+import 'package:dalil_dimashq/data/datasource/remote/profile_api_client.dart';
 
 @module
 abstract class RegisterModule {
@@ -19,4 +20,7 @@ abstract class RegisterModule {
 
   @lazySingleton
   AuthApiClient authApiClient(Dio dio) => AuthApiClient(dio);
+
+  @lazySingleton
+  ProfileApiClient profileApiClient(Dio dio) => ProfileApiClient(dio);
 }

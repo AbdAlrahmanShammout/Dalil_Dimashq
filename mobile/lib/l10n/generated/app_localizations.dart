@@ -547,6 +547,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You must be 16 or older'**
   String get ageRequired;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// No description provided for @phone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get phone;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @profileSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile saved'**
+  String get profileSaved;
 }
 
 class _AppLocalizationsDelegate

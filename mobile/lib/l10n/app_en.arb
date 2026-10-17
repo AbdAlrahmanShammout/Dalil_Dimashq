@@ -74,5 +74,9 @@
   "sendRecovery": "Send recovery email",
   "recoverySent": "Check your email for password recovery",
   "ageCheck": "I am 16 or older",
-  "ageRequired": "You must be 16 or older"
+  "ageRequired": "You must be 16 or older",
+  "profile": "Profile",
+  "phone": "Phone",
+  "save": "Save",
+  "profileSaved": "Profile saved"
 }

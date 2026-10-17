@@ -235,4 +235,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ageRequired => 'You must be 16 or older';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get phone => 'Phone';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get profileSaved => 'Profile saved';
 }

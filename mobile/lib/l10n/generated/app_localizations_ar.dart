@@ -234,4 +234,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ageRequired => 'يلزم أن يكون عمرك 16 سنة أو أكثر';
+
+  @override
+  String get profile => 'الملف';
+
+  @override
+  String get phone => 'الهاتف';
+
+  @override
+  String get save => 'حفظ';
+
+  @override
+  String get profileSaved => 'تم حفظ الملف';
 }
