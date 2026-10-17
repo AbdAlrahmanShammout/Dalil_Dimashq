@@ -577,6 +577,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Booking'**
   String get booking;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
 }
 
 class _AppLocalizationsDelegate

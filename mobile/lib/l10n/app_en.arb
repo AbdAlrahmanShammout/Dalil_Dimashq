@@ -79,5 +79,6 @@
   "phone": "Phone",
   "save": "Save",
   "profileSaved": "Profile saved",
-  "booking": "Booking"
+  "booking": "Booking",
+  "settings": "Settings"
 }

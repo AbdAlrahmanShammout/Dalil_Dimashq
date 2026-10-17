@@ -18,6 +18,7 @@ import 'package:dalil_dimashq/presentation/features/booking/pages/booking_draft_
 import 'package:dalil_dimashq/presentation/features/auth/pages/sign_up_page.dart';
 import 'package:dalil_dimashq/presentation/features/owner/pages/owner_gate_page.dart';
 import 'package:dalil_dimashq/presentation/features/profile/pages/profile_page.dart';
+import 'package:dalil_dimashq/presentation/features/settings/pages/settings_page.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_section.dart';
@@ -105,12 +106,13 @@ class _AccountTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final bool isArabic = Localizations.localeOf(context).languageCode == 'ar';
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: AppSection(
         title: l10n.language,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             AppButton(
               label: isArabic ? l10n.english : l10n.arabic,
@@ -162,6 +164,17 @@ class _AccountTab extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) => const ProfilePage(),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 12),
+            AppButton(
+              label: l10n.settings,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const SettingsPage(),
                   ),
                 );
               },

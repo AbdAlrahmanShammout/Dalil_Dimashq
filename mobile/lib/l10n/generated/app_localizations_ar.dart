@@ -249,4 +249,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get booking => 'حجز';
+
+  @override
+  String get settings => 'الإعدادات';
 }

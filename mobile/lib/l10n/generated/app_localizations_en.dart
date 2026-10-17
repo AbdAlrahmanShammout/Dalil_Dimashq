@@ -250,4 +250,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get booking => 'Booking';
+
+  @override
+  String get settings => 'Settings';
 }
