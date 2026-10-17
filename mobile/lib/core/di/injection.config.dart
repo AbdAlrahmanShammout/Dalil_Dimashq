@@ -11,12 +11,20 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dalil_dimashq/core/di/register_module.dart' as _i111;
 import 'package:dalil_dimashq/core/storage/token_storage.dart' as _i944;
+import 'package:dalil_dimashq/data/datasource/remote/directory_api_client.dart'
+    as _i807;
+import 'package:dalil_dimashq/data/datasource/remote/directory_remote_data_source.dart'
+    as _i360;
 import 'package:dalil_dimashq/data/repository/locale_repository_impl.dart'
     as _i289;
+import 'package:dalil_dimashq/data/repository/place_repository_impl.dart'
+    as _i401;
 import 'package:dalil_dimashq/data/repository/session_repository_impl.dart'
     as _i88;
 import 'package:dalil_dimashq/domain/repositories/locale_repository.dart'
     as _i149;
+import 'package:dalil_dimashq/domain/repositories/place_repository.dart'
+    as _i823;
 import 'package:dalil_dimashq/domain/repositories/session_repository.dart'
     as _i366;
 import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart'
@@ -25,6 +33,8 @@ import 'package:dalil_dimashq/domain/usecase/read_locale_use_case.dart'
     as _i1013;
 import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart'
     as _i399;
+import 'package:dalil_dimashq/domain/usecase/search_places_use_case.dart'
+    as _i116;
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_bloc.dart'
     as _i308;
 import 'package:dio/dio.dart' as _i361;
@@ -65,11 +75,23 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i399.SaveLocaleUseCase>(
       () => _i399.SaveLocaleUseCase(gh<_i149.LocaleRepository>()),
     );
+    gh.lazySingleton<_i807.DirectoryApiClient>(
+      () => registerModule.directoryApiClient(gh<_i361.Dio>()),
+    );
     gh.factory<_i308.LanguageBloc>(
       () => _i308.LanguageBloc(
         gh<_i1013.ReadLocaleUseCase>(),
         gh<_i399.SaveLocaleUseCase>(),
       ),
+    );
+    gh.lazySingleton<_i360.DirectoryRemoteDataSource>(
+      () => _i360.DirectoryRemoteDataSource(gh<_i807.DirectoryApiClient>()),
+    );
+    gh.lazySingleton<_i823.PlaceRepository>(
+      () => _i401.PlaceRepositoryImpl(gh<_i360.DirectoryRemoteDataSource>()),
+    );
+    gh.factory<_i116.SearchPlacesUseCase>(
+      () => _i116.SearchPlacesUseCase(gh<_i823.PlaceRepository>()),
     );
     return this;
   }
