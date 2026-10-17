@@ -256,4 +256,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notifications => 'Notifications';
+
+  @override
+  String get privacyPolicy => 'Privacy policy';
+
+  @override
+  String get privacyUpdated =>
+      'Last updated 16 October 2026. If the texts differ, the Arabic version prevails.';
+
+  @override
+  String get privacyWho =>
+      'Dalil Dimashq is registered in Damascus under commercial register 0110098519.';
+
+  @override
+  String get privacyCollected =>
+      'We may keep contact messages, owner accounts, visitor accounts, bookings, fake-booking reports, suggestions with an IP fingerprint, location, camera use, notification tokens, and technical information.';
+
+  @override
+  String get privacyStorage =>
+      'We do not use tracking cookies or third-party analytics.';
+
+  @override
+  String get privacyServices =>
+      'The service uses Netlify, Supabase, Resend, Firebase Cloud Messaging, Google Fonts, map tiles, Nominatim, and Photon.';
+
+  @override
+  String get privacyRights =>
+      'You can ask what is stored, how long it is kept, and who receives it. You can delete your account. The app is for people aged 16 or older.';
 }

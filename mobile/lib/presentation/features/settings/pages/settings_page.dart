@@ -7,6 +7,7 @@ import 'package:dalil_dimashq/presentation/core/widgets/app_section.dart';
 import 'package:dalil_dimashq/domain/repositories/notification_preference_repository.dart';
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_event.dart';
+import 'package:dalil_dimashq/presentation/features/settings/pages/privacy_policy_page.dart';
 import 'package:dalil_dimashq/presentation/features/settings/widgets/notifications_toggle.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -19,7 +20,7 @@ class SettingsPage extends StatelessWidget {
     final AppLocalizations l10n = AppLocalizations.of(context);
     return AppScaffold(
       title: l10n.settings,
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: AppSection(
           title: l10n.language,
@@ -45,6 +46,18 @@ class SettingsPage extends StatelessWidget {
                 },
               ),
               NotificationsToggle(repository: notifications),
+              const SizedBox(height: 12),
+              AppButton(
+                label: l10n.privacyPolicy,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) =>
+                          const PrivacyPolicyPage(),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),

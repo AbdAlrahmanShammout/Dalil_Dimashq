@@ -589,6 +589,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Notifications'**
   String get notifications;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @privacyUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Last updated 16 October 2026. If the texts differ, the Arabic version prevails.'**
+  String get privacyUpdated;
+
+  /// No description provided for @privacyWho.
+  ///
+  /// In en, this message translates to:
+  /// **'Dalil Dimashq is registered in Damascus under commercial register 0110098519.'**
+  String get privacyWho;
+
+  /// No description provided for @privacyCollected.
+  ///
+  /// In en, this message translates to:
+  /// **'We may keep contact messages, owner accounts, visitor accounts, bookings, fake-booking reports, suggestions with an IP fingerprint, location, camera use, notification tokens, and technical information.'**
+  String get privacyCollected;
+
+  /// No description provided for @privacyStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'We do not use tracking cookies or third-party analytics.'**
+  String get privacyStorage;
+
+  /// No description provided for @privacyServices.
+  ///
+  /// In en, this message translates to:
+  /// **'The service uses Netlify, Supabase, Resend, Firebase Cloud Messaging, Google Fonts, map tiles, Nominatim, and Photon.'**
+  String get privacyServices;
+
+  /// No description provided for @privacyRights.
+  ///
+  /// In en, this message translates to:
+  /// **'You can ask what is stored, how long it is kept, and who receives it. You can delete your account. The app is for people aged 16 or older.'**
+  String get privacyRights;
 }
 
 class _AppLocalizationsDelegate

@@ -255,4 +255,31 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notifications => 'الإشعارات';
+
+  @override
+  String get privacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String get privacyUpdated =>
+      'آخر تحديث 16 تشرين الأول 2026. عند الاختلاف تُعتمد النسخة العربية.';
+
+  @override
+  String get privacyWho =>
+      'دليل دمشق مسجّل في دمشق بالسجل التجاري رقم 0110098519.';
+
+  @override
+  String get privacyCollected =>
+      'قد نحتفظ برسائل التواصل، وحسابات أصحاب المنشآت، وحسابات الزوار، والحجوزات، وبلاغات الحجوزات الوهمية، والاقتراحات مع بصمة عنوان الشبكة، والموقع، واستخدام الكاميرا، ورموز الإشعارات، ومعلومات تقنية.';
+
+  @override
+  String get privacyStorage =>
+      'لا نستخدم ملفات تعريف ارتباط للتتبع ولا أدوات تحليل من جهات خارجية.';
+
+  @override
+  String get privacyServices =>
+      'تعتمد الخدمة على Netlify وSupabase وResend وFirebase Cloud Messaging وخطوط Google والخرائط وNominatim وPhoton.';
+
+  @override
+  String get privacyRights =>
+      'يمكنك السؤال عما يُحفظ ومدة الاحتفاظ به ومع من يُشارك. يمكنك حذف حسابك. التطبيق لمن بلغ 16 سنة أو أكثر.';
 }
