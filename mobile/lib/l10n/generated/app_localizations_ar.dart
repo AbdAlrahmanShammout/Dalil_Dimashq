@@ -109,4 +109,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get applyFilters => 'تطبيق';
+
+  @override
+  String get hotelClass => 'تصنيف الفندق';
+
+  @override
+  String get mapRating => 'تقييم الخريطة';
 }

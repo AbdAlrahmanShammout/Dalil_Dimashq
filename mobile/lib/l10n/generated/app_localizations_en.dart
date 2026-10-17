@@ -109,4 +109,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get applyFilters => 'Apply';
+
+  @override
+  String get hotelClass => 'Hotel class';
+
+  @override
+  String get mapRating => 'Map rating';
 }

@@ -33,5 +33,7 @@
   "sortRating": "التقييم",
   "sortName": "الاسم",
   "clearFilters": "مسح",
-  "applyFilters": "تطبيق"
+  "applyFilters": "تطبيق",
+  "hotelClass": "تصنيف الفندق",
+  "mapRating": "تقييم الخريطة"
 }

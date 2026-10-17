@@ -2,6 +2,9 @@ import 'package:dalil_dimashq/data/datasource/remote/directory_api_client.dart';
 import 'package:dalil_dimashq/data/datasource/remote/directory_remote_data_source.dart';
 import 'package:dalil_dimashq/data/dto/place_summary_dto.dart';
 import 'package:dalil_dimashq/data/dto/area_dto.dart';
+import 'package:dalil_dimashq/data/dto/featured_now_dto.dart';
+import 'package:dalil_dimashq/data/dto/photo_dto.dart';
+import 'package:dalil_dimashq/data/dto/place_row_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_request_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_response_dto.dart';
 import 'package:dalil_dimashq/data/repository/place_repository_impl.dart';
@@ -51,6 +54,31 @@ class _UnusedClient implements DirectoryApiClient {
 
   @override
   Future<List<AreaDto>> listAreas(String select) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<PlaceRowDto>> places(String id, String select) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<AreaDto>> areaById(String id, String select) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<FeaturedNowDto>> featuredNow(String placeId) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<PhotoDto>> photos(
+    String placeId,
+    String select,
+    String orFilter,
+    String hidden,
+  ) {
     throw UnimplementedError();
   }
 }

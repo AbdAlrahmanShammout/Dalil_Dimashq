@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dalil_dimashq/domain/entities/area.dart';
+import 'package:dalil_dimashq/domain/entities/place_detail.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_page.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_query.dart';
 import 'package:dalil_dimashq/domain/entities/place_summary.dart';
@@ -60,4 +61,9 @@ class _PagingRepository implements PlaceRepository {
 
   @override
   Future<Either<Failure, List<Area>>> areas() async => const Right(<Area>[]);
+
+  @override
+  Future<Either<Failure, PlaceDetail>> getPlace(String id) async {
+    return const Left(NotFoundFailure('missing'));
+  }
 }

@@ -2,7 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:dalil_dimashq/core/network/supabase_failure_mapper.dart';
 import 'package:dalil_dimashq/data/datasource/remote/directory_remote_data_source.dart';
 import 'package:dalil_dimashq/data/dto/search_places_request_dto.dart';
+import 'package:dalil_dimashq/data/repository/place_detail_mapper.dart';
 import 'package:dalil_dimashq/domain/entities/area.dart';
+import 'package:dalil_dimashq/domain/entities/place_detail.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_page.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_query.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
@@ -37,6 +39,33 @@ class PlaceRepositoryImpl implements PlaceRepository {
           .map((area) => area.toEntity())
           .toList();
       return Right(areas);
+    } on DioException catch (error) {
+      return Left(mapSupabaseException(error));
+    }
+  }
+
+  @override
+  Future<Either<Failure, PlaceDetail>> getPlace(String id) async {
+    try {
+      final places = await _remote.placeById(id);
+      if (places.isEmpty) {
+        return Left(NotFoundFailure(id));
+      }
+      final place = places.first;
+      final area = place.areaId == null
+          ? null
+          : (await _remote.areaById(place.areaId!)).firstOrNull;
+      final featured = await _remote.featuredNow(id);
+      final photos = await _remote.headerPhotos(id);
+      return Right(
+        mapPlaceHeader(
+          place: place,
+          area: area,
+          isFeatured: featured.isNotEmpty,
+          coverPath: coverPathOf(photos),
+          logoPath: logoPathOf(photos),
+        ),
+      );
     } on DioException catch (error) {
       return Left(mapSupabaseException(error));
     }

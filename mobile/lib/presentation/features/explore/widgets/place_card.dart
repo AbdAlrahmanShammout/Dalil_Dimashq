@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:dalil_dimashq/core/config/app_config.dart';
+import 'package:dalil_dimashq/core/network/place_photo_url.dart';
 import 'package:dalil_dimashq/core/theme/app_colors.dart';
 import 'package:dalil_dimashq/domain/entities/place_open_now.dart';
 import 'package:dalil_dimashq/domain/entities/place_summary.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
+import 'package:dalil_dimashq/presentation/features/place/pages/place_page.dart';
 
 class PlaceCard extends StatelessWidget {
   const PlaceCard({required this.place, this.now, super.key});
@@ -20,7 +21,7 @@ class PlaceCard extends StatelessWidget {
       place.hours,
       now ?? damascusTime(DateTime.now()),
     );
-    final String? cover = _coverUrl(place.coverPath);
+    final String? cover = placePhotoUrl(place.coverPath);
     return Card(
       color: AppColors.charcoalRaised,
       child: ListTile(
@@ -40,14 +41,14 @@ class PlaceCard extends StatelessWidget {
               l10n.closedNow,
           ].join(' · '),
         ),
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (_) => PlacePage(placeId: place.id),
+            ),
+          );
+        },
       ),
     );
   }
-}
-
-String? _coverUrl(String? path) {
-  if (path == null || path.isEmpty || AppConfig.supabaseUrl.isEmpty) {
-    return null;
-  }
-  return '${AppConfig.supabaseUrl}/storage/v1/object/public/place-photos/$path';
 }

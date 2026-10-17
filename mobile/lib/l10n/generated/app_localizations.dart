@@ -301,6 +301,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Apply'**
   String get applyFilters;
+
+  /// No description provided for @hotelClass.
+  ///
+  /// In en, this message translates to:
+  /// **'Hotel class'**
+  String get hotelClass;
+
+  /// No description provided for @mapRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Map rating'**
+  String get mapRating;
 }
 
 class _AppLocalizationsDelegate

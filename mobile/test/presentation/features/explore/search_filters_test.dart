@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dalil_dimashq/domain/entities/area.dart';
+import 'package:dalil_dimashq/domain/entities/place_detail.dart';
 import 'package:dalil_dimashq/domain/entities/place_enums.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_page.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_query.dart';
@@ -96,5 +97,10 @@ class _FilterRepository implements PlaceRepository {
     return const Right(<Area>[
       Area(id: 1, nameAr: 'الشعلان', nameEn: 'Shaalan'),
     ]);
+  }
+
+  @override
+  Future<Either<Failure, PlaceDetail>> getPlace(String id) async {
+    return const Left(NotFoundFailure('missing'));
   }
 }

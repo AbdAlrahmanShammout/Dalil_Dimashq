@@ -27,6 +27,7 @@ import 'package:dalil_dimashq/domain/repositories/place_repository.dart'
     as _i823;
 import 'package:dalil_dimashq/domain/repositories/session_repository.dart'
     as _i366;
+import 'package:dalil_dimashq/domain/usecase/get_place_use_case.dart' as _i654;
 import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart'
     as _i261;
 import 'package:dalil_dimashq/domain/usecase/list_areas_use_case.dart' as _i80;
@@ -40,6 +41,8 @@ import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_bloc.da
     as _i805;
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_bloc.dart'
     as _i308;
+import 'package:dalil_dimashq/presentation/features/place/bloc/place_bloc.dart'
+    as _i489;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -93,11 +96,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i823.PlaceRepository>(
       () => _i401.PlaceRepositoryImpl(gh<_i360.DirectoryRemoteDataSource>()),
     );
+    gh.factory<_i654.GetPlaceUseCase>(
+      () => _i654.GetPlaceUseCase(gh<_i823.PlaceRepository>()),
+    );
     gh.factory<_i80.ListAreasUseCase>(
       () => _i80.ListAreasUseCase(gh<_i823.PlaceRepository>()),
     );
     gh.factory<_i116.SearchPlacesUseCase>(
       () => _i116.SearchPlacesUseCase(gh<_i823.PlaceRepository>()),
+    );
+    gh.factory<_i489.PlaceBloc>(
+      () => _i489.PlaceBloc(gh<_i654.GetPlaceUseCase>()),
     );
     gh.factory<_i805.ExploreBloc>(
       () => _i805.ExploreBloc(

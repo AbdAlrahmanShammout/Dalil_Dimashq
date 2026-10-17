@@ -33,5 +33,7 @@
   "sortRating": "Rating",
   "sortName": "Name",
   "clearFilters": "Clear",
-  "applyFilters": "Apply"
+  "applyFilters": "Apply",
+  "hotelClass": "Hotel class",
+  "mapRating": "Map rating"
 }

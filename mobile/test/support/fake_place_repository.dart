@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dalil_dimashq/domain/entities/area.dart';
+import 'package:dalil_dimashq/domain/entities/place_detail.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_page.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_query.dart';
 import 'package:dalil_dimashq/domain/entities/place_summary.dart';
@@ -32,6 +33,11 @@ class FakePlaceRepository implements PlaceRepository {
     return const Right(<Area>[
       Area(id: 1, nameAr: 'الشعلان', nameEn: 'Shaalan'),
     ]);
+  }
+
+  @override
+  Future<Either<Failure, PlaceDetail>> getPlace(String id) async {
+    return const Left(NotFoundFailure('missing'));
   }
 }
 
