@@ -219,4 +219,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get confirmEmailFirst => 'أكد بريدك قبل المتابعة';
+
+  @override
+  String get forgotPassword => 'نسيت كلمة السر';
+
+  @override
+  String get sendRecovery => 'إرسال رابط الاستعادة';
+
+  @override
+  String get recoverySent => 'تحقق من بريدك لاستعادة كلمة السر';
 }

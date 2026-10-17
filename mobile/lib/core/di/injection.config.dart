@@ -57,12 +57,16 @@ import 'package:dalil_dimashq/domain/usecase/list_offers_use_case.dart'
     as _i1024;
 import 'package:dalil_dimashq/domain/usecase/read_locale_use_case.dart'
     as _i1013;
+import 'package:dalil_dimashq/domain/usecase/recover_password_use_case.dart'
+    as _i244;
 import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart'
     as _i399;
 import 'package:dalil_dimashq/domain/usecase/search_places_use_case.dart'
     as _i116;
 import 'package:dalil_dimashq/domain/usecase/sign_in_use_case.dart' as _i873;
 import 'package:dalil_dimashq/domain/usecase/sign_up_use_case.dart' as _i62;
+import 'package:dalil_dimashq/presentation/features/auth/bloc/recovery_bloc.dart'
+    as _i199;
 import 'package:dalil_dimashq/presentation/features/auth/bloc/sign_in_bloc.dart'
     as _i1047;
 import 'package:dalil_dimashq/presentation/features/auth/bloc/sign_up_bloc.dart'
@@ -142,6 +146,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i944.TokenStorage>(),
       ),
     );
+    gh.factory<_i244.RecoverPasswordUseCase>(
+      () => _i244.RecoverPasswordUseCase(gh<_i242.AuthRepository>()),
+    );
     gh.factory<_i873.SignInUseCase>(
       () => _i873.SignInUseCase(gh<_i242.AuthRepository>()),
     );
@@ -183,6 +190,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i646.EventsBloc>(
       () => _i646.EventsBloc(gh<_i460.ListEventsUseCase>()),
+    );
+    gh.factory<_i199.RecoveryBloc>(
+      () => _i199.RecoveryBloc(gh<_i244.RecoverPasswordUseCase>()),
     );
     gh.factory<_i805.ExploreBloc>(
       () => _i805.ExploreBloc(

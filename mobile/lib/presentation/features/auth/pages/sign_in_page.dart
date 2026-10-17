@@ -7,6 +7,7 @@ import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
 import 'package:dalil_dimashq/presentation/features/auth/bloc/sign_in_bloc.dart';
+import 'package:dalil_dimashq/presentation/features/auth/pages/recovery_page.dart';
 import 'package:dalil_dimashq/presentation/features/auth/bloc/sign_in_event.dart';
 import 'package:dalil_dimashq/presentation/features/auth/bloc/sign_in_state.dart';
 
@@ -78,6 +79,17 @@ class _SignInFormState extends State<_SignInForm> {
                   ),
                 );
               },
+            ),
+            TextButton(
+              key: const Key('forgot-password'),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const RecoveryPage(),
+                  ),
+                );
+              },
+              child: Text(l10n.forgotPassword),
             ),
             const SizedBox(height: 16),
             BlocBuilder<SignInBloc, SignInState>(

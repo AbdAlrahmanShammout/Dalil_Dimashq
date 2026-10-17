@@ -220,4 +220,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get confirmEmailFirst => 'Confirm your email before continuing';
+
+  @override
+  String get forgotPassword => 'Forgot password';
+
+  @override
+  String get sendRecovery => 'Send recovery email';
+
+  @override
+  String get recoverySent => 'Check your email for password recovery';
 }

@@ -7,4 +7,6 @@ abstract class AuthRepository {
   Future<Either<Failure, void>> signUp(SignUpRequest request);
 
   Future<Either<Failure, void>> signIn(SignInRequest request);
+
+  Future<Either<Failure, void>> recoverPassword(String email);
 }

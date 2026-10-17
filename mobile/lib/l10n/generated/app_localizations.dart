@@ -517,6 +517,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confirm your email before continuing'**
   String get confirmEmailFirst;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password'**
+  String get forgotPassword;
+
+  /// No description provided for @sendRecovery.
+  ///
+  /// In en, this message translates to:
+  /// **'Send recovery email'**
+  String get sendRecovery;
+
+  /// No description provided for @recoverySent.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email for password recovery'**
+  String get recoverySent;
 }
 
 class _AppLocalizationsDelegate

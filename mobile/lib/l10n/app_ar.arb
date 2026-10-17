@@ -69,5 +69,8 @@
   "confirmationSent": "تحقق من بريدك لتأكيد الحساب",
   "signIn": "دخول",
   "signedIn": "تم الدخول",
-  "confirmEmailFirst": "أكد بريدك قبل المتابعة"
+  "confirmEmailFirst": "أكد بريدك قبل المتابعة",
+  "forgotPassword": "نسيت كلمة السر",
+  "sendRecovery": "إرسال رابط الاستعادة",
+  "recoverySent": "تحقق من بريدك لاستعادة كلمة السر"
 }

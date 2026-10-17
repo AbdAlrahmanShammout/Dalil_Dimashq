@@ -16,4 +16,7 @@ abstract class AuthApiClient {
     @Query('grant_type') String grantType,
     @Body() Map<String, dynamic> body,
   );
+
+  @POST('/auth/v1/recover')
+  Future<void> recover(@Body() Map<String, dynamic> body);
 }
