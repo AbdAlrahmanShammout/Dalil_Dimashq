@@ -229,4 +229,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recoverySent => 'Check your email for password recovery';
+
+  @override
+  String get ageCheck => 'I am 16 or older';
+
+  @override
+  String get ageRequired => 'You must be 16 or older';
 }

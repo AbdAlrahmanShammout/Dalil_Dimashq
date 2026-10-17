@@ -228,4 +228,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get recoverySent => 'تحقق من بريدك لاستعادة كلمة السر';
+
+  @override
+  String get ageCheck => 'عمري 16 سنة أو أكثر';
+
+  @override
+  String get ageRequired => 'يلزم أن يكون عمرك 16 سنة أو أكثر';
 }

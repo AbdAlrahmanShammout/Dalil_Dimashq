@@ -72,5 +72,7 @@
   "confirmEmailFirst": "Confirm your email before continuing",
   "forgotPassword": "Forgot password",
   "sendRecovery": "Send recovery email",
-  "recoverySent": "Check your email for password recovery"
+  "recoverySent": "Check your email for password recovery",
+  "ageCheck": "I am 16 or older",
+  "ageRequired": "You must be 16 or older"
 }

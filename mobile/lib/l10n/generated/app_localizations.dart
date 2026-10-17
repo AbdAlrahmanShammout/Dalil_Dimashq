@@ -535,6 +535,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Check your email for password recovery'**
   String get recoverySent;
+
+  /// No description provided for @ageCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'I am 16 or older'**
+  String get ageCheck;
+
+  /// No description provided for @ageRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'You must be 16 or older'**
+  String get ageRequired;
 }
 
 class _AppLocalizationsDelegate

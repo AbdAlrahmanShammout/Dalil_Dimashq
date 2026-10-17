@@ -12,6 +12,9 @@ class SignUpUseCase {
   final AuthRepository _repository;
 
   Future<Either<Failure, void>> call(SignUpRequest request) {
+    if (!request.isAtLeast16) {
+      return Future<Either<Failure, void>>.value(const Left(AgeCheckFailure()));
+    }
     if (!isAcceptablePassword(request.password)) {
       return Future<Either<Failure, void>>.value(
         const Left(WeakPasswordFailure()),

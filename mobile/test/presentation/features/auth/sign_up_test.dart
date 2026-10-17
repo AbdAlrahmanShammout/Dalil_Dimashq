@@ -32,6 +32,8 @@ void main() {
       'abc1234567',
     );
     await tester.enterText(find.byKey(const Key('sign-up-name')), 'Nour');
+    await tester.tap(find.byKey(const Key('age-check')));
+    await tester.pump();
     await tester.tap(find.text('Create account'));
     await tester.pump();
     expect(repository.calls, 1);
@@ -39,6 +41,33 @@ void main() {
       find.text('Check your email to confirm the account'),
       findsOneWidget,
     );
+  });
+
+  testWidgets('sign up is blocked until the age check is confirmed', (
+    WidgetTester tester,
+  ) async {
+    final _RecordingAuth repository = _RecordingAuth();
+    await tester.pumpWidget(
+      MaterialApp(
+        locale: const Locale('en'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: SignUpPage(bloc: SignUpBloc(SignUpUseCase(repository))),
+      ),
+    );
+    await tester.enterText(
+      find.byKey(const Key('sign-up-email')),
+      'nour@example.com',
+    );
+    await tester.enterText(
+      find.byKey(const Key('sign-up-password')),
+      'abc1234567',
+    );
+    await tester.enterText(find.byKey(const Key('sign-up-name')), 'Nour');
+    await tester.tap(find.text('Create account'));
+    await tester.pump();
+    expect(repository.calls, 0);
+    expect(find.text('You must be 16 or older'), findsOneWidget);
   });
 }
 

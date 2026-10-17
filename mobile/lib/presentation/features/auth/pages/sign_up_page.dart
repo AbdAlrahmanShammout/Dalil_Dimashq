@@ -41,6 +41,7 @@ class _SignUpFormState extends State<_SignUpForm> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _name = TextEditingController();
+  bool _isAtLeast16 = false;
 
   @override
   void dispose() {
@@ -75,6 +76,15 @@ class _SignUpFormState extends State<_SignUpForm> {
               controller: _name,
               decoration: InputDecoration(labelText: l10n.displayName),
             ),
+            CheckboxListTile(
+              key: const Key('age-check'),
+              value: _isAtLeast16,
+              onChanged: (bool? value) {
+                setState(() => _isAtLeast16 = value ?? false);
+              },
+              title: Text(l10n.ageCheck),
+              controlAffinity: ListTileControlAffinity.leading,
+            ),
             const SizedBox(height: 16),
             AppButton(
               label: l10n.createAccount,
@@ -85,6 +95,7 @@ class _SignUpFormState extends State<_SignUpForm> {
                       email: _email.text,
                       password: _password.text,
                       displayName: _name.text,
+                      isAtLeast16: _isAtLeast16,
                     ),
                   ),
                 );
@@ -111,6 +122,9 @@ class _SignUpFormState extends State<_SignUpForm> {
     }
     if (state.failure is WeakPasswordFailure) {
       return l10n.passwordRule;
+    }
+    if (state.failure is AgeCheckFailure) {
+      return l10n.ageRequired;
     }
     return '';
   }

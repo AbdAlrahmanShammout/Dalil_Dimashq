@@ -23,6 +23,10 @@ class WeakPasswordFailure extends ValidationFailure {
   const WeakPasswordFailure() : super('weak_password');
 }
 
+class AgeCheckFailure extends ValidationFailure {
+  const AgeCheckFailure() : super('age_check');
+}
+
 class EmailNotConfirmedFailure extends Failure {
   const EmailNotConfirmedFailure(super.message);
 }

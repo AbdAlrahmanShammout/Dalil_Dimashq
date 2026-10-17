@@ -15,6 +15,7 @@ void main() {
         email: 'nour@example.com',
         password: 'abc123',
         displayName: 'Nour',
+        isAtLeast16: true,
       ),
     );
     expect(
@@ -32,11 +33,30 @@ void main() {
         email: 'nour@example.com',
         password: 'كلمة1234567',
         displayName: 'Nour',
+        isAtLeast16: true,
       ),
     );
     expect(result.isRight(), isTrue);
     expect(repository.calls, 1);
     expect(repository.last?.displayName, 'Nour');
+  });
+
+  test('account creation requires age 16 or older', () async {
+    final _RecordingAuth repository = _RecordingAuth();
+    final SignUpUseCase useCase = SignUpUseCase(repository);
+    final Either<Failure, void> result = await useCase(
+      const SignUpRequest(
+        email: 'nour@example.com',
+        password: 'abc1234567',
+        displayName: 'Nour',
+        isAtLeast16: false,
+      ),
+    );
+    expect(
+      result.fold((Failure failure) => failure, (_) => null),
+      isA<AgeCheckFailure>(),
+    );
+    expect(repository.calls, 0);
   });
 }
 
