@@ -247,4 +247,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileSaved => 'Profile saved';
+
+  @override
+  String get booking => 'Booking';
 }

@@ -81,6 +81,8 @@ import 'package:dalil_dimashq/presentation/features/auth/bloc/sign_in_bloc.dart'
     as _i1047;
 import 'package:dalil_dimashq/presentation/features/auth/bloc/sign_up_bloc.dart'
     as _i948;
+import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_bloc.dart'
+    as _i162;
 import 'package:dalil_dimashq/presentation/features/events/bloc/events_bloc.dart'
     as _i646;
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_bloc.dart'
@@ -223,6 +225,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i199.RecoveryBloc>(
       () => _i199.RecoveryBloc(gh<_i244.RecoverPasswordUseCase>()),
+    );
+    gh.factory<_i162.BookingDraftBloc>(
+      () => _i162.BookingDraftBloc(gh<_i525.LoadProfileUseCase>()),
     );
     gh.factory<_i805.ExploreBloc>(
       () => _i805.ExploreBloc(

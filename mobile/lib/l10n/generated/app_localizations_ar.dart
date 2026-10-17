@@ -246,4 +246,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get profileSaved => 'تم حفظ الملف';
+
+  @override
+  String get booking => 'حجز';
 }

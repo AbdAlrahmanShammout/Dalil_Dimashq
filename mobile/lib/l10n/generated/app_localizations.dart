@@ -571,6 +571,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profile saved'**
   String get profileSaved;
+
+  /// No description provided for @booking.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking'**
+  String get booking;
 }
 
 class _AppLocalizationsDelegate
