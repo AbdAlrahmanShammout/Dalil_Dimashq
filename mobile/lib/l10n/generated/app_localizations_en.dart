@@ -73,4 +73,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noResults => 'No matching places';
+
+  @override
+  String get retry => 'Retry';
 }

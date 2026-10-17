@@ -21,5 +21,6 @@
   "notRated": "Not rated",
   "openNow": "Open now",
   "closedNow": "Closed now",
-  "noResults": "No matching places"
+  "noResults": "No matching places",
+  "retry": "Retry"
 }

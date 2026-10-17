@@ -7,6 +7,7 @@ import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_bloc.da
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_event.dart';
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_state.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/empty_view.dart';
+import 'package:dalil_dimashq/presentation/core/widgets/error_view.dart';
 import 'package:dalil_dimashq/presentation/features/explore/widgets/place_card.dart';
 
 class ExploreSearchBar extends StatefulWidget {
@@ -49,6 +50,14 @@ class ExploreResults extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ExploreBloc, ExploreState>(
       builder: (BuildContext context, ExploreState state) {
+        if (state.errorMessage != null && state.places.isEmpty) {
+          return ErrorView(
+            message: state.errorMessage!,
+            retryLabel: AppLocalizations.of(context).retry,
+            onRetry: () =>
+                context.read<ExploreBloc>().add(const ExploreStarted()),
+          );
+        }
         if (!state.isLoading &&
             state.places.isEmpty &&
             state.errorMessage == null) {

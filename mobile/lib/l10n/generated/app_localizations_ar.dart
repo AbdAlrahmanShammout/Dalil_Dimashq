@@ -73,4 +73,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noResults => 'لا توجد نتائج';
+
+  @override
+  String get retry => 'إعادة المحاولة';
 }
