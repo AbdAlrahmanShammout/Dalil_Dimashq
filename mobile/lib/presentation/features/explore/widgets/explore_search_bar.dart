@@ -48,10 +48,19 @@ class ExploreResults extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ExploreBloc, ExploreState>(
       builder: (BuildContext context, ExploreState state) {
-        return ListView(
-          children: state.places
-              .map((place) => PlaceCard(place: place))
-              .toList(),
+        return NotificationListener<ScrollNotification>(
+          onNotification: (ScrollNotification notification) {
+            if (notification.metrics.pixels >=
+                notification.metrics.maxScrollExtent - 48) {
+              context.read<ExploreBloc>().add(const ExploreLoadMore());
+            }
+            return false;
+          },
+          child: ListView(
+            children: state.places
+                .map((place) => PlaceCard(place: place))
+                .toList(),
+          ),
         );
       },
     );

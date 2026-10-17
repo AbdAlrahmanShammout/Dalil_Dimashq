@@ -14,6 +14,10 @@ class ExploreQueryChanged extends ExploreEvent {
   final String query;
 }
 
+class ExploreLoadMore extends ExploreEvent {
+  const ExploreLoadMore();
+}
+
 class ExploreCategorySelected extends ExploreEvent {
   const ExploreCategorySelected(this.category);
 

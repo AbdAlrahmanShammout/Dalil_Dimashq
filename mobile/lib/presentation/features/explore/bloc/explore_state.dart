@@ -14,6 +14,8 @@ class ExploreState {
       cafes: 0,
     ),
     this.isLoading = false,
+    this.isLoadingMore = false,
+    this.total = 0,
     this.errorMessage,
   });
 
@@ -22,7 +24,11 @@ class ExploreState {
   final List<PlaceSummary> places;
   final PlaceCategoryCounts counts;
   final bool isLoading;
+  final bool isLoadingMore;
+  final int total;
   final String? errorMessage;
+
+  bool get hasMore => places.length < total;
 
   ExploreState copyWith({
     String? query,
@@ -30,6 +36,8 @@ class ExploreState {
     List<PlaceSummary>? places,
     PlaceCategoryCounts? counts,
     bool? isLoading,
+    bool? isLoadingMore,
+    int? total,
     String? errorMessage,
     bool clearError = false,
   }) {
@@ -39,6 +47,8 @@ class ExploreState {
       places: places ?? this.places,
       counts: counts ?? this.counts,
       isLoading: isLoading ?? this.isLoading,
+      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+      total: total ?? this.total,
       errorMessage: clearError ? null : errorMessage ?? this.errorMessage,
     );
   }

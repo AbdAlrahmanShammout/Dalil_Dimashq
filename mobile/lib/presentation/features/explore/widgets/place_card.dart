@@ -16,7 +16,10 @@ class PlaceCard extends StatelessWidget {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final bool isArabic = Localizations.localeOf(context).languageCode == 'ar';
     final String? area = isArabic ? place.areaNameAr : place.areaNameEn;
-    final bool? open = isOpenNow(place.hours, now ?? damascusTime(DateTime.now()));
+    final bool? open = isOpenNow(
+      place.hours,
+      now ?? damascusTime(DateTime.now()),
+    );
     final String? cover = _coverUrl(place.coverPath);
     return Card(
       color: AppColors.charcoalRaised,
@@ -31,7 +34,10 @@ class PlaceCard extends StatelessWidget {
             if (area != null && area.isNotEmpty) area,
             if (place.isFeatured) l10n.featured,
             if (place.stars == null) l10n.notRated else '${place.stars}',
-            if (open == true) l10n.openNow else if (open == false) l10n.closedNow,
+            if (open == true)
+              l10n.openNow
+            else if (open == false)
+              l10n.closedNow,
           ].join(' · '),
         ),
       ),
