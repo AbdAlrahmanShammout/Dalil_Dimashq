@@ -70,4 +70,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get closedNow => 'مغلق الآن';
+
+  @override
+  String get noResults => 'لا توجد نتائج';
 }

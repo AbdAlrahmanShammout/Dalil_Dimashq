@@ -6,6 +6,7 @@ import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_event.dart';
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_state.dart';
+import 'package:dalil_dimashq/presentation/core/widgets/empty_view.dart';
 import 'package:dalil_dimashq/presentation/features/explore/widgets/place_card.dart';
 
 class ExploreSearchBar extends StatefulWidget {
@@ -48,6 +49,11 @@ class ExploreResults extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ExploreBloc, ExploreState>(
       builder: (BuildContext context, ExploreState state) {
+        if (!state.isLoading &&
+            state.places.isEmpty &&
+            state.errorMessage == null) {
+          return EmptyView(message: AppLocalizations.of(context).noResults);
+        }
         return NotificationListener<ScrollNotification>(
           onNotification: (ScrollNotification notification) {
             if (notification.metrics.pixels >=

@@ -20,5 +20,6 @@
   "featured": "مميز",
   "notRated": "غير مقيّم",
   "openNow": "مفتوح الآن",
-  "closedNow": "مغلق الآن"
+  "closedNow": "مغلق الآن",
+  "noResults": "لا توجد نتائج"
 }

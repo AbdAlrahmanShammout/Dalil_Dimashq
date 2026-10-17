@@ -223,6 +223,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Closed now'**
   String get closedNow;
+
+  /// No description provided for @noResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No matching places'**
+  String get noResults;
 }
 
 class _AppLocalizationsDelegate
