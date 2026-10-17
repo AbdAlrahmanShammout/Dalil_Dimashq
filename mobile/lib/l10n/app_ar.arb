@@ -80,5 +80,6 @@
   "save": "حفظ",
   "profileSaved": "تم حفظ الملف",
   "booking": "حجز",
-  "settings": "الإعدادات"
+  "settings": "الإعدادات",
+  "notifications": "الإشعارات"
 }

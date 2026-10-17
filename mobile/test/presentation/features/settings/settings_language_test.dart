@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dalil_dimashq/domain/repositories/locale_repository.dart';
+import 'package:dalil_dimashq/domain/repositories/notification_preference_repository.dart';
 import 'package:dalil_dimashq/domain/usecase/read_locale_use_case.dart';
 import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
@@ -27,7 +28,7 @@ void main() {
               locale: state.locale,
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
-              home: const SettingsPage(),
+              home: SettingsPage(notifications: _OffNotifications()),
             );
           },
         ),
@@ -41,6 +42,14 @@ void main() {
       TextDirection.ltr,
     );
   });
+}
+
+class _OffNotifications implements NotificationPreferenceRepository {
+  @override
+  bool isEnabled() => false;
+
+  @override
+  Future<void> setEnabled(bool isEnabled) async {}
 }
 
 class _MemoryLocaleRepository implements LocaleRepository {

@@ -80,5 +80,6 @@
   "save": "Save",
   "profileSaved": "Profile saved",
   "booking": "Booking",
-  "settings": "Settings"
+  "settings": "Settings",
+  "notifications": "Notifications"
 }

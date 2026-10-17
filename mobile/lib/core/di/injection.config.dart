@@ -29,6 +29,8 @@ import 'package:dalil_dimashq/data/repository/event_repository_impl.dart'
     as _i215;
 import 'package:dalil_dimashq/data/repository/locale_repository_impl.dart'
     as _i289;
+import 'package:dalil_dimashq/data/repository/notification_preference_repository_impl.dart'
+    as _i390;
 import 'package:dalil_dimashq/data/repository/offer_repository_impl.dart'
     as _i908;
 import 'package:dalil_dimashq/data/repository/place_repository_impl.dart'
@@ -43,6 +45,8 @@ import 'package:dalil_dimashq/domain/repositories/event_repository.dart'
     as _i203;
 import 'package:dalil_dimashq/domain/repositories/locale_repository.dart'
     as _i149;
+import 'package:dalil_dimashq/domain/repositories/notification_preference_repository.dart'
+    as _i100;
 import 'package:dalil_dimashq/domain/repositories/offer_repository.dart'
     as _i921;
 import 'package:dalil_dimashq/domain/repositories/place_repository.dart'
@@ -113,6 +117,11 @@ extension GetItInjectableX on _i174.GetIt {
     await gh.factoryAsync<_i460.SharedPreferences>(
       () => registerModule.preferences,
       preResolve: true,
+    );
+    gh.lazySingleton<_i100.NotificationPreferenceRepository>(
+      () => _i390.NotificationPreferenceRepositoryImpl(
+        gh<_i460.SharedPreferences>(),
+      ),
     );
     gh.lazySingleton<_i149.LocaleRepository>(
       () => _i289.LocaleRepositoryImpl(gh<_i460.SharedPreferences>()),

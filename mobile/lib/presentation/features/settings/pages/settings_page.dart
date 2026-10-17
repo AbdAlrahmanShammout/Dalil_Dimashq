@@ -4,11 +4,15 @@ import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_section.dart';
+import 'package:dalil_dimashq/domain/repositories/notification_preference_repository.dart';
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_event.dart';
+import 'package:dalil_dimashq/presentation/features/settings/widgets/notifications_toggle.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+  const SettingsPage({this.notifications, super.key});
+
+  final NotificationPreferenceRepository? notifications;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +44,7 @@ class SettingsPage extends StatelessWidget {
                   );
                 },
               ),
+              NotificationsToggle(repository: notifications),
             ],
           ),
         ),
