@@ -66,5 +66,7 @@
   "displayName": "Display name",
   "createAccount": "Create account",
   "passwordRule": "Use 10 or more characters, with letters and digits",
-  "confirmationSent": "Check your email to confirm the account"
+  "confirmationSent": "Check your email to confirm the account",
+  "signIn": "Sign in",
+  "signedIn": "Signed in"
 }

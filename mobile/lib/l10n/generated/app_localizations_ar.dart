@@ -210,4 +210,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get confirmationSent => 'تحقق من بريدك لتأكيد الحساب';
+
+  @override
+  String get signIn => 'دخول';
+
+  @override
+  String get signedIn => 'تم الدخول';
 }

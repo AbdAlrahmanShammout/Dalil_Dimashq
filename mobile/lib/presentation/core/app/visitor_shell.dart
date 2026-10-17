@@ -13,6 +13,7 @@ import 'package:dalil_dimashq/presentation/features/explore/widgets/explore_view
 import 'package:dalil_dimashq/presentation/features/offers/pages/offers_page.dart';
 import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
+import 'package:dalil_dimashq/presentation/features/auth/pages/sign_in_page.dart';
 import 'package:dalil_dimashq/presentation/features/auth/pages/sign_up_page.dart';
 import 'package:dalil_dimashq/presentation/features/owner/pages/owner_gate_page.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
@@ -126,6 +127,17 @@ class _AccountTab extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) => const SignUpPage(),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 12),
+            AppButton(
+              label: l10n.signIn,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const SignInPage(),
                   ),
                 );
               },

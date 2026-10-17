@@ -211,4 +211,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get confirmationSent => 'Check your email to confirm the account';
+
+  @override
+  String get signIn => 'Sign in';
+
+  @override
+  String get signedIn => 'Signed in';
 }

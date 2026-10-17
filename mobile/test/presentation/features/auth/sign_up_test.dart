@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:dalil_dimashq/domain/entities/sign_in_request.dart';
 import 'package:dalil_dimashq/domain/entities/sign_up_request.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/repositories/auth_repository.dart';
@@ -47,6 +48,11 @@ class _RecordingAuth implements AuthRepository {
   @override
   Future<Either<Failure, void>> signUp(SignUpRequest request) async {
     calls += 1;
+    return const Right<Failure, void>(null);
+  }
+
+  @override
+  Future<Either<Failure, void>> signIn(SignInRequest request) async {
     return const Right<Failure, void>(null);
   }
 }

@@ -61,7 +61,10 @@ import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart'
     as _i399;
 import 'package:dalil_dimashq/domain/usecase/search_places_use_case.dart'
     as _i116;
+import 'package:dalil_dimashq/domain/usecase/sign_in_use_case.dart' as _i873;
 import 'package:dalil_dimashq/domain/usecase/sign_up_use_case.dart' as _i62;
+import 'package:dalil_dimashq/presentation/features/auth/bloc/sign_in_bloc.dart'
+    as _i1047;
 import 'package:dalil_dimashq/presentation/features/auth/bloc/sign_up_bloc.dart'
     as _i948;
 import 'package:dalil_dimashq/presentation/features/events/bloc/events_bloc.dart'
@@ -130,11 +133,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i399.SaveLocaleUseCase>(),
       ),
     );
-    gh.lazySingleton<_i242.AuthRepository>(
-      () => _i327.AuthRepositoryImpl(gh<_i371.AuthApiClient>()),
-    );
     gh.lazySingleton<_i360.DirectoryRemoteDataSource>(
       () => _i360.DirectoryRemoteDataSource(gh<_i807.DirectoryApiClient>()),
+    );
+    gh.lazySingleton<_i242.AuthRepository>(
+      () => _i327.AuthRepositoryImpl(
+        gh<_i371.AuthApiClient>(),
+        gh<_i944.TokenStorage>(),
+      ),
+    );
+    gh.factory<_i873.SignInUseCase>(
+      () => _i873.SignInUseCase(gh<_i242.AuthRepository>()),
     );
     gh.factory<_i62.SignUpUseCase>(
       () => _i62.SignUpUseCase(gh<_i242.AuthRepository>()),
@@ -147,6 +156,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i823.PlaceRepository>(
       () => _i401.PlaceRepositoryImpl(gh<_i360.DirectoryRemoteDataSource>()),
+    );
+    gh.factory<_i1047.SignInBloc>(
+      () => _i1047.SignInBloc(gh<_i873.SignInUseCase>()),
     );
     gh.factory<_i654.GetPlaceUseCase>(
       () => _i654.GetPlaceUseCase(gh<_i823.PlaceRepository>()),

@@ -1,3 +1,4 @@
+import 'package:dalil_dimashq/data/dto/session_dto.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -9,4 +10,10 @@ abstract class AuthApiClient {
 
   @POST('/auth/v1/signup')
   Future<void> signUp(@Body() Map<String, dynamic> body);
+
+  @POST('/auth/v1/token')
+  Future<SessionDto> signIn(
+    @Query('grant_type') String grantType,
+    @Body() Map<String, dynamic> body,
+  );
 }
