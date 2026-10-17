@@ -14,6 +14,11 @@ PlaceRowDto _$PlaceRowDtoFromJson(Map<String, dynamic> json) => PlaceRowDto(
   areaId: (json['area_id'] as num?)?.toInt(),
   stars: (json['stars'] as num?)?.toInt(),
   tourismClass: (json['tourism_class'] as num?)?.toInt(),
+  phones: json['phones'] == null
+      ? const <String>[]
+      : phonesFromJson(json['phones']),
+  lat: (json['lat'] as num?)?.toDouble(),
+  lon: (json['lon'] as num?)?.toDouble(),
 );
 
 Map<String, dynamic> _$PlaceRowDtoToJson(PlaceRowDto instance) =>
@@ -25,4 +30,7 @@ Map<String, dynamic> _$PlaceRowDtoToJson(PlaceRowDto instance) =>
       'area_id': instance.areaId,
       'stars': instance.stars,
       'tourism_class': instance.tourismClass,
+      'phones': instance.phones,
+      'lat': instance.lat,
+      'lon': instance.lon,
     };

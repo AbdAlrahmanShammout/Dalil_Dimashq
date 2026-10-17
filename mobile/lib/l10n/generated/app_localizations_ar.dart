@@ -115,4 +115,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get mapRating => 'تقييم الخريطة';
+
+  @override
+  String get call => 'اتصال';
+
+  @override
+  String get directions => 'الاتجاهات';
+
+  @override
+  String get share => 'مشاركة';
+
+  @override
+  String get copied => 'تم النسخ';
 }

@@ -13,6 +13,9 @@ class PlaceDetail {
     this.isFeatured = false,
     this.coverPath,
     this.logoPath,
+    this.phones = const <String>[],
+    this.latitude,
+    this.longitude,
   });
 
   final String id;
@@ -26,4 +29,7 @@ class PlaceDetail {
   final bool isFeatured;
   final String? coverPath;
   final String? logoPath;
+  final List<String> phones;
+  final double? latitude;
+  final double? longitude;
 }

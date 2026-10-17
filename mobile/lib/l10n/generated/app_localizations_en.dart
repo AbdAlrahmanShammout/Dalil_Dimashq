@@ -115,4 +115,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapRating => 'Map rating';
+
+  @override
+  String get call => 'Call';
+
+  @override
+  String get directions => 'Directions';
+
+  @override
+  String get share => 'Share';
+
+  @override
+  String get copied => 'Copied';
 }

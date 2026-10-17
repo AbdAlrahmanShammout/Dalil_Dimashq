@@ -35,5 +35,9 @@
   "clearFilters": "مسح",
   "applyFilters": "تطبيق",
   "hotelClass": "تصنيف الفندق",
-  "mapRating": "تقييم الخريطة"
+  "mapRating": "تقييم الخريطة",
+  "call": "اتصال",
+  "directions": "الاتجاهات",
+  "share": "مشاركة",
+  "copied": "تم النسخ"
 }

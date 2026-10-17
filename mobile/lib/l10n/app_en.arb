@@ -35,5 +35,9 @@
   "clearFilters": "Clear",
   "applyFilters": "Apply",
   "hotelClass": "Hotel class",
-  "mapRating": "Map rating"
+  "mapRating": "Map rating",
+  "call": "Call",
+  "directions": "Directions",
+  "share": "Share",
+  "copied": "Copied"
 }

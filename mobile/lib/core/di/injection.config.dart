@@ -11,6 +11,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dalil_dimashq/core/di/register_module.dart' as _i111;
 import 'package:dalil_dimashq/core/storage/token_storage.dart' as _i944;
+import 'package:dalil_dimashq/data/datasource/local/device_place_links.dart'
+    as _i227;
 import 'package:dalil_dimashq/data/datasource/remote/directory_api_client.dart'
     as _i807;
 import 'package:dalil_dimashq/data/datasource/remote/directory_remote_data_source.dart'
@@ -27,6 +29,7 @@ import 'package:dalil_dimashq/domain/repositories/place_repository.dart'
     as _i823;
 import 'package:dalil_dimashq/domain/repositories/session_repository.dart'
     as _i366;
+import 'package:dalil_dimashq/domain/services/place_links.dart' as _i820;
 import 'package:dalil_dimashq/domain/usecase/get_place_use_case.dart' as _i654;
 import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart'
     as _i261;
@@ -66,6 +69,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i944.TokenStorage>(
       () => _i944.TokenStorage(gh<_i460.SharedPreferences>()),
     );
+    gh.lazySingleton<_i820.PlaceLinks>(() => _i227.DevicePlaceLinks());
     gh.lazySingleton<_i366.SessionRepository>(
       () => _i88.SessionRepositoryImpl(gh<_i944.TokenStorage>()),
     );

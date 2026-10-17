@@ -12,6 +12,9 @@ class PlaceRowDto {
     this.areaId,
     this.stars,
     this.tourismClass,
+    this.phones = const <String>[],
+    this.lat,
+    this.lon,
   });
 
   factory PlaceRowDto.fromJson(Map<String, dynamic> json) =>
@@ -28,6 +31,17 @@ class PlaceRowDto {
   final int? stars;
   @JsonKey(name: 'tourism_class')
   final int? tourismClass;
+  @JsonKey(fromJson: phonesFromJson)
+  final List<String> phones;
+  final double? lat;
+  final double? lon;
 
   Map<String, dynamic> toJson() => _$PlaceRowDtoToJson(this);
+}
+
+List<String> phonesFromJson(Object? value) {
+  if (value is! List) {
+    return const <String>[];
+  }
+  return value.map((Object? item) => '$item').toList();
 }

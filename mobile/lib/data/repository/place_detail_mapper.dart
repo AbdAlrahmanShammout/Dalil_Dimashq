@@ -28,6 +28,9 @@ PlaceDetail mapPlaceHeader({
     isFeatured: isFeatured,
     coverPath: coverPath,
     logoPath: logoPath,
+    phones: place.phones,
+    latitude: place.lat,
+    longitude: place.lon,
   );
 }
 

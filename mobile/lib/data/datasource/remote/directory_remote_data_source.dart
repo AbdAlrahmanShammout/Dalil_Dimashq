@@ -24,7 +24,7 @@ class DirectoryRemoteDataSource {
   Future<List<PlaceRowDto>> placeById(String id) {
     return _client.places(
       'eq.$id',
-      'id,type,name_ar,name_en,area_id,stars,tourism_class',
+      'id,type,name_ar,name_en,area_id,stars,tourism_class,phones,lat,lon',
     );
   }
 
