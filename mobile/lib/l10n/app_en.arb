@@ -43,5 +43,6 @@
   "offers": "Offers",
   "untilDate": "Until {date}",
   "photos": "Photos",
-  "overview": "Overview"
+  "overview": "Overview",
+  "location": "Location"
 }

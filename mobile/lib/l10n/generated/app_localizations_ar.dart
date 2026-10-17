@@ -141,4 +141,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get overview => 'نبذة';
+
+  @override
+  String get location => 'الموقع';
 }

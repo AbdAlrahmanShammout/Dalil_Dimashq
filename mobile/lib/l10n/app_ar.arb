@@ -43,5 +43,6 @@
   "offers": "العروض",
   "untilDate": "حتى {date}",
   "photos": "الصور",
-  "overview": "نبذة"
+  "overview": "نبذة",
+  "location": "الموقع"
 }

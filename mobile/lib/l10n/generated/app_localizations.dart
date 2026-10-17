@@ -361,6 +361,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Overview'**
   String get overview;
+
+  /// No description provided for @location.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get location;
 }
 
 class _AppLocalizationsDelegate
