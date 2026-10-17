@@ -19,12 +19,16 @@ import 'package:dalil_dimashq/data/datasource/remote/directory_remote_data_sourc
     as _i360;
 import 'package:dalil_dimashq/data/repository/locale_repository_impl.dart'
     as _i289;
+import 'package:dalil_dimashq/data/repository/offer_repository_impl.dart'
+    as _i908;
 import 'package:dalil_dimashq/data/repository/place_repository_impl.dart'
     as _i401;
 import 'package:dalil_dimashq/data/repository/session_repository_impl.dart'
     as _i88;
 import 'package:dalil_dimashq/domain/repositories/locale_repository.dart'
     as _i149;
+import 'package:dalil_dimashq/domain/repositories/offer_repository.dart'
+    as _i921;
 import 'package:dalil_dimashq/domain/repositories/place_repository.dart'
     as _i823;
 import 'package:dalil_dimashq/domain/repositories/session_repository.dart'
@@ -34,6 +38,8 @@ import 'package:dalil_dimashq/domain/usecase/get_place_use_case.dart' as _i654;
 import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart'
     as _i261;
 import 'package:dalil_dimashq/domain/usecase/list_areas_use_case.dart' as _i80;
+import 'package:dalil_dimashq/domain/usecase/list_offers_use_case.dart'
+    as _i1024;
 import 'package:dalil_dimashq/domain/usecase/read_locale_use_case.dart'
     as _i1013;
 import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart'
@@ -44,6 +50,8 @@ import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_bloc.da
     as _i805;
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_bloc.dart'
     as _i308;
+import 'package:dalil_dimashq/presentation/features/offers/bloc/offers_bloc.dart'
+    as _i367;
 import 'package:dalil_dimashq/presentation/features/place/bloc/place_bloc.dart'
     as _i489;
 import 'package:dio/dio.dart' as _i361;
@@ -97,6 +105,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i360.DirectoryRemoteDataSource>(
       () => _i360.DirectoryRemoteDataSource(gh<_i807.DirectoryApiClient>()),
     );
+    gh.lazySingleton<_i921.OfferRepository>(
+      () => _i908.OfferRepositoryImpl(gh<_i360.DirectoryRemoteDataSource>()),
+    );
     gh.lazySingleton<_i823.PlaceRepository>(
       () => _i401.PlaceRepositoryImpl(gh<_i360.DirectoryRemoteDataSource>()),
     );
@@ -112,11 +123,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i489.PlaceBloc>(
       () => _i489.PlaceBloc(gh<_i654.GetPlaceUseCase>()),
     );
+    gh.factory<_i1024.ListOffersUseCase>(
+      () => _i1024.ListOffersUseCase(gh<_i921.OfferRepository>()),
+    );
     gh.factory<_i805.ExploreBloc>(
       () => _i805.ExploreBloc(
         gh<_i116.SearchPlacesUseCase>(),
         gh<_i80.ListAreasUseCase>(),
       ),
+    );
+    gh.factory<_i367.OffersBloc>(
+      () => _i367.OffersBloc(gh<_i1024.ListOffersUseCase>()),
     );
     return this;
   }

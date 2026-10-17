@@ -51,7 +51,13 @@ class DirectoryRemoteDataSource {
   Future<List<OfferDto>> offers(String placeId) {
     return _client.offers(
       'eq.$placeId',
-      'id,title_ar,title_en,details_ar,details_en,starts_at,ends_at,photo_path',
+      'id,place_id,title_ar,title_en,details_ar,details_en,starts_at,ends_at,photo_path',
+    );
+  }
+
+  Future<List<OfferDto>> listOffers() {
+    return _client.listOffers(
+      'id,place_id,title_ar,title_en,details_ar,details_en,starts_at,ends_at,photo_path',
     );
   }
 

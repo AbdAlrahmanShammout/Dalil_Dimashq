@@ -8,6 +8,7 @@ class PlaceOffer {
     this.startsAt,
     this.endsAt,
     this.photoPath,
+    this.placeId = '',
   });
 
   final int id;
@@ -18,6 +19,7 @@ class PlaceOffer {
   final DateTime? startsAt;
   final DateTime? endsAt;
   final String? photoPath;
+  final String placeId;
 }
 
 List<PlaceOffer> currentOffers(List<PlaceOffer> offers, DateTime now) {

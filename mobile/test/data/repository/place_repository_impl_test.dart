@@ -91,6 +91,11 @@ class _UnusedClient implements DirectoryApiClient {
   }
 
   @override
+  Future<List<OfferDto>> listOffers(String select) {
+    throw UnimplementedError();
+  }
+
+  @override
   Future<List<PlaceAmenityDto>> placeAmenities(String placeId, String select) {
     throw UnimplementedError();
   }

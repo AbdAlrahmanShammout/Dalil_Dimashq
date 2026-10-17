@@ -7,6 +7,7 @@ import 'package:dalil_dimashq/presentation/features/explore/widgets/category_chi
 import 'package:dalil_dimashq/presentation/features/explore/widgets/featured_strip.dart';
 import 'package:dalil_dimashq/presentation/features/explore/widgets/filters_sheet.dart';
 import 'package:dalil_dimashq/presentation/features/explore/widgets/explore_search_bar.dart';
+import 'package:dalil_dimashq/presentation/features/offers/pages/offers_page.dart';
 import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/features/owner/pages/owner_gate_page.dart';
@@ -81,6 +82,7 @@ class _ExploreBody extends StatelessWidget {
       children: <Widget>[
         Padding(padding: EdgeInsets.all(16), child: ExploreSearchBar()),
         FiltersButton(),
+        OffersEntry(),
         CategoryChips(),
         FeaturedStrip(),
         Expanded(child: ExploreResults()),

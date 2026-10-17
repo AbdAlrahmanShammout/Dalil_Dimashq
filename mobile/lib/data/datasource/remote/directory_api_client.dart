@@ -53,6 +53,9 @@ abstract class DirectoryApiClient {
     @Query('select') String select,
   );
 
+  @GET('/rest/v1/offers')
+  Future<List<OfferDto>> listOffers(@Query('select') String select);
+
   @GET('/rest/v1/place_amenities')
   Future<List<PlaceAmenityDto>> placeAmenities(
     @Query('place_id') String placeId,

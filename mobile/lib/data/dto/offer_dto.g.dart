@@ -19,6 +19,7 @@ OfferDto _$OfferDtoFromJson(Map<String, dynamic> json) => OfferDto(
       ? null
       : DateTime.parse(json['ends_at'] as String),
   photoPath: json['photo_path'] as String?,
+  placeId: json['place_id'] as String? ?? '',
 );
 
 Map<String, dynamic> _$OfferDtoToJson(OfferDto instance) => <String, dynamic>{
@@ -30,4 +31,5 @@ Map<String, dynamic> _$OfferDtoToJson(OfferDto instance) => <String, dynamic>{
   'starts_at': instance.startsAt?.toIso8601String(),
   'ends_at': instance.endsAt?.toIso8601String(),
   'photo_path': instance.photoPath,
+  'place_id': instance.placeId,
 };

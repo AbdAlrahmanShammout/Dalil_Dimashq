@@ -14,6 +14,7 @@ class OfferDto {
     this.startsAt,
     this.endsAt,
     this.photoPath,
+    this.placeId = '',
   });
 
   factory OfferDto.fromJson(Map<String, dynamic> json) =>
@@ -34,6 +35,8 @@ class OfferDto {
   final DateTime? endsAt;
   @JsonKey(name: 'photo_path')
   final String? photoPath;
+  @JsonKey(name: 'place_id', defaultValue: '')
+  final String placeId;
 
   Map<String, dynamic> toJson() => _$OfferDtoToJson(this);
 
@@ -47,6 +50,7 @@ class OfferDto {
       startsAt: startsAt,
       endsAt: endsAt,
       photoPath: photoPath,
+      placeId: placeId,
     );
   }
 }
