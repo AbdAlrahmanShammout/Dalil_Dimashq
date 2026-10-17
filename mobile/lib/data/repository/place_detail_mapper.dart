@@ -1,6 +1,7 @@
 import 'package:dalil_dimashq/data/dto/area_dto.dart';
 import 'package:dalil_dimashq/data/dto/offer_dto.dart';
 import 'package:dalil_dimashq/data/dto/photo_dto.dart';
+import 'package:dalil_dimashq/data/dto/place_hour_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_row_dto.dart';
 import 'package:dalil_dimashq/domain/entities/amenity.dart';
 import 'package:dalil_dimashq/domain/entities/place_detail.dart';
@@ -16,6 +17,7 @@ PlaceDetail mapPlaceHeader({
   List<OfferDto> offers = const <OfferDto>[],
   List<PhotoDto> photos = const <PhotoDto>[],
   List<Amenity> amenities = const <Amenity>[],
+  List<PlaceHourDto> hours = const <PlaceHourDto>[],
 }) {
   final bool hasClass = place.tourismClass != null;
   return PlaceDetail(
@@ -47,6 +49,7 @@ PlaceDetail mapPlaceHeader({
     descriptionAr: place.descriptionAr,
     descriptionEn: place.descriptionEn,
     amenities: amenities,
+    hours: hours.map((PlaceHourDto hour) => hour.toEntity()).toList(),
   );
 }
 

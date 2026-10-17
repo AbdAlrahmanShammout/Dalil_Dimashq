@@ -65,6 +65,7 @@ class PlaceRepositoryImpl implements PlaceRepository {
           .where((AmenityDto amenity) => codes.contains(amenity.code))
           .map((AmenityDto amenity) => amenity.toEntity())
           .toList();
+      final hours = await _remote.regularHours(id);
       return Right(
         mapPlaceHeader(
           place: place,
@@ -75,6 +76,7 @@ class PlaceRepositoryImpl implements PlaceRepository {
           offers: offers,
           photos: photos,
           amenities: amenities,
+          hours: hours,
         ),
       );
     } on DioException catch (error) {

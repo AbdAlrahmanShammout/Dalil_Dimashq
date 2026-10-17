@@ -3,6 +3,7 @@ import 'package:dalil_dimashq/data/dto/featured_now_dto.dart';
 import 'package:dalil_dimashq/data/dto/amenity_dto.dart';
 import 'package:dalil_dimashq/data/dto/offer_dto.dart';
 import 'package:dalil_dimashq/data/dto/photo_dto.dart';
+import 'package:dalil_dimashq/data/dto/place_hour_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_row_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_request_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_response_dto.dart';
@@ -60,4 +61,12 @@ abstract class DirectoryApiClient {
 
   @GET('/rest/v1/amenities')
   Future<List<AmenityDto>> amenities(@Query('select') String select);
+
+  @GET('/rest/v1/place_hours')
+  Future<List<PlaceHourDto>> placeHours(
+    @Query('place_id') String placeId,
+    @Query('season') String season,
+    @Query('select') String select,
+    @Query('order') String order,
+  );
 }

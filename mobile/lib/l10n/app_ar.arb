@@ -44,5 +44,13 @@
   "untilDate": "حتى {date}",
   "photos": "الصور",
   "overview": "نبذة",
-  "location": "الموقع"
+  "location": "الموقع",
+  "hours": "ساعات العمل",
+  "sunday": "الأحد",
+  "monday": "الإثنين",
+  "tuesday": "الثلاثاء",
+  "wednesday": "الأربعاء",
+  "thursday": "الخميس",
+  "friday": "الجمعة",
+  "saturday": "السبت"
 }

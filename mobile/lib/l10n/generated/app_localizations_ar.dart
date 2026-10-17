@@ -144,4 +144,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get location => 'الموقع';
+
+  @override
+  String get hours => 'ساعات العمل';
+
+  @override
+  String get sunday => 'الأحد';
+
+  @override
+  String get monday => 'الإثنين';
+
+  @override
+  String get tuesday => 'الثلاثاء';
+
+  @override
+  String get wednesday => 'الأربعاء';
+
+  @override
+  String get thursday => 'الخميس';
+
+  @override
+  String get friday => 'الجمعة';
+
+  @override
+  String get saturday => 'السبت';
 }

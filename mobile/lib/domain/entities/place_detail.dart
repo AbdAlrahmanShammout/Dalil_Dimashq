@@ -1,5 +1,6 @@
 import 'package:dalil_dimashq/domain/entities/amenity.dart';
 import 'package:dalil_dimashq/domain/entities/place_enums.dart';
+import 'package:dalil_dimashq/domain/entities/place_hour.dart';
 import 'package:dalil_dimashq/domain/entities/place_offer.dart';
 import 'package:dalil_dimashq/domain/entities/place_photo.dart';
 
@@ -24,6 +25,7 @@ class PlaceDetail {
     this.descriptionAr,
     this.descriptionEn,
     this.amenities = const <Amenity>[],
+    this.hours = const <PlaceHour>[],
   });
 
   final String id;
@@ -45,4 +47,5 @@ class PlaceDetail {
   final String? descriptionAr;
   final String? descriptionEn;
   final List<Amenity> amenities;
+  final List<PlaceHour> hours;
 }

@@ -4,6 +4,7 @@ import 'package:dalil_dimashq/data/dto/featured_now_dto.dart';
 import 'package:dalil_dimashq/data/dto/amenity_dto.dart';
 import 'package:dalil_dimashq/data/dto/offer_dto.dart';
 import 'package:dalil_dimashq/data/dto/photo_dto.dart';
+import 'package:dalil_dimashq/data/dto/place_hour_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_row_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_request_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_response_dto.dart';
@@ -64,5 +65,14 @@ class DirectoryRemoteDataSource {
 
   Future<List<AmenityDto>> amenities() {
     return _client.amenities('code,name_ar,name_en');
+  }
+
+  Future<List<PlaceHourDto>> regularHours(String placeId) {
+    return _client.placeHours(
+      'eq.$placeId',
+      'eq.regular',
+      'weekday,opens,closes',
+      'weekday.asc',
+    );
   }
 }
