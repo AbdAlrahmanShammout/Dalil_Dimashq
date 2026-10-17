@@ -13,6 +13,7 @@ import 'package:dalil_dimashq/presentation/features/explore/widgets/explore_view
 import 'package:dalil_dimashq/presentation/features/offers/pages/offers_page.dart';
 import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
+import 'package:dalil_dimashq/presentation/features/auth/pages/sign_up_page.dart';
 import 'package:dalil_dimashq/presentation/features/owner/pages/owner_gate_page.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
@@ -114,6 +115,17 @@ class _AccountTab extends StatelessWidget {
                 context.read<LanguageBloc>().add(
                   LanguageSelected(
                     isArabic ? englishLanguageCode : arabicLanguageCode,
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 12),
+            AppButton(
+              label: l10n.signUp,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const SignUpPage(),
                   ),
                 );
               },

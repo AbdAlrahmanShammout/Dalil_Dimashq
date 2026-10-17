@@ -60,5 +60,11 @@
   "email": "Email",
   "address": "Address",
   "openPlace": "Open place",
-  "nearMe": "Near me"
+  "nearMe": "Near me",
+  "signUp": "Sign up",
+  "password": "Password",
+  "displayName": "Display name",
+  "createAccount": "Create account",
+  "passwordRule": "Use 10 or more characters, with letters and digits",
+  "confirmationSent": "Check your email to confirm the account"
 }

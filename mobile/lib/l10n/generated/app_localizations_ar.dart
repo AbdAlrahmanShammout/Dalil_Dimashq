@@ -192,4 +192,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get nearMe => 'قريب مني';
+
+  @override
+  String get signUp => 'إنشاء حساب';
+
+  @override
+  String get password => 'كلمة السر';
+
+  @override
+  String get displayName => 'الاسم';
+
+  @override
+  String get createAccount => 'إنشاء الحساب';
+
+  @override
+  String get passwordRule => '10 أحرف أو أكتر، وفيها أرقام وحروف';
+
+  @override
+  String get confirmationSent => 'تحقق من بريدك لتأكيد الحساب';
 }

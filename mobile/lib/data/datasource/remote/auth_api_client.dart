@@ -1,0 +1,12 @@
+import 'package:dio/dio.dart';
+import 'package:retrofit/retrofit.dart';
+
+part 'auth_api_client.g.dart';
+
+@RestApi()
+abstract class AuthApiClient {
+  factory AuthApiClient(Dio dio, {String baseUrl}) = _AuthApiClient;
+
+  @POST('/auth/v1/signup')
+  Future<void> signUp(@Body() Map<String, dynamic> body);
+}

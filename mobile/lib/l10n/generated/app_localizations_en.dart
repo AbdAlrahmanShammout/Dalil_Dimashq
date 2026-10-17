@@ -192,4 +192,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nearMe => 'Near me';
+
+  @override
+  String get signUp => 'Sign up';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get displayName => 'Display name';
+
+  @override
+  String get createAccount => 'Create account';
+
+  @override
+  String get passwordRule =>
+      'Use 10 or more characters, with letters and digits';
+
+  @override
+  String get confirmationSent => 'Check your email to confirm the account';
 }

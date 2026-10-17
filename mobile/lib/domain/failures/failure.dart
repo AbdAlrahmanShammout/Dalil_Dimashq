@@ -18,3 +18,7 @@ class ValidationFailure extends Failure {
 class NotFoundFailure extends Failure {
   const NotFoundFailure(super.message);
 }
+
+class WeakPasswordFailure extends ValidationFailure {
+  const WeakPasswordFailure() : super('weak_password');
+}

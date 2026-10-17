@@ -15,10 +15,14 @@ import 'package:dalil_dimashq/data/datasource/local/device_place_links.dart'
     as _i227;
 import 'package:dalil_dimashq/data/datasource/local/geolocator_device_location.dart'
     as _i787;
+import 'package:dalil_dimashq/data/datasource/remote/auth_api_client.dart'
+    as _i371;
 import 'package:dalil_dimashq/data/datasource/remote/directory_api_client.dart'
     as _i807;
 import 'package:dalil_dimashq/data/datasource/remote/directory_remote_data_source.dart'
     as _i360;
+import 'package:dalil_dimashq/data/repository/auth_repository_impl.dart'
+    as _i327;
 import 'package:dalil_dimashq/data/repository/event_repository_impl.dart'
     as _i215;
 import 'package:dalil_dimashq/data/repository/locale_repository_impl.dart'
@@ -29,6 +33,8 @@ import 'package:dalil_dimashq/data/repository/place_repository_impl.dart'
     as _i401;
 import 'package:dalil_dimashq/data/repository/session_repository_impl.dart'
     as _i88;
+import 'package:dalil_dimashq/domain/repositories/auth_repository.dart'
+    as _i242;
 import 'package:dalil_dimashq/domain/repositories/event_repository.dart'
     as _i203;
 import 'package:dalil_dimashq/domain/repositories/locale_repository.dart'
@@ -55,6 +61,9 @@ import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart'
     as _i399;
 import 'package:dalil_dimashq/domain/usecase/search_places_use_case.dart'
     as _i116;
+import 'package:dalil_dimashq/domain/usecase/sign_up_use_case.dart' as _i62;
+import 'package:dalil_dimashq/presentation/features/auth/bloc/sign_up_bloc.dart'
+    as _i948;
 import 'package:dalil_dimashq/presentation/features/events/bloc/events_bloc.dart'
     as _i646;
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_bloc.dart'
@@ -112,14 +121,23 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i807.DirectoryApiClient>(
       () => registerModule.directoryApiClient(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i371.AuthApiClient>(
+      () => registerModule.authApiClient(gh<_i361.Dio>()),
+    );
     gh.factory<_i308.LanguageBloc>(
       () => _i308.LanguageBloc(
         gh<_i1013.ReadLocaleUseCase>(),
         gh<_i399.SaveLocaleUseCase>(),
       ),
     );
+    gh.lazySingleton<_i242.AuthRepository>(
+      () => _i327.AuthRepositoryImpl(gh<_i371.AuthApiClient>()),
+    );
     gh.lazySingleton<_i360.DirectoryRemoteDataSource>(
       () => _i360.DirectoryRemoteDataSource(gh<_i807.DirectoryApiClient>()),
+    );
+    gh.factory<_i62.SignUpUseCase>(
+      () => _i62.SignUpUseCase(gh<_i242.AuthRepository>()),
     );
     gh.lazySingleton<_i203.EventRepository>(
       () => _i215.EventRepositoryImpl(gh<_i360.DirectoryRemoteDataSource>()),
@@ -138,6 +156,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i116.SearchPlacesUseCase>(
       () => _i116.SearchPlacesUseCase(gh<_i823.PlaceRepository>()),
+    );
+    gh.factory<_i948.SignUpBloc>(
+      () => _i948.SignUpBloc(gh<_i62.SignUpUseCase>()),
     );
     gh.factory<_i489.PlaceBloc>(
       () => _i489.PlaceBloc(gh<_i654.GetPlaceUseCase>()),

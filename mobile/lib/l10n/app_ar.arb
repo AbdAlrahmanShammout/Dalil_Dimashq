@@ -60,5 +60,11 @@
   "email": "البريد",
   "address": "العنوان",
   "openPlace": "فتح المكان",
-  "nearMe": "قريب مني"
+  "nearMe": "قريب مني",
+  "signUp": "إنشاء حساب",
+  "password": "كلمة السر",
+  "displayName": "الاسم",
+  "createAccount": "إنشاء الحساب",
+  "passwordRule": "10 أحرف أو أكتر، وفيها أرقام وحروف",
+  "confirmationSent": "تحقق من بريدك لتأكيد الحساب"
 }

@@ -463,6 +463,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Near me'**
   String get nearMe;
+
+  /// No description provided for @signUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up'**
+  String get signUp;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @displayName.
+  ///
+  /// In en, this message translates to:
+  /// **'Display name'**
+  String get displayName;
+
+  /// No description provided for @createAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get createAccount;
+
+  /// No description provided for @passwordRule.
+  ///
+  /// In en, this message translates to:
+  /// **'Use 10 or more characters, with letters and digits'**
+  String get passwordRule;
+
+  /// No description provided for @confirmationSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email to confirm the account'**
+  String get confirmationSent;
 }
 
 class _AppLocalizationsDelegate
