@@ -59,7 +59,7 @@ Errors branch on the Supabase `code` (`42501`, `22023`, `55000`, `54000`, `23505
 
 ## Task list
 
-Status: tasks 1–30 are done. Next is task 31.
+Status: tasks 1–50 are done. Next is task 51.
 
 | # | Task | Done when |
 |---|---|---|
