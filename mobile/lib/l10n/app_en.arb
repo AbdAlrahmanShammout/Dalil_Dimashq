@@ -42,5 +42,6 @@
   "copied": "Copied",
   "offers": "Offers",
   "untilDate": "Until {date}",
-  "photos": "Photos"
+  "photos": "Photos",
+  "overview": "Overview"
 }

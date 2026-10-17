@@ -42,5 +42,6 @@
   "copied": "تم النسخ",
   "offers": "العروض",
   "untilDate": "حتى {date}",
-  "photos": "الصور"
+  "photos": "الصور",
+  "overview": "نبذة"
 }

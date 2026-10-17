@@ -19,6 +19,8 @@ PlaceRowDto _$PlaceRowDtoFromJson(Map<String, dynamic> json) => PlaceRowDto(
       : phonesFromJson(json['phones']),
   lat: (json['lat'] as num?)?.toDouble(),
   lon: (json['lon'] as num?)?.toDouble(),
+  descriptionAr: json['description_ar'] as String?,
+  descriptionEn: json['description_en'] as String?,
 );
 
 Map<String, dynamic> _$PlaceRowDtoToJson(PlaceRowDto instance) =>
@@ -33,4 +35,6 @@ Map<String, dynamic> _$PlaceRowDtoToJson(PlaceRowDto instance) =>
       'phones': instance.phones,
       'lat': instance.lat,
       'lon': instance.lon,
+      'description_ar': instance.descriptionAr,
+      'description_en': instance.descriptionEn,
     };

@@ -138,4 +138,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get photos => 'الصور';
+
+  @override
+  String get overview => 'نبذة';
 }

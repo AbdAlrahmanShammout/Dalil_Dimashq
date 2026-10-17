@@ -15,6 +15,8 @@ class PlaceRowDto {
     this.phones = const <String>[],
     this.lat,
     this.lon,
+    this.descriptionAr,
+    this.descriptionEn,
   });
 
   factory PlaceRowDto.fromJson(Map<String, dynamic> json) =>
@@ -35,6 +37,10 @@ class PlaceRowDto {
   final List<String> phones;
   final double? lat;
   final double? lon;
+  @JsonKey(name: 'description_ar')
+  final String? descriptionAr;
+  @JsonKey(name: 'description_en')
+  final String? descriptionEn;
 
   Map<String, dynamic> toJson() => _$PlaceRowDtoToJson(this);
 }

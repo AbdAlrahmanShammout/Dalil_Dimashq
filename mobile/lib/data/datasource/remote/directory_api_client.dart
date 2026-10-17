@@ -1,5 +1,6 @@
 import 'package:dalil_dimashq/data/dto/area_dto.dart';
 import 'package:dalil_dimashq/data/dto/featured_now_dto.dart';
+import 'package:dalil_dimashq/data/dto/amenity_dto.dart';
 import 'package:dalil_dimashq/data/dto/offer_dto.dart';
 import 'package:dalil_dimashq/data/dto/photo_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_row_dto.dart';
@@ -50,4 +51,13 @@ abstract class DirectoryApiClient {
     @Query('place_id') String placeId,
     @Query('select') String select,
   );
+
+  @GET('/rest/v1/place_amenities')
+  Future<List<PlaceAmenityDto>> placeAmenities(
+    @Query('place_id') String placeId,
+    @Query('select') String select,
+  );
+
+  @GET('/rest/v1/amenities')
+  Future<List<AmenityDto>> amenities(@Query('select') String select);
 }

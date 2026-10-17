@@ -2,7 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:dalil_dimashq/core/network/supabase_failure_mapper.dart';
 import 'package:dalil_dimashq/data/datasource/remote/directory_remote_data_source.dart';
 import 'package:dalil_dimashq/data/dto/search_places_request_dto.dart';
+import 'package:dalil_dimashq/data/dto/amenity_dto.dart';
 import 'package:dalil_dimashq/data/repository/place_detail_mapper.dart';
+import 'package:dalil_dimashq/domain/entities/amenity.dart';
 import 'package:dalil_dimashq/domain/entities/area.dart';
 import 'package:dalil_dimashq/domain/entities/place_detail.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_page.dart';
@@ -58,6 +60,11 @@ class PlaceRepositoryImpl implements PlaceRepository {
       final featured = await _remote.featuredNow(id);
       final photos = await _remote.visiblePhotos(id);
       final offers = await _remote.offers(id);
+      final Set<String> codes = (await _remote.amenityCodes(id)).toSet();
+      final List<Amenity> amenities = (await _remote.amenities())
+          .where((AmenityDto amenity) => codes.contains(amenity.code))
+          .map((AmenityDto amenity) => amenity.toEntity())
+          .toList();
       return Right(
         mapPlaceHeader(
           place: place,
@@ -67,6 +74,7 @@ class PlaceRepositoryImpl implements PlaceRepository {
           logoPath: logoPathOf(photos),
           offers: offers,
           photos: photos,
+          amenities: amenities,
         ),
       );
     } on DioException catch (error) {

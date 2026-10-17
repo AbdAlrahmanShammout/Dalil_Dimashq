@@ -2,6 +2,7 @@ import 'package:dalil_dimashq/data/dto/area_dto.dart';
 import 'package:dalil_dimashq/data/dto/offer_dto.dart';
 import 'package:dalil_dimashq/data/dto/photo_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_row_dto.dart';
+import 'package:dalil_dimashq/domain/entities/amenity.dart';
 import 'package:dalil_dimashq/domain/entities/place_detail.dart';
 import 'package:dalil_dimashq/domain/entities/place_enums.dart';
 import 'package:dalil_dimashq/domain/entities/place_photo.dart';
@@ -14,6 +15,7 @@ PlaceDetail mapPlaceHeader({
   String? logoPath,
   List<OfferDto> offers = const <OfferDto>[],
   List<PhotoDto> photos = const <PhotoDto>[],
+  List<Amenity> amenities = const <Amenity>[],
 }) {
   final bool hasClass = place.tourismClass != null;
   return PlaceDetail(
@@ -42,6 +44,9 @@ PlaceDetail mapPlaceHeader({
               PlacePhoto(id: photo.id, storagePath: photo.storagePath),
         )
         .toList(),
+    descriptionAr: place.descriptionAr,
+    descriptionEn: place.descriptionEn,
+    amenities: amenities,
   );
 }
 
