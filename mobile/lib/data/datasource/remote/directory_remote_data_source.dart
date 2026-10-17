@@ -1,6 +1,7 @@
 import 'package:dalil_dimashq/data/datasource/remote/directory_api_client.dart';
 import 'package:dalil_dimashq/data/dto/area_dto.dart';
 import 'package:dalil_dimashq/data/dto/featured_now_dto.dart';
+import 'package:dalil_dimashq/data/dto/offer_dto.dart';
 import 'package:dalil_dimashq/data/dto/photo_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_row_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_request_dto.dart';
@@ -42,6 +43,13 @@ class DirectoryRemoteDataSource {
       'storage_path,is_cover,is_logo',
       '(is_cover.eq.true,is_logo.eq.true)',
       'eq.false',
+    );
+  }
+
+  Future<List<OfferDto>> offers(String placeId) {
+    return _client.offers(
+      'eq.$placeId',
+      'id,title_ar,title_en,details_ar,details_en,starts_at,ends_at,photo_path',
     );
   }
 }

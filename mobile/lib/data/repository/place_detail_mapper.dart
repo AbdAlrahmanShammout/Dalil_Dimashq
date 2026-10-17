@@ -1,4 +1,5 @@
 import 'package:dalil_dimashq/data/dto/area_dto.dart';
+import 'package:dalil_dimashq/data/dto/offer_dto.dart';
 import 'package:dalil_dimashq/data/dto/photo_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_row_dto.dart';
 import 'package:dalil_dimashq/domain/entities/place_detail.dart';
@@ -10,6 +11,7 @@ PlaceDetail mapPlaceHeader({
   required bool isFeatured,
   String? coverPath,
   String? logoPath,
+  List<OfferDto> offers = const <OfferDto>[],
 }) {
   final bool hasClass = place.tourismClass != null;
   return PlaceDetail(
@@ -31,6 +33,7 @@ PlaceDetail mapPlaceHeader({
     phones: place.phones,
     latitude: place.lat,
     longitude: place.lon,
+    offers: offers.map((OfferDto offer) => offer.toEntity()).toList(),
   );
 }
 

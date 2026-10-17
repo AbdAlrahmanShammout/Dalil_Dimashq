@@ -39,5 +39,7 @@
   "call": "اتصال",
   "directions": "الاتجاهات",
   "share": "مشاركة",
-  "copied": "تم النسخ"
+  "copied": "تم النسخ",
+  "offers": "العروض",
+  "untilDate": "حتى {date}"
 }

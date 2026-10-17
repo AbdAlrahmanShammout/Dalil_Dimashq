@@ -57,6 +57,7 @@ class PlaceRepositoryImpl implements PlaceRepository {
           : (await _remote.areaById(place.areaId!)).firstOrNull;
       final featured = await _remote.featuredNow(id);
       final photos = await _remote.headerPhotos(id);
+      final offers = await _remote.offers(id);
       return Right(
         mapPlaceHeader(
           place: place,
@@ -64,6 +65,7 @@ class PlaceRepositoryImpl implements PlaceRepository {
           isFeatured: featured.isNotEmpty,
           coverPath: coverPathOf(photos),
           logoPath: logoPathOf(photos),
+          offers: offers,
         ),
       );
     } on DioException catch (error) {

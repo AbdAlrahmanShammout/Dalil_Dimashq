@@ -337,6 +337,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Copied'**
   String get copied;
+
+  /// No description provided for @offers.
+  ///
+  /// In en, this message translates to:
+  /// **'Offers'**
+  String get offers;
+
+  /// No description provided for @untilDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Until {date}'**
+  String untilDate(Object date);
 }
 
 class _AppLocalizationsDelegate

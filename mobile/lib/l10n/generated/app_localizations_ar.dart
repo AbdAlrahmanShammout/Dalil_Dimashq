@@ -127,4 +127,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get copied => 'تم النسخ';
+
+  @override
+  String get offers => 'العروض';
+
+  @override
+  String untilDate(Object date) {
+    return 'حتى $date';
+  }
 }

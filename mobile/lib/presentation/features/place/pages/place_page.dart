@@ -9,6 +9,7 @@ import 'package:dalil_dimashq/presentation/features/place/bloc/place_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/place/bloc/place_event.dart';
 import 'package:dalil_dimashq/presentation/features/place/bloc/place_state.dart';
 import 'package:dalil_dimashq/presentation/features/place/widgets/place_actions.dart';
+import 'package:dalil_dimashq/presentation/features/place/widgets/place_offers_section.dart';
 import 'package:dalil_dimashq/presentation/features/place/widgets/place_header.dart';
 import 'package:dalil_dimashq/domain/services/place_links.dart';
 
@@ -17,12 +18,14 @@ class PlacePage extends StatelessWidget {
     required this.placeId,
     this.placeBloc,
     this.links,
+    this.now,
     super.key,
   });
 
   final String placeId;
   final PlaceBloc? placeBloc;
   final PlaceLinks? links;
+  final DateTime? now;
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +33,17 @@ class PlacePage extends StatelessWidget {
     final PlaceLinks resolvedLinks = links ?? getIt<PlaceLinks>();
     return BlocProvider<PlaceBloc>.value(
       value: bloc..add(PlaceRequested(placeId)),
-      child: _PlaceView(placeId: placeId, links: resolvedLinks),
+      child: _PlaceView(placeId: placeId, links: resolvedLinks, now: now),
     );
   }
 }
 
 class _PlaceView extends StatelessWidget {
-  const _PlaceView({required this.placeId, required this.links});
+  const _PlaceView({required this.placeId, required this.links, this.now});
 
   final String placeId;
   final PlaceLinks links;
+  final DateTime? now;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +70,7 @@ class _PlaceView extends StatelessWidget {
             children: <Widget>[
               PlaceHeader(place: state.place!),
               PlaceActions(place: state.place!, links: links),
+              PlaceOffersSection(place: state.place!, now: now),
             ],
           );
         },

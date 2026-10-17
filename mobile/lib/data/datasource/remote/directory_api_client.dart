@@ -1,5 +1,6 @@
 import 'package:dalil_dimashq/data/dto/area_dto.dart';
 import 'package:dalil_dimashq/data/dto/featured_now_dto.dart';
+import 'package:dalil_dimashq/data/dto/offer_dto.dart';
 import 'package:dalil_dimashq/data/dto/photo_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_row_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_request_dto.dart';
@@ -42,5 +43,11 @@ abstract class DirectoryApiClient {
     @Query('select') String select,
     @Query('or') String orFilter,
     @Query('hidden') String hidden,
+  );
+
+  @GET('/rest/v1/offers')
+  Future<List<OfferDto>> offers(
+    @Query('place_id') String placeId,
+    @Query('select') String select,
   );
 }

@@ -39,5 +39,7 @@
   "call": "Call",
   "directions": "Directions",
   "share": "Share",
-  "copied": "Copied"
+  "copied": "Copied",
+  "offers": "Offers",
+  "untilDate": "Until {date}"
 }

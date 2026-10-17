@@ -127,4 +127,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get copied => 'Copied';
+
+  @override
+  String get offers => 'Offers';
+
+  @override
+  String untilDate(Object date) {
+    return 'Until $date';
+  }
 }
