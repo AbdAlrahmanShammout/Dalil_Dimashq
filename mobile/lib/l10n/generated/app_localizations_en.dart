@@ -135,4 +135,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String untilDate(Object date) {
     return 'Until $date';
   }
+
+  @override
+  String get photos => 'Photos';
 }

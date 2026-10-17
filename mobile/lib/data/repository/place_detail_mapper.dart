@@ -4,6 +4,7 @@ import 'package:dalil_dimashq/data/dto/photo_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_row_dto.dart';
 import 'package:dalil_dimashq/domain/entities/place_detail.dart';
 import 'package:dalil_dimashq/domain/entities/place_enums.dart';
+import 'package:dalil_dimashq/domain/entities/place_photo.dart';
 
 PlaceDetail mapPlaceHeader({
   required PlaceRowDto place,
@@ -12,6 +13,7 @@ PlaceDetail mapPlaceHeader({
   String? coverPath,
   String? logoPath,
   List<OfferDto> offers = const <OfferDto>[],
+  List<PhotoDto> photos = const <PhotoDto>[],
 }) {
   final bool hasClass = place.tourismClass != null;
   return PlaceDetail(
@@ -34,6 +36,12 @@ PlaceDetail mapPlaceHeader({
     latitude: place.lat,
     longitude: place.lon,
     offers: offers.map((OfferDto offer) => offer.toEntity()).toList(),
+    photos: photos
+        .map(
+          (PhotoDto photo) =>
+              PlacePhoto(id: photo.id, storagePath: photo.storagePath),
+        )
+        .toList(),
   );
 }
 

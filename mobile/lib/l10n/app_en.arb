@@ -41,5 +41,6 @@
   "share": "Share",
   "copied": "Copied",
   "offers": "Offers",
-  "untilDate": "Until {date}"
+  "untilDate": "Until {date}",
+  "photos": "Photos"
 }

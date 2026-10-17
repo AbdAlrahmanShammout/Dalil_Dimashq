@@ -41,5 +41,6 @@
   "share": "مشاركة",
   "copied": "تم النسخ",
   "offers": "العروض",
-  "untilDate": "حتى {date}"
+  "untilDate": "حتى {date}",
+  "photos": "الصور"
 }

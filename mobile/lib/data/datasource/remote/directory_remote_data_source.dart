@@ -37,11 +37,11 @@ class DirectoryRemoteDataSource {
     return _client.featuredNow('eq.$placeId');
   }
 
-  Future<List<PhotoDto>> headerPhotos(String placeId) {
+  Future<List<PhotoDto>> visiblePhotos(String placeId) {
     return _client.photos(
       'eq.$placeId',
-      'storage_path,is_cover,is_logo',
-      '(is_cover.eq.true,is_logo.eq.true)',
+      'id,storage_path,is_cover,is_logo',
+      '(hidden.eq.false)',
       'eq.false',
     );
   }

@@ -135,4 +135,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String untilDate(Object date) {
     return 'حتى $date';
   }
+
+  @override
+  String get photos => 'الصور';
 }

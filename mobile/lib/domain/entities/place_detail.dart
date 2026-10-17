@@ -1,5 +1,6 @@
 import 'package:dalil_dimashq/domain/entities/place_enums.dart';
 import 'package:dalil_dimashq/domain/entities/place_offer.dart';
+import 'package:dalil_dimashq/domain/entities/place_photo.dart';
 
 class PlaceDetail {
   const PlaceDetail({
@@ -18,6 +19,7 @@ class PlaceDetail {
     this.latitude,
     this.longitude,
     this.offers = const <PlaceOffer>[],
+    this.photos = const <PlacePhoto>[],
   });
 
   final String id;
@@ -35,4 +37,5 @@ class PlaceDetail {
   final double? latitude;
   final double? longitude;
   final List<PlaceOffer> offers;
+  final List<PlacePhoto> photos;
 }

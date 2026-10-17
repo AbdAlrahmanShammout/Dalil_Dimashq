@@ -349,6 +349,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Until {date}'**
   String untilDate(Object date);
+
+  /// No description provided for @photos.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get photos;
 }
 
 class _AppLocalizationsDelegate
