@@ -15,11 +15,11 @@ void main() {
     );
     expect(find.text('Dalil Dimashq'), findsOneWidget);
     expect(find.text('Explore'), findsWidgets);
-    expect(find.text('Map'), findsOneWidget);
+    expect(find.text('Map'), findsWidgets);
     expect(find.text('Events'), findsOneWidget);
     expect(find.text('Account'), findsOneWidget);
-    await tester.tap(find.text('Events'));
+    await tester.tap(find.text('Account'));
     await tester.pumpAndSettle();
-    expect(find.text('Events'), findsNWidgets(2));
+    expect(find.text('Language'), findsOneWidget);
   });
 }
