@@ -57,5 +57,7 @@
   "website": "الموقع",
   "facebook": "فيسبوك",
   "instagram": "إنستغرام",
-  "email": "البريد"
+  "email": "البريد",
+  "address": "العنوان",
+  "openPlace": "فتح المكان"
 }

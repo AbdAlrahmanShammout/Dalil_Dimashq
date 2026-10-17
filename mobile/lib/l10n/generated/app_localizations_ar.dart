@@ -183,4 +183,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get email => 'البريد';
+
+  @override
+  String get address => 'العنوان';
+
+  @override
+  String get openPlace => 'فتح المكان';
 }

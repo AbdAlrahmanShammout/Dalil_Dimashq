@@ -183,4 +183,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get email => 'Email';
+
+  @override
+  String get address => 'Address';
+
+  @override
+  String get openPlace => 'Open place';
 }

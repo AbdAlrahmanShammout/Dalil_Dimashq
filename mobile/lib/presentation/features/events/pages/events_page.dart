@@ -5,6 +5,7 @@ import 'package:dalil_dimashq/core/di/injection.dart';
 import 'package:dalil_dimashq/core/network/event_poster_url.dart';
 import 'package:dalil_dimashq/domain/entities/event.dart';
 import 'package:dalil_dimashq/presentation/features/events/bloc/events_bloc.dart';
+import 'package:dalil_dimashq/presentation/features/events/pages/event_details_page.dart';
 
 class EventsPage extends StatelessWidget {
   const EventsPage({this.eventsBloc, this.now, super.key});
@@ -56,10 +57,17 @@ class _EventsList extends StatelessWidget {
                         height: 48,
                       ),
                 title: Text(title),
-                subtitle: Text(
-                  '${event.venueName} · ${format.format(event.startsAt.toLocal())}',
-                ),
-              );
+              subtitle: Text(
+                '${event.venueName} · ${format.format(event.startsAt.toLocal())}',
+              ),
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => EventDetailsPage(event: event),
+                  ),
+                );
+              },
+            );
             }).toList(),
           ),
         );

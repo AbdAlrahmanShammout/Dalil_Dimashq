@@ -445,6 +445,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Email'**
   String get email;
+
+  /// No description provided for @address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get address;
+
+  /// No description provided for @openPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Open place'**
+  String get openPlace;
 }
 
 class _AppLocalizationsDelegate

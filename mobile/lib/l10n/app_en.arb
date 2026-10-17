@@ -57,5 +57,7 @@
   "website": "Website",
   "facebook": "Facebook",
   "instagram": "Instagram",
-  "email": "Email"
+  "email": "Email",
+  "address": "Address",
+  "openPlace": "Open place"
 }
