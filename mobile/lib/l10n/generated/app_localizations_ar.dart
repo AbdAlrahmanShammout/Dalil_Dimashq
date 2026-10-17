@@ -189,4 +189,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get openPlace => 'فتح المكان';
+
+  @override
+  String get nearMe => 'قريب مني';
 }

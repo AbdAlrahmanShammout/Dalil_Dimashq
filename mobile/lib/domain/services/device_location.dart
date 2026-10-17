@@ -1,0 +1,12 @@
+class GeoPoint {
+  const GeoPoint({required this.latitude, required this.longitude});
+
+  final double latitude;
+  final double longitude;
+}
+
+abstract class DeviceLocation {
+  Future<bool> requestPermission();
+
+  Future<GeoPoint?> currentPosition();
+}

@@ -189,4 +189,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get openPlace => 'Open place';
+
+  @override
+  String get nearMe => 'Near me';
 }

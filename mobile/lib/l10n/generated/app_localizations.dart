@@ -457,6 +457,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open place'**
   String get openPlace;
+
+  /// No description provided for @nearMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Near me'**
+  String get nearMe;
 }
 
 class _AppLocalizationsDelegate
