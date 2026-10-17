@@ -68,5 +68,6 @@
   "passwordRule": "Use 10 or more characters, with letters and digits",
   "confirmationSent": "Check your email to confirm the account",
   "signIn": "Sign in",
-  "signedIn": "Signed in"
+  "signedIn": "Signed in",
+  "confirmEmailFirst": "Confirm your email before continuing"
 }

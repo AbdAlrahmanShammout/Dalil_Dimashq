@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:dalil_dimashq/core/network/auth_failure_mapper.dart';
 import 'package:dalil_dimashq/core/network/supabase_failure_mapper.dart';
 import 'package:dalil_dimashq/core/storage/token_storage.dart';
 import 'package:dalil_dimashq/data/datasource/remote/auth_api_client.dart';
@@ -47,7 +48,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await _tokenStorage.saveToken(session.accessToken);
       return const Right<Failure, void>(null);
     } on DioException catch (error) {
-      return Left<Failure, void>(mapSupabaseException(error));
+      return Left<Failure, void>(mapAuthException(error));
     }
   }
 }

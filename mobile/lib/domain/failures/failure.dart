@@ -22,3 +22,7 @@ class NotFoundFailure extends Failure {
 class WeakPasswordFailure extends ValidationFailure {
   const WeakPasswordFailure() : super('weak_password');
 }
+
+class EmailNotConfirmedFailure extends Failure {
+  const EmailNotConfirmedFailure(super.message);
+}

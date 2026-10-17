@@ -217,4 +217,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signedIn => 'Signed in';
+
+  @override
+  String get confirmEmailFirst => 'Confirm your email before continuing';
 }

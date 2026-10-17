@@ -68,5 +68,6 @@
   "passwordRule": "10 أحرف أو أكتر، وفيها أرقام وحروف",
   "confirmationSent": "تحقق من بريدك لتأكيد الحساب",
   "signIn": "دخول",
-  "signedIn": "تم الدخول"
+  "signedIn": "تم الدخول",
+  "confirmEmailFirst": "أكد بريدك قبل المتابعة"
 }

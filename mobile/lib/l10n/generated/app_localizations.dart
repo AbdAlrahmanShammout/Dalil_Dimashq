@@ -511,6 +511,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Signed in'**
   String get signedIn;
+
+  /// No description provided for @confirmEmailFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your email before continuing'**
+  String get confirmEmailFirst;
 }
 
 class _AppLocalizationsDelegate

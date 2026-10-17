@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dalil_dimashq/core/di/injection.dart';
 import 'package:dalil_dimashq/domain/entities/sign_in_request.dart';
+import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
@@ -81,15 +82,25 @@ class _SignInFormState extends State<_SignInForm> {
             const SizedBox(height: 16),
             BlocBuilder<SignInBloc, SignInState>(
               builder: (BuildContext context, SignInState state) {
-                final String message = state.status == SignInStatus.success
-                    ? l10n.signedIn
-                    : '';
-                return Text(message, key: const Key('sign-in-message'));
+                return Text(
+                  _message(l10n, state),
+                  key: const Key('sign-in-message'),
+                );
               },
             ),
           ],
         ),
       ),
     );
+  }
+
+  String _message(AppLocalizations l10n, SignInState state) {
+    if (state.status == SignInStatus.success) {
+      return l10n.signedIn;
+    }
+    if (state.failure is EmailNotConfirmedFailure) {
+      return l10n.confirmEmailFirst;
+    }
+    return '';
   }
 }

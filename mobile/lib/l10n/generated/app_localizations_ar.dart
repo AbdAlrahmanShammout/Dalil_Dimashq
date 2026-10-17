@@ -216,4 +216,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get signedIn => 'تم الدخول';
+
+  @override
+  String get confirmEmailFirst => 'أكد بريدك قبل المتابعة';
 }

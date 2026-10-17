@@ -34,6 +34,30 @@ void main() {
     expect(repository.signedIn?.email, 'nour@example.com');
     expect(find.text('Signed in'), findsOneWidget);
   });
+
+  testWidgets('an unconfirmed account is told to confirm first', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        locale: const Locale('en'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: SignInPage(bloc: SignInBloc(SignInUseCase(_UnconfirmedAuth()))),
+      ),
+    );
+    await tester.enterText(
+      find.byKey(const Key('sign-in-email')),
+      'nour@example.com',
+    );
+    await tester.enterText(
+      find.byKey(const Key('sign-in-password')),
+      'abc1234567',
+    );
+    await tester.tap(find.widgetWithText(FilledButton, 'Sign in'));
+    await tester.pump();
+    expect(find.text('Confirm your email before continuing'), findsOneWidget);
+  });
 }
 
 class _RecordingAuth implements AuthRepository {
@@ -43,6 +67,20 @@ class _RecordingAuth implements AuthRepository {
   Future<Either<Failure, void>> signIn(SignInRequest request) async {
     signedIn = request;
     return const Right<Failure, void>(null);
+  }
+
+  @override
+  Future<Either<Failure, void>> signUp(SignUpRequest request) async {
+    return const Right<Failure, void>(null);
+  }
+}
+
+class _UnconfirmedAuth implements AuthRepository {
+  @override
+  Future<Either<Failure, void>> signIn(SignInRequest request) async {
+    return const Left<Failure, void>(
+      EmailNotConfirmedFailure('Email not confirmed'),
+    );
   }
 
   @override
