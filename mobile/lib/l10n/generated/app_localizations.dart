@@ -169,6 +169,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'My places'**
   String get myPlaces;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name, cuisine, street, or area'**
+  String get searchHint;
 }
 
 class _AppLocalizationsDelegate

@@ -43,4 +43,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get myPlaces => 'منشآتي';
+
+  @override
+  String get searchHint => 'ابحث بالاسم أو المطبخ أو الشارع أو المنطقة';
 }

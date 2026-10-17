@@ -7,6 +7,7 @@ import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart';
 import 'package:dalil_dimashq/presentation/core/app/dalil_app.dart';
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_state.dart';
+import '../../../support/fake_place_repository.dart';
 
 void main() {
   testWidgets('language switch flips copy and text direction', (
@@ -22,7 +23,10 @@ void main() {
         value: bloc,
         child: BlocBuilder<LanguageBloc, LanguageState>(
           builder: (BuildContext context, LanguageState state) {
-            return DalilApp(locale: state.locale);
+            return DalilApp(
+              locale: state.locale,
+              exploreBloc: exploreBlocForTest(FakePlaceRepository()),
+            );
           },
         ),
       ),

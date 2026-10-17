@@ -35,6 +35,8 @@ import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart'
     as _i399;
 import 'package:dalil_dimashq/domain/usecase/search_places_use_case.dart'
     as _i116;
+import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_bloc.dart'
+    as _i805;
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_bloc.dart'
     as _i308;
 import 'package:dio/dio.dart' as _i361;
@@ -92,6 +94,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i116.SearchPlacesUseCase>(
       () => _i116.SearchPlacesUseCase(gh<_i823.PlaceRepository>()),
+    );
+    gh.factory<_i805.ExploreBloc>(
+      () => _i805.ExploreBloc(gh<_i116.SearchPlacesUseCase>()),
     );
     return this;
   }

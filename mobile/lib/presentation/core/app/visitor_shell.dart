@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dalil_dimashq/core/di/injection.dart';
+import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_bloc.dart';
+import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_event.dart';
+import 'package:dalil_dimashq/presentation/features/explore/widgets/explore_search_bar.dart';
 import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/features/owner/pages/owner_gate_page.dart';
@@ -11,7 +14,9 @@ import 'package:dalil_dimashq/presentation/features/language/bloc/language_bloc.
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_event.dart';
 
 class VisitorShell extends StatefulWidget {
-  const VisitorShell({super.key});
+  const VisitorShell({this.exploreBloc, super.key});
+
+  final ExploreBloc? exploreBloc;
 
   @override
   State<VisitorShell> createState() => _VisitorShellState();
@@ -24,7 +29,16 @@ class _VisitorShellState extends State<VisitorShell> {
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final List<Widget> pages = <Widget>[
-      _EmptyTab(title: l10n.explore),
+      widget.exploreBloc == null
+          ? BlocProvider<ExploreBloc>(
+              create: (BuildContext context) =>
+                  getIt<ExploreBloc>()..add(const ExploreStarted()),
+              child: const _ExploreBody(),
+            )
+          : BlocProvider<ExploreBloc>.value(
+              value: widget.exploreBloc!..add(const ExploreStarted()),
+              child: const _ExploreBody(),
+            ),
       _EmptyTab(title: l10n.map),
       _EmptyTab(title: l10n.events),
       const _AccountTab(),
@@ -51,6 +65,20 @@ class _VisitorShellState extends State<VisitorShell> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ExploreBody extends StatelessWidget {
+  const _ExploreBody();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: <Widget>[
+        Padding(padding: EdgeInsets.all(16), child: ExploreSearchBar()),
+        Expanded(child: ExploreResults()),
+      ],
     );
   }
 }

@@ -11,5 +11,6 @@
   "arabic": "Arabic",
   "signInRequired": "Sign in required",
   "owner": "Owner",
-  "myPlaces": "My places"
+  "myPlaces": "My places",
+  "searchHint": "Search by name, cuisine, street, or area"
 }
