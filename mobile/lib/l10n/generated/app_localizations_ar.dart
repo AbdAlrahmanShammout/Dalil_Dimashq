@@ -76,4 +76,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get retry => 'إعادة المحاولة';
+
+  @override
+  String get filters => 'تصفية';
+
+  @override
+  String get minStars => 'الحد الأدنى للنجوم';
+
+  @override
+  String get anyStars => 'أي تقييم';
+
+  @override
+  String get area => 'المنطقة';
+
+  @override
+  String get hasPhone => 'لديه هاتف';
+
+  @override
+  String get sortLabel => 'الترتيب';
+
+  @override
+  String get sortCompleteness => 'الأكتمال';
+
+  @override
+  String get sortRating => 'التقييم';
+
+  @override
+  String get sortName => 'الاسم';
+
+  @override
+  String get clearFilters => 'مسح';
+
+  @override
+  String get applyFilters => 'تطبيق';
 }

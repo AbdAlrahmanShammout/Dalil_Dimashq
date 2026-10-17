@@ -235,6 +235,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Retry'**
   String get retry;
+
+  /// No description provided for @filters.
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get filters;
+
+  /// No description provided for @minStars.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum stars'**
+  String get minStars;
+
+  /// No description provided for @anyStars.
+  ///
+  /// In en, this message translates to:
+  /// **'Any'**
+  String get anyStars;
+
+  /// No description provided for @area.
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get area;
+
+  /// No description provided for @hasPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Has phone'**
+  String get hasPhone;
+
+  /// No description provided for @sortLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get sortLabel;
+
+  /// No description provided for @sortCompleteness.
+  ///
+  /// In en, this message translates to:
+  /// **'Completeness'**
+  String get sortCompleteness;
+
+  /// No description provided for @sortRating.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating'**
+  String get sortRating;
+
+  /// No description provided for @sortName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get sortName;
+
+  /// No description provided for @clearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clearFilters;
+
+  /// No description provided for @applyFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get applyFilters;
 }
 
 class _AppLocalizationsDelegate

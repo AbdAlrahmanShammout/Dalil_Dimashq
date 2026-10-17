@@ -1,9 +1,11 @@
 import 'package:dartz/dartz.dart';
+import 'package:dalil_dimashq/domain/entities/area.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_page.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_query.dart';
 import 'package:dalil_dimashq/domain/entities/place_summary.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/repositories/place_repository.dart';
+import 'package:dalil_dimashq/domain/usecase/list_areas_use_case.dart';
 import 'package:dalil_dimashq/domain/usecase/search_places_use_case.dart';
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_bloc.dart';
 
@@ -24,8 +26,18 @@ class FakePlaceRepository implements PlaceRepository {
     lastQuery = query;
     return result;
   }
+
+  @override
+  Future<Either<Failure, List<Area>>> areas() async {
+    return const Right(<Area>[
+      Area(id: 1, nameAr: 'الشعلان', nameEn: 'Shaalan'),
+    ]);
+  }
 }
 
 ExploreBloc exploreBlocForTest(FakePlaceRepository repository) {
-  return ExploreBloc(SearchPlacesUseCase(repository));
+  return ExploreBloc(
+    SearchPlacesUseCase(repository),
+    ListAreasUseCase(repository),
+  );
 }

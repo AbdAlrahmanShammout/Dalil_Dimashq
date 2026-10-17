@@ -76,4 +76,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get retry => 'Retry';
+
+  @override
+  String get filters => 'Filters';
+
+  @override
+  String get minStars => 'Minimum stars';
+
+  @override
+  String get anyStars => 'Any';
+
+  @override
+  String get area => 'Area';
+
+  @override
+  String get hasPhone => 'Has phone';
+
+  @override
+  String get sortLabel => 'Sort';
+
+  @override
+  String get sortCompleteness => 'Completeness';
+
+  @override
+  String get sortRating => 'Rating';
+
+  @override
+  String get sortName => 'Name';
+
+  @override
+  String get clearFilters => 'Clear';
+
+  @override
+  String get applyFilters => 'Apply';
 }

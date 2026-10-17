@@ -1,10 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:dalil_dimashq/domain/entities/area.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_page.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_query.dart';
 import 'package:dalil_dimashq/domain/entities/place_summary.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/repositories/place_repository.dart';
+import 'package:dalil_dimashq/domain/usecase/list_areas_use_case.dart';
 import 'package:dalil_dimashq/domain/usecase/search_places_use_case.dart';
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_event.dart';
@@ -12,7 +14,10 @@ import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_event.d
 void main() {
   test('scrolling requests the next page and appends it', () async {
     final _PagingRepository repository = _PagingRepository();
-    final ExploreBloc bloc = ExploreBloc(SearchPlacesUseCase(repository));
+    final ExploreBloc bloc = ExploreBloc(
+      SearchPlacesUseCase(repository),
+      ListAreasUseCase(repository),
+    );
     bloc.add(const ExploreStarted());
     await bloc.stream.firstWhere((state) => state.places.length == 1);
     bloc.add(const ExploreLoadMore());
@@ -52,4 +57,7 @@ class _PagingRepository implements PlaceRepository {
       ),
     );
   }
+
+  @override
+  Future<Either<Failure, List<Area>>> areas() async => const Right(<Area>[]);
 }

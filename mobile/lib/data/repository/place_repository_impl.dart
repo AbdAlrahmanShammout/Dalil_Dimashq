@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dalil_dimashq/core/network/supabase_failure_mapper.dart';
 import 'package:dalil_dimashq/data/datasource/remote/directory_remote_data_source.dart';
 import 'package:dalil_dimashq/data/dto/search_places_request_dto.dart';
+import 'package:dalil_dimashq/domain/entities/area.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_page.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_query.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
@@ -24,6 +25,18 @@ class PlaceRepositoryImpl implements PlaceRepository {
         SearchPlacesRequestDto.fromQuery(query),
       );
       return Right(response.toEntity());
+    } on DioException catch (error) {
+      return Left(mapSupabaseException(error));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Area>>> areas() async {
+    try {
+      final List<Area> areas = (await _remote.areas())
+          .map((area) => area.toEntity())
+          .toList();
+      return Right(areas);
     } on DioException catch (error) {
       return Left(mapSupabaseException(error));
     }

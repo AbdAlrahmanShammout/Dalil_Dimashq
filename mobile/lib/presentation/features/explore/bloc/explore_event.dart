@@ -23,3 +23,19 @@ class ExploreCategorySelected extends ExploreEvent {
 
   final PlaceCategory category;
 }
+
+class ExploreFiltersApplied extends ExploreEvent {
+  const ExploreFiltersApplied({
+    required this.category,
+    this.areaId,
+    this.minStars,
+    this.hasPhone = false,
+    this.sort = PlaceSort.completeness,
+  });
+
+  final PlaceCategory category;
+  final int? areaId;
+  final int? minStars;
+  final bool hasPhone;
+  final PlaceSort sort;
+}

@@ -29,6 +29,7 @@ import 'package:dalil_dimashq/domain/repositories/session_repository.dart'
     as _i366;
 import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart'
     as _i261;
+import 'package:dalil_dimashq/domain/usecase/list_areas_use_case.dart' as _i80;
 import 'package:dalil_dimashq/domain/usecase/read_locale_use_case.dart'
     as _i1013;
 import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart'
@@ -92,11 +93,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i823.PlaceRepository>(
       () => _i401.PlaceRepositoryImpl(gh<_i360.DirectoryRemoteDataSource>()),
     );
+    gh.factory<_i80.ListAreasUseCase>(
+      () => _i80.ListAreasUseCase(gh<_i823.PlaceRepository>()),
+    );
     gh.factory<_i116.SearchPlacesUseCase>(
       () => _i116.SearchPlacesUseCase(gh<_i823.PlaceRepository>()),
     );
     gh.factory<_i805.ExploreBloc>(
-      () => _i805.ExploreBloc(gh<_i116.SearchPlacesUseCase>()),
+      () => _i805.ExploreBloc(
+        gh<_i116.SearchPlacesUseCase>(),
+        gh<_i80.ListAreasUseCase>(),
+      ),
     );
     return this;
   }

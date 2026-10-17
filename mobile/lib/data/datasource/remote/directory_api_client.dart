@@ -1,3 +1,4 @@
+import 'package:dalil_dimashq/data/dto/area_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_request_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_response_dto.dart';
 import 'package:dio/dio.dart';
@@ -13,4 +14,7 @@ abstract class DirectoryApiClient {
   Future<SearchPlacesResponseDto> searchPlaces(
     @Body() SearchPlacesRequestDto body,
   );
+
+  @GET('/rest/v1/areas')
+  Future<List<AreaDto>> listAreas(@Query('select') String select);
 }

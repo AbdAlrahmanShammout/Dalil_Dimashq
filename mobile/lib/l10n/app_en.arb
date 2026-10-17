@@ -22,5 +22,16 @@
   "openNow": "Open now",
   "closedNow": "Closed now",
   "noResults": "No matching places",
-  "retry": "Retry"
+  "retry": "Retry",
+  "filters": "Filters",
+  "minStars": "Minimum stars",
+  "anyStars": "Any",
+  "area": "Area",
+  "hasPhone": "Has phone",
+  "sortLabel": "Sort",
+  "sortCompleteness": "Completeness",
+  "sortRating": "Rating",
+  "sortName": "Name",
+  "clearFilters": "Clear",
+  "applyFilters": "Apply"
 }

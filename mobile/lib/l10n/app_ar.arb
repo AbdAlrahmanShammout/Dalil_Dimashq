@@ -22,5 +22,16 @@
   "openNow": "مفتوح الآن",
   "closedNow": "مغلق الآن",
   "noResults": "لا توجد نتائج",
-  "retry": "إعادة المحاولة"
+  "retry": "إعادة المحاولة",
+  "filters": "تصفية",
+  "minStars": "الحد الأدنى للنجوم",
+  "anyStars": "أي تقييم",
+  "area": "المنطقة",
+  "hasPhone": "لديه هاتف",
+  "sortLabel": "الترتيب",
+  "sortCompleteness": "الأكتمال",
+  "sortRating": "التقييم",
+  "sortName": "الاسم",
+  "clearFilters": "مسح",
+  "applyFilters": "تطبيق"
 }

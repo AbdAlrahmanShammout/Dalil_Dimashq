@@ -1,6 +1,7 @@
 import 'package:dalil_dimashq/domain/entities/place_enums.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_query.dart';
 import 'package:dalil_dimashq/domain/entities/place_summary.dart';
+import 'package:dalil_dimashq/domain/usecase/list_areas_use_case.dart';
 import 'package:dalil_dimashq/domain/usecase/search_places_use_case.dart';
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_event.dart';
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_state.dart';
@@ -9,19 +10,24 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
-  ExploreBloc(this._searchPlaces) : super(const ExploreState()) {
+  ExploreBloc(this._searchPlaces, this._listAreas)
+    : super(const ExploreState()) {
     on<ExploreStarted>(_onStarted);
     on<ExploreQueryChanged>(_onQueryChanged);
     on<ExploreCategorySelected>(_onCategorySelected);
     on<ExploreLoadMore>(_onLoadMore);
+    on<ExploreFiltersApplied>(_onFiltersApplied);
   }
 
   final SearchPlacesUseCase _searchPlaces;
+  final ListAreasUseCase _listAreas;
 
   Future<void> _onStarted(
     ExploreStarted event,
     Emitter<ExploreState> emit,
   ) async {
+    final areas = await _listAreas();
+    areas.fold((_) {}, (loaded) => emit(state.copyWith(areas: loaded)));
     await _search(emit, state.query, state.category, offset: 0, append: false);
   }
 
@@ -38,6 +44,25 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
     Emitter<ExploreState> emit,
   ) async {
     emit(state.copyWith(category: event.category, clearError: true));
+    await _search(emit, state.query, event.category, offset: 0, append: false);
+  }
+
+  Future<void> _onFiltersApplied(
+    ExploreFiltersApplied event,
+    Emitter<ExploreState> emit,
+  ) async {
+    emit(
+      state.copyWith(
+        category: event.category,
+        areaId: event.areaId,
+        minStars: event.minStars,
+        hasPhone: event.hasPhone,
+        sort: event.sort,
+        clearArea: event.areaId == null,
+        clearStars: event.minStars == null,
+        clearError: true,
+      ),
+    );
     await _search(emit, state.query, event.category, offset: 0, append: false);
   }
 
@@ -75,6 +100,10 @@ class ExploreBloc extends Bloc<ExploreEvent, ExploreState> {
       PlaceSearchQuery(
         text: query,
         category: category,
+        areaId: state.areaId,
+        minStars: state.minStars,
+        hasPhone: state.hasPhone,
+        sort: state.sort,
         limit: 20,
         offset: offset,
       ),

@@ -1,6 +1,7 @@
 import 'package:dalil_dimashq/data/datasource/remote/directory_api_client.dart';
 import 'package:dalil_dimashq/data/datasource/remote/directory_remote_data_source.dart';
 import 'package:dalil_dimashq/data/dto/place_summary_dto.dart';
+import 'package:dalil_dimashq/data/dto/area_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_request_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_response_dto.dart';
 import 'package:dalil_dimashq/data/repository/place_repository_impl.dart';
@@ -45,6 +46,11 @@ class _FakeRemote extends DirectoryRemoteDataSource {
 class _UnusedClient implements DirectoryApiClient {
   @override
   Future<SearchPlacesResponseDto> searchPlaces(SearchPlacesRequestDto body) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<AreaDto>> listAreas(String select) {
     throw UnimplementedError();
   }
 }
