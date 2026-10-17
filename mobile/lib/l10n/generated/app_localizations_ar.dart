@@ -58,4 +58,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get categoryCafes => 'مقاهي';
+
+  @override
+  String get featured => 'مميز';
 }

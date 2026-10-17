@@ -58,4 +58,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get categoryCafes => 'Cafés';
+
+  @override
+  String get featured => 'Featured';
 }
