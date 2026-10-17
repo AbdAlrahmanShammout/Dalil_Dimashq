@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dalil_dimashq/core/di/injection.dart';
+import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
+import 'package:dalil_dimashq/presentation/features/owner/pages/owner_gate_page.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_section.dart';
@@ -74,15 +77,33 @@ class _AccountTab extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: AppSection(
         title: l10n.language,
-        child: AppButton(
-          label: isArabic ? l10n.english : l10n.arabic,
-          onPressed: () {
-            context.read<LanguageBloc>().add(
-              LanguageSelected(
-                isArabic ? englishLanguageCode : arabicLanguageCode,
-              ),
-            );
-          },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppButton(
+              label: isArabic ? l10n.english : l10n.arabic,
+              onPressed: () {
+                context.read<LanguageBloc>().add(
+                  LanguageSelected(
+                    isArabic ? englishLanguageCode : arabicLanguageCode,
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 12),
+            AppButton(
+              label: l10n.owner,
+              onPressed: () {
+                final bool hasSession = getIt<HasSessionUseCase>()();
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        OwnerGatePage(hasSession: hasSession),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

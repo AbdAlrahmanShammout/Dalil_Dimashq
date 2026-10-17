@@ -13,8 +13,14 @@ import 'package:dalil_dimashq/core/di/register_module.dart' as _i111;
 import 'package:dalil_dimashq/core/storage/token_storage.dart' as _i944;
 import 'package:dalil_dimashq/data/repository/locale_repository_impl.dart'
     as _i289;
+import 'package:dalil_dimashq/data/repository/session_repository_impl.dart'
+    as _i88;
 import 'package:dalil_dimashq/domain/repositories/locale_repository.dart'
     as _i149;
+import 'package:dalil_dimashq/domain/repositories/session_repository.dart'
+    as _i366;
+import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart'
+    as _i261;
 import 'package:dalil_dimashq/domain/usecase/read_locale_use_case.dart'
     as _i1013;
 import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart'
@@ -43,6 +49,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i944.TokenStorage>(
       () => _i944.TokenStorage(gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i366.SessionRepository>(
+      () => _i88.SessionRepositoryImpl(gh<_i944.TokenStorage>()),
+    );
+    gh.factory<_i261.HasSessionUseCase>(
+      () => _i261.HasSessionUseCase(gh<_i366.SessionRepository>()),
     );
     gh.lazySingleton<_i361.Dio>(
       () => registerModule.dio(gh<_i944.TokenStorage>()),

@@ -10,7 +10,9 @@ const String _objectStateCode = '55000';
 
 Failure mapSupabaseException(DioException exception) {
   final Object? data = exception.response?.data;
-  final String? code = data is Map<String, dynamic> ? data['code'] as String? : null;
+  final String? code = data is Map<String, dynamic>
+      ? data['code'] as String?
+      : null;
   final String? serverMessage = data is Map<String, dynamic>
       ? data['message'] as String?
       : null;
