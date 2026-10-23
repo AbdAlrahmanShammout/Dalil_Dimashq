@@ -52,6 +52,9 @@ class _FakeAuth implements AuthApiClient {
 
   @override
   Future<void> recover(Map<String, dynamic> body) async {}
+
+  @override
+  Future<dynamic> deleteAccount() async {}
 }
 
 class _UnconfirmedAuth implements AuthApiClient {
@@ -73,4 +76,7 @@ class _UnconfirmedAuth implements AuthApiClient {
 
   @override
   Future<void> recover(Map<String, dynamic> body) async {}
+
+  @override
+  Future<dynamic> deleteAccount() async {}
 }

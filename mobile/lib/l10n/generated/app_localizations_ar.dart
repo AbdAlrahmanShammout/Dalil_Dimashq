@@ -318,4 +318,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get contactChannels => 'التواصل';
+
+  @override
+  String get deleteAccount => 'حذف الحساب';
+
+  @override
+  String get accountDeleted => 'تم حذف الحساب';
 }

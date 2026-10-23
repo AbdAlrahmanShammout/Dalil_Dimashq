@@ -100,5 +100,7 @@
   "terms": "Terms",
   "privacy": "Privacy",
   "whatsapp": "WhatsApp",
-  "contactChannels": "Contact"
+  "contactChannels": "Contact",
+  "deleteAccount": "Delete account",
+  "accountDeleted": "Account deleted"
 }

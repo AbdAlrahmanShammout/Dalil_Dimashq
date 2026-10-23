@@ -19,4 +19,7 @@ abstract class AuthApiClient {
 
   @POST('/auth/v1/recover')
   Future<void> recover(@Body() Map<String, dynamic> body);
+
+  @POST('/functions/v1/delete-account')
+  Future<dynamic> deleteAccount();
 }

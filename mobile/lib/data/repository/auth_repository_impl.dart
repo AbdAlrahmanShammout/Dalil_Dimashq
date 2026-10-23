@@ -53,6 +53,17 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, void>> deleteAccount() async {
+    try {
+      await _client.deleteAccount();
+      await _tokenStorage.clearToken();
+      return const Right<Failure, void>(null);
+    } on DioException catch (error) {
+      return Left<Failure, void>(mapSupabaseException(error));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> recoverPassword(String email) async {
     try {
       await _client.recover(<String, dynamic>{'email': email.trim()});

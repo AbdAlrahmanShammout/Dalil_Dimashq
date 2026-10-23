@@ -69,6 +69,8 @@ import 'package:dalil_dimashq/domain/usecase/accept_legal_use_case.dart'
     as _i901;
 import 'package:dalil_dimashq/domain/usecase/complete_profile_use_case.dart'
     as _i787;
+import 'package:dalil_dimashq/domain/usecase/delete_account_use_case.dart'
+    as _i867;
 import 'package:dalil_dimashq/domain/usecase/get_place_use_case.dart' as _i654;
 import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart'
     as _i261;
@@ -121,6 +123,8 @@ import 'package:dalil_dimashq/presentation/features/place/bloc/place_bloc.dart'
     as _i489;
 import 'package:dalil_dimashq/presentation/features/profile/bloc/profile_bloc.dart'
     as _i700;
+import 'package:dalil_dimashq/presentation/features/settings/bloc/delete_account_bloc.dart'
+    as _i391;
 import 'package:dalil_dimashq/presentation/features/settings/bloc/site_contacts_bloc.dart'
     as _i879;
 import 'package:dio/dio.dart' as _i361;
@@ -206,6 +210,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i944.TokenStorage>(),
       ),
     );
+    gh.factory<_i867.DeleteAccountUseCase>(
+      () => _i867.DeleteAccountUseCase(gh<_i242.AuthRepository>()),
+    );
     gh.factory<_i244.RecoverPasswordUseCase>(
       () => _i244.RecoverPasswordUseCase(gh<_i242.AuthRepository>()),
     );
@@ -232,6 +239,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i921.OfferRepository>(
       () => _i908.OfferRepositoryImpl(gh<_i360.DirectoryRemoteDataSource>()),
+    );
+    gh.factory<_i391.DeleteAccountBloc>(
+      () => _i391.DeleteAccountBloc(gh<_i867.DeleteAccountUseCase>()),
     );
     gh.lazySingleton<_i823.PlaceRepository>(
       () => _i401.PlaceRepositoryImpl(gh<_i360.DirectoryRemoteDataSource>()),

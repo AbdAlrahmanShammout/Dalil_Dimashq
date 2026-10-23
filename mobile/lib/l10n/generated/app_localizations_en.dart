@@ -319,4 +319,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contactChannels => 'Contact';
+
+  @override
+  String get deleteAccount => 'Delete account';
+
+  @override
+  String get accountDeleted => 'Account deleted';
 }

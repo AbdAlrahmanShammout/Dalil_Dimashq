@@ -100,5 +100,7 @@
   "terms": "الشروط",
   "privacy": "الخصوصية",
   "whatsapp": "واتساب",
-  "contactChannels": "التواصل"
+  "contactChannels": "التواصل",
+  "deleteAccount": "حذف الحساب",
+  "accountDeleted": "تم حذف الحساب"
 }
