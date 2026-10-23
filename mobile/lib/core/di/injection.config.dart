@@ -118,6 +118,8 @@ import 'package:dalil_dimashq/domain/usecase/read_locale_use_case.dart'
     as _i1013;
 import 'package:dalil_dimashq/domain/usecase/recover_password_use_case.dart'
     as _i244;
+import 'package:dalil_dimashq/domain/usecase/reply_fake_report_use_case.dart'
+    as _i798;
 import 'package:dalil_dimashq/domain/usecase/request_profile_change_use_case.dart'
     as _i578;
 import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart'
@@ -290,6 +292,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i67.LoadBookingUseCase>(
       () => _i67.LoadBookingUseCase(gh<_i625.BookingRepository>()),
     );
+    gh.factory<_i798.ReplyFakeReportUseCase>(
+      () => _i798.ReplyFakeReportUseCase(gh<_i625.BookingRepository>()),
+    );
     gh.factory<_i901.AcceptLegalUseCase>(
       () => _i901.AcceptLegalUseCase(gh<_i218.LegalRepository>()),
     );
@@ -419,6 +424,13 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i578.RequestProfileChangeUseCase>(),
       ),
     );
+    gh.factory<_i613.BookingDetailsBloc>(
+      () => _i613.BookingDetailsBloc(
+        gh<_i654.GetPlaceUseCase>(),
+        gh<_i1005.CancelBookingUseCase>(),
+        gh<_i798.ReplyFakeReportUseCase>(),
+      ),
+    );
     gh.factory<_i805.ExploreBloc>(
       () => _i805.ExploreBloc(
         gh<_i116.SearchPlacesUseCase>(),
@@ -433,12 +445,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i367.OffersBloc>(
       () => _i367.OffersBloc(gh<_i1024.ListOffersUseCase>()),
-    );
-    gh.factory<_i613.BookingDetailsBloc>(
-      () => _i613.BookingDetailsBloc(
-        gh<_i654.GetPlaceUseCase>(),
-        gh<_i1005.CancelBookingUseCase>(),
-      ),
     );
     return this;
   }

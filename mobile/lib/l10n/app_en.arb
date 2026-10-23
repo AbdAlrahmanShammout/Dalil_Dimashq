@@ -134,5 +134,7 @@
   "statusNoShow": "No show",
   "myBookings": "My bookings",
   "bookingReason": "Reason",
-  "cancelBooking": "Cancel booking"
+  "cancelBooking": "Cancel booking",
+  "reply": "Reply",
+  "replySent": "Reply sent"
 }

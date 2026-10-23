@@ -100,4 +100,42 @@ class BookingRepositoryImpl implements BookingRepository {
       return Left<Failure, String>(mapSupabaseException(error));
     }
   }
+
+  @override
+  Future<Either<Failure, int?>> reportId(int bookingId) async {
+    try {
+      final dynamic raw = await _client.fakeReports(
+        'eq.$bookingId',
+        'id,booking_id',
+      );
+      if (raw is! List || raw.isEmpty || raw.first is! Map) {
+        return const Right<Failure, int?>(null);
+      }
+      final Map<String, dynamic> json = Map<String, dynamic>.from(
+        raw.first as Map,
+      );
+      final int? id = json['id'] is int
+          ? json['id'] as int
+          : int.tryParse('${json['id']}');
+      return Right<Failure, int?>(id);
+    } on DioException catch (error) {
+      return Left<Failure, int?>(mapSupabaseException(error));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> replyToReport({
+    required int reportId,
+    required String reply,
+  }) async {
+    try {
+      await _client.replyFakeReport(<String, dynamic>{
+        'p_report': reportId,
+        'p_reply': reply,
+      });
+      return const Right<Failure, void>(null);
+    } on DioException catch (error) {
+      return Left<Failure, void>(mapSupabaseException(error));
+    }
+  }
 }

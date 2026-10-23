@@ -150,6 +150,19 @@ class _Availability implements BookingRepository {
   Future<Either<Failure, String>> cancel(int id) async {
     return const Right<Failure, String>('cancelled_by_customer');
   }
+
+  @override
+  Future<Either<Failure, int?>> reportId(int bookingId) async {
+    return const Right<Failure, int?>(null);
+  }
+
+  @override
+  Future<Either<Failure, void>> replyToReport({
+    required int reportId,
+    required String reply,
+  }) async {
+    return const Right<Failure, void>(null);
+  }
 }
 
 class _Session implements SessionRepository {

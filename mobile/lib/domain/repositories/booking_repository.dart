@@ -14,4 +14,11 @@ abstract class BookingRepository {
   Future<Either<Failure, List<BookingSummary>>> list();
 
   Future<Either<Failure, String>> cancel(int id);
+
+  Future<Either<Failure, int?>> reportId(int bookingId);
+
+  Future<Either<Failure, void>> replyToReport({
+    required int reportId,
+    required String reply,
+  });
 }

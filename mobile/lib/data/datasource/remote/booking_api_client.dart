@@ -16,6 +16,15 @@ abstract class BookingApiClient {
   @POST('/rest/v1/rpc/cancel_booking')
   Future<dynamic> cancelBooking(@Body() Map<String, dynamic> body);
 
+  @GET('/rest/v1/fake_reports')
+  Future<dynamic> fakeReports(
+    @Query('booking_id') String bookingId,
+    @Query('select') String select,
+  );
+
+  @POST('/rest/v1/rpc/reply_fake_report')
+  Future<void> replyFakeReport(@Body() Map<String, dynamic> body);
+
   @GET('/rest/v1/booking_list')
   Future<dynamic> bookings(
     @Query('select') String select,

@@ -907,6 +907,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel booking'**
   String get cancelBooking;
+
+  /// No description provided for @reply.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply'**
+  String get reply;
+
+  /// No description provided for @replySent.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply sent'**
+  String get replySent;
 }
 
 class _AppLocalizationsDelegate

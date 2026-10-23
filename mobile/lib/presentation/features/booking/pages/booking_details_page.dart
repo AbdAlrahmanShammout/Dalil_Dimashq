@@ -65,11 +65,17 @@ class _BookingDetailsView extends StatelessWidget {
         return _StaticDetails(
           booking: booking,
           placeName: state.placeName,
+          isReplySent: state.isReplySent,
           onCancel: canCancel
               ? () => context.read<BookingDetailsBloc>().add(
                   const BookingCancelled(),
                 )
               : null,
+          onReply: state.reportId == null
+              ? null
+              : (String reply) => context.read<BookingDetailsBloc>().add(
+                  FakeReportReplySubmitted(reply),
+                ),
         );
       },
     );
@@ -77,11 +83,19 @@ class _BookingDetailsView extends StatelessWidget {
 }
 
 class _StaticDetails extends StatelessWidget {
-  const _StaticDetails({required this.booking, this.placeName, this.onCancel});
+  const _StaticDetails({
+    required this.booking,
+    this.placeName,
+    this.onCancel,
+    this.onReply,
+    this.isReplySent = false,
+  });
 
   final BookingSummary booking;
   final String? placeName;
   final VoidCallback? onCancel;
+  final void Function(String reply)? onReply;
+  final bool isReplySent;
 
   @override
   Widget build(BuildContext context) {
@@ -104,8 +118,49 @@ class _StaticDetails extends StatelessWidget {
           Text(bookingStatusLabel(l10n, booking.status)),
           if (onCancel != null)
             AppButton(label: l10n.cancelBooking, onPressed: onCancel),
+          if (isReplySent) Text(l10n.replySent, key: const Key('reply-sent')),
+          if (onReply != null && !isReplySent) _ReplyField(onReply: onReply!),
         ],
       ),
+    );
+  }
+}
+
+class _ReplyField extends StatefulWidget {
+  const _ReplyField({required this.onReply});
+
+  final void Function(String reply) onReply;
+
+  @override
+  State<_ReplyField> createState() => _ReplyFieldState();
+}
+
+class _ReplyFieldState extends State<_ReplyField> {
+  final TextEditingController _reply = TextEditingController();
+
+  @override
+  void dispose() {
+    _reply.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final AppLocalizations l10n = AppLocalizations.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        TextField(
+          key: const Key('fake-report-reply'),
+          controller: _reply,
+          decoration: InputDecoration(labelText: l10n.reply),
+        ),
+        AppButton(
+          key: const Key('fake-report-send'),
+          label: l10n.reply,
+          onPressed: () => widget.onReply(_reply.text),
+        ),
+      ],
     );
   }
 }

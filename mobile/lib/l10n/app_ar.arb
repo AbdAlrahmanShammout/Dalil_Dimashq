@@ -134,5 +134,7 @@
   "statusNoShow": "لم تحضر",
   "myBookings": "حجوزاتي",
   "bookingReason": "السبب",
-  "cancelBooking": "إلغاء الحجز"
+  "cancelBooking": "إلغاء الحجز",
+  "reply": "رد",
+  "replySent": "تم إرسال الرد"
 }

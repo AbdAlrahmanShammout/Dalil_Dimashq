@@ -420,4 +420,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get cancelBooking => 'إلغاء الحجز';
+
+  @override
+  String get reply => 'رد';
+
+  @override
+  String get replySent => 'تم إرسال الرد';
 }

@@ -13,6 +13,7 @@ import 'package:dalil_dimashq/domain/entities/booking_request.dart';
 import 'package:dalil_dimashq/domain/repositories/booking_repository.dart';
 import 'package:dalil_dimashq/domain/usecase/cancel_booking_use_case.dart';
 import 'package:dalil_dimashq/domain/usecase/get_place_use_case.dart';
+import 'package:dalil_dimashq/domain/usecase/reply_fake_report_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_details_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/booking/pages/booking_details_page.dart';
@@ -40,6 +41,7 @@ void main() {
           bloc: BookingDetailsBloc(
             GetPlaceUseCase(_Places()),
             CancelBookingUseCase(_IdleBookings()),
+            ReplyFakeReportUseCase(_IdleBookings()),
           ),
         ),
       ),
@@ -94,6 +96,19 @@ class _IdleBookings implements BookingRepository {
 
   @override
   Future<Either<Failure, List<BookingSummary>>> list() async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, int?>> reportId(int bookingId) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, void>> replyToReport({
+    required int reportId,
+    required String reply,
+  }) async {
     throw UnimplementedError();
   }
 }
