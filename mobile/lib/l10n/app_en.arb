@@ -120,5 +120,7 @@
   "suggestionKindPending": "Suggestion types are not confirmed yet",
   "book": "Book",
   "date": "Date",
-  "time": "Time"
+  "time": "Time",
+  "note": "Note",
+  "partySize": "Party size"
 }

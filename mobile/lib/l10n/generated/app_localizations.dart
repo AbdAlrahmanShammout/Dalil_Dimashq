@@ -823,6 +823,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Time'**
   String get time;
+
+  /// No description provided for @note.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get note;
+
+  /// No description provided for @partySize.
+  ///
+  /// In en, this message translates to:
+  /// **'Party size'**
+  String get partySize;
 }
 
 class _AppLocalizationsDelegate

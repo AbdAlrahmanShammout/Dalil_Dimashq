@@ -88,6 +88,8 @@ import 'package:dalil_dimashq/domain/usecase/accept_legal_use_case.dart'
     as _i901;
 import 'package:dalil_dimashq/domain/usecase/complete_profile_use_case.dart'
     as _i787;
+import 'package:dalil_dimashq/domain/usecase/create_booking_use_case.dart'
+    as _i630;
 import 'package:dalil_dimashq/domain/usecase/delete_account_use_case.dart'
     as _i867;
 import 'package:dalil_dimashq/domain/usecase/get_place_use_case.dart' as _i654;
@@ -263,6 +265,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i539.ProfileRepository>(
       () => _i352.ProfileRepositoryImpl(gh<_i413.ProfileApiClient>()),
     );
+    gh.factory<_i630.CreateBookingUseCase>(
+      () => _i630.CreateBookingUseCase(gh<_i625.BookingRepository>()),
+    );
     gh.factory<_i283.LoadBookingAvailabilityUseCase>(
       () => _i283.LoadBookingAvailabilityUseCase(gh<_i625.BookingRepository>()),
     );
@@ -335,6 +340,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i901.AcceptLegalUseCase>(),
       ),
     );
+    gh.factory<_i162.BookingDraftBloc>(
+      () => _i162.BookingDraftBloc(
+        gh<_i525.LoadProfileUseCase>(),
+        gh<_i283.LoadBookingAvailabilityUseCase>(),
+        gh<_i183.BookingClock>(),
+        gh<_i630.CreateBookingUseCase>(),
+      ),
+    );
     gh.factory<_i1047.SignInBloc>(
       () => _i1047.SignInBloc(gh<_i873.SignInUseCase>()),
     );
@@ -362,13 +375,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i60.SignOutBloc>(
       () => _i60.SignOutBloc(gh<_i334.SignOutUseCase>()),
-    );
-    gh.factory<_i162.BookingDraftBloc>(
-      () => _i162.BookingDraftBloc(
-        gh<_i525.LoadProfileUseCase>(),
-        gh<_i283.LoadBookingAvailabilityUseCase>(),
-        gh<_i183.BookingClock>(),
-      ),
     );
     gh.factory<_i460.ListEventsUseCase>(
       () => _i460.ListEventsUseCase(gh<_i203.EventRepository>()),

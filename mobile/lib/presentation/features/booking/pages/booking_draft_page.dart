@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dalil_dimashq/core/di/injection.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
+import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
 import 'package:dalil_dimashq/domain/services/booking_slots.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_bloc.dart';
@@ -40,12 +41,15 @@ class _BookingDraftForm extends StatefulWidget {
 class _BookingDraftFormState extends State<_BookingDraftForm> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _phone = TextEditingController();
+  final TextEditingController _note = TextEditingController();
+  int _party = 1;
   bool _didFill = false;
 
   @override
   void dispose() {
     _name.dispose();
     _phone.dispose();
+    _note.dispose();
     super.dispose();
   }
 
@@ -66,7 +70,7 @@ class _BookingDraftFormState extends State<_BookingDraftForm> {
             _didFill = true;
           },
           builder: (BuildContext context, BookingDraftState state) {
-            return Column(
+            return ListView(
               children: <Widget>[
                 TextField(
                   key: const Key('booking-name'),
@@ -101,6 +105,43 @@ class _BookingDraftFormState extends State<_BookingDraftForm> {
                       );
                     },
                   ),
+                if (state.maxParty > 0)
+                  DropdownButton<int>(
+                    key: const Key('booking-party'),
+                    value: _party > state.maxParty ? state.maxParty : _party,
+                    items: List<DropdownMenuItem<int>>.generate(
+                      state.maxParty,
+                      (int index) => DropdownMenuItem<int>(
+                        value: index + 1,
+                        child: Text('${index + 1}'),
+                      ),
+                    ),
+                    onChanged: (int? party) {
+                      if (party == null) {
+                        return;
+                      }
+                      setState(() => _party = party);
+                    },
+                  ),
+                TextField(
+                  key: const Key('booking-note'),
+                  controller: _note,
+                  maxLength: 300,
+                  decoration: InputDecoration(labelText: l10n.note),
+                ),
+                AppButton(
+                  label: l10n.send,
+                  onPressed: () {
+                    context.read<BookingDraftBloc>().add(
+                      BookingSubmitted(
+                        name: _name.text,
+                        phone: _phone.text,
+                        party: _party,
+                        note: _note.text,
+                      ),
+                    );
+                  },
+                ),
                 if (state.times.isNotEmpty)
                   Text(l10n.time),
                 if (state.times.isNotEmpty)

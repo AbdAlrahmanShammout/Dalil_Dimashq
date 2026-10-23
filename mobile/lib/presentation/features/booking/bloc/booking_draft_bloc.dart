@@ -2,10 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:dalil_dimashq/domain/entities/booking_availability.dart';
+import 'package:dalil_dimashq/domain/entities/booking_request.dart';
 import 'package:dalil_dimashq/domain/entities/user_profile.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/services/booking_clock.dart';
 import 'package:dalil_dimashq/domain/services/booking_slots.dart';
+import 'package:dalil_dimashq/domain/usecase/create_booking_use_case.dart';
 import 'package:dalil_dimashq/domain/usecase/load_booking_availability_use_case.dart';
 import 'package:dalil_dimashq/domain/usecase/load_profile_use_case.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_event.dart';
@@ -13,16 +15,22 @@ import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_s
 
 @injectable
 class BookingDraftBloc extends Bloc<BookingDraftEvent, BookingDraftState> {
-  BookingDraftBloc(this._loadProfile, this._loadAvailability, this._clock)
-    : super(const BookingDraftState()) {
+  BookingDraftBloc(
+    this._loadProfile,
+    this._loadAvailability,
+    this._clock,
+    this._createBooking,
+  ) : super(const BookingDraftState()) {
     on<BookingDraftStarted>(_onStarted);
     on<BookingDateSelected>(_onDateSelected);
     on<BookingTimeSelected>(_onTimeSelected);
+    on<BookingSubmitted>(_onSubmitted);
   }
 
   final LoadProfileUseCase _loadProfile;
   final LoadBookingAvailabilityUseCase _loadAvailability;
   final BookingClock _clock;
+  final CreateBookingUseCase _createBooking;
 
   Future<void> _onStarted(
     BookingDraftStarted event,
@@ -49,7 +57,36 @@ class BookingDraftBloc extends Bloc<BookingDraftEvent, BookingDraftState> {
         slotMinutes: availability?.slotMinutes ?? 15,
         noticeMinutes: availability?.minimumNoticeMinutes ?? 0,
         closed: availability?.closed ?? const <BookingPeriod>[],
+        maxParty: availability?.maxParty ?? 1,
       ),
+    );
+  }
+
+  Future<void> _onSubmitted(
+    BookingSubmitted event,
+    Emitter<BookingDraftState> emit,
+  ) async {
+    final String? placeId = state.placeId;
+    final DateTime? at = state.selectedTime;
+    if (placeId == null || at == null) {
+      emit(state.copyWith(errorCode: 'missing_time'));
+      return;
+    }
+    final Either<Failure, int> result = await _createBooking(
+      BookingRequest(
+        placeId: placeId,
+        at: at,
+        party: event.party,
+        name: event.name,
+        phone: event.phone,
+        clientKey: '',
+        note: event.note,
+      ),
+      maxParty: state.maxParty,
+    );
+    result.fold(
+      (Failure failure) => emit(state.copyWith(errorCode: failure.message)),
+      (int id) => emit(state.copyWith(bookingId: id, clearError: true)),
     );
   }
 

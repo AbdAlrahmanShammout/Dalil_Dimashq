@@ -12,6 +12,9 @@ class BookingDraftState {
     this.slotMinutes = 15,
     this.noticeMinutes = 0,
     this.closed = const <BookingPeriod>[],
+    this.maxParty = 1,
+    this.errorCode,
+    this.bookingId,
   });
 
   final String displayName;
@@ -24,12 +27,18 @@ class BookingDraftState {
   final int slotMinutes;
   final int noticeMinutes;
   final List<BookingPeriod> closed;
+  final int maxParty;
+  final String? errorCode;
+  final int? bookingId;
 
   BookingDraftState copyWith({
     List<DateTime>? times,
     DateTime? selectedDate,
     DateTime? selectedTime,
     bool clearTime = false,
+    String? errorCode,
+    int? bookingId,
+    bool clearError = false,
   }) {
     return BookingDraftState(
       displayName: displayName,
@@ -42,6 +51,9 @@ class BookingDraftState {
       slotMinutes: slotMinutes,
       noticeMinutes: noticeMinutes,
       closed: closed,
+      maxParty: maxParty,
+      errorCode: clearError ? null : errorCode ?? this.errorCode,
+      bookingId: bookingId ?? this.bookingId,
     );
   }
 }

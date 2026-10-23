@@ -5,6 +5,7 @@ import 'package:dalil_dimashq/core/network/supabase_failure_mapper.dart';
 import 'package:dalil_dimashq/data/datasource/remote/booking_api_client.dart';
 import 'package:dalil_dimashq/data/dto/booking_availability_dto.dart';
 import 'package:dalil_dimashq/domain/entities/booking_availability.dart';
+import 'package:dalil_dimashq/domain/entities/booking_request.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/repositories/booking_repository.dart';
 
@@ -25,6 +26,29 @@ class BookingRepositoryImpl implements BookingRepository {
       return Right<Failure, BookingAvailability>(mapBookingAvailability(raw));
     } on DioException catch (error) {
       return Left<Failure, BookingAvailability>(mapSupabaseException(error));
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> create(BookingRequest request) async {
+    try {
+      final dynamic raw = await _client.createBooking(<String, dynamic>{
+        'p_place': request.placeId,
+        'p_at': request.at.toUtc().toIso8601String(),
+        'p_party': request.party,
+        'p_name': request.name,
+        'p_phone': request.phone,
+        'p_client_key': request.clientKey,
+        if (request.note != null && request.note!.isNotEmpty)
+          'p_note': request.note,
+      });
+      final int? id = raw is int ? raw : int.tryParse('$raw');
+      if (id == null) {
+        return const Left<Failure, int>(ServerFailure('missing booking'));
+      }
+      return Right<Failure, int>(id);
+    } on DioException catch (error) {
+      return Left<Failure, int>(mapSupabaseException(error));
     }
   }
 }

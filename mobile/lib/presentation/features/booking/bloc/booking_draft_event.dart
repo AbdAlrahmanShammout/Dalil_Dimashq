@@ -19,3 +19,17 @@ class BookingTimeSelected extends BookingDraftEvent {
 
   final DateTime time;
 }
+
+class BookingSubmitted extends BookingDraftEvent {
+  const BookingSubmitted({
+    required this.name,
+    required this.phone,
+    required this.party,
+    required this.note,
+  });
+
+  final String name;
+  final String phone;
+  final int party;
+  final String note;
+}

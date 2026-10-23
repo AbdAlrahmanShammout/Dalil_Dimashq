@@ -7,6 +7,8 @@ import 'package:dalil_dimashq/domain/repositories/profile_repository.dart';
 import 'package:dalil_dimashq/domain/entities/booking_availability.dart';
 import 'package:dalil_dimashq/domain/repositories/booking_repository.dart';
 import 'package:dalil_dimashq/domain/services/booking_clock.dart';
+import 'package:dalil_dimashq/domain/entities/booking_request.dart';
+import 'package:dalil_dimashq/domain/usecase/create_booking_use_case.dart';
 import 'package:dalil_dimashq/domain/usecase/load_booking_availability_use_case.dart';
 import 'package:dalil_dimashq/domain/usecase/load_profile_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
@@ -30,6 +32,7 @@ void main() {
             LoadProfileUseCase(repository),
             LoadBookingAvailabilityUseCase(_UnusedAvailability()),
             BookingClock(),
+            CreateBookingUseCase(_UnusedAvailability()),
           ),
         ),
       ),
@@ -45,6 +48,11 @@ class _UnusedAvailability implements BookingRepository {
   Future<Either<Failure, BookingAvailability>> availability(
     String placeId,
   ) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, int>> create(BookingRequest request) async {
     throw UnimplementedError();
   }
 }

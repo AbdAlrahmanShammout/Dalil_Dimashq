@@ -378,4 +378,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get time => 'الوقت';
+
+  @override
+  String get note => 'ملاحظة';
+
+  @override
+  String get partySize => 'عدد الأشخاص';
 }

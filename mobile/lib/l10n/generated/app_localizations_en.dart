@@ -379,4 +379,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get time => 'Time';
+
+  @override
+  String get note => 'Note';
+
+  @override
+  String get partySize => 'Party size';
 }
