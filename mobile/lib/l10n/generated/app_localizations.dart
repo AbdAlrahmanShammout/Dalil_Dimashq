@@ -901,6 +901,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reason'**
   String get bookingReason;
+
+  /// No description provided for @cancelBooking.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel booking'**
+  String get cancelBooking;
 }
 
 class _AppLocalizationsDelegate

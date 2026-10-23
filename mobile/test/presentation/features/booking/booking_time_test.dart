@@ -145,4 +145,9 @@ class _Availability implements BookingRepository {
   Future<Either<Failure, List<BookingSummary>>> list() async {
     return const Right<Failure, List<BookingSummary>>(<BookingSummary>[]);
   }
+
+  @override
+  Future<Either<Failure, String>> cancel(int id) async {
+    return const Right<Failure, String>('cancelled_by_customer');
+  }
 }

@@ -86,6 +86,8 @@ import 'package:dalil_dimashq/domain/services/device_location.dart' as _i845;
 import 'package:dalil_dimashq/domain/services/place_links.dart' as _i820;
 import 'package:dalil_dimashq/domain/usecase/accept_legal_use_case.dart'
     as _i901;
+import 'package:dalil_dimashq/domain/usecase/cancel_booking_use_case.dart'
+    as _i1005;
 import 'package:dalil_dimashq/domain/usecase/complete_profile_use_case.dart'
     as _i787;
 import 'package:dalil_dimashq/domain/usecase/create_booking_use_case.dart'
@@ -273,6 +275,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i539.ProfileRepository>(
       () => _i352.ProfileRepositoryImpl(gh<_i413.ProfileApiClient>()),
     );
+    gh.factory<_i1005.CancelBookingUseCase>(
+      () => _i1005.CancelBookingUseCase(gh<_i625.BookingRepository>()),
+    );
     gh.factory<_i630.CreateBookingUseCase>(
       () => _i630.CreateBookingUseCase(gh<_i625.BookingRepository>()),
     );
@@ -388,9 +393,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i430.LoadSiteContactsUseCase>(
       () => _i430.LoadSiteContactsUseCase(gh<_i1018.SiteContactRepository>()),
     );
-    gh.factory<_i613.BookingDetailsBloc>(
-      () => _i613.BookingDetailsBloc(gh<_i654.GetPlaceUseCase>()),
-    );
     gh.factory<_i489.PlaceBloc>(
       () => _i489.PlaceBloc(gh<_i654.GetPlaceUseCase>()),
     );
@@ -431,6 +433,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i367.OffersBloc>(
       () => _i367.OffersBloc(gh<_i1024.ListOffersUseCase>()),
+    );
+    gh.factory<_i613.BookingDetailsBloc>(
+      () => _i613.BookingDetailsBloc(
+        gh<_i654.GetPlaceUseCase>(),
+        gh<_i1005.CancelBookingUseCase>(),
+      ),
     );
     return this;
   }

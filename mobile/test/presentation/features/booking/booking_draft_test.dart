@@ -68,6 +68,11 @@ class _UnusedAvailability implements BookingRepository {
   Future<Either<Failure, List<BookingSummary>>> list() async {
     throw UnimplementedError();
   }
+
+  @override
+  Future<Either<Failure, String>> cancel(int id) async {
+    throw UnimplementedError();
+  }
 }
 
 class _StoredProfile implements ProfileRepository {

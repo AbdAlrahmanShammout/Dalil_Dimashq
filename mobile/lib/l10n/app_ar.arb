@@ -133,5 +133,6 @@
   "statusAttended": "حضرت",
   "statusNoShow": "لم تحضر",
   "myBookings": "حجوزاتي",
-  "bookingReason": "السبب"
+  "bookingReason": "السبب",
+  "cancelBooking": "إلغاء الحجز"
 }

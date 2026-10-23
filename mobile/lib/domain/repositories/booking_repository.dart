@@ -12,4 +12,6 @@ abstract class BookingRepository {
   Future<Either<Failure, BookingSummary>> find(int id);
 
   Future<Either<Failure, List<BookingSummary>>> list();
+
+  Future<Either<Failure, String>> cancel(int id);
 }

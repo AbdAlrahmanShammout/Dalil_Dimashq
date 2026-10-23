@@ -20,4 +20,18 @@ class BookingSummary {
   final String? reason;
   final bool reported;
   final String? placeName;
+
+  BookingSummary copyWith({String? status}) {
+    return BookingSummary(
+      id: id,
+      status: status ?? this.status,
+      placeId: placeId,
+      at: at,
+      party: party,
+      note: note,
+      reason: reason,
+      reported: reported,
+      placeName: placeName,
+    );
+  }
 }

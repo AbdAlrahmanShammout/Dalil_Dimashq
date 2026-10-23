@@ -4,22 +4,29 @@ import 'package:dalil_dimashq/core/di/injection.dart';
 import 'package:dalil_dimashq/domain/entities/booking_summary.dart';
 import 'package:dalil_dimashq/domain/services/booking_slots.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
+import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_details_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/booking/booking_status_label.dart';
 
 class BookingDetailsPage extends StatelessWidget {
-  const BookingDetailsPage({required this.booking, this.bloc, super.key});
+  const BookingDetailsPage({
+    required this.booking,
+    this.bloc,
+    this.now,
+    super.key,
+  });
 
   final BookingSummary booking;
   final BookingDetailsBloc? bloc;
+  final DateTime? now;
 
   @override
   Widget build(BuildContext context) {
     if (bloc != null) {
       return BlocProvider<BookingDetailsBloc>.value(
         value: bloc!..add(BookingDetailsStarted(booking)),
-        child: const _BookingDetailsView(),
+        child: _BookingDetailsView(now: now ?? DateTime.now()),
       );
     }
     if (!getIt.isRegistered<BookingDetailsBloc>()) {
@@ -28,13 +35,15 @@ class BookingDetailsPage extends StatelessWidget {
     return BlocProvider<BookingDetailsBloc>(
       create: (BuildContext context) =>
           getIt<BookingDetailsBloc>()..add(BookingDetailsStarted(booking)),
-      child: const _BookingDetailsView(),
+      child: _BookingDetailsView(now: now ?? DateTime.now()),
     );
   }
 }
 
 class _BookingDetailsView extends StatelessWidget {
-  const _BookingDetailsView();
+  const _BookingDetailsView({required this.now});
+
+  final DateTime now;
 
   @override
   Widget build(BuildContext context) {
@@ -44,17 +53,35 @@ class _BookingDetailsView extends StatelessWidget {
         if (booking == null) {
           return const SizedBox.shrink();
         }
-        return _StaticDetails(booking: booking, placeName: state.placeName);
+        final bool canCancel =
+            booking.at != null &&
+            booking.at!.isAfter(now) &&
+            booking.status != 'cancelled_by_customer' &&
+            booking.status != 'cancelled_by_owner' &&
+            booking.status != 'attended' &&
+            booking.status != 'no_show' &&
+            booking.status != 'rejected' &&
+            booking.status != 'expired';
+        return _StaticDetails(
+          booking: booking,
+          placeName: state.placeName,
+          onCancel: canCancel
+              ? () => context.read<BookingDetailsBloc>().add(
+                  const BookingCancelled(),
+                )
+              : null,
+        );
       },
     );
   }
 }
 
 class _StaticDetails extends StatelessWidget {
-  const _StaticDetails({required this.booking, this.placeName});
+  const _StaticDetails({required this.booking, this.placeName, this.onCancel});
 
   final BookingSummary booking;
   final String? placeName;
+  final VoidCallback? onCancel;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +102,8 @@ class _StaticDetails extends StatelessWidget {
           if (booking.reason != null)
             Text('${l10n.bookingReason}: ${booking.reason}'),
           Text(bookingStatusLabel(l10n, booking.status)),
+          if (onCancel != null)
+            AppButton(label: l10n.cancelBooking, onPressed: onCancel),
         ],
       ),
     );

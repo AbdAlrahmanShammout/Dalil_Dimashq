@@ -90,4 +90,9 @@ class _Bookings implements BookingRepository {
   Future<Either<Failure, List<BookingSummary>>> list() async {
     return Right<Failure, List<BookingSummary>>(rows);
   }
+
+  @override
+  Future<Either<Failure, String>> cancel(int id) async {
+    throw UnimplementedError();
+  }
 }

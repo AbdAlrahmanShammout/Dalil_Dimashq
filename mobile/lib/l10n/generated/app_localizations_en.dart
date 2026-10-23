@@ -418,4 +418,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bookingReason => 'Reason';
+
+  @override
+  String get cancelBooking => 'Cancel booking';
 }

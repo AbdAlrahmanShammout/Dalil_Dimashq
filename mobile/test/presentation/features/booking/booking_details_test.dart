@@ -8,6 +8,10 @@ import 'package:dalil_dimashq/domain/entities/place_search_page.dart';
 import 'package:dalil_dimashq/domain/entities/place_search_query.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/repositories/place_repository.dart';
+import 'package:dalil_dimashq/domain/entities/booking_availability.dart';
+import 'package:dalil_dimashq/domain/entities/booking_request.dart';
+import 'package:dalil_dimashq/domain/repositories/booking_repository.dart';
+import 'package:dalil_dimashq/domain/usecase/cancel_booking_use_case.dart';
 import 'package:dalil_dimashq/domain/usecase/get_place_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_details_bloc.dart';
@@ -33,7 +37,10 @@ void main() {
         supportedLocales: AppLocalizations.supportedLocales,
         home: BookingDetailsPage(
           booking: booking.copyWithTime(DateTime.utc(2026, 10, 21, 10)),
-          bloc: BookingDetailsBloc(GetPlaceUseCase(_Places())),
+          bloc: BookingDetailsBloc(
+            GetPlaceUseCase(_Places()),
+            CancelBookingUseCase(_IdleBookings()),
+          ),
         ),
       ),
     );
@@ -59,6 +66,35 @@ extension on BookingSummary {
       reason: reason,
       reported: reported,
     );
+  }
+}
+
+class _IdleBookings implements BookingRepository {
+  @override
+  Future<Either<Failure, BookingAvailability>> availability(
+    String placeId,
+  ) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, String>> cancel(int id) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, int>> create(BookingRequest request) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, BookingSummary>> find(int id) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, List<BookingSummary>>> list() async {
+    throw UnimplementedError();
   }
 }
 

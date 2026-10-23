@@ -88,4 +88,16 @@ class BookingRepositoryImpl implements BookingRepository {
       return Left<Failure, List<BookingSummary>>(mapSupabaseException(error));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> cancel(int id) async {
+    try {
+      final dynamic raw = await _client.cancelBooking(<String, dynamic>{
+        'p_id': id,
+      });
+      return Right<Failure, String>('$raw');
+    } on DioException catch (error) {
+      return Left<Failure, String>(mapSupabaseException(error));
+    }
+  }
 }

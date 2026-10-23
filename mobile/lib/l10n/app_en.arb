@@ -133,5 +133,6 @@
   "statusAttended": "Attended",
   "statusNoShow": "No show",
   "myBookings": "My bookings",
-  "bookingReason": "Reason"
+  "bookingReason": "Reason",
+  "cancelBooking": "Cancel booking"
 }
