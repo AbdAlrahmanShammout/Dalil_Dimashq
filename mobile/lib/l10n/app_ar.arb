@@ -166,5 +166,6 @@
     "placeholders": {
       "count": {"type": "int"}
     }
-  }
+  },
+  "searchPlaces": "ابحث عن منشأة"
 }

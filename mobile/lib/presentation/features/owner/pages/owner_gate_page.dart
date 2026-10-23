@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
 import 'package:dalil_dimashq/presentation/features/owner/bloc/my_places_bloc.dart';
+import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_place_search_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/owner/bloc/premium_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/owner/widgets/my_places_view.dart';
+import 'package:dalil_dimashq/presentation/features/owner/widgets/owner_place_search.dart';
 import 'package:dalil_dimashq/presentation/features/owner/widgets/premium_status_view.dart';
 
 class OwnerGatePage extends StatelessWidget {
@@ -11,6 +13,7 @@ class OwnerGatePage extends StatelessWidget {
     required this.hasSession,
     this.places,
     this.premium,
+    this.search,
     this.now,
     super.key,
   });
@@ -18,6 +21,7 @@ class OwnerGatePage extends StatelessWidget {
   final bool hasSession;
   final MyPlacesBloc? places;
   final PremiumBloc? premium;
+  final OwnerPlaceSearchBloc? search;
   final DateTime? now;
 
   @override
@@ -33,6 +37,7 @@ class OwnerGatePage extends StatelessWidget {
       title: l10n.owner,
       body: Column(
         children: <Widget>[
+          OwnerPlaceSearch(bloc: search),
           Expanded(child: MyPlacesView(bloc: places)),
           PremiumStatusView(bloc: premium, now: now),
         ],

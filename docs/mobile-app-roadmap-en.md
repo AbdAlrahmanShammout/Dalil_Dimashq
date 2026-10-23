@@ -84,7 +84,7 @@ Errors look up `message` in `x-dalil-error-codes` first (stable code, then the s
 
 ## Task list
 
-Status: tasks 1–55 are built. Next is task 56 (delete account), after the edge function is confirmed. Explore still calls `search_places`, which the 21 Oct spec does not contain.
+Status: tasks 1–75 are built. Next is task 76. Explore still calls `search_places`, which the 21 Oct spec does not contain. Owner name search uses PostgREST `ilike` on `places.name_ar` and `places.name_en`.
 
 | # | Task | Done when |
 |---|---|---|

@@ -490,4 +490,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String pendingRequests(int count) {
     return '$count طلبات معلّقة';
   }
+
+  @override
+  String get searchPlaces => 'ابحث عن منشأة';
 }

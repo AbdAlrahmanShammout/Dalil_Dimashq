@@ -27,7 +27,7 @@ class OwnerPlaceRepositoryImpl implements OwnerPlaceRepository {
         'in.(${ids.join(',')})',
         ownedPlaceSelect,
       );
-      return Right<Failure, List<OwnedPlace>>(_places(rows));
+      return Right<Failure, List<OwnedPlace>>(mapOwnedPlaces(rows));
     } on DioException catch (error) {
       return Left<Failure, List<OwnedPlace>>(mapSupabaseException(error));
     }
@@ -43,19 +43,20 @@ class OwnerPlaceRepositoryImpl implements OwnerPlaceRepository {
     }).where((String id) => id.isNotEmpty).toList(growable: false);
   }
 
-  List<OwnedPlace> _places(dynamic raw) {
-    if (raw is! List) {
-      return const <OwnedPlace>[];
-    }
-    return raw.whereType<Map>().map((Map item) {
-      final Map<String, dynamic> json = Map<String, dynamic>.from(item);
-      return OwnedPlace(
-        id: '${json['id']}',
-        nameAr: '${json['name_ar'] ?? ''}',
-        nameEn: json['name_en'] as String?,
-        type: '${json['type'] ?? ''}',
-        address: json['address'] as String?,
-      );
-    }).toList(growable: false);
+}
+
+List<OwnedPlace> mapOwnedPlaces(dynamic raw) {
+  if (raw is! List) {
+    return const <OwnedPlace>[];
   }
+  return raw.whereType<Map>().map((Map item) {
+    final Map<String, dynamic> json = Map<String, dynamic>.from(item);
+    return OwnedPlace(
+      id: '${json['id']}',
+      nameAr: '${json['name_ar'] ?? ''}',
+      nameEn: json['name_en'] as String?,
+      type: '${json['type'] ?? ''}',
+      address: json['address'] as String?,
+    );
+  }).toList(growable: false);
 }

@@ -59,6 +59,8 @@ import 'package:dalil_dimashq/data/repository/offer_repository_impl.dart'
     as _i908;
 import 'package:dalil_dimashq/data/repository/owner_place_repository_impl.dart'
     as _i238;
+import 'package:dalil_dimashq/data/repository/place_name_search_repository_impl.dart'
+    as _i962;
 import 'package:dalil_dimashq/data/repository/place_repository_impl.dart'
     as _i401;
 import 'package:dalil_dimashq/data/repository/premium_repository_impl.dart'
@@ -93,6 +95,8 @@ import 'package:dalil_dimashq/domain/repositories/offer_repository.dart'
     as _i921;
 import 'package:dalil_dimashq/domain/repositories/owner_place_repository.dart'
     as _i266;
+import 'package:dalil_dimashq/domain/repositories/place_name_search_repository.dart'
+    as _i760;
 import 'package:dalil_dimashq/domain/repositories/place_repository.dart'
     as _i823;
 import 'package:dalil_dimashq/domain/repositories/premium_repository.dart'
@@ -163,6 +167,8 @@ import 'package:dalil_dimashq/domain/usecase/request_profile_change_use_case.dar
     as _i578;
 import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart'
     as _i399;
+import 'package:dalil_dimashq/domain/usecase/search_places_by_name_use_case.dart'
+    as _i7;
 import 'package:dalil_dimashq/domain/usecase/search_places_use_case.dart'
     as _i116;
 import 'package:dalil_dimashq/domain/usecase/send_contact_message_use_case.dart'
@@ -206,6 +212,8 @@ import 'package:dalil_dimashq/presentation/features/offers/bloc/offers_bloc.dart
     as _i367;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/my_places_bloc.dart'
     as _i478;
+import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_place_search_bloc.dart'
+    as _i589;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/premium_bloc.dart'
     as _i241;
 import 'package:dalil_dimashq/presentation/features/place/bloc/place_bloc.dart'
@@ -334,6 +342,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i218.LegalRepository>(
       () => _i126.LegalRepositoryImpl(gh<_i413.ProfileApiClient>()),
     );
+    gh.lazySingleton<_i760.PlaceNameSearchRepository>(
+      () => _i962.PlaceNameSearchRepositoryImpl(gh<_i272.OwnerApiClient>()),
+    );
     gh.lazySingleton<_i360.DirectoryRemoteDataSource>(
       () => _i360.DirectoryRemoteDataSource(gh<_i807.DirectoryApiClient>()),
     );
@@ -451,6 +462,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i901.AcceptLegalUseCase>(),
       ),
     );
+    gh.factory<_i7.SearchPlacesByNameUseCase>(
+      () =>
+          _i7.SearchPlacesByNameUseCase(gh<_i760.PlaceNameSearchRepository>()),
+    );
     gh.factory<_i1047.SignInBloc>(
       () => _i1047.SignInBloc(gh<_i873.SignInUseCase>()),
     );
@@ -537,6 +552,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i116.SearchPlacesUseCase>(),
         gh<_i80.ListAreasUseCase>(),
       ),
+    );
+    gh.factory<_i589.OwnerPlaceSearchBloc>(
+      () => _i589.OwnerPlaceSearchBloc(gh<_i7.SearchPlacesByNameUseCase>()),
     );
     gh.factory<_i481.InboxBloc>(
       () => _i481.InboxBloc(

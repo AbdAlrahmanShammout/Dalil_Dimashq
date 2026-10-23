@@ -492,4 +492,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String pendingRequests(int count) {
     return '$count pending requests';
   }
+
+  @override
+  String get searchPlaces => 'Search places';
 }

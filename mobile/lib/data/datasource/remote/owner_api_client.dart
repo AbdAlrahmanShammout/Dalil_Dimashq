@@ -16,6 +16,12 @@ abstract class OwnerApiClient {
     @Query('select') String select,
   );
 
+  @GET('/rest/v1/places')
+  Future<dynamic> placesByName(
+    @Query('or') String orFilter,
+    @Query('select') String select,
+  );
+
   @GET('/rest/v1/subscriptions')
   Future<dynamic> subscriptions(@Query('select') String select);
 
