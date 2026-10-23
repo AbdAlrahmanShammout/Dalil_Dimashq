@@ -1279,6 +1279,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Contact us to add photos with Premium.'**
   String get photoPremiumLock;
+
+  /// No description provided for @offerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer title'**
+  String get offerTitle;
+
+  /// No description provided for @offerDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer details'**
+  String get offerDetails;
+
+  /// No description provided for @createOffer.
+  ///
+  /// In en, this message translates to:
+  /// **'Create offer'**
+  String get createOffer;
+
+  /// No description provided for @stopOffer.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop offer'**
+  String get stopOffer;
+
+  /// No description provided for @deleteOffer.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete offer'**
+  String get deleteOffer;
+
+  /// No description provided for @offerSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer saved'**
+  String get offerSaved;
+
+  /// No description provided for @offerTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'An offer can run for 60 days'**
+  String get offerTooLong;
 }
 
 class _AppLocalizationsDelegate

@@ -218,5 +218,12 @@
   "setCover": "Set cover",
   "setLogo": "Set logo",
   "deletePhoto": "Delete photo",
-  "photoPremiumLock": "Contact us to add photos with Premium."
+  "photoPremiumLock": "Contact us to add photos with Premium.",
+  "offerTitle": "Offer title",
+  "offerDetails": "Offer details",
+  "createOffer": "Create offer",
+  "stopOffer": "Stop offer",
+  "deleteOffer": "Delete offer",
+  "offerSaved": "Offer saved",
+  "offerTooLong": "An offer can run for 60 days"
 }

@@ -610,4 +610,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get photoPremiumLock => 'تواصل معنا لإضافة الصور مع البريميوم.';
+
+  @override
+  String get offerTitle => 'عنوان العرض';
+
+  @override
+  String get offerDetails => 'تفاصيل العرض';
+
+  @override
+  String get createOffer => 'أنشئ العرض';
+
+  @override
+  String get stopOffer => 'أوقف العرض';
+
+  @override
+  String get deleteOffer => 'احذف العرض';
+
+  @override
+  String get offerSaved => 'تم حفظ العرض';
+
+  @override
+  String get offerTooLong => 'العرض يمكن أن يستمر 60 يوماً';
 }

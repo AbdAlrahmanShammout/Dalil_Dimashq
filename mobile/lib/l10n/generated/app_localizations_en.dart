@@ -612,4 +612,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get photoPremiumLock => 'Contact us to add photos with Premium.';
+
+  @override
+  String get offerTitle => 'Offer title';
+
+  @override
+  String get offerDetails => 'Offer details';
+
+  @override
+  String get createOffer => 'Create offer';
+
+  @override
+  String get stopOffer => 'Stop offer';
+
+  @override
+  String get deleteOffer => 'Delete offer';
+
+  @override
+  String get offerSaved => 'Offer saved';
+
+  @override
+  String get offerTooLong => 'An offer can run for 60 days';
 }

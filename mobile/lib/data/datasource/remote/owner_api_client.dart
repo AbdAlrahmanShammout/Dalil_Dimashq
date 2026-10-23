@@ -62,6 +62,18 @@ abstract class OwnerApiClient {
   @POST('/rest/v1/rpc/set_logo_photo')
   Future<void> setLogoPhoto(@Body() Map<String, dynamic> body);
 
+  @POST('/rest/v1/offers')
+  Future<void> insertOffer(@Body() Map<String, dynamic> body);
+
+  @PATCH('/rest/v1/offers')
+  Future<void> updateOffer(
+    @Query('id') String id,
+    @Body() Map<String, dynamic> body,
+  );
+
+  @DELETE('/rest/v1/offers')
+  Future<void> deleteOffer(@Query('id') String id);
+
   @DELETE('/rest/v1/photos')
   Future<void> deletePhoto(@Query('id') String id);
 

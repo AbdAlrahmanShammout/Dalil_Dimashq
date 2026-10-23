@@ -67,6 +67,8 @@ import 'package:dalil_dimashq/data/repository/owner_amenity_repository_impl.dart
     as _i257;
 import 'package:dalil_dimashq/data/repository/owner_dashboard_repository_impl.dart'
     as _i459;
+import 'package:dalil_dimashq/data/repository/owner_offer_repository_impl.dart'
+    as _i340;
 import 'package:dalil_dimashq/data/repository/owner_place_repository_impl.dart'
     as _i238;
 import 'package:dalil_dimashq/data/repository/place_claim_repository_impl.dart'
@@ -117,6 +119,8 @@ import 'package:dalil_dimashq/domain/repositories/owner_amenity_repository.dart'
     as _i531;
 import 'package:dalil_dimashq/domain/repositories/owner_dashboard_repository.dart'
     as _i996;
+import 'package:dalil_dimashq/domain/repositories/owner_offer_repository.dart'
+    as _i379;
 import 'package:dalil_dimashq/domain/repositories/owner_place_repository.dart'
     as _i266;
 import 'package:dalil_dimashq/domain/repositories/place_claim_repository.dart'
@@ -197,6 +201,8 @@ import 'package:dalil_dimashq/domain/usecase/load_profile_use_case.dart'
     as _i525;
 import 'package:dalil_dimashq/domain/usecase/load_site_contacts_use_case.dart'
     as _i430;
+import 'package:dalil_dimashq/domain/usecase/manage_owner_offer_use_case.dart'
+    as _i345;
 import 'package:dalil_dimashq/domain/usecase/manage_place_photo_use_case.dart'
     as _i206;
 import 'package:dalil_dimashq/domain/usecase/open_notification_use_case.dart'
@@ -441,6 +447,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i531.OwnerAmenityRepository>(
       () => _i257.OwnerAmenityRepositoryImpl(gh<_i272.OwnerApiClient>()),
     );
+    gh.lazySingleton<_i379.OwnerOfferRepository>(
+      () => _i340.OwnerOfferRepositoryImpl(gh<_i272.OwnerApiClient>()),
+    );
     gh.lazySingleton<_i840.PlaceHoursRepository>(
       () => _i126.PlaceHoursRepositoryImpl(gh<_i272.OwnerApiClient>()),
     );
@@ -624,6 +633,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i734.MyBookingsBloc>(
       () => _i734.MyBookingsBloc(gh<_i194.ListBookingsUseCase>()),
+    );
+    gh.factory<_i345.ManageOwnerOfferUseCase>(
+      () => _i345.ManageOwnerOfferUseCase(
+        gh<_i13.PremiumRepository>(),
+        gh<_i379.OwnerOfferRepository>(),
+      ),
     );
     gh.factory<_i970.ReviewedChangesBloc>(
       () => _i970.ReviewedChangesBloc(gh<_i837.SubmitReviewedChangesUseCase>()),

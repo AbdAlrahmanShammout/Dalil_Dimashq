@@ -218,5 +218,12 @@
   "setCover": "اجعلها غلافاً",
   "setLogo": "اجعلها شعاراً",
   "deletePhoto": "احذف الصورة",
-  "photoPremiumLock": "تواصل معنا لإضافة الصور مع البريميوم."
+  "photoPremiumLock": "تواصل معنا لإضافة الصور مع البريميوم.",
+  "offerTitle": "عنوان العرض",
+  "offerDetails": "تفاصيل العرض",
+  "createOffer": "أنشئ العرض",
+  "stopOffer": "أوقف العرض",
+  "deleteOffer": "احذف العرض",
+  "offerSaved": "تم حفظ العرض",
+  "offerTooLong": "العرض يمكن أن يستمر 60 يوماً"
 }
