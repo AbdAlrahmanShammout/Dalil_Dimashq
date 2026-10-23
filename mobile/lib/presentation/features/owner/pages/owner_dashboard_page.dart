@@ -8,6 +8,8 @@ import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
 import 'package:dalil_dimashq/presentation/features/owner/bloc/immediate_fields_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_dashboard_bloc.dart';
+import 'package:dalil_dimashq/presentation/features/owner/bloc/reviewed_changes_bloc.dart';
+import 'package:dalil_dimashq/presentation/features/owner/pages/reviewed_changes_page.dart';
 import 'package:dalil_dimashq/presentation/features/owner/pages/immediate_fields_page.dart';
 import 'package:dalil_dimashq/presentation/features/place/bloc/place_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/place/pages/place_page.dart';
@@ -65,6 +67,23 @@ class OwnerDashboardPage extends StatelessWidget {
                         builder: (BuildContext context) => ImmediateFieldsPage(
                           placeId: placeId,
                           bloc: getIt<ImmediateFieldsBloc>(),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                AppButton(
+                  key: const Key('open-reviewed-changes'),
+                  label: l10n.requestClaim,
+                  onPressed: () {
+                    if (!getIt.isRegistered<ReviewedChangesBloc>()) {
+                      return;
+                    }
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => ReviewedChangesPage(
+                          placeId: placeId,
+                          bloc: getIt<ReviewedChangesBloc>(),
                         ),
                       ),
                     );

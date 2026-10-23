@@ -553,4 +553,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get descriptionEn => 'الوصف بالإنكليزية';
+
+  @override
+  String get changesSent => 'أُرسلت التعديلات للمراجعة';
+
+  @override
+  String get tourismClass => 'التصنيف السياحي';
+
+  @override
+  String get placeType => 'النوع';
+
+  @override
+  String get placeNameAr => 'الاسم بالعربية';
+
+  @override
+  String get placeNameEn => 'الاسم بالإنكليزية';
 }

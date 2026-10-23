@@ -191,5 +191,11 @@
   "facebook": "فيسبوك",
   "instagram": "إنستغرام",
   "descriptionAr": "الوصف بالعربية",
-  "descriptionEn": "الوصف بالإنكليزية"
+  "descriptionEn": "الوصف بالإنكليزية",
+  "changesSent": "أُرسلت التعديلات للمراجعة",
+  "tourismClass": "التصنيف السياحي",
+  "placeType": "النوع",
+  "placeNameAr": "الاسم بالعربية",
+  "placeNameEn": "الاسم بالإنكليزية",
+  "address": "العنوان"
 }

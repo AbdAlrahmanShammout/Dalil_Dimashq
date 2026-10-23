@@ -1165,6 +1165,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'English description'**
   String get descriptionEn;
+
+  /// No description provided for @changesSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes sent for review'**
+  String get changesSent;
+
+  /// No description provided for @tourismClass.
+  ///
+  /// In en, this message translates to:
+  /// **'Tourism class'**
+  String get tourismClass;
+
+  /// No description provided for @placeType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get placeType;
+
+  /// No description provided for @placeNameAr.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic name'**
+  String get placeNameAr;
+
+  /// No description provided for @placeNameEn.
+  ///
+  /// In en, this message translates to:
+  /// **'English name'**
+  String get placeNameEn;
 }
 
 class _AppLocalizationsDelegate

@@ -191,5 +191,11 @@
   "facebook": "Facebook",
   "instagram": "Instagram",
   "descriptionAr": "Arabic description",
-  "descriptionEn": "English description"
+  "descriptionEn": "English description",
+  "changesSent": "Changes sent for review",
+  "tourismClass": "Tourism class",
+  "placeType": "Type",
+  "placeNameAr": "Arabic name",
+  "placeNameEn": "English name",
+  "address": "Address"
 }

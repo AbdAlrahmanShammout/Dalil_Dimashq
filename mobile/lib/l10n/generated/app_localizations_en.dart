@@ -555,4 +555,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get descriptionEn => 'English description';
+
+  @override
+  String get changesSent => 'Changes sent for review';
+
+  @override
+  String get tourismClass => 'Tourism class';
+
+  @override
+  String get placeType => 'Type';
+
+  @override
+  String get placeNameAr => 'Arabic name';
+
+  @override
+  String get placeNameEn => 'English name';
 }
