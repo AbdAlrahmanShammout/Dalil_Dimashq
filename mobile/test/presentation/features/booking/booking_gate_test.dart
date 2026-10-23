@@ -9,7 +9,9 @@ import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/repositories/booking_repository.dart';
 import 'package:dalil_dimashq/domain/repositories/session_repository.dart';
 import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart';
+import 'package:dalil_dimashq/domain/entities/booking_ban.dart';
 import 'package:dalil_dimashq/domain/usecase/load_booking_availability_use_case.dart';
+import 'package:dalil_dimashq/domain/usecase/load_booking_ban_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_gate_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/booking/widgets/book_place_button.dart';
@@ -96,6 +98,7 @@ Widget _app({
         bloc: BookingGateBloc(
           LoadBookingAvailabilityUseCase(_Availability(isAvailable)),
           HasSessionUseCase(_Session(hasSession)),
+          LoadBookingBanUseCase(_Availability(isAvailable)),
         ),
       ),
     ),
@@ -162,6 +165,11 @@ class _Availability implements BookingRepository {
     required String reply,
   }) async {
     return const Right<Failure, void>(null);
+  }
+
+  @override
+  Future<Either<Failure, BookingBan?>> activeBan(DateTime now) async {
+    return const Right<Failure, BookingBan?>(null);
   }
 }
 

@@ -5,6 +5,7 @@ import 'package:dalil_dimashq/domain/entities/user_profile.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/repositories/profile_repository.dart';
 import 'package:dalil_dimashq/domain/entities/booking_availability.dart';
+import 'package:dalil_dimashq/domain/entities/booking_ban.dart';
 import 'package:dalil_dimashq/domain/repositories/booking_repository.dart';
 import 'package:dalil_dimashq/domain/services/booking_clock.dart';
 import 'package:dalil_dimashq/domain/entities/booking_request.dart';
@@ -84,6 +85,11 @@ class _UnusedAvailability implements BookingRepository {
     required int reportId,
     required String reply,
   }) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, BookingBan?>> activeBan(DateTime now) async {
     throw UnimplementedError();
   }
 }

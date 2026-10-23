@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dalil_dimashq/domain/entities/booking_availability.dart';
+import 'package:dalil_dimashq/domain/entities/booking_ban.dart';
 import 'package:dalil_dimashq/domain/entities/booking_request.dart';
 import 'package:dalil_dimashq/domain/entities/booking_summary.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
@@ -106,6 +107,11 @@ class _Bookings implements BookingRepository {
     required int reportId,
     required String reply,
   }) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, BookingBan?>> activeBan(DateTime now) async {
     throw UnimplementedError();
   }
 }

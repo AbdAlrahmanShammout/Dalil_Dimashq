@@ -427,4 +427,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get replySent => 'Reply sent';
+
+  @override
+  String get banFifteen => 'New bookings are blocked for 15 days.';
+
+  @override
+  String get banFortyFive => 'New bookings are blocked for 45 days.';
+
+  @override
+  String get banPermanent => 'New bookings are blocked permanently.';
+
+  @override
+  String get banLadder =>
+      'The first ban is 15 days, the next is 45 days, then it is permanent.';
 }

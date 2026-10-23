@@ -136,5 +136,9 @@
   "bookingReason": "Reason",
   "cancelBooking": "Cancel booking",
   "reply": "Reply",
-  "replySent": "Reply sent"
+  "replySent": "Reply sent",
+  "banFifteen": "New bookings are blocked for 15 days.",
+  "banFortyFive": "New bookings are blocked for 45 days.",
+  "banPermanent": "New bookings are blocked permanently.",
+  "banLadder": "The first ban is 15 days, the next is 45 days, then it is permanent."
 }

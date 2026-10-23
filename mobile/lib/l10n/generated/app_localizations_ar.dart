@@ -426,4 +426,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get replySent => 'تم إرسال الرد';
+
+  @override
+  String get banFifteen => 'الحجوزات الجديدة ممنوعة لمدة 15 يوماً.';
+
+  @override
+  String get banFortyFive => 'الحجوزات الجديدة ممنوعة لمدة 45 يوماً.';
+
+  @override
+  String get banPermanent => 'الحجوزات الجديدة ممنوعة بشكل دائم.';
+
+  @override
+  String get banLadder => 'الحظر الأول 15 يوماً، ثم 45 يوماً، ثم دائم.';
 }

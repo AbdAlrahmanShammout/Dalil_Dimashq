@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dalil_dimashq/domain/entities/area.dart';
 import 'package:dalil_dimashq/domain/entities/booking_availability.dart';
+import 'package:dalil_dimashq/domain/entities/booking_ban.dart';
 import 'package:dalil_dimashq/domain/entities/booking_request.dart';
 import 'package:dalil_dimashq/domain/entities/booking_summary.dart';
 import 'package:dalil_dimashq/domain/entities/place_detail.dart';
@@ -95,6 +96,11 @@ class _Bookings implements BookingRepository {
     required String reply,
   }) async {
     return const Right<Failure, void>(null);
+  }
+
+  @override
+  Future<Either<Failure, BookingBan?>> activeBan(DateTime now) async {
+    return const Right<Failure, BookingBan?>(null);
   }
 }
 

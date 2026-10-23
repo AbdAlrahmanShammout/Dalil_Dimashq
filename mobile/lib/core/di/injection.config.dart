@@ -106,6 +106,8 @@ import 'package:dalil_dimashq/domain/usecase/list_offers_use_case.dart'
     as _i1024;
 import 'package:dalil_dimashq/domain/usecase/load_booking_availability_use_case.dart'
     as _i283;
+import 'package:dalil_dimashq/domain/usecase/load_booking_ban_use_case.dart'
+    as _i875;
 import 'package:dalil_dimashq/domain/usecase/load_booking_use_case.dart'
     as _i67;
 import 'package:dalil_dimashq/domain/usecase/load_pending_legal_use_case.dart'
@@ -289,6 +291,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i283.LoadBookingAvailabilityUseCase>(
       () => _i283.LoadBookingAvailabilityUseCase(gh<_i625.BookingRepository>()),
     );
+    gh.factory<_i875.LoadBookingBanUseCase>(
+      () => _i875.LoadBookingBanUseCase(gh<_i625.BookingRepository>()),
+    );
     gh.factory<_i67.LoadBookingUseCase>(
       () => _i67.LoadBookingUseCase(gh<_i625.BookingRepository>()),
     );
@@ -300,12 +305,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i140.LoadPendingLegalUseCase>(
       () => _i140.LoadPendingLegalUseCase(gh<_i218.LegalRepository>()),
-    );
-    gh.factory<_i384.BookingGateBloc>(
-      () => _i384.BookingGateBloc(
-        gh<_i283.LoadBookingAvailabilityUseCase>(),
-        gh<_i261.HasSessionUseCase>(),
-      ),
     );
     gh.factory<_i101.SubmitSuggestionUseCase>(
       () => _i101.SubmitSuggestionUseCase(gh<_i406.SuggestionRepository>()),
@@ -369,6 +368,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i1047.SignInBloc>(
       () => _i1047.SignInBloc(gh<_i873.SignInUseCase>()),
+    );
+    gh.factory<_i384.BookingGateBloc>(
+      () => _i384.BookingGateBloc(
+        gh<_i283.LoadBookingAvailabilityUseCase>(),
+        gh<_i261.HasSessionUseCase>(),
+        gh<_i875.LoadBookingBanUseCase>(),
+      ),
     );
     gh.factory<_i162.BookingDraftBloc>(
       () => _i162.BookingDraftBloc(

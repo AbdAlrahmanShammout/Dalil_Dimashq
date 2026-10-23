@@ -919,6 +919,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reply sent'**
   String get replySent;
+
+  /// No description provided for @banFifteen.
+  ///
+  /// In en, this message translates to:
+  /// **'New bookings are blocked for 15 days.'**
+  String get banFifteen;
+
+  /// No description provided for @banFortyFive.
+  ///
+  /// In en, this message translates to:
+  /// **'New bookings are blocked for 45 days.'**
+  String get banFortyFive;
+
+  /// No description provided for @banPermanent.
+  ///
+  /// In en, this message translates to:
+  /// **'New bookings are blocked permanently.'**
+  String get banPermanent;
+
+  /// No description provided for @banLadder.
+  ///
+  /// In en, this message translates to:
+  /// **'The first ban is 15 days, the next is 45 days, then it is permanent.'**
+  String get banLadder;
 }
 
 class _AppLocalizationsDelegate

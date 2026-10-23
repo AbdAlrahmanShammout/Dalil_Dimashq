@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dalil_dimashq/domain/entities/booking_availability.dart';
+import 'package:dalil_dimashq/domain/entities/booking_ban.dart';
 import 'package:dalil_dimashq/domain/entities/user_profile.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/repositories/booking_repository.dart';
@@ -162,5 +163,10 @@ class _Availability implements BookingRepository {
     required String reply,
   }) async {
     return const Right<Failure, void>(null);
+  }
+
+  @override
+  Future<Either<Failure, BookingBan?>> activeBan(DateTime now) async {
+    return const Right<Failure, BookingBan?>(null);
   }
 }

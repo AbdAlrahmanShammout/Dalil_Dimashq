@@ -9,6 +9,7 @@ import 'package:dalil_dimashq/domain/entities/place_search_query.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/repositories/place_repository.dart';
 import 'package:dalil_dimashq/domain/entities/booking_availability.dart';
+import 'package:dalil_dimashq/domain/entities/booking_ban.dart';
 import 'package:dalil_dimashq/domain/entities/booking_request.dart';
 import 'package:dalil_dimashq/domain/repositories/booking_repository.dart';
 import 'package:dalil_dimashq/domain/usecase/cancel_booking_use_case.dart';
@@ -109,6 +110,11 @@ class _IdleBookings implements BookingRepository {
     required int reportId,
     required String reply,
   }) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, BookingBan?>> activeBan(DateTime now) async {
     throw UnimplementedError();
   }
 }

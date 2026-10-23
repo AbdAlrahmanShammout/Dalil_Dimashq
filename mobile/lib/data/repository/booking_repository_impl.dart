@@ -6,6 +6,7 @@ import 'package:dalil_dimashq/data/datasource/remote/booking_api_client.dart';
 import 'package:dalil_dimashq/data/dto/booking_availability_dto.dart';
 import 'package:dalil_dimashq/data/dto/booking_summary_dto.dart';
 import 'package:dalil_dimashq/domain/entities/booking_availability.dart';
+import 'package:dalil_dimashq/domain/entities/booking_ban.dart';
 import 'package:dalil_dimashq/domain/entities/booking_request.dart';
 import 'package:dalil_dimashq/domain/entities/booking_summary.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
@@ -136,6 +137,38 @@ class BookingRepositoryImpl implements BookingRepository {
       return const Right<Failure, void>(null);
     } on DioException catch (error) {
       return Left<Failure, void>(mapSupabaseException(error));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BookingBan?>> activeBan(DateTime now) async {
+    try {
+      final dynamic raw = await _client.bookingBans(
+        'is.null',
+        'id,level,starts_at,ends_at,lifted_at',
+      );
+      if (raw is! List) {
+        return const Right<Failure, BookingBan?>(null);
+      }
+      for (final dynamic item in raw) {
+        if (item is! Map) {
+          continue;
+        }
+        final Map<String, dynamic> json = Map<String, dynamic>.from(item);
+        final DateTime? endsAt = DateTime.tryParse('${json['ends_at'] ?? ''}');
+        if (endsAt != null && !endsAt.isAfter(now)) {
+          continue;
+        }
+        final int level = json['level'] is int
+            ? json['level'] as int
+            : int.tryParse('${json['level']}') ?? 1;
+        return Right<Failure, BookingBan?>(
+          BookingBan(level: level, endsAt: endsAt),
+        );
+      }
+      return const Right<Failure, BookingBan?>(null);
+    } on DioException catch (error) {
+      return Left<Failure, BookingBan?>(mapSupabaseException(error));
     }
   }
 }

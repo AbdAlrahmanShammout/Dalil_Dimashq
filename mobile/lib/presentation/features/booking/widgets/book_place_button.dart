@@ -4,6 +4,7 @@ import 'package:dalil_dimashq/core/di/injection.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
 import 'package:dalil_dimashq/presentation/features/auth/pages/sign_in_page.dart';
+import 'package:dalil_dimashq/domain/entities/booking_ban.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_gate_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/booking/pages/booking_draft_page.dart';
 
@@ -49,6 +50,12 @@ class _BookControl extends StatelessWidget {
     final AppLocalizations l10n = AppLocalizations.of(context);
     return BlocBuilder<BookingGateBloc, BookingGateState>(
       builder: (BuildContext context, BookingGateState state) {
+        if (state.ban != null) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(_banText(l10n, state.ban!), key: const Key('booking-ban')),
+          );
+        }
         if (!state.canBook) {
           return const SizedBox.shrink();
         }
@@ -61,6 +68,15 @@ class _BookControl extends StatelessWidget {
         );
       },
     );
+  }
+
+  String _banText(AppLocalizations l10n, BookingBan ban) {
+    final String current = ban.isPermanent
+        ? l10n.banPermanent
+        : ban.isFortyFiveDays
+        ? l10n.banFortyFive
+        : l10n.banFifteen;
+    return '$current ${l10n.banLadder}';
   }
 
   void _open(BuildContext context, BookingGateState state) {
