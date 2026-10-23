@@ -67,6 +67,8 @@ import 'package:dalil_dimashq/data/repository/place_claim_repository_impl.dart'
     as _i404;
 import 'package:dalil_dimashq/data/repository/place_edit_repository_impl.dart'
     as _i547;
+import 'package:dalil_dimashq/data/repository/place_hours_repository_impl.dart'
+    as _i126;
 import 'package:dalil_dimashq/data/repository/place_name_search_repository_impl.dart'
     as _i962;
 import 'package:dalil_dimashq/data/repository/place_repository_impl.dart'
@@ -111,6 +113,8 @@ import 'package:dalil_dimashq/domain/repositories/place_claim_repository.dart'
     as _i158;
 import 'package:dalil_dimashq/domain/repositories/place_edit_repository.dart'
     as _i188;
+import 'package:dalil_dimashq/domain/repositories/place_hours_repository.dart'
+    as _i840;
 import 'package:dalil_dimashq/domain/repositories/place_name_search_repository.dart'
     as _i760;
 import 'package:dalil_dimashq/domain/repositories/place_repository.dart'
@@ -169,6 +173,8 @@ import 'package:dalil_dimashq/domain/usecase/load_owner_dashboard_use_case.dart'
     as _i506;
 import 'package:dalil_dimashq/domain/usecase/load_pending_legal_use_case.dart'
     as _i140;
+import 'package:dalil_dimashq/domain/usecase/load_place_hours_use_case.dart'
+    as _i931;
 import 'package:dalil_dimashq/domain/usecase/load_premium_use_case.dart'
     as _i712;
 import 'package:dalil_dimashq/domain/usecase/load_profile_use_case.dart'
@@ -250,6 +256,8 @@ import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_dashboard_b
     as _i635;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_place_search_bloc.dart'
     as _i589;
+import 'package:dalil_dimashq/presentation/features/owner/bloc/place_hours_bloc.dart'
+    as _i399;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/premium_bloc.dart'
     as _i241;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/reviewed_changes_bloc.dart'
@@ -385,6 +393,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i13.PremiumRepository>(
       () => _i234.PremiumRepositoryImpl(gh<_i272.OwnerApiClient>()),
     );
+    gh.lazySingleton<_i840.PlaceHoursRepository>(
+      () => _i126.PlaceHoursRepositoryImpl(gh<_i272.OwnerApiClient>()),
+    );
     gh.lazySingleton<_i625.BookingRepository>(
       () => _i88.BookingRepositoryImpl(gh<_i990.BookingApiClient>()),
     );
@@ -399,6 +410,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i360.DirectoryRemoteDataSource>(
       () => _i360.DirectoryRemoteDataSource(gh<_i807.DirectoryApiClient>()),
+    );
+    gh.factory<_i931.LoadPlaceHoursUseCase>(
+      () => _i931.LoadPlaceHoursUseCase(gh<_i840.PlaceHoursRepository>()),
     );
     gh.lazySingleton<_i539.ProfileRepository>(
       () => _i352.ProfileRepositoryImpl(gh<_i413.ProfileApiClient>()),
@@ -564,6 +578,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i630.CreateBookingUseCase>(),
         gh<_i67.LoadBookingUseCase>(),
       ),
+    );
+    gh.factory<_i399.PlaceHoursBloc>(
+      () => _i399.PlaceHoursBloc(gh<_i931.LoadPlaceHoursUseCase>()),
     );
     gh.factory<_i974.SaveImmediateFieldsUseCase>(
       () => _i974.SaveImmediateFieldsUseCase(

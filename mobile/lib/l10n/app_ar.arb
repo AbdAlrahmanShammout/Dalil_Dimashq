@@ -201,5 +201,13 @@
   "requestPending": "قيد المراجعة",
   "requestAccepted": "مقبول",
   "requestRejected": "مرفوض",
-  "decisionNote": "ملاحظة القرار"
+  "decisionNote": "ملاحظة القرار",
+  "sunday": "الأحد",
+  "monday": "الاثنين",
+  "tuesday": "الثلاثاء",
+  "wednesday": "الأربعاء",
+  "thursday": "الخميس",
+  "friday": "الجمعة",
+  "saturday": "السبت",
+  "addPeriod": "أضف ساعات"
 }

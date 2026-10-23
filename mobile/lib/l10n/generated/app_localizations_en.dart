@@ -582,4 +582,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get decisionNote => 'Decision note';
+
+  @override
+  String get addPeriod => 'Add hours';
 }

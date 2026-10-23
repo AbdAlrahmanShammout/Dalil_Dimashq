@@ -152,7 +152,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get sunday => 'الأحد';
 
   @override
-  String get monday => 'الإثنين';
+  String get monday => 'الاثنين';
 
   @override
   String get tuesday => 'الثلاثاء';
@@ -580,4 +580,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get decisionNote => 'ملاحظة القرار';
+
+  @override
+  String get addPeriod => 'أضف ساعات';
 }

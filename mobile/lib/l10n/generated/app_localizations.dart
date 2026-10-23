@@ -1219,6 +1219,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Decision note'**
   String get decisionNote;
+
+  /// No description provided for @addPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Add hours'**
+  String get addPeriod;
 }
 
 class _AppLocalizationsDelegate

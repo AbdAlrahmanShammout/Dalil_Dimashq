@@ -44,6 +44,12 @@ abstract class OwnerApiClient {
   @POST('/rest/v1/change_requests')
   Future<void> insertChangeRequest(@Body() Map<String, dynamic> body);
 
+  @GET('/rest/v1/place_hours')
+  Future<dynamic> placeHours(
+    @Query('place_id') String placeId,
+    @Query('select') String select,
+  );
+
   @PATCH('/rest/v1/places')
   Future<void> updatePlace(
     @Query('id') String id,

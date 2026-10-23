@@ -201,5 +201,13 @@
   "requestPending": "Pending",
   "requestAccepted": "Accepted",
   "requestRejected": "Rejected",
-  "decisionNote": "Decision note"
+  "decisionNote": "Decision note",
+  "sunday": "Sunday",
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  "saturday": "Saturday",
+  "addPeriod": "Add hours"
 }
