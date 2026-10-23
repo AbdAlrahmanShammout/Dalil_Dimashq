@@ -64,6 +64,17 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, void>> signOut() async {
+    try {
+      await _client.logout();
+      await _tokenStorage.clearToken();
+      return const Right<Failure, void>(null);
+    } on DioException catch (error) {
+      return Left<Failure, void>(mapAuthException(error));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> recoverPassword(String email) async {
     try {
       await _client.recover(<String, dynamic>{'email': email.trim()});

@@ -83,6 +83,11 @@ class _RecordingAuth implements AuthRepository {
   Future<Either<Failure, void>> deleteAccount() async {
     return const Right<Failure, void>(null);
   }
+
+  @override
+  Future<Either<Failure, void>> signOut() async {
+    return const Right<Failure, void>(null);
+  }
 }
 
 class _UnconfirmedAuth implements AuthRepository {
@@ -105,6 +110,11 @@ class _UnconfirmedAuth implements AuthRepository {
 
   @override
   Future<Either<Failure, void>> deleteAccount() async {
+    return const Right<Failure, void>(null);
+  }
+
+  @override
+  Future<Either<Failure, void>> signOut() async {
     return const Right<Failure, void>(null);
   }
 }

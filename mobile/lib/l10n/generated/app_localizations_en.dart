@@ -325,4 +325,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountDeleted => 'Account deleted';
+
+  @override
+  String get signOut => 'Sign out';
 }

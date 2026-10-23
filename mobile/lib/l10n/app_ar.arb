@@ -102,5 +102,6 @@
   "whatsapp": "واتساب",
   "contactChannels": "التواصل",
   "deleteAccount": "حذف الحساب",
-  "accountDeleted": "تم حذف الحساب"
+  "accountDeleted": "تم حذف الحساب",
+  "signOut": "تسجيل الخروج"
 }

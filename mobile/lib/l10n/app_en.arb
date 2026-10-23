@@ -102,5 +102,6 @@
   "whatsapp": "WhatsApp",
   "contactChannels": "Contact",
   "deleteAccount": "Delete account",
-  "accountDeleted": "Account deleted"
+  "accountDeleted": "Account deleted",
+  "signOut": "Sign out"
 }

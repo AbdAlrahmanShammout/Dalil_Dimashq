@@ -11,6 +11,7 @@ import 'package:dalil_dimashq/presentation/features/legal/pages/legal_page.dart'
 import 'package:dalil_dimashq/presentation/features/settings/pages/privacy_policy_page.dart';
 import 'package:dalil_dimashq/presentation/features/settings/widgets/delete_account_button.dart';
 import 'package:dalil_dimashq/presentation/features/settings/widgets/notifications_toggle.dart';
+import 'package:dalil_dimashq/presentation/features/settings/widgets/sign_out_button.dart';
 import 'package:dalil_dimashq/presentation/features/settings/widgets/site_contact_shortcuts.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -50,6 +51,7 @@ class SettingsPage extends StatelessWidget {
               ),
               NotificationsToggle(repository: notifications),
               const DeleteAccountButton(),
+              const SignOutButton(),
               SiteContactShortcuts(),
               const SizedBox(height: 12),
               AppButton(

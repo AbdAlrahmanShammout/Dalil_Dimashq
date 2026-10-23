@@ -64,6 +64,11 @@ class _MemoryAuth implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, void>> signOut() async {
+    return const Right<Failure, void>(null);
+  }
+
+  @override
   Future<Either<Failure, void>> recoverPassword(String email) async {
     return const Right<Failure, void>(null);
   }
@@ -82,6 +87,9 @@ class _MemoryAuth implements AuthRepository {
 class _DeletingClient implements AuthApiClient {
   @override
   Future<dynamic> deleteAccount() async {}
+
+  @override
+  Future<void> logout() async {}
 
   @override
   Future<void> recover(Map<String, dynamic> body) async {}

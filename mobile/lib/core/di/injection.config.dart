@@ -96,6 +96,7 @@ import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart'
 import 'package:dalil_dimashq/domain/usecase/search_places_use_case.dart'
     as _i116;
 import 'package:dalil_dimashq/domain/usecase/sign_in_use_case.dart' as _i873;
+import 'package:dalil_dimashq/domain/usecase/sign_out_use_case.dart' as _i334;
 import 'package:dalil_dimashq/domain/usecase/sign_up_use_case.dart' as _i62;
 import 'package:dalil_dimashq/domain/usecase/update_profile_phone_use_case.dart'
     as _i544;
@@ -125,6 +126,8 @@ import 'package:dalil_dimashq/presentation/features/profile/bloc/profile_bloc.da
     as _i700;
 import 'package:dalil_dimashq/presentation/features/settings/bloc/delete_account_bloc.dart'
     as _i391;
+import 'package:dalil_dimashq/presentation/features/settings/bloc/sign_out_bloc.dart'
+    as _i60;
 import 'package:dalil_dimashq/presentation/features/settings/bloc/site_contacts_bloc.dart'
     as _i879;
 import 'package:dio/dio.dart' as _i361;
@@ -219,6 +222,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i873.SignInUseCase>(
       () => _i873.SignInUseCase(gh<_i242.AuthRepository>()),
     );
+    gh.factory<_i334.SignOutUseCase>(
+      () => _i334.SignOutUseCase(gh<_i242.AuthRepository>()),
+    );
     gh.factory<_i62.SignUpUseCase>(
       () => _i62.SignUpUseCase(gh<_i242.AuthRepository>()),
     );
@@ -276,6 +282,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i489.PlaceBloc>(
       () => _i489.PlaceBloc(gh<_i654.GetPlaceUseCase>()),
+    );
+    gh.factory<_i60.SignOutBloc>(
+      () => _i60.SignOutBloc(gh<_i334.SignOutUseCase>()),
     );
     gh.factory<_i460.ListEventsUseCase>(
       () => _i460.ListEventsUseCase(gh<_i203.EventRepository>()),

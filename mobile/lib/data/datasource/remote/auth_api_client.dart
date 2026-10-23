@@ -22,4 +22,7 @@ abstract class AuthApiClient {
 
   @POST('/functions/v1/delete-account')
   Future<dynamic> deleteAccount();
+
+  @POST('/auth/v1/logout')
+  Future<void> logout();
 }
