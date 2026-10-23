@@ -570,4 +570,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get placeNameEn => 'English name';
+
+  @override
+  String get requestPending => 'Pending';
+
+  @override
+  String get requestAccepted => 'Accepted';
+
+  @override
+  String get requestRejected => 'Rejected';
+
+  @override
+  String get decisionNote => 'Decision note';
 }

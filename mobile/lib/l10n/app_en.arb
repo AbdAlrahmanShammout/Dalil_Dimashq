@@ -197,5 +197,9 @@
   "placeType": "Type",
   "placeNameAr": "Arabic name",
   "placeNameEn": "English name",
-  "address": "Address"
+  "address": "Address",
+  "requestPending": "Pending",
+  "requestAccepted": "Accepted",
+  "requestRejected": "Rejected",
+  "decisionNote": "Decision note"
 }

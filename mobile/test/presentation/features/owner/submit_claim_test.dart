@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:dalil_dimashq/domain/entities/place_change_request.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/repositories/change_request_repository.dart';
 import 'package:dalil_dimashq/domain/repositories/place_claim_repository.dart';
@@ -39,6 +40,13 @@ void main() {
 class _Requests implements ChangeRequestRepository {
   String? kind;
   Map<String, dynamic>? changes;
+
+  @override
+  Future<Either<Failure, List<PlaceChangeRequest>>> list(String placeId) async {
+    return const Right<Failure, List<PlaceChangeRequest>>(
+      <PlaceChangeRequest>[],
+    );
+  }
 
   @override
   Future<Either<Failure, void>> submit({

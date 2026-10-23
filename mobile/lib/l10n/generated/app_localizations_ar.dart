@@ -568,4 +568,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get placeNameEn => 'الاسم بالإنكليزية';
+
+  @override
+  String get requestPending => 'قيد المراجعة';
+
+  @override
+  String get requestAccepted => 'مقبول';
+
+  @override
+  String get requestRejected => 'مرفوض';
+
+  @override
+  String get decisionNote => 'ملاحظة القرار';
 }

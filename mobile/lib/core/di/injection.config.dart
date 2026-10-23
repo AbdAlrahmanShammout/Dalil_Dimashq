@@ -149,6 +149,8 @@ import 'package:dalil_dimashq/domain/usecase/has_session_use_case.dart'
 import 'package:dalil_dimashq/domain/usecase/list_areas_use_case.dart' as _i80;
 import 'package:dalil_dimashq/domain/usecase/list_bookings_use_case.dart'
     as _i194;
+import 'package:dalil_dimashq/domain/usecase/list_change_requests_use_case.dart'
+    as _i122;
 import 'package:dalil_dimashq/domain/usecase/list_events_use_case.dart'
     as _i460;
 import 'package:dalil_dimashq/domain/usecase/list_notifications_use_case.dart'
@@ -242,6 +244,8 @@ import 'package:dalil_dimashq/presentation/features/owner/bloc/immediate_fields_
     as _i1066;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/my_places_bloc.dart'
     as _i478;
+import 'package:dalil_dimashq/presentation/features/owner/bloc/my_requests_bloc.dart'
+    as _i609;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_dashboard_bloc.dart'
     as _i635;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_place_search_bloc.dart'
@@ -444,6 +448,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i944.TokenStorage>(),
       ),
     );
+    gh.factory<_i122.ListChangeRequestsUseCase>(
+      () =>
+          _i122.ListChangeRequestsUseCase(gh<_i390.ChangeRequestRepository>()),
+    );
     gh.factory<_i637.SubmitClaimUseCase>(
       () => _i637.SubmitClaimUseCase(gh<_i390.ChangeRequestRepository>()),
     );
@@ -591,6 +599,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i635.OwnerDashboardBloc>(
       () => _i635.OwnerDashboardBloc(gh<_i506.LoadOwnerDashboardUseCase>()),
+    );
+    gh.factory<_i609.MyRequestsBloc>(
+      () => _i609.MyRequestsBloc(gh<_i122.ListChangeRequestsUseCase>()),
     );
     gh.factory<_i889.RegisterDeviceUseCase>(
       () => _i889.RegisterDeviceUseCase(

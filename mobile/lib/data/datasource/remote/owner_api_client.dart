@@ -31,6 +31,13 @@ abstract class OwnerApiClient {
     @Query('select') String select,
   );
 
+  @GET('/rest/v1/change_requests')
+  Future<dynamic> placeChangeRequests(
+    @Query('place_id') String placeId,
+    @Query('select') String select,
+    @Query('order') String order,
+  );
+
   @POST('/rest/v1/rpc/claim_with_code')
   Future<dynamic> claimWithCode(@Body() Map<String, dynamic> body);
 

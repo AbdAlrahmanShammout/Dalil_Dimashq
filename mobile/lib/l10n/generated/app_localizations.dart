@@ -1195,6 +1195,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'English name'**
   String get placeNameEn;
+
+  /// No description provided for @requestPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get requestPending;
+
+  /// No description provided for @requestAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get requestAccepted;
+
+  /// No description provided for @requestRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get requestRejected;
+
+  /// No description provided for @decisionNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Decision note'**
+  String get decisionNote;
 }
 
 class _AppLocalizationsDelegate
