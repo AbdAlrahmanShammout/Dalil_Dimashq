@@ -118,5 +118,7 @@
   "suggestion": "اقتراح",
   "optionalPlace": "المنشأة (اختياري)",
   "suggestionKindPending": "أنواع الاقتراح لم تتأكد بعد",
-  "book": "احجز"
+  "book": "احجز",
+  "date": "التاريخ",
+  "time": "الوقت"
 }

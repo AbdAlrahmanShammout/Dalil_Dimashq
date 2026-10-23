@@ -4,6 +4,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:dalil_dimashq/domain/entities/user_profile.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/repositories/profile_repository.dart';
+import 'package:dalil_dimashq/domain/entities/booking_availability.dart';
+import 'package:dalil_dimashq/domain/repositories/booking_repository.dart';
+import 'package:dalil_dimashq/domain/services/booking_clock.dart';
+import 'package:dalil_dimashq/domain/usecase/load_booking_availability_use_case.dart';
 import 'package:dalil_dimashq/domain/usecase/load_profile_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_bloc.dart';
@@ -22,7 +26,11 @@ void main() {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: BookingDraftPage(
-          bloc: BookingDraftBloc(LoadProfileUseCase(repository)),
+          bloc: BookingDraftBloc(
+            LoadProfileUseCase(repository),
+            LoadBookingAvailabilityUseCase(_UnusedAvailability()),
+            BookingClock(),
+          ),
         ),
       ),
     );
@@ -30,6 +38,15 @@ void main() {
     expect(find.text('Nour'), findsOneWidget);
     expect(find.text('0999000000'), findsOneWidget);
   });
+}
+
+class _UnusedAvailability implements BookingRepository {
+  @override
+  Future<Either<Failure, BookingAvailability>> availability(
+    String placeId,
+  ) async {
+    throw UnimplementedError();
+  }
 }
 
 class _StoredProfile implements ProfileRepository {

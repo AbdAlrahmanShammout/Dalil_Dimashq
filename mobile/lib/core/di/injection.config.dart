@@ -81,6 +81,7 @@ import 'package:dalil_dimashq/domain/repositories/site_contact_repository.dart'
     as _i1018;
 import 'package:dalil_dimashq/domain/repositories/suggestion_repository.dart'
     as _i406;
+import 'package:dalil_dimashq/domain/services/booking_clock.dart' as _i183;
 import 'package:dalil_dimashq/domain/services/device_location.dart' as _i845;
 import 'package:dalil_dimashq/domain/services/place_links.dart' as _i820;
 import 'package:dalil_dimashq/domain/usecase/accept_legal_use_case.dart'
@@ -180,6 +181,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i693.ContactApiClient>(
       () => registerModule.contactApiClient(),
     );
+    gh.lazySingleton<_i183.BookingClock>(() => _i183.BookingClock());
     gh.lazySingleton<_i100.NotificationPreferenceRepository>(
       () => _i390.NotificationPreferenceRepositoryImpl(
         gh<_i460.SharedPreferences>(),
@@ -361,6 +363,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i60.SignOutBloc>(
       () => _i60.SignOutBloc(gh<_i334.SignOutUseCase>()),
     );
+    gh.factory<_i162.BookingDraftBloc>(
+      () => _i162.BookingDraftBloc(
+        gh<_i525.LoadProfileUseCase>(),
+        gh<_i283.LoadBookingAvailabilityUseCase>(),
+        gh<_i183.BookingClock>(),
+      ),
+    );
     gh.factory<_i460.ListEventsUseCase>(
       () => _i460.ListEventsUseCase(gh<_i203.EventRepository>()),
     );
@@ -372,9 +381,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i199.RecoveryBloc>(
       () => _i199.RecoveryBloc(gh<_i244.RecoverPasswordUseCase>()),
-    );
-    gh.factory<_i162.BookingDraftBloc>(
-      () => _i162.BookingDraftBloc(gh<_i525.LoadProfileUseCase>()),
     );
     gh.factory<_i700.ProfileBloc>(
       () => _i700.ProfileBloc(

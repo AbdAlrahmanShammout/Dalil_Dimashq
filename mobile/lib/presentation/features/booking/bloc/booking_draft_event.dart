@@ -7,3 +7,15 @@ class BookingDraftStarted extends BookingDraftEvent {
 
   final String? placeId;
 }
+
+class BookingDateSelected extends BookingDraftEvent {
+  const BookingDateSelected(this.date);
+
+  final DateTime date;
+}
+
+class BookingTimeSelected extends BookingDraftEvent {
+  const BookingTimeSelected(this.time);
+
+  final DateTime time;
+}

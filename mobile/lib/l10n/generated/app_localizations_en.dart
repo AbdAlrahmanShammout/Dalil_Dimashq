@@ -373,4 +373,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get book => 'Book';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get time => 'Time';
 }

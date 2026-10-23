@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dalil_dimashq/core/di/injection.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
+import 'package:dalil_dimashq/domain/services/booking_slots.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_event.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_state.dart';
@@ -77,6 +78,52 @@ class _BookingDraftFormState extends State<_BookingDraftForm> {
                   controller: _phone,
                   decoration: InputDecoration(labelText: l10n.phone),
                 ),
+                if (state.dates.isNotEmpty)
+                  Text(l10n.date),
+                if (state.dates.isNotEmpty)
+                  DropdownButton<DateTime>(
+                    key: const Key('booking-date'),
+                    value: state.selectedDate,
+                    items: state.dates
+                        .map(
+                          (DateTime date) => DropdownMenuItem<DateTime>(
+                            value: date,
+                            child: Text(formatDamascusDate(date)),
+                          ),
+                        )
+                        .toList(growable: false),
+                    onChanged: (DateTime? date) {
+                      if (date == null) {
+                        return;
+                      }
+                      context.read<BookingDraftBloc>().add(
+                        BookingDateSelected(date),
+                      );
+                    },
+                  ),
+                if (state.times.isNotEmpty)
+                  Text(l10n.time),
+                if (state.times.isNotEmpty)
+                  DropdownButton<DateTime>(
+                    key: const Key('booking-time'),
+                    value: state.selectedTime,
+                    items: state.times
+                        .map(
+                          (DateTime time) => DropdownMenuItem<DateTime>(
+                            value: time,
+                            child: Text(formatDamascusTime(time)),
+                          ),
+                        )
+                        .toList(growable: false),
+                    onChanged: (DateTime? time) {
+                      if (time == null) {
+                        return;
+                      }
+                      context.read<BookingDraftBloc>().add(
+                        BookingTimeSelected(time),
+                      );
+                    },
+                  ),
               ],
             );
           },

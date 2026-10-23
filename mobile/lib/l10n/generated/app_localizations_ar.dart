@@ -372,4 +372,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get book => 'احجز';
+
+  @override
+  String get date => 'التاريخ';
+
+  @override
+  String get time => 'الوقت';
 }

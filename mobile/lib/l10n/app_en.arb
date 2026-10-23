@@ -118,5 +118,7 @@
   "suggestion": "Suggestion",
   "optionalPlace": "Place (optional)",
   "suggestionKindPending": "Suggestion types are not confirmed yet",
-  "book": "Book"
+  "book": "Book",
+  "date": "Date",
+  "time": "Time"
 }
