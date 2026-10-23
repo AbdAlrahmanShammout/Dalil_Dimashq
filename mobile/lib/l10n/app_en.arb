@@ -140,5 +140,19 @@
   "banFifteen": "New bookings are blocked for 15 days.",
   "banFortyFive": "New bookings are blocked for 45 days.",
   "banPermanent": "New bookings are blocked permanently.",
-  "banLadder": "The first ban is 15 days, the next is 45 days, then it is permanent."
+  "banLadder": "The first ban is 15 days, the next is 45 days, then it is permanent.",
+  "inbox": "Inbox",
+  "unread": "Unread",
+  "noticeBookingNew": "New booking",
+  "noticeClockStarted": "Reply window started",
+  "noticeConfirmed": "Booking confirmed",
+  "noticeRejected": "Booking rejected",
+  "noticeExpired": "Booking expired",
+  "noticeCancelledByCustomer": "Booking cancelled by the visitor",
+  "noticeCancelledByOwner": "Booking cancelled by the place",
+  "noticeFakeReported": "Booking reported",
+  "noticeFakeReportNew": "New fake-booking report",
+  "noticeFakeReportDecided": "Report decided",
+  "noticeBanStarted": "Booking ban started",
+  "noticeBanLifted": "Booking ban lifted"
 }

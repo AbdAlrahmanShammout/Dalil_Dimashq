@@ -438,4 +438,46 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get banLadder => 'الحظر الأول 15 يوماً، ثم 45 يوماً، ثم دائم.';
+
+  @override
+  String get inbox => 'الإشعارات';
+
+  @override
+  String get unread => 'غير مقروء';
+
+  @override
+  String get noticeBookingNew => 'حجز جديد';
+
+  @override
+  String get noticeClockStarted => 'بدأت مهلة الرد';
+
+  @override
+  String get noticeConfirmed => 'تم تأكيد الحجز';
+
+  @override
+  String get noticeRejected => 'تم رفض الحجز';
+
+  @override
+  String get noticeExpired => 'انتهت مهلة الحجز';
+
+  @override
+  String get noticeCancelledByCustomer => 'ألغى الزائر الحجز';
+
+  @override
+  String get noticeCancelledByOwner => 'ألغت المنشأة الحجز';
+
+  @override
+  String get noticeFakeReported => 'تم الإبلاغ عن الحجز';
+
+  @override
+  String get noticeFakeReportNew => 'بلاغ حجز وهمي جديد';
+
+  @override
+  String get noticeFakeReportDecided => 'تم البت في البلاغ';
+
+  @override
+  String get noticeBanStarted => 'بدأ حظر الحجوزات';
+
+  @override
+  String get noticeBanLifted => 'رُفع حظر الحجوزات';
 }

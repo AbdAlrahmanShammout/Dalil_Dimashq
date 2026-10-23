@@ -140,5 +140,19 @@
   "banFifteen": "الحجوزات الجديدة ممنوعة لمدة 15 يوماً.",
   "banFortyFive": "الحجوزات الجديدة ممنوعة لمدة 45 يوماً.",
   "banPermanent": "الحجوزات الجديدة ممنوعة بشكل دائم.",
-  "banLadder": "الحظر الأول 15 يوماً، ثم 45 يوماً، ثم دائم."
+  "banLadder": "الحظر الأول 15 يوماً، ثم 45 يوماً، ثم دائم.",
+  "inbox": "الإشعارات",
+  "unread": "غير مقروء",
+  "noticeBookingNew": "حجز جديد",
+  "noticeClockStarted": "بدأت مهلة الرد",
+  "noticeConfirmed": "تم تأكيد الحجز",
+  "noticeRejected": "تم رفض الحجز",
+  "noticeExpired": "انتهت مهلة الحجز",
+  "noticeCancelledByCustomer": "ألغى الزائر الحجز",
+  "noticeCancelledByOwner": "ألغت المنشأة الحجز",
+  "noticeFakeReported": "تم الإبلاغ عن الحجز",
+  "noticeFakeReportNew": "بلاغ حجز وهمي جديد",
+  "noticeFakeReportDecided": "تم البت في البلاغ",
+  "noticeBanStarted": "بدأ حظر الحجوزات",
+  "noticeBanLifted": "رُفع حظر الحجوزات"
 }

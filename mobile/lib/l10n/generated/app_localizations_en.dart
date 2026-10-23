@@ -440,4 +440,46 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get banLadder =>
       'The first ban is 15 days, the next is 45 days, then it is permanent.';
+
+  @override
+  String get inbox => 'Inbox';
+
+  @override
+  String get unread => 'Unread';
+
+  @override
+  String get noticeBookingNew => 'New booking';
+
+  @override
+  String get noticeClockStarted => 'Reply window started';
+
+  @override
+  String get noticeConfirmed => 'Booking confirmed';
+
+  @override
+  String get noticeRejected => 'Booking rejected';
+
+  @override
+  String get noticeExpired => 'Booking expired';
+
+  @override
+  String get noticeCancelledByCustomer => 'Booking cancelled by the visitor';
+
+  @override
+  String get noticeCancelledByOwner => 'Booking cancelled by the place';
+
+  @override
+  String get noticeFakeReported => 'Booking reported';
+
+  @override
+  String get noticeFakeReportNew => 'New fake-booking report';
+
+  @override
+  String get noticeFakeReportDecided => 'Report decided';
+
+  @override
+  String get noticeBanStarted => 'Booking ban started';
+
+  @override
+  String get noticeBanLifted => 'Booking ban lifted';
 }

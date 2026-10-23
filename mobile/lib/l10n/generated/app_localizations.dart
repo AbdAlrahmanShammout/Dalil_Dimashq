@@ -943,6 +943,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The first ban is 15 days, the next is 45 days, then it is permanent.'**
   String get banLadder;
+
+  /// No description provided for @inbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Inbox'**
+  String get inbox;
+
+  /// No description provided for @unread.
+  ///
+  /// In en, this message translates to:
+  /// **'Unread'**
+  String get unread;
+
+  /// No description provided for @noticeBookingNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New booking'**
+  String get noticeBookingNew;
+
+  /// No description provided for @noticeClockStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply window started'**
+  String get noticeClockStarted;
+
+  /// No description provided for @noticeConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking confirmed'**
+  String get noticeConfirmed;
+
+  /// No description provided for @noticeRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking rejected'**
+  String get noticeRejected;
+
+  /// No description provided for @noticeExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking expired'**
+  String get noticeExpired;
+
+  /// No description provided for @noticeCancelledByCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking cancelled by the visitor'**
+  String get noticeCancelledByCustomer;
+
+  /// No description provided for @noticeCancelledByOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking cancelled by the place'**
+  String get noticeCancelledByOwner;
+
+  /// No description provided for @noticeFakeReported.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking reported'**
+  String get noticeFakeReported;
+
+  /// No description provided for @noticeFakeReportNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New fake-booking report'**
+  String get noticeFakeReportNew;
+
+  /// No description provided for @noticeFakeReportDecided.
+  ///
+  /// In en, this message translates to:
+  /// **'Report decided'**
+  String get noticeFakeReportDecided;
+
+  /// No description provided for @noticeBanStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking ban started'**
+  String get noticeBanStarted;
+
+  /// No description provided for @noticeBanLifted.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking ban lifted'**
+  String get noticeBanLifted;
 }
 
 class _AppLocalizationsDelegate

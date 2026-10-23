@@ -16,6 +16,7 @@ import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/features/auth/pages/sign_in_page.dart';
 import 'package:dalil_dimashq/presentation/features/booking/pages/booking_draft_page.dart';
 import 'package:dalil_dimashq/presentation/features/booking/pages/my_bookings_page.dart';
+import 'package:dalil_dimashq/presentation/features/notifications/pages/inbox_page.dart';
 import 'package:dalil_dimashq/presentation/features/auth/pages/sign_up_page.dart';
 import 'package:dalil_dimashq/presentation/features/owner/pages/owner_gate_page.dart';
 import 'package:dalil_dimashq/presentation/features/profile/pages/profile_page.dart';
@@ -143,6 +144,17 @@ class _AccountTab extends StatelessWidget {
                 Navigator.of(context).push(
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) => const SignInPage(),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 12),
+            AppButton(
+              label: l10n.inbox,
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const InboxPage(),
                   ),
                 );
               },
