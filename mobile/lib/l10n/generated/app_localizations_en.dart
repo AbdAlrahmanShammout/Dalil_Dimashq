@@ -385,4 +385,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get partySize => 'Party size';
+
+  @override
+  String get statusWaiting => 'Waiting';
+
+  @override
+  String get statusPending => 'Pending';
+
+  @override
+  String get statusConfirmed => 'Confirmed';
+
+  @override
+  String get statusRejected => 'Rejected';
+
+  @override
+  String get statusExpired => 'Expired';
+
+  @override
+  String get statusCancelledByCustomer => 'Cancelled by you';
+
+  @override
+  String get statusCancelledByOwner => 'Cancelled by the place';
+
+  @override
+  String get statusAttended => 'Attended';
+
+  @override
+  String get statusNoShow => 'No show';
 }

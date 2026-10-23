@@ -15,6 +15,7 @@ class BookingDraftState {
     this.maxParty = 1,
     this.errorCode,
     this.bookingId,
+    this.bookingStatus,
   });
 
   final String displayName;
@@ -30,6 +31,7 @@ class BookingDraftState {
   final int maxParty;
   final String? errorCode;
   final int? bookingId;
+  final String? bookingStatus;
 
   BookingDraftState copyWith({
     List<DateTime>? times,
@@ -38,6 +40,7 @@ class BookingDraftState {
     bool clearTime = false,
     String? errorCode,
     int? bookingId,
+    String? bookingStatus,
     bool clearError = false,
   }) {
     return BookingDraftState(
@@ -54,6 +57,7 @@ class BookingDraftState {
       maxParty: maxParty,
       errorCode: clearError ? null : errorCode ?? this.errorCode,
       bookingId: bookingId ?? this.bookingId,
+      bookingStatus: bookingStatus ?? this.bookingStatus,
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:dalil_dimashq/data/dto/booking_availability_dto.dart';
 import 'package:dalil_dimashq/domain/entities/booking_availability.dart';
 import 'package:dalil_dimashq/domain/entities/booking_request.dart';
+import 'package:dalil_dimashq/domain/entities/booking_summary.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/repositories/booking_repository.dart';
 import 'package:dalil_dimashq/domain/repositories/session_repository.dart';
@@ -131,6 +132,13 @@ class _Availability implements BookingRepository {
   @override
   Future<Either<Failure, int>> create(BookingRequest request) async {
     return const Right<Failure, int>(1);
+  }
+
+  @override
+  Future<Either<Failure, BookingSummary>> find(int id) async {
+    return Right<Failure, BookingSummary>(
+      BookingSummary(id: id, status: 'waiting'),
+    );
   }
 }
 

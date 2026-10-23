@@ -122,5 +122,14 @@
   "date": "Date",
   "time": "Time",
   "note": "Note",
-  "partySize": "Party size"
+  "partySize": "Party size",
+  "statusWaiting": "Waiting",
+  "statusPending": "Pending",
+  "statusConfirmed": "Confirmed",
+  "statusRejected": "Rejected",
+  "statusExpired": "Expired",
+  "statusCancelledByCustomer": "Cancelled by you",
+  "statusCancelledByOwner": "Cancelled by the place",
+  "statusAttended": "Attended",
+  "statusNoShow": "No show"
 }

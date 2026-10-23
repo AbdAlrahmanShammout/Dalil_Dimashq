@@ -835,6 +835,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Party size'**
   String get partySize;
+
+  /// No description provided for @statusWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting'**
+  String get statusWaiting;
+
+  /// No description provided for @statusPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get statusPending;
+
+  /// No description provided for @statusConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get statusConfirmed;
+
+  /// No description provided for @statusRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get statusRejected;
+
+  /// No description provided for @statusExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get statusExpired;
+
+  /// No description provided for @statusCancelledByCustomer.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled by you'**
+  String get statusCancelledByCustomer;
+
+  /// No description provided for @statusCancelledByOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled by the place'**
+  String get statusCancelledByOwner;
+
+  /// No description provided for @statusAttended.
+  ///
+  /// In en, this message translates to:
+  /// **'Attended'**
+  String get statusAttended;
+
+  /// No description provided for @statusNoShow.
+  ///
+  /// In en, this message translates to:
+  /// **'No show'**
+  String get statusNoShow;
 }
 
 class _AppLocalizationsDelegate

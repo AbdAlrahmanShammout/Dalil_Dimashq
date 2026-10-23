@@ -7,7 +7,9 @@ import 'package:dalil_dimashq/domain/entities/user_profile.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/services/booking_clock.dart';
 import 'package:dalil_dimashq/domain/services/booking_slots.dart';
+import 'package:dalil_dimashq/domain/entities/booking_summary.dart';
 import 'package:dalil_dimashq/domain/usecase/create_booking_use_case.dart';
+import 'package:dalil_dimashq/domain/usecase/load_booking_use_case.dart';
 import 'package:dalil_dimashq/domain/usecase/load_booking_availability_use_case.dart';
 import 'package:dalil_dimashq/domain/usecase/load_profile_use_case.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_event.dart';
@@ -20,6 +22,7 @@ class BookingDraftBloc extends Bloc<BookingDraftEvent, BookingDraftState> {
     this._loadAvailability,
     this._clock,
     this._createBooking,
+    this._loadBooking,
   ) : super(const BookingDraftState()) {
     on<BookingDraftStarted>(_onStarted);
     on<BookingDateSelected>(_onDateSelected);
@@ -31,6 +34,7 @@ class BookingDraftBloc extends Bloc<BookingDraftEvent, BookingDraftState> {
   final LoadBookingAvailabilityUseCase _loadAvailability;
   final BookingClock _clock;
   final CreateBookingUseCase _createBooking;
+  final LoadBookingUseCase _loadBooking;
 
   Future<void> _onStarted(
     BookingDraftStarted event,
@@ -84,9 +88,20 @@ class BookingDraftBloc extends Bloc<BookingDraftEvent, BookingDraftState> {
       ),
       maxParty: state.maxParty,
     );
-    result.fold(
-      (Failure failure) => emit(state.copyWith(errorCode: failure.message)),
-      (int id) => emit(state.copyWith(bookingId: id, clearError: true)),
+    final int? id = result.fold((Failure failure) {
+      emit(state.copyWith(errorCode: failure.message));
+      return null;
+    }, (int value) => value);
+    if (id == null) {
+      return;
+    }
+    final Either<Failure, BookingSummary> loaded = await _loadBooking(id);
+    final String? status = loaded.fold(
+      (Failure failure) => null,
+      (BookingSummary booking) => booking.status,
+    );
+    emit(
+      state.copyWith(bookingId: id, bookingStatus: status, clearError: true),
     );
   }
 

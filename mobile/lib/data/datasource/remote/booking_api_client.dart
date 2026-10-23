@@ -12,4 +12,10 @@ abstract class BookingApiClient {
 
   @POST('/rest/v1/rpc/create_booking')
   Future<dynamic> createBooking(@Body() Map<String, dynamic> body);
+
+  @GET('/rest/v1/booking_list')
+  Future<dynamic> bookingById(
+    @Query('id') String id,
+    @Query('select') String select,
+  );
 }

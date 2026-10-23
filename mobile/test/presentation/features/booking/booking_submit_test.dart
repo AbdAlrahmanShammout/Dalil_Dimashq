@@ -9,7 +9,9 @@ import 'package:dalil_dimashq/domain/repositories/booking_repository.dart';
 import 'package:dalil_dimashq/domain/repositories/profile_repository.dart';
 import 'package:dalil_dimashq/domain/services/booking_clock.dart';
 import 'package:dalil_dimashq/domain/usecase/create_booking_use_case.dart';
+import 'package:dalil_dimashq/domain/entities/booking_summary.dart';
 import 'package:dalil_dimashq/domain/usecase/load_booking_availability_use_case.dart';
+import 'package:dalil_dimashq/domain/usecase/load_booking_use_case.dart';
 import 'package:dalil_dimashq/domain/usecase/load_profile_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_bloc.dart';
@@ -32,6 +34,7 @@ void main() {
             LoadBookingAvailabilityUseCase(repository),
             _Clock(),
             CreateBookingUseCase(repository),
+            LoadBookingUseCase(repository),
           ),
         ),
       ),
@@ -44,6 +47,8 @@ void main() {
     expect(request?.party, 1);
     expect(request?.note, 'Window seat');
     expect(request?.placeId, 'place-1');
+    expect(find.text('42'), findsOneWidget);
+    expect(find.text('Waiting'), findsOneWidget);
     expect(
       request?.clientKey,
       matches(
@@ -161,5 +166,12 @@ class _RecordingBookings implements BookingRepository {
   Future<Either<Failure, int>> create(BookingRequest request) async {
     this.request = request;
     return const Right<Failure, int>(42);
+  }
+
+  @override
+  Future<Either<Failure, BookingSummary>> find(int id) async {
+    return Right<Failure, BookingSummary>(
+      BookingSummary(id: id, status: 'waiting'),
+    );
   }
 }

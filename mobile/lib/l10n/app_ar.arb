@@ -122,5 +122,14 @@
   "date": "التاريخ",
   "time": "الوقت",
   "note": "ملاحظة",
-  "partySize": "عدد الأشخاص"
+  "partySize": "عدد الأشخاص",
+  "statusWaiting": "بالانتظار",
+  "statusPending": "بانتظار الرد",
+  "statusConfirmed": "مؤكد",
+  "statusRejected": "مرفوض",
+  "statusExpired": "انتهت المهلة",
+  "statusCancelledByCustomer": "ألغي من طرفك",
+  "statusCancelledByOwner": "ألغي من المنشأة",
+  "statusAttended": "حضرت",
+  "statusNoShow": "لم تحضر"
 }

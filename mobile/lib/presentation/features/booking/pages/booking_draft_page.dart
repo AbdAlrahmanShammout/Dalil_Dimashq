@@ -5,6 +5,7 @@ import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
 import 'package:dalil_dimashq/domain/services/booking_slots.dart';
+import 'package:dalil_dimashq/presentation/features/booking/booking_status_label.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_event.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_state.dart';
@@ -129,6 +130,13 @@ class _BookingDraftFormState extends State<_BookingDraftForm> {
                   maxLength: 300,
                   decoration: InputDecoration(labelText: l10n.note),
                 ),
+                if (state.bookingId != null)
+                  Text(
+                    '${state.bookingId}',
+                    key: const Key('booking-result'),
+                  ),
+                if (state.bookingStatus != null)
+                  Text(bookingStatusLabel(l10n, state.bookingStatus!)),
                 AppButton(
                   label: l10n.send,
                   onPressed: () {

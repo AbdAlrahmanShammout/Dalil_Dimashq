@@ -384,4 +384,31 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get partySize => 'عدد الأشخاص';
+
+  @override
+  String get statusWaiting => 'بالانتظار';
+
+  @override
+  String get statusPending => 'بانتظار الرد';
+
+  @override
+  String get statusConfirmed => 'مؤكد';
+
+  @override
+  String get statusRejected => 'مرفوض';
+
+  @override
+  String get statusExpired => 'انتهت المهلة';
+
+  @override
+  String get statusCancelledByCustomer => 'ألغي من طرفك';
+
+  @override
+  String get statusCancelledByOwner => 'ألغي من المنشأة';
+
+  @override
+  String get statusAttended => 'حضرت';
+
+  @override
+  String get statusNoShow => 'لم تحضر';
 }

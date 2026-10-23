@@ -4,8 +4,10 @@ import 'package:injectable/injectable.dart';
 import 'package:dalil_dimashq/core/network/supabase_failure_mapper.dart';
 import 'package:dalil_dimashq/data/datasource/remote/booking_api_client.dart';
 import 'package:dalil_dimashq/data/dto/booking_availability_dto.dart';
+import 'package:dalil_dimashq/data/dto/booking_summary_dto.dart';
 import 'package:dalil_dimashq/domain/entities/booking_availability.dart';
 import 'package:dalil_dimashq/domain/entities/booking_request.dart';
+import 'package:dalil_dimashq/domain/entities/booking_summary.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/repositories/booking_repository.dart';
 
@@ -49,6 +51,28 @@ class BookingRepositoryImpl implements BookingRepository {
       return Right<Failure, int>(id);
     } on DioException catch (error) {
       return Left<Failure, int>(mapSupabaseException(error));
+    }
+  }
+
+  @override
+  Future<Either<Failure, BookingSummary>> find(int id) async {
+    try {
+      final dynamic raw = await _client.bookingById(
+        'eq.$id',
+        'id,place_id,booking_at,party_size,note,current_status,reason,reported',
+      );
+      final List<dynamic> rows = raw is List<dynamic> ? raw : <dynamic>[];
+      final BookingSummary? booking = rows.isEmpty
+          ? null
+          : mapBookingSummary(rows.first);
+      if (booking == null) {
+        return const Left<Failure, BookingSummary>(
+          NotFoundFailure('booking_not_found'),
+        );
+      }
+      return Right<Failure, BookingSummary>(booking);
+    } on DioException catch (error) {
+      return Left<Failure, BookingSummary>(mapSupabaseException(error));
     }
   }
 }
