@@ -25,6 +25,8 @@ import 'package:dalil_dimashq/data/datasource/remote/directory_remote_data_sourc
     as _i360;
 import 'package:dalil_dimashq/data/datasource/remote/profile_api_client.dart'
     as _i413;
+import 'package:dalil_dimashq/data/datasource/remote/suggestion_api_client.dart'
+    as _i954;
 import 'package:dalil_dimashq/data/repository/auth_repository_impl.dart'
     as _i327;
 import 'package:dalil_dimashq/data/repository/contact_repository_impl.dart'
@@ -47,6 +49,8 @@ import 'package:dalil_dimashq/data/repository/session_repository_impl.dart'
     as _i88;
 import 'package:dalil_dimashq/data/repository/site_contact_repository_impl.dart'
     as _i31;
+import 'package:dalil_dimashq/data/repository/suggestion_repository_impl.dart'
+    as _i1061;
 import 'package:dalil_dimashq/domain/repositories/auth_repository.dart'
     as _i242;
 import 'package:dalil_dimashq/domain/repositories/contact_repository.dart'
@@ -69,6 +73,8 @@ import 'package:dalil_dimashq/domain/repositories/session_repository.dart'
     as _i366;
 import 'package:dalil_dimashq/domain/repositories/site_contact_repository.dart'
     as _i1018;
+import 'package:dalil_dimashq/domain/repositories/suggestion_repository.dart'
+    as _i406;
 import 'package:dalil_dimashq/domain/services/device_location.dart' as _i845;
 import 'package:dalil_dimashq/domain/services/place_links.dart' as _i820;
 import 'package:dalil_dimashq/domain/usecase/accept_legal_use_case.dart'
@@ -106,6 +112,8 @@ import 'package:dalil_dimashq/domain/usecase/send_contact_message_use_case.dart'
 import 'package:dalil_dimashq/domain/usecase/sign_in_use_case.dart' as _i873;
 import 'package:dalil_dimashq/domain/usecase/sign_out_use_case.dart' as _i334;
 import 'package:dalil_dimashq/domain/usecase/sign_up_use_case.dart' as _i62;
+import 'package:dalil_dimashq/domain/usecase/submit_suggestion_use_case.dart'
+    as _i101;
 import 'package:dalil_dimashq/domain/usecase/update_profile_phone_use_case.dart'
     as _i544;
 import 'package:dalil_dimashq/presentation/features/auth/bloc/recovery_bloc.dart'
@@ -140,6 +148,8 @@ import 'package:dalil_dimashq/presentation/features/settings/bloc/sign_out_bloc.
     as _i60;
 import 'package:dalil_dimashq/presentation/features/settings/bloc/site_contacts_bloc.dart'
     as _i879;
+import 'package:dalil_dimashq/presentation/features/suggestion/bloc/suggestion_bloc.dart'
+    as _i52;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -205,6 +215,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i413.ProfileApiClient>(
       () => registerModule.profileApiClient(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i954.SuggestionApiClient>(
+      () => registerModule.suggestionApiClient(gh<_i361.Dio>()),
+    );
     gh.factory<_i480.SendContactMessageUseCase>(
       () => _i480.SendContactMessageUseCase(
         gh<_i262.ContactRepository>(),
@@ -220,6 +233,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i399.SaveLocaleUseCase>(),
       ),
     );
+    gh.lazySingleton<_i406.SuggestionRepository>(
+      () => _i1061.SuggestionRepositoryImpl(gh<_i954.SuggestionApiClient>()),
+    );
     gh.lazySingleton<_i218.LegalRepository>(
       () => _i126.LegalRepositoryImpl(gh<_i413.ProfileApiClient>()),
     );
@@ -234,6 +250,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i140.LoadPendingLegalUseCase>(
       () => _i140.LoadPendingLegalUseCase(gh<_i218.LegalRepository>()),
+    );
+    gh.factory<_i101.SubmitSuggestionUseCase>(
+      () => _i101.SubmitSuggestionUseCase(gh<_i406.SuggestionRepository>()),
     );
     gh.lazySingleton<_i242.AuthRepository>(
       () => _i327.AuthRepositoryImpl(
@@ -276,6 +295,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i391.DeleteAccountBloc>(
       () => _i391.DeleteAccountBloc(gh<_i867.DeleteAccountUseCase>()),
+    );
+    gh.factory<_i52.SuggestionBloc>(
+      () => _i52.SuggestionBloc(gh<_i101.SubmitSuggestionUseCase>()),
     );
     gh.lazySingleton<_i823.PlaceRepository>(
       () => _i401.PlaceRepositoryImpl(gh<_i360.DirectoryRemoteDataSource>()),

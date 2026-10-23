@@ -9,6 +9,7 @@ import 'package:dalil_dimashq/presentation/features/language/bloc/language_bloc.
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_event.dart';
 import 'package:dalil_dimashq/presentation/features/contact/pages/contact_page.dart';
 import 'package:dalil_dimashq/presentation/features/legal/pages/legal_page.dart';
+import 'package:dalil_dimashq/presentation/features/suggestion/pages/suggestion_page.dart';
 import 'package:dalil_dimashq/presentation/features/settings/pages/privacy_policy_page.dart';
 import 'package:dalil_dimashq/presentation/features/settings/widgets/delete_account_button.dart';
 import 'package:dalil_dimashq/presentation/features/settings/widgets/notifications_toggle.dart';
@@ -61,6 +62,17 @@ class SettingsPage extends StatelessWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (BuildContext context) => const ContactPage(),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 12),
+              AppButton(
+                label: l10n.suggestion,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const SuggestionPage(),
                     ),
                   );
                 },

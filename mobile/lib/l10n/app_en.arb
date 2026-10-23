@@ -114,5 +114,8 @@
   "contactTypePartnership": "Partnership",
   "contactTypeOther": "Other",
   "messageTooLarge": "The message is too large",
-  "contactRateLimited": "Please wait before sending another message"
+  "contactRateLimited": "Please wait before sending another message",
+  "suggestion": "Suggestion",
+  "optionalPlace": "Place (optional)",
+  "suggestionKindPending": "Suggestion types are not confirmed yet"
 }

@@ -360,4 +360,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get contactRateLimited => 'انتظر قبل إرسال رسالة جديدة';
+
+  @override
+  String get suggestion => 'اقتراح';
+
+  @override
+  String get optionalPlace => 'المنشأة (اختياري)';
+
+  @override
+  String get suggestionKindPending => 'أنواع الاقتراح لم تتأكد بعد';
 }

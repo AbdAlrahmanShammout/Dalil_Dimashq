@@ -787,6 +787,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please wait before sending another message'**
   String get contactRateLimited;
+
+  /// No description provided for @suggestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestion'**
+  String get suggestion;
+
+  /// No description provided for @optionalPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Place (optional)'**
+  String get optionalPlace;
+
+  /// No description provided for @suggestionKindPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggestion types are not confirmed yet'**
+  String get suggestionKindPending;
 }
 
 class _AppLocalizationsDelegate

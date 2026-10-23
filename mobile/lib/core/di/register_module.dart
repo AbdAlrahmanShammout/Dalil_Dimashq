@@ -8,6 +8,7 @@ import 'package:dalil_dimashq/data/datasource/remote/auth_api_client.dart';
 import 'package:dalil_dimashq/data/datasource/remote/contact_api_client.dart';
 import 'package:dalil_dimashq/data/datasource/remote/directory_api_client.dart';
 import 'package:dalil_dimashq/data/datasource/remote/profile_api_client.dart';
+import 'package:dalil_dimashq/data/datasource/remote/suggestion_api_client.dart';
 
 @module
 abstract class RegisterModule {
@@ -25,6 +26,9 @@ abstract class RegisterModule {
 
   @lazySingleton
   ProfileApiClient profileApiClient(Dio dio) => ProfileApiClient(dio);
+
+  @lazySingleton
+  SuggestionApiClient suggestionApiClient(Dio dio) => SuggestionApiClient(dio);
 
   @lazySingleton
   ContactApiClient contactApiClient() {

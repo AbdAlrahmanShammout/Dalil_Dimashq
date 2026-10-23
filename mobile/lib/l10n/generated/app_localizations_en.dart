@@ -361,4 +361,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contactRateLimited => 'Please wait before sending another message';
+
+  @override
+  String get suggestion => 'Suggestion';
+
+  @override
+  String get optionalPlace => 'Place (optional)';
+
+  @override
+  String get suggestionKindPending => 'Suggestion types are not confirmed yet';
 }
