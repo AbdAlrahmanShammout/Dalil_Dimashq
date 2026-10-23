@@ -171,5 +171,7 @@
   "linkWithCode": "اربط بالكود",
   "placeCode": "كود DD-",
   "placeLinked": "تم ربط المنشأة",
-  "invalidCode": "الكود غير صالح"
+  "invalidCode": "الكود غير صالح",
+  "requestClaim": "أرسل للمراجعة",
+  "claimSent": "أُرسل طلب الربط للمراجعة"
 }

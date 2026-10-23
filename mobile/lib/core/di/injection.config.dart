@@ -41,6 +41,8 @@ import 'package:dalil_dimashq/data/repository/auth_repository_impl.dart'
     as _i327;
 import 'package:dalil_dimashq/data/repository/booking_repository_impl.dart'
     as _i88;
+import 'package:dalil_dimashq/data/repository/change_request_repository_impl.dart'
+    as _i298;
 import 'package:dalil_dimashq/data/repository/contact_repository_impl.dart'
     as _i453;
 import 'package:dalil_dimashq/data/repository/device_repository_impl.dart'
@@ -79,6 +81,8 @@ import 'package:dalil_dimashq/domain/repositories/auth_repository.dart'
     as _i242;
 import 'package:dalil_dimashq/domain/repositories/booking_repository.dart'
     as _i625;
+import 'package:dalil_dimashq/domain/repositories/change_request_repository.dart'
+    as _i390;
 import 'package:dalil_dimashq/domain/repositories/contact_repository.dart'
     as _i262;
 import 'package:dalil_dimashq/domain/repositories/device_repository.dart'
@@ -182,6 +186,8 @@ import 'package:dalil_dimashq/domain/usecase/send_contact_message_use_case.dart'
 import 'package:dalil_dimashq/domain/usecase/sign_in_use_case.dart' as _i873;
 import 'package:dalil_dimashq/domain/usecase/sign_out_use_case.dart' as _i334;
 import 'package:dalil_dimashq/domain/usecase/sign_up_use_case.dart' as _i62;
+import 'package:dalil_dimashq/domain/usecase/submit_claim_use_case.dart'
+    as _i637;
 import 'package:dalil_dimashq/domain/usecase/submit_suggestion_use_case.dart'
     as _i101;
 import 'package:dalil_dimashq/domain/usecase/update_profile_phone_use_case.dart'
@@ -224,6 +230,8 @@ import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_place_searc
     as _i589;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/premium_bloc.dart'
     as _i241;
+import 'package:dalil_dimashq/presentation/features/owner/bloc/submit_claim_bloc.dart'
+    as _i630;
 import 'package:dalil_dimashq/presentation/features/place/bloc/place_bloc.dart'
     as _i489;
 import 'package:dalil_dimashq/presentation/features/profile/bloc/profile_bloc.dart'
@@ -386,6 +394,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i798.ReplyFakeReportUseCase>(
       () => _i798.ReplyFakeReportUseCase(gh<_i625.BookingRepository>()),
     );
+    gh.lazySingleton<_i390.ChangeRequestRepository>(
+      () => _i298.ChangeRequestRepositoryImpl(gh<_i272.OwnerApiClient>()),
+    );
     gh.lazySingleton<_i1059.NotificationRepository>(
       () => _i591.NotificationRepositoryImpl(gh<_i100.NotificationApiClient>()),
     );
@@ -406,6 +417,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i371.AuthApiClient>(),
         gh<_i944.TokenStorage>(),
       ),
+    );
+    gh.factory<_i637.SubmitClaimUseCase>(
+      () => _i637.SubmitClaimUseCase(gh<_i390.ChangeRequestRepository>()),
     );
     gh.factory<_i602.ListOwnedPlacesUseCase>(
       () => _i602.ListOwnedPlacesUseCase(gh<_i266.OwnerPlaceRepository>()),
@@ -478,6 +492,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i140.LoadPendingLegalUseCase>(),
         gh<_i901.AcceptLegalUseCase>(),
       ),
+    );
+    gh.factory<_i630.SubmitClaimBloc>(
+      () => _i630.SubmitClaimBloc(gh<_i637.SubmitClaimUseCase>()),
     );
     gh.factory<_i7.SearchPlacesByNameUseCase>(
       () =>

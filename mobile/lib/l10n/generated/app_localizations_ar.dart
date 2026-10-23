@@ -505,4 +505,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get invalidCode => 'الكود غير صالح';
+
+  @override
+  String get requestClaim => 'أرسل للمراجعة';
+
+  @override
+  String get claimSent => 'أُرسل طلب الربط للمراجعة';
 }

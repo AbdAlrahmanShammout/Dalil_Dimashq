@@ -1069,6 +1069,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'That code is not valid'**
   String get invalidCode;
+
+  /// No description provided for @requestClaim.
+  ///
+  /// In en, this message translates to:
+  /// **'Send for review'**
+  String get requestClaim;
+
+  /// No description provided for @claimSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim sent for review'**
+  String get claimSent;
 }
 
 class _AppLocalizationsDelegate

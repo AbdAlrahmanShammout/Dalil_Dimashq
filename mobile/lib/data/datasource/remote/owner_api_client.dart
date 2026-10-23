@@ -33,4 +33,7 @@ abstract class OwnerApiClient {
 
   @POST('/rest/v1/rpc/claim_with_code')
   Future<dynamic> claimWithCode(@Body() Map<String, dynamic> body);
+
+  @POST('/rest/v1/change_requests')
+  Future<void> insertChangeRequest(@Body() Map<String, dynamic> body);
 }

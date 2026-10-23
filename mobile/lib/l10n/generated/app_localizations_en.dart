@@ -507,4 +507,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invalidCode => 'That code is not valid';
+
+  @override
+  String get requestClaim => 'Send for review';
+
+  @override
+  String get claimSent => 'Claim sent for review';
 }

@@ -171,5 +171,7 @@
   "linkWithCode": "Link with code",
   "placeCode": "DD- code",
   "placeLinked": "Place linked",
-  "invalidCode": "That code is not valid"
+  "invalidCode": "That code is not valid",
+  "requestClaim": "Send for review",
+  "claimSent": "Claim sent for review"
 }

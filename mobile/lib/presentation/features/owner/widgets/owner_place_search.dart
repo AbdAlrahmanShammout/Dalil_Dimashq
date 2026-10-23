@@ -5,6 +5,7 @@ import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
 import 'package:dalil_dimashq/presentation/features/owner/bloc/claim_place_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_place_search_bloc.dart';
+import 'package:dalil_dimashq/presentation/features/owner/bloc/submit_claim_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/owner/pages/claim_place_page.dart';
 
 class OwnerPlaceSearch extends StatefulWidget {
@@ -64,6 +65,9 @@ class _OwnerPlaceSearchState extends State<OwnerPlaceSearch> {
                         builder: (BuildContext context) => ClaimPlacePage(
                           placeId: place.id,
                           bloc: getIt<ClaimPlaceBloc>(),
+                          submitClaim: getIt.isRegistered<SubmitClaimBloc>()
+                              ? getIt<SubmitClaimBloc>()
+                              : null,
                         ),
                       ),
                     );
