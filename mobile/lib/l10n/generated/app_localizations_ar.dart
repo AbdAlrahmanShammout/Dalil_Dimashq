@@ -649,4 +649,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get reportedBooking => 'مُبلّغ عنه';
+
+  @override
+  String get confirmBooking => 'تأكيد';
+
+  @override
+  String get rejectBooking => 'رفض';
+
+  @override
+  String get optionalReason => 'سبب اختياري';
 }

@@ -171,6 +171,8 @@ import 'package:dalil_dimashq/domain/usecase/complete_profile_use_case.dart'
     as _i787;
 import 'package:dalil_dimashq/domain/usecase/create_booking_use_case.dart'
     as _i630;
+import 'package:dalil_dimashq/domain/usecase/decide_booking_use_case.dart'
+    as _i428;
 import 'package:dalil_dimashq/domain/usecase/delete_account_use_case.dart'
     as _i867;
 import 'package:dalil_dimashq/domain/usecase/get_place_use_case.dart' as _i654;
@@ -674,6 +676,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i140.LoadPendingLegalUseCase>(),
         gh<_i901.AcceptLegalUseCase>(),
       ),
+    );
+    gh.factory<_i428.DecideBookingUseCase>(
+      () => _i428.DecideBookingUseCase(gh<_i468.OwnerBookingRepository>()),
     );
     gh.factory<_i994.ListPlaceBookingsUseCase>(
       () => _i994.ListPlaceBookingsUseCase(gh<_i468.OwnerBookingRepository>()),

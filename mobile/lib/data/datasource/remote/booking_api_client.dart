@@ -13,6 +13,12 @@ abstract class BookingApiClient {
   @POST('/rest/v1/rpc/create_booking')
   Future<dynamic> createBooking(@Body() Map<String, dynamic> body);
 
+  @POST('/rest/v1/rpc/confirm_booking')
+  Future<dynamic> confirmBooking(@Body() Map<String, dynamic> body);
+
+  @POST('/rest/v1/rpc/reject_booking')
+  Future<dynamic> rejectBooking(@Body() Map<String, dynamic> body);
+
   @POST('/rest/v1/rpc/cancel_booking')
   Future<dynamic> cancelBooking(@Body() Map<String, dynamic> body);
 

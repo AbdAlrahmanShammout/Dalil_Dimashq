@@ -651,4 +651,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportedBooking => 'Reported';
+
+  @override
+  String get confirmBooking => 'Confirm';
+
+  @override
+  String get rejectBooking => 'Reject';
+
+  @override
+  String get optionalReason => 'Optional reason';
 }

@@ -231,5 +231,8 @@
   "unlinkPlace": "افصل هذا الحساب",
   "exitReason": "السبب",
   "exitSent": "أُرسل الطلب",
-  "reportedBooking": "مُبلّغ عنه"
+  "reportedBooking": "مُبلّغ عنه",
+  "confirmBooking": "تأكيد",
+  "rejectBooking": "رفض",
+  "optionalReason": "سبب اختياري"
 }

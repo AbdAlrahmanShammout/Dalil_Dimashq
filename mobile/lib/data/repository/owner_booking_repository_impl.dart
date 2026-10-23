@@ -30,6 +30,32 @@ class OwnerBookingRepositoryImpl implements OwnerBookingRepository {
     }
   }
 
+  @override
+  Future<Either<Failure, String>> confirm(int id) {
+    return _status(() => _client.confirmBooking(<String, dynamic>{'p_id': id}));
+  }
+
+  @override
+  Future<Either<Failure, String>> reject({required int id, String? reason}) {
+    return _status(
+      () => _client.rejectBooking(<String, dynamic>{
+        'p_id': id,
+        if (reason != null) 'p_reason': reason,
+      }),
+    );
+  }
+
+  Future<Either<Failure, String>> _status(
+    Future<dynamic> Function() action,
+  ) async {
+    try {
+      final dynamic result = await action();
+      return Right<Failure, String>('$result');
+    } on DioException catch (error) {
+      return Left<Failure, String>(mapSupabaseException(error));
+    }
+  }
+
   List<OwnerBooking> _map(dynamic raw) {
     if (raw is! List) {
       return const <OwnerBooking>[];

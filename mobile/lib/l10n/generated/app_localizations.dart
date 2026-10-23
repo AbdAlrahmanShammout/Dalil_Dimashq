@@ -1357,6 +1357,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reported'**
   String get reportedBooking;
+
+  /// No description provided for @confirmBooking.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirmBooking;
+
+  /// No description provided for @rejectBooking.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get rejectBooking;
+
+  /// No description provided for @optionalReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional reason'**
+  String get optionalReason;
 }
 
 class _AppLocalizationsDelegate

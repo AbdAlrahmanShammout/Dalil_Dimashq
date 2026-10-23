@@ -37,6 +37,16 @@ void main() {
 
 class _Bookings implements OwnerBookingRepository {
   @override
+  Future<Either<Failure, String>> confirm(int id) async {
+    return const Right<Failure, String>('confirmed');
+  }
+
+  @override
+  Future<Either<Failure, String>> reject({required int id, String? reason}) async {
+    return const Right<Failure, String>('rejected');
+  }
+
+  @override
   Future<Either<Failure, List<OwnerBooking>>> list(String placeId) async {
     return Right<Failure, List<OwnerBooking>>(<OwnerBooking>[
       OwnerBooking(

@@ -231,5 +231,8 @@
   "unlinkPlace": "Unlink this account",
   "exitReason": "Reason",
   "exitSent": "Request sent",
-  "reportedBooking": "Reported"
+  "reportedBooking": "Reported",
+  "confirmBooking": "Confirm",
+  "rejectBooking": "Reject",
+  "optionalReason": "Optional reason"
 }
