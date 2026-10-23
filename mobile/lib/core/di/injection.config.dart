@@ -124,6 +124,8 @@ import 'package:dalil_dimashq/domain/usecase/load_profile_use_case.dart'
     as _i525;
 import 'package:dalil_dimashq/domain/usecase/load_site_contacts_use_case.dart'
     as _i430;
+import 'package:dalil_dimashq/domain/usecase/open_notification_use_case.dart'
+    as _i148;
 import 'package:dalil_dimashq/domain/usecase/read_locale_use_case.dart'
     as _i1013;
 import 'package:dalil_dimashq/domain/usecase/recover_password_use_case.dart'
@@ -373,6 +375,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i823.PlaceRepository>(
       () => _i401.PlaceRepositoryImpl(gh<_i360.DirectoryRemoteDataSource>()),
     );
+    gh.factory<_i148.OpenNotificationUseCase>(
+      () => _i148.OpenNotificationUseCase(
+        gh<_i1059.NotificationRepository>(),
+        gh<_i67.LoadBookingUseCase>(),
+      ),
+    );
     gh.factory<_i734.MyBookingsBloc>(
       () => _i734.MyBookingsBloc(gh<_i194.ListBookingsUseCase>()),
     );
@@ -457,13 +465,16 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i798.ReplyFakeReportUseCase>(),
       ),
     );
-    gh.factory<_i481.InboxBloc>(
-      () => _i481.InboxBloc(gh<_i1047.ListNotificationsUseCase>()),
-    );
     gh.factory<_i805.ExploreBloc>(
       () => _i805.ExploreBloc(
         gh<_i116.SearchPlacesUseCase>(),
         gh<_i80.ListAreasUseCase>(),
+      ),
+    );
+    gh.factory<_i481.InboxBloc>(
+      () => _i481.InboxBloc(
+        gh<_i1047.ListNotificationsUseCase>(),
+        gh<_i148.OpenNotificationUseCase>(),
       ),
     );
     gh.factory<_i879.SiteContactsBloc>(

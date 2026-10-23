@@ -4,7 +4,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:dalil_dimashq/domain/entities/app_notification.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/repositories/notification_repository.dart';
+import 'package:dalil_dimashq/domain/entities/booking_availability.dart';
+import 'package:dalil_dimashq/domain/entities/booking_ban.dart';
+import 'package:dalil_dimashq/domain/entities/booking_request.dart';
+import 'package:dalil_dimashq/domain/entities/booking_summary.dart';
+import 'package:dalil_dimashq/domain/repositories/booking_repository.dart';
 import 'package:dalil_dimashq/domain/usecase/list_notifications_use_case.dart';
+import 'package:dalil_dimashq/domain/usecase/load_booking_use_case.dart';
+import 'package:dalil_dimashq/domain/usecase/open_notification_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/features/notifications/bloc/inbox_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/notifications/pages/inbox_page.dart';
@@ -34,6 +41,7 @@ void main() {
                 ),
               ]),
             ),
+            OpenNotificationUseCase(_Notices(const <AppNotification>[]), LoadBookingUseCase(_UnusedBookings())),
           ),
         ),
       ),
@@ -54,5 +62,57 @@ class _Notices implements NotificationRepository {
   @override
   Future<Either<Failure, List<AppNotification>>> list() async {
     return Right<Failure, List<AppNotification>>(rows);
+  }
+
+  @override
+  Future<Either<Failure, void>> markRead(int id, DateTime at) async {
+    return const Right<Failure, void>(null);
+  }
+}
+
+class _UnusedBookings implements BookingRepository {
+  @override
+  Future<Either<Failure, BookingBan?>> activeBan(DateTime now) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, BookingAvailability>> availability(
+    String placeId,
+  ) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, String>> cancel(int id) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, int>> create(BookingRequest request) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, BookingSummary>> find(int id) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, List<BookingSummary>>> list() async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, int?>> reportId(int bookingId) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, void>> replyToReport({
+    required int reportId,
+    required String reply,
+  }) async {
+    throw UnimplementedError();
   }
 }

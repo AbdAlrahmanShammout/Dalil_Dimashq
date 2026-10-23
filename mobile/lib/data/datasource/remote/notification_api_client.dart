@@ -13,4 +13,10 @@ abstract class NotificationApiClient {
     @Query('select') String select,
     @Query('order') String order,
   );
+
+  @PATCH('/rest/v1/notifications')
+  Future<void> markRead(
+    @Query('id') String id,
+    @Body() Map<String, dynamic> body,
+  );
 }

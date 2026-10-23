@@ -43,4 +43,16 @@ class NotificationRepositoryImpl implements NotificationRepository {
       return Left<Failure, List<AppNotification>>(mapSupabaseException(error));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> markRead(int id, DateTime at) async {
+    try {
+      await _client.markRead('eq.$id', <String, dynamic>{
+        'read_at': at.toUtc().toIso8601String(),
+      });
+      return const Right<Failure, void>(null);
+    } on DioException catch (error) {
+      return Left<Failure, void>(mapSupabaseException(error));
+    }
+  }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dalil_dimashq/core/di/injection.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
+import 'package:dalil_dimashq/presentation/features/booking/pages/booking_details_page.dart';
 import 'package:dalil_dimashq/presentation/features/notifications/bloc/inbox_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/notifications/notification_label.dart';
 
@@ -38,13 +39,31 @@ class _InboxView extends StatelessWidget {
     final AppLocalizations l10n = AppLocalizations.of(context);
     return AppScaffold(
       title: l10n.inbox,
-      body: BlocBuilder<InboxBloc, InboxState>(
+      body: BlocConsumer<InboxBloc, InboxState>(
+        listenWhen: (InboxState previous, InboxState current) =>
+            current.openedBooking != null &&
+            current.openedBooking != previous.openedBooking,
+        listener: (BuildContext context, InboxState state) {
+          final booking = state.openedBooking;
+          if (booking == null) {
+            return;
+          }
+          Navigator.of(context).push(
+            MaterialPageRoute<void>(
+              builder: (BuildContext context) =>
+                  BookingDetailsPage(booking: booking),
+            ),
+          );
+        },
         builder: (BuildContext context, InboxState state) {
           return ListView(
             children: state.notifications
                 .map(
                   (notification) => ListTile(
                     key: Key('notice-${notification.id}'),
+                    onTap: () {
+                      context.read<InboxBloc>().add(InboxTapped(notification));
+                    },
                     title: Text(
                       notificationLabel(l10n, notification.kind),
                       style: TextStyle(
