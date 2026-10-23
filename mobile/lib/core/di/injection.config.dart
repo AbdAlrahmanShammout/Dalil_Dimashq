@@ -59,6 +59,8 @@ import 'package:dalil_dimashq/data/repository/notification_repository_impl.dart'
     as _i591;
 import 'package:dalil_dimashq/data/repository/offer_repository_impl.dart'
     as _i908;
+import 'package:dalil_dimashq/data/repository/owner_amenity_repository_impl.dart'
+    as _i257;
 import 'package:dalil_dimashq/data/repository/owner_dashboard_repository_impl.dart'
     as _i459;
 import 'package:dalil_dimashq/data/repository/owner_place_repository_impl.dart'
@@ -105,6 +107,8 @@ import 'package:dalil_dimashq/domain/repositories/notification_repository.dart'
     as _i1059;
 import 'package:dalil_dimashq/domain/repositories/offer_repository.dart'
     as _i921;
+import 'package:dalil_dimashq/domain/repositories/owner_amenity_repository.dart'
+    as _i531;
 import 'package:dalil_dimashq/domain/repositories/owner_dashboard_repository.dart'
     as _i996;
 import 'package:dalil_dimashq/domain/repositories/owner_place_repository.dart'
@@ -169,6 +173,8 @@ import 'package:dalil_dimashq/domain/usecase/load_booking_ban_use_case.dart'
     as _i875;
 import 'package:dalil_dimashq/domain/usecase/load_booking_use_case.dart'
     as _i67;
+import 'package:dalil_dimashq/domain/usecase/load_owner_amenities_use_case.dart'
+    as _i354;
 import 'package:dalil_dimashq/domain/usecase/load_owner_dashboard_use_case.dart'
     as _i506;
 import 'package:dalil_dimashq/domain/usecase/load_pending_legal_use_case.dart'
@@ -214,6 +220,8 @@ import 'package:dalil_dimashq/domain/usecase/submit_reviewed_changes_use_case.da
     as _i837;
 import 'package:dalil_dimashq/domain/usecase/submit_suggestion_use_case.dart'
     as _i101;
+import 'package:dalil_dimashq/domain/usecase/toggle_amenity_use_case.dart'
+    as _i710;
 import 'package:dalil_dimashq/domain/usecase/update_profile_phone_use_case.dart'
     as _i544;
 import 'package:dalil_dimashq/presentation/features/auth/bloc/recovery_bloc.dart'
@@ -254,6 +262,8 @@ import 'package:dalil_dimashq/presentation/features/owner/bloc/my_places_bloc.da
     as _i478;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/my_requests_bloc.dart'
     as _i609;
+import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_amenities_bloc.dart'
+    as _i1043;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_dashboard_bloc.dart'
     as _i635;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_place_search_bloc.dart'
@@ -395,6 +405,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i13.PremiumRepository>(
       () => _i234.PremiumRepositoryImpl(gh<_i272.OwnerApiClient>()),
     );
+    gh.lazySingleton<_i531.OwnerAmenityRepository>(
+      () => _i257.OwnerAmenityRepositoryImpl(gh<_i272.OwnerApiClient>()),
+    );
     gh.lazySingleton<_i840.PlaceHoursRepository>(
       () => _i126.PlaceHoursRepositoryImpl(gh<_i272.OwnerApiClient>()),
     );
@@ -531,6 +544,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i391.DeleteAccountBloc>(
       () => _i391.DeleteAccountBloc(gh<_i867.DeleteAccountUseCase>()),
     );
+    gh.factory<_i354.LoadOwnerAmenitiesUseCase>(
+      () => _i354.LoadOwnerAmenitiesUseCase(gh<_i531.OwnerAmenityRepository>()),
+    );
+    gh.factory<_i710.ToggleAmenityUseCase>(
+      () => _i710.ToggleAmenityUseCase(gh<_i531.OwnerAmenityRepository>()),
+    );
     gh.factory<_i399.PlaceHoursBloc>(
       () => _i399.PlaceHoursBloc(
         gh<_i931.LoadPlaceHoursUseCase>(),
@@ -599,6 +618,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1018.SiteContactRepository>(
       () =>
           _i31.SiteContactRepositoryImpl(gh<_i360.DirectoryRemoteDataSource>()),
+    );
+    gh.factory<_i1043.OwnerAmenitiesBloc>(
+      () => _i1043.OwnerAmenitiesBloc(
+        gh<_i354.LoadOwnerAmenitiesUseCase>(),
+        gh<_i710.ToggleAmenityUseCase>(),
+      ),
     );
     gh.factory<_i654.GetPlaceUseCase>(
       () => _i654.GetPlaceUseCase(gh<_i823.PlaceRepository>()),
