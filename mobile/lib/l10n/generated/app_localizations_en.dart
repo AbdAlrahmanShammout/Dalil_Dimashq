@@ -636,4 +636,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get offerPremiumLock => 'Contact us to add offers with Premium.';
+
+  @override
+  String get removePlace => 'Request removal';
+
+  @override
+  String get unlinkPlace => 'Unlink this account';
+
+  @override
+  String get exitReason => 'Reason';
+
+  @override
+  String get exitSent => 'Request sent';
 }

@@ -1327,6 +1327,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Contact us to add offers with Premium.'**
   String get offerPremiumLock;
+
+  /// No description provided for @removePlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Request removal'**
+  String get removePlace;
+
+  /// No description provided for @unlinkPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Unlink this account'**
+  String get unlinkPlace;
+
+  /// No description provided for @exitReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get exitReason;
+
+  /// No description provided for @exitSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Request sent'**
+  String get exitSent;
 }
 
 class _AppLocalizationsDelegate

@@ -634,4 +634,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get offerPremiumLock => 'تواصل معنا لإضافة العروض مع البريميوم.';
+
+  @override
+  String get removePlace => 'اطلب إزالة المنشأة';
+
+  @override
+  String get unlinkPlace => 'افصل هذا الحساب';
+
+  @override
+  String get exitReason => 'السبب';
+
+  @override
+  String get exitSent => 'أُرسل الطلب';
 }

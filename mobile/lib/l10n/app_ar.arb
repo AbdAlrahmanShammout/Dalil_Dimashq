@@ -226,5 +226,9 @@
   "deleteOffer": "احذف العرض",
   "offerSaved": "تم حفظ العرض",
   "offerTooLong": "العرض يمكن أن يستمر 60 يوماً",
-  "offerPremiumLock": "تواصل معنا لإضافة العروض مع البريميوم."
+  "offerPremiumLock": "تواصل معنا لإضافة العروض مع البريميوم.",
+  "removePlace": "اطلب إزالة المنشأة",
+  "unlinkPlace": "افصل هذا الحساب",
+  "exitReason": "السبب",
+  "exitSent": "أُرسل الطلب"
 }

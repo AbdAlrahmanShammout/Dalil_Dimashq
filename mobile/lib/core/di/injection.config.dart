@@ -75,6 +75,8 @@ import 'package:dalil_dimashq/data/repository/place_claim_repository_impl.dart'
     as _i404;
 import 'package:dalil_dimashq/data/repository/place_edit_repository_impl.dart'
     as _i547;
+import 'package:dalil_dimashq/data/repository/place_exit_repository_impl.dart'
+    as _i664;
 import 'package:dalil_dimashq/data/repository/place_hours_repository_impl.dart'
     as _i126;
 import 'package:dalil_dimashq/data/repository/place_name_search_repository_impl.dart'
@@ -127,6 +129,8 @@ import 'package:dalil_dimashq/domain/repositories/place_claim_repository.dart'
     as _i158;
 import 'package:dalil_dimashq/domain/repositories/place_edit_repository.dart'
     as _i188;
+import 'package:dalil_dimashq/domain/repositories/place_exit_repository.dart'
+    as _i346;
 import 'package:dalil_dimashq/domain/repositories/place_hours_repository.dart'
     as _i840;
 import 'package:dalil_dimashq/domain/repositories/place_name_search_repository.dart'
@@ -217,6 +221,8 @@ import 'package:dalil_dimashq/domain/usecase/register_device_use_case.dart'
     as _i889;
 import 'package:dalil_dimashq/domain/usecase/reply_fake_report_use_case.dart'
     as _i798;
+import 'package:dalil_dimashq/domain/usecase/request_place_exit_use_case.dart'
+    as _i228;
 import 'package:dalil_dimashq/domain/usecase/request_profile_change_use_case.dart'
     as _i578;
 import 'package:dalil_dimashq/domain/usecase/save_immediate_fields_use_case.dart'
@@ -420,6 +426,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i587.ContactBloc>(
       () => _i587.ContactBloc(gh<_i480.SendContactMessageUseCase>()),
     );
+    gh.lazySingleton<_i346.PlaceExitRepository>(
+      () => _i664.PlaceExitRepositoryImpl(gh<_i272.OwnerApiClient>()),
+    );
     gh.lazySingleton<_i158.PlaceClaimRepository>(
       () => _i404.PlaceClaimRepositoryImpl(gh<_i272.OwnerApiClient>()),
     );
@@ -544,6 +553,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i837.SubmitReviewedChangesUseCase>(
       () => _i837.SubmitReviewedChangesUseCase(
         gh<_i390.ChangeRequestRepository>(),
+      ),
+    );
+    gh.factory<_i228.RequestPlaceExitUseCase>(
+      () => _i228.RequestPlaceExitUseCase(
+        gh<_i390.ChangeRequestRepository>(),
+        gh<_i346.PlaceExitRepository>(),
       ),
     );
     gh.factory<_i602.ListOwnedPlacesUseCase>(

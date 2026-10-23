@@ -226,5 +226,9 @@
   "deleteOffer": "Delete offer",
   "offerSaved": "Offer saved",
   "offerTooLong": "An offer can run for 60 days",
-  "offerPremiumLock": "Contact us to add offers with Premium."
+  "offerPremiumLock": "Contact us to add offers with Premium.",
+  "removePlace": "Request removal",
+  "unlinkPlace": "Unlink this account",
+  "exitReason": "Reason",
+  "exitSent": "Request sent"
 }
