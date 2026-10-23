@@ -4,8 +4,10 @@ import 'package:dalil_dimashq/data/dto/amenity_dto.dart';
 import 'package:dalil_dimashq/data/dto/event_dto.dart';
 import 'package:dalil_dimashq/data/dto/offer_dto.dart';
 import 'package:dalil_dimashq/data/dto/photo_dto.dart';
+import 'package:dalil_dimashq/data/dto/open_now_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_hour_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_row_dto.dart';
+import 'package:dalil_dimashq/data/dto/site_contact_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_request_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_response_dto.dart';
 import 'package:dio/dio.dart';
@@ -72,6 +74,12 @@ abstract class DirectoryApiClient {
     @Query('select') String select,
     @Query('order') String order,
   );
+
+  @POST('/rest/v1/rpc/place_open_now')
+  Future<List<OpenNowDto>> placeOpenNow(@Body() Map<String, dynamic> body);
+
+  @GET('/rest/v1/site_contacts')
+  Future<List<SiteContactDto>> siteContacts(@Query('select') String select);
 
   @GET('/rest/v1/place_hours')
   Future<List<PlaceHourDto>> placeHours(

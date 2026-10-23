@@ -7,7 +7,9 @@ import 'package:dalil_dimashq/data/dto/amenity_dto.dart';
 import 'package:dalil_dimashq/data/dto/event_dto.dart';
 import 'package:dalil_dimashq/data/dto/offer_dto.dart';
 import 'package:dalil_dimashq/data/dto/photo_dto.dart';
+import 'package:dalil_dimashq/data/dto/open_now_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_hour_dto.dart';
+import 'package:dalil_dimashq/data/dto/site_contact_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_row_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_request_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_response_dto.dart';
@@ -33,6 +35,11 @@ class _FakeRemote extends DirectoryRemoteDataSource {
   _FakeRemote() : super(_UnusedClient());
 
   SearchPlacesRequestDto? lastRequest;
+
+  @override
+  Future<Map<String, bool>> openNow(List<String> placeIds) async {
+    return <String, bool>{};
+  }
 
   @override
   Future<SearchPlacesResponseDto> search(SearchPlacesRequestDto request) async {
@@ -108,6 +115,16 @@ class _UnusedClient implements DirectoryApiClient {
 
   @override
   Future<List<AmenityDto>> amenities(String select) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<OpenNowDto>> placeOpenNow(Map<String, dynamic> body) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<SiteContactDto>> siteContacts(String select) {
     throw UnimplementedError();
   }
 

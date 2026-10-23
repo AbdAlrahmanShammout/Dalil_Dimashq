@@ -631,6 +631,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You can ask what is stored, how long it is kept, and who receives it. You can delete your account. The app is for people aged 16 or older.'**
   String get privacyRights;
+
+  /// No description provided for @firstName.
+  ///
+  /// In en, this message translates to:
+  /// **'First name'**
+  String get firstName;
+
+  /// No description provided for @lastName.
+  ///
+  /// In en, this message translates to:
+  /// **'Last name'**
+  String get lastName;
+
+  /// No description provided for @birthYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Birth year'**
+  String get birthYear;
+
+  /// No description provided for @completeProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete profile'**
+  String get completeProfile;
+
+  /// No description provided for @profileChangePending.
+  ///
+  /// In en, this message translates to:
+  /// **'Your name change is under review'**
+  String get profileChangePending;
+
+  /// No description provided for @termsAndPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms and privacy'**
+  String get termsAndPrivacy;
+
+  /// No description provided for @accept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get accept;
+
+  /// No description provided for @legalUpToDate.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no new version to accept'**
+  String get legalUpToDate;
+
+  /// No description provided for @terms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms'**
+  String get terms;
+
+  /// No description provided for @privacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get privacy;
+
+  /// No description provided for @whatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get whatsapp;
+
+  /// No description provided for @contactChannels.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get contactChannels;
 }
 
 class _AppLocalizationsDelegate

@@ -28,7 +28,19 @@ class PlaceRepositoryImpl implements PlaceRepository {
       final response = await _remote.search(
         SearchPlacesRequestDto.fromQuery(query),
       );
-      return Right(response.toEntity());
+      final page = response.toEntity();
+      final Map<String, bool> openNow = await _openNow(
+        page.places.map((place) => place.id).toList(),
+      );
+      return Right(
+        PlaceSearchPage(
+          places: page.places
+              .map((place) => place.withOpenNow(openNow[place.id]))
+              .toList(),
+          total: page.total,
+          counts: page.counts,
+        ),
+      );
     } on DioException catch (error) {
       return Left(mapSupabaseException(error));
     }
@@ -66,6 +78,7 @@ class PlaceRepositoryImpl implements PlaceRepository {
           .map((AmenityDto amenity) => amenity.toEntity())
           .toList();
       final hours = await _remote.regularHours(id);
+      final Map<String, bool> openNow = await _openNow(<String>[id]);
       return Right(
         mapPlaceHeader(
           place: place,
@@ -77,10 +90,19 @@ class PlaceRepositoryImpl implements PlaceRepository {
           photos: photos,
           amenities: amenities,
           hours: hours,
+          openNow: openNow[id],
         ),
       );
     } on DioException catch (error) {
       return Left(mapSupabaseException(error));
+    }
+  }
+
+  Future<Map<String, bool>> _openNow(List<String> placeIds) async {
+    try {
+      return await _remote.openNow(placeIds);
+    } on DioException {
+      return <String, bool>{};
     }
   }
 }

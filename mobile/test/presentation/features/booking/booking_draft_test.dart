@@ -41,7 +41,20 @@ class _StoredProfile implements ProfileRepository {
   Future<Either<Failure, UserProfile>> load() async => Right(profile);
 
   @override
-  Future<Either<Failure, UserProfile>> save(UserProfile profile) async {
+  Future<Either<Failure, UserProfile>> complete(ProfileDraft draft) async {
+    return Right(profile);
+  }
+
+  @override
+  Future<Either<Failure, UserProfile>> updatePhone({
+    required String phone,
+    required String language,
+  }) async {
+    return Right(profile);
+  }
+
+  @override
+  Future<Either<Failure, UserProfile>> requestChange(ProfileDraft draft) async {
     return Right(profile);
   }
 }

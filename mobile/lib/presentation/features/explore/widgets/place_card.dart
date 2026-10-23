@@ -2,26 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:dalil_dimashq/core/network/place_photo_url.dart';
 import 'package:dalil_dimashq/core/theme/category_fallback.dart';
 import 'package:dalil_dimashq/core/theme/app_colors.dart';
-import 'package:dalil_dimashq/domain/entities/place_open_now.dart';
 import 'package:dalil_dimashq/domain/entities/place_summary.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/features/place/pages/place_page.dart';
 
 class PlaceCard extends StatelessWidget {
-  const PlaceCard({required this.place, this.now, super.key});
+  const PlaceCard({required this.place, super.key});
 
   final PlaceSummary place;
-  final DateTime? now;
 
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final bool isArabic = Localizations.localeOf(context).languageCode == 'ar';
     final String? area = isArabic ? place.areaNameAr : place.areaNameEn;
-    final bool? open = isOpenNow(
-      place.hours,
-      now ?? damascusTime(DateTime.now()),
-    );
+    final bool? open = place.openNow;
     final String? cover = placePhotoUrl(place.coverPath);
     return Card(
       color: AppColors.charcoalRaised,

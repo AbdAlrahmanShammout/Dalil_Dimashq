@@ -7,8 +7,10 @@ import 'package:dalil_dimashq/presentation/core/widgets/app_section.dart';
 import 'package:dalil_dimashq/domain/repositories/notification_preference_repository.dart';
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_event.dart';
+import 'package:dalil_dimashq/presentation/features/legal/pages/legal_page.dart';
 import 'package:dalil_dimashq/presentation/features/settings/pages/privacy_policy_page.dart';
 import 'package:dalil_dimashq/presentation/features/settings/widgets/notifications_toggle.dart';
+import 'package:dalil_dimashq/presentation/features/settings/widgets/site_contact_shortcuts.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({this.notifications, super.key});
@@ -46,6 +48,18 @@ class SettingsPage extends StatelessWidget {
                 },
               ),
               NotificationsToggle(repository: notifications),
+              SiteContactShortcuts(),
+              const SizedBox(height: 12),
+              AppButton(
+                label: l10n.termsAndPrivacy,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const LegalPage(),
+                    ),
+                  );
+                },
+              ),
               const SizedBox(height: 12),
               AppButton(
                 label: l10n.privacyPolicy,

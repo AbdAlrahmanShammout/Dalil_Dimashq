@@ -283,4 +283,40 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get privacyRights =>
       'You can ask what is stored, how long it is kept, and who receives it. You can delete your account. The app is for people aged 16 or older.';
+
+  @override
+  String get firstName => 'First name';
+
+  @override
+  String get lastName => 'Last name';
+
+  @override
+  String get birthYear => 'Birth year';
+
+  @override
+  String get completeProfile => 'Complete profile';
+
+  @override
+  String get profileChangePending => 'Your name change is under review';
+
+  @override
+  String get termsAndPrivacy => 'Terms and privacy';
+
+  @override
+  String get accept => 'Accept';
+
+  @override
+  String get legalUpToDate => 'There is no new version to accept';
+
+  @override
+  String get terms => 'Terms';
+
+  @override
+  String get privacy => 'Privacy';
+
+  @override
+  String get whatsapp => 'WhatsApp';
+
+  @override
+  String get contactChannels => 'Contact';
 }

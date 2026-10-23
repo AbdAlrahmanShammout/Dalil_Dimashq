@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dalil_dimashq/core/network/dalil_error_catalog.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 
 const String _unauthorizedCode = '42501';
@@ -16,7 +17,10 @@ Failure mapSupabaseException(DioException exception) {
   final String? serverMessage = data is Map<String, dynamic>
       ? data['message'] as String?
       : null;
-  final String message = serverMessage ?? exception.message ?? 'Request failed';
+  final String message = resolveDalilErrorCode(serverMessage, code);
+  if (message == 'email_not_confirmed') {
+    return EmailNotConfirmedFailure(message);
+  }
   switch (code) {
     case _unauthorizedCode:
       return UnauthorizedFailure(message);

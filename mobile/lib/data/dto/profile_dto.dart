@@ -1,24 +1,48 @@
 import 'package:dalil_dimashq/domain/entities/user_profile.dart';
-import 'package:json_annotation/json_annotation.dart';
 
-part 'profile_dto.g.dart';
-
-@JsonSerializable()
 class ProfileDto {
-  const ProfileDto({this.displayName = '', this.phone = ''});
+  const ProfileDto({
+    this.displayName = '',
+    this.firstName = '',
+    this.lastName = '',
+    this.phone = '',
+    this.birthYear,
+    this.language = 'ar',
+    this.completedAt,
+  });
 
-  @JsonKey(name: 'display_name', defaultValue: '')
   final String displayName;
-
-  @JsonKey(defaultValue: '')
+  final String firstName;
+  final String lastName;
   final String phone;
+  final int? birthYear;
+  final String language;
+  final String? completedAt;
 
-  factory ProfileDto.fromJson(Map<String, dynamic> json) =>
-      _$ProfileDtoFromJson(json);
+  factory ProfileDto.fromJson(Map<String, dynamic> json) {
+    return ProfileDto(
+      displayName: json['display_name'] as String? ?? '',
+      firstName: json['first_name'] as String? ?? '',
+      lastName: json['last_name'] as String? ?? '',
+      phone: json['phone'] as String? ?? '',
+      birthYear: (json['birth_year'] as num?)?.toInt(),
+      language: json['language'] as String? ?? 'ar',
+      completedAt: json['completed_at'] as String?,
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$ProfileDtoToJson(this);
-
-  UserProfile toEntity() {
-    return UserProfile(displayName: displayName, phone: phone);
+  UserProfile toEntity({required bool hasPendingChange}) {
+    final String joinedName = '$firstName $lastName'.trim();
+    final String name = displayName.trim().isEmpty ? joinedName : displayName;
+    return UserProfile(
+      displayName: name,
+      firstName: firstName,
+      lastName: lastName,
+      phone: phone,
+      birthYear: birthYear,
+      language: language,
+      isComplete: completedAt != null && completedAt!.isNotEmpty,
+      hasPendingChange: hasPendingChange,
+    );
   }
 }

@@ -282,4 +282,40 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get privacyRights =>
       'يمكنك السؤال عما يُحفظ ومدة الاحتفاظ به ومع من يُشارك. يمكنك حذف حسابك. التطبيق لمن بلغ 16 سنة أو أكثر.';
+
+  @override
+  String get firstName => 'الاسم';
+
+  @override
+  String get lastName => 'الكنية';
+
+  @override
+  String get birthYear => 'سنة الميلاد';
+
+  @override
+  String get completeProfile => 'إكمال الملف';
+
+  @override
+  String get profileChangePending => 'طلب تعديل الاسم قيد المراجعة';
+
+  @override
+  String get termsAndPrivacy => 'الشروط والخصوصية';
+
+  @override
+  String get accept => 'أوافق';
+
+  @override
+  String get legalUpToDate => 'لا توجد نسخة جديدة للموافقة';
+
+  @override
+  String get terms => 'الشروط';
+
+  @override
+  String get privacy => 'الخصوصية';
+
+  @override
+  String get whatsapp => 'واتساب';
+
+  @override
+  String get contactChannels => 'التواصل';
 }

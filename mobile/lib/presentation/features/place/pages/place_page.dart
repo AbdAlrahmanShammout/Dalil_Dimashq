@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dalil_dimashq/core/di/injection.dart';
+import 'package:dalil_dimashq/core/network/dalil_error_catalog.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/error_view.dart';
@@ -62,7 +63,10 @@ class _PlaceView extends StatelessWidget {
           }
           if (state.errorMessage != null && state.place == null) {
             return ErrorView(
-              message: state.errorMessage!,
+              message: dalilErrorText(
+                state.errorMessage!,
+                Localizations.localeOf(context).languageCode,
+              ),
               retryLabel: l10n.retry,
               onRetry: () =>
                   context.read<PlaceBloc>().add(PlaceRequested(placeId)),
@@ -79,7 +83,7 @@ class _PlaceView extends StatelessWidget {
               PlacePhotosSection(place: state.place!),
               PlaceOverviewSection(place: state.place!),
               PlaceMapPreview(place: state.place!, links: links),
-              PlaceHoursSection(place: state.place!, now: now),
+              PlaceHoursSection(place: state.place!),
               PlaceContactSection(place: state.place!, links: links),
             ],
           );

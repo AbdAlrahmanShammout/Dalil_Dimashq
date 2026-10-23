@@ -5,7 +5,9 @@ import 'package:dalil_dimashq/data/dto/amenity_dto.dart';
 import 'package:dalil_dimashq/data/dto/event_dto.dart';
 import 'package:dalil_dimashq/data/dto/offer_dto.dart';
 import 'package:dalil_dimashq/data/dto/photo_dto.dart';
+import 'package:dalil_dimashq/data/dto/open_now_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_hour_dto.dart';
+import 'package:dalil_dimashq/data/dto/site_contact_dto.dart';
 import 'package:dalil_dimashq/data/dto/place_row_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_request_dto.dart';
 import 'package:dalil_dimashq/data/dto/search_places_response_dto.dart';
@@ -80,6 +82,22 @@ class DirectoryRemoteDataSource {
       'id,title_ar,title_en,venue_name,starts_at,poster_path,description_ar,description_en,venue_address,contact_phone,place_id,ends_at,publish_from,status',
       'starts_at.asc',
     );
+  }
+
+  Future<Map<String, bool>> openNow(List<String> placeIds) async {
+    if (placeIds.isEmpty) {
+      return <String, bool>{};
+    }
+    final List<OpenNowDto> rows = await _client.placeOpenNow(<String, dynamic>{
+      'p_places': placeIds,
+    });
+    return <String, bool>{
+      for (final OpenNowDto row in rows) row.placeId: row.openNow,
+    };
+  }
+
+  Future<List<SiteContactDto>> siteContacts() {
+    return _client.siteContacts('key,value');
   }
 
   Future<List<PlaceHourDto>> regularHours(String placeId) {

@@ -88,5 +88,17 @@
   "privacyCollected": "We may keep contact messages, owner accounts, visitor accounts, bookings, fake-booking reports, suggestions with an IP fingerprint, location, camera use, notification tokens, and technical information.",
   "privacyStorage": "We do not use tracking cookies or third-party analytics.",
   "privacyServices": "The service uses Netlify, Supabase, Resend, Firebase Cloud Messaging, Google Fonts, map tiles, Nominatim, and Photon.",
-  "privacyRights": "You can ask what is stored, how long it is kept, and who receives it. You can delete your account. The app is for people aged 16 or older."
+  "privacyRights": "You can ask what is stored, how long it is kept, and who receives it. You can delete your account. The app is for people aged 16 or older.",
+  "firstName": "First name",
+  "lastName": "Last name",
+  "birthYear": "Birth year",
+  "completeProfile": "Complete profile",
+  "profileChangePending": "Your name change is under review",
+  "termsAndPrivacy": "Terms and privacy",
+  "accept": "Accept",
+  "legalUpToDate": "There is no new version to accept",
+  "terms": "Terms",
+  "privacy": "Privacy",
+  "whatsapp": "WhatsApp",
+  "contactChannels": "Contact"
 }

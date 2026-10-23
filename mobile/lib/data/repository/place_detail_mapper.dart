@@ -18,6 +18,7 @@ PlaceDetail mapPlaceHeader({
   List<PhotoDto> photos = const <PhotoDto>[],
   List<Amenity> amenities = const <Amenity>[],
   List<PlaceHourDto> hours = const <PlaceHourDto>[],
+  bool? openNow,
 }) {
   final bool hasClass = place.tourismClass != null;
   return PlaceDetail(
@@ -50,6 +51,7 @@ PlaceDetail mapPlaceHeader({
     descriptionEn: place.descriptionEn,
     amenities: amenities,
     hours: hours.map((PlaceHourDto hour) => hour.toEntity()).toList(),
+    openNow: openNow,
     website: place.website,
     email: place.email,
     facebook: place.facebook,

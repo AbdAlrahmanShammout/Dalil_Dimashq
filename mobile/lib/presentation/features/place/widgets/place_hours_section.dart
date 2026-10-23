@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:dalil_dimashq/domain/entities/place_detail.dart';
 import 'package:dalil_dimashq/domain/entities/place_hour.dart';
-import 'package:dalil_dimashq/domain/entities/place_open_now.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 
 class PlaceHoursSection extends StatelessWidget {
-  const PlaceHoursSection({required this.place, this.now, super.key});
+  const PlaceHoursSection({required this.place, super.key});
 
   final PlaceDetail place;
-  final DateTime? now;
 
   @override
   Widget build(BuildContext context) {
-    if (place.hours.isEmpty) {
+    if (place.hours.isEmpty && place.openNow == null) {
       return const SizedBox.shrink();
     }
     final AppLocalizations l10n = AppLocalizations.of(context);
-    final DateTime clock = now ?? damascusTime(DateTime.now());
-    final bool? open = isOpenNow(place.hours, clock);
+    final bool? open = place.openNow;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(

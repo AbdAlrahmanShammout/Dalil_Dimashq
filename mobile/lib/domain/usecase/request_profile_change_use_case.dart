@@ -5,12 +5,12 @@ import 'package:dalil_dimashq/domain/repositories/profile_repository.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
-class SaveProfileUseCase {
-  SaveProfileUseCase(this._repository);
+class RequestProfileChangeUseCase {
+  RequestProfileChangeUseCase(this._repository);
 
   final ProfileRepository _repository;
 
-  Future<Either<Failure, UserProfile>> call(UserProfile profile) {
-    return _repository.save(profile);
+  Future<Either<Failure, UserProfile>> call(ProfileDraft draft) {
+    return _repository.requestChange(draft);
   }
 }

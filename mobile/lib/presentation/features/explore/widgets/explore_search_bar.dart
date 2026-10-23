@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dalil_dimashq/core/network/dalil_error_catalog.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_event.dart';
@@ -52,7 +53,10 @@ class ExploreResults extends StatelessWidget {
       builder: (BuildContext context, ExploreState state) {
         if (state.errorMessage != null && state.places.isEmpty) {
           return ErrorView(
-            message: state.errorMessage!,
+            message: dalilErrorText(
+              state.errorMessage!,
+              Localizations.localeOf(context).languageCode,
+            ),
             retryLabel: AppLocalizations.of(context).retry,
             onRetry: () =>
                 context.read<ExploreBloc>().add(const ExploreStarted()),

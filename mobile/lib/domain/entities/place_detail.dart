@@ -26,6 +26,7 @@ class PlaceDetail {
     this.descriptionEn,
     this.amenities = const <Amenity>[],
     this.hours = const <PlaceHour>[],
+    this.openNow,
     this.website,
     this.email,
     this.facebook,
@@ -52,6 +53,7 @@ class PlaceDetail {
   final String? descriptionEn;
   final List<Amenity> amenities;
   final List<PlaceHour> hours;
+  final bool? openNow;
   final String? website;
   final String? email;
   final String? facebook;

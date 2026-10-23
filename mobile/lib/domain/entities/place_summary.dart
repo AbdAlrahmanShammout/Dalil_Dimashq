@@ -17,6 +17,7 @@ class PlaceSummary {
     this.hours = const <PlaceHour>[],
     this.latitude,
     this.longitude,
+    this.openNow,
   });
 
   final String id;
@@ -33,4 +34,25 @@ class PlaceSummary {
   final List<PlaceHour> hours;
   final double? latitude;
   final double? longitude;
+  final bool? openNow;
+
+  PlaceSummary withOpenNow(bool? openNow) {
+    return PlaceSummary(
+      id: id,
+      type: type,
+      nameAr: nameAr,
+      nameEn: nameEn,
+      areaNameAr: areaNameAr,
+      areaNameEn: areaNameEn,
+      phones: phones,
+      stars: stars,
+      starSource: starSource,
+      isFeatured: isFeatured,
+      coverPath: coverPath,
+      hours: hours,
+      latitude: latitude,
+      longitude: longitude,
+      openNow: openNow,
+    );
+  }
 }

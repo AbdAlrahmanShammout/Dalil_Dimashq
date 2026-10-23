@@ -23,6 +23,7 @@ void main() {
               areaNameEn: 'Shaalan',
               stars: 4,
               isFeatured: true,
+              openNow: true,
               hours: <PlaceHour>[
                 PlaceHour(weekday: 0, opens: '00:00:00', closes: '23:59:00'),
                 PlaceHour(weekday: 1, opens: '00:00:00', closes: '23:59:00'),

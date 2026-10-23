@@ -41,6 +41,7 @@ class _HoursRepository extends FakePlaceRepository {
         id: '1',
         type: 'cafe',
         nameAr: 'نواة',
+        openNow: true,
         hours: <PlaceHour>[
           PlaceHour(weekday: 1, opens: '09:00:00', closes: '17:00:00'),
         ],

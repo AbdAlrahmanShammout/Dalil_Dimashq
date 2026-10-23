@@ -33,4 +33,48 @@ void main() {
   test('maps 54000 to ServerFailure', () {
     expect(mapCode('54000'), isA<ServerFailure>());
   });
+
+  test('maps a stable message code before the SQLSTATE', () {
+    final RequestOptions options = RequestOptions(path: '/rest/v1/rpc/complete_profile');
+    final Failure failure = mapSupabaseException(
+      DioException(
+        requestOptions: options,
+        response: Response<Map<String, dynamic>>(
+          requestOptions: options,
+          statusCode: 400,
+          data: <String, dynamic>{
+            'code': '23505',
+            'message': 'phone_taken',
+          },
+        ),
+      ),
+    );
+    expect(failure, isA<ValidationFailure>());
+    expect(failure.message, 'phone_taken');
+  });
+
+  test('maps an older English sentence by its prefix', () {
+    final RequestOptions options = RequestOptions(path: '/rest/v1/rpc/create_booking');
+    final Failure failure = mapSupabaseException(
+      DioException(
+        requestOptions: options,
+        response: Response<Map<String, dynamic>>(
+          requestOptions: options,
+          statusCode: 400,
+          data: <String, dynamic>{
+            'code': '42501',
+            'message': 'Confirm your email first before booking',
+          },
+        ),
+      ),
+    );
+    expect(failure, isA<EmailNotConfirmedFailure>());
+    expect(failure.message, 'email_not_confirmed');
+  });
+
+  test('maps a bare row-level refusal to not_allowed', () {
+    final Failure failure = mapCode('42501');
+    expect(failure, isA<UnauthorizedFailure>());
+    expect(failure.message, 'not_allowed');
+  });
 }
