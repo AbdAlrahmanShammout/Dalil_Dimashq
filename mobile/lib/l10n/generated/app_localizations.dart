@@ -895,6 +895,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'My bookings'**
   String get myBookings;
+
+  /// No description provided for @bookingReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get bookingReason;
 }
 
 class _AppLocalizationsDelegate

@@ -414,4 +414,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get myBookings => 'حجوزاتي';
+
+  @override
+  String get bookingReason => 'السبب';
 }

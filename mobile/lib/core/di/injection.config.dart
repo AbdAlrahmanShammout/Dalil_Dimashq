@@ -137,6 +137,8 @@ import 'package:dalil_dimashq/presentation/features/auth/bloc/sign_in_bloc.dart'
     as _i1047;
 import 'package:dalil_dimashq/presentation/features/auth/bloc/sign_up_bloc.dart'
     as _i948;
+import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_details_bloc.dart'
+    as _i613;
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_bloc.dart'
     as _i162;
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_gate_bloc.dart'
@@ -385,6 +387,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i430.LoadSiteContactsUseCase>(
       () => _i430.LoadSiteContactsUseCase(gh<_i1018.SiteContactRepository>()),
+    );
+    gh.factory<_i613.BookingDetailsBloc>(
+      () => _i613.BookingDetailsBloc(gh<_i654.GetPlaceUseCase>()),
     );
     gh.factory<_i489.PlaceBloc>(
       () => _i489.PlaceBloc(gh<_i654.GetPlaceUseCase>()),

@@ -5,6 +5,7 @@ import 'package:dalil_dimashq/domain/services/booking_slots.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
 import 'package:dalil_dimashq/presentation/features/booking/bloc/my_bookings_bloc.dart';
+import 'package:dalil_dimashq/presentation/features/booking/pages/booking_details_page.dart';
 import 'package:dalil_dimashq/presentation/features/booking/booking_status_label.dart';
 
 class MyBookingsPage extends StatelessWidget {
@@ -44,6 +45,14 @@ class _MyBookingsView extends StatelessWidget {
                   (booking) => ListTile(
                     key: Key('booking-${booking.id}'),
                     title: Text('${booking.id}'),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) =>
+                              BookingDetailsPage(booking: booking),
+                        ),
+                      );
+                    },
                     subtitle: Text(
                       booking.at == null
                           ? bookingStatusLabel(l10n, booking.status)

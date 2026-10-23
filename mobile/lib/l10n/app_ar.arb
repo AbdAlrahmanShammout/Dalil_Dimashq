@@ -132,5 +132,6 @@
   "statusCancelledByOwner": "ألغي من المنشأة",
   "statusAttended": "حضرت",
   "statusNoShow": "لم تحضر",
-  "myBookings": "حجوزاتي"
+  "myBookings": "حجوزاتي",
+  "bookingReason": "السبب"
 }
