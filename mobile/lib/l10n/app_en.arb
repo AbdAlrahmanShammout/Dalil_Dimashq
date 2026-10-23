@@ -214,5 +214,8 @@
   "hoursSaved": "Saved",
   "hoursRequested": "Sent for review",
   "takePhoto": "Take a photo",
-  "choosePhoto": "Choose from gallery"
+  "choosePhoto": "Choose from gallery",
+  "setCover": "Set cover",
+  "setLogo": "Set logo",
+  "deletePhoto": "Delete photo"
 }

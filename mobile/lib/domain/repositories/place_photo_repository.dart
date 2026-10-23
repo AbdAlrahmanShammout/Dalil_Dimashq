@@ -7,4 +7,16 @@ abstract class PlacePhotoRepository {
     required String name,
     required List<int> bytes,
   });
+
+  Future<Either<Failure, void>> setCover({
+    required String placeId,
+    required int photoId,
+  });
+
+  Future<Either<Failure, void>> setLogo({
+    required String placeId,
+    required int photoId,
+  });
+
+  Future<Either<Failure, void>> delete(int photoId);
 }

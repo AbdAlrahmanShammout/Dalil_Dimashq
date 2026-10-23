@@ -56,6 +56,15 @@ abstract class OwnerApiClient {
   @POST('/rest/v1/photos')
   Future<void> insertPhoto(@Body() Map<String, dynamic> body);
 
+  @POST('/rest/v1/rpc/set_cover_photo')
+  Future<void> setCoverPhoto(@Body() Map<String, dynamic> body);
+
+  @POST('/rest/v1/rpc/set_logo_photo')
+  Future<void> setLogoPhoto(@Body() Map<String, dynamic> body);
+
+  @DELETE('/rest/v1/photos')
+  Future<void> deletePhoto(@Query('id') String id);
+
   @POST('/rest/v1/place_amenities')
   Future<void> insertPlaceAmenity(@Body() Map<String, dynamic> body);
 

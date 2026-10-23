@@ -1255,6 +1255,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Choose from gallery'**
   String get choosePhoto;
+
+  /// No description provided for @setCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Set cover'**
+  String get setCover;
+
+  /// No description provided for @setLogo.
+  ///
+  /// In en, this message translates to:
+  /// **'Set logo'**
+  String get setLogo;
+
+  /// No description provided for @deletePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete photo'**
+  String get deletePhoto;
 }
 
 class _AppLocalizationsDelegate

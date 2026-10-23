@@ -600,4 +600,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get choosePhoto => 'Choose from gallery';
+
+  @override
+  String get setCover => 'Set cover';
+
+  @override
+  String get setLogo => 'Set logo';
+
+  @override
+  String get deletePhoto => 'Delete photo';
 }

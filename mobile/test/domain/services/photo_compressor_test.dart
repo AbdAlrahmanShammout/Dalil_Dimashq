@@ -43,4 +43,25 @@ class _Uploads implements PlacePhotoRepository {
     this.bytes = bytes;
     return const Right<Failure, void>(null);
   }
+
+  @override
+  Future<Either<Failure, void>> setCover({
+    required String placeId,
+    required int photoId,
+  }) async {
+    return const Right<Failure, void>(null);
+  }
+
+  @override
+  Future<Either<Failure, void>> setLogo({
+    required String placeId,
+    required int photoId,
+  }) async {
+    return const Right<Failure, void>(null);
+  }
+
+  @override
+  Future<Either<Failure, void>> delete(int photoId) async {
+    return const Right<Failure, void>(null);
+  }
 }

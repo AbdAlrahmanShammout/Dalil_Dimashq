@@ -197,6 +197,8 @@ import 'package:dalil_dimashq/domain/usecase/load_profile_use_case.dart'
     as _i525;
 import 'package:dalil_dimashq/domain/usecase/load_site_contacts_use_case.dart'
     as _i430;
+import 'package:dalil_dimashq/domain/usecase/manage_place_photo_use_case.dart'
+    as _i206;
 import 'package:dalil_dimashq/domain/usecase/open_notification_use_case.dart'
     as _i148;
 import 'package:dalil_dimashq/domain/usecase/pick_place_photo_use_case.dart'
@@ -423,6 +425,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i996.OwnerDashboardRepository>(
       () => _i459.OwnerDashboardRepositoryImpl(gh<_i272.OwnerApiClient>()),
+    );
+    gh.factory<_i206.ManagePlacePhotoUseCase>(
+      () => _i206.ManagePlacePhotoUseCase(gh<_i526.PlacePhotoRepository>()),
     );
     gh.factory<_i631.ClaimPlaceUseCase>(
       () => _i631.ClaimPlaceUseCase(gh<_i158.PlaceClaimRepository>()),

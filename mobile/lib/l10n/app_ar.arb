@@ -214,5 +214,8 @@
   "hoursSaved": "تم الحفظ",
   "hoursRequested": "أُرسل الأسبوع للمراجعة",
   "takePhoto": "التقط صورة",
-  "choosePhoto": "اختر من المعرض"
+  "choosePhoto": "اختر من المعرض",
+  "setCover": "اجعلها غلافاً",
+  "setLogo": "اجعلها شعاراً",
+  "deletePhoto": "احذف الصورة"
 }

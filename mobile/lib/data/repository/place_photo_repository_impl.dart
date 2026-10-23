@@ -40,4 +40,44 @@ class PlacePhotoRepositoryImpl implements PlacePhotoRepository {
       return Left<Failure, void>(mapSupabaseException(error));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> setCover({
+    required String placeId,
+    required int photoId,
+  }) {
+    return _call(
+      () => _client.setCoverPhoto(<String, dynamic>{
+        'p_place': placeId,
+        'p_photo': photoId,
+      }),
+    );
+  }
+
+  @override
+  Future<Either<Failure, void>> setLogo({
+    required String placeId,
+    required int photoId,
+  }) {
+    return _call(
+      () => _client.setLogoPhoto(<String, dynamic>{
+        'p_place': placeId,
+        'p_photo': photoId,
+      }),
+    );
+  }
+
+  @override
+  Future<Either<Failure, void>> delete(int photoId) {
+    return _call(() => _client.deletePhoto('eq.$photoId'));
+  }
+
+  Future<Either<Failure, void>> _call(Future<void> Function() action) async {
+    try {
+      await action();
+      return const Right<Failure, void>(null);
+    } on DioException catch (error) {
+      return Left<Failure, void>(mapSupabaseException(error));
+    }
+  }
 }

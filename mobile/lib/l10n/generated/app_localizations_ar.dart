@@ -598,4 +598,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get choosePhoto => 'اختر من المعرض';
+
+  @override
+  String get setCover => 'اجعلها غلافاً';
+
+  @override
+  String get setLogo => 'اجعلها شعاراً';
+
+  @override
+  String get deletePhoto => 'احذف الصورة';
 }
