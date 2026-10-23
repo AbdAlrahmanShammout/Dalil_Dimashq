@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:dalil_dimashq/core/di/injection.dart';
 import 'package:dalil_dimashq/domain/repositories/notification_preference_repository.dart';
+import 'package:dalil_dimashq/domain/services/notification_permission.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 
 class NotificationsToggle extends StatefulWidget {
-  const NotificationsToggle({this.repository, super.key});
+  const NotificationsToggle({this.repository, this.permission, super.key});
 
   final NotificationPreferenceRepository? repository;
+  final NotificationPermission? permission;
 
   @override
   State<NotificationsToggle> createState() => _NotificationsToggleState();
@@ -17,6 +19,16 @@ class _NotificationsToggleState extends State<NotificationsToggle> {
       widget.repository ?? getIt<NotificationPreferenceRepository>();
   late bool _isEnabled = _repository.isEnabled();
 
+  NotificationPermission? _permission() {
+    if (widget.permission != null) {
+      return widget.permission;
+    }
+    if (!getIt.isRegistered<NotificationPermission>()) {
+      return null;
+    }
+    return getIt<NotificationPermission>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SwitchListTile(
@@ -25,6 +37,9 @@ class _NotificationsToggleState extends State<NotificationsToggle> {
       title: Text(AppLocalizations.of(context).notifications),
       onChanged: (bool value) async {
         await _repository.setEnabled(value);
+        if (value) {
+          await _permission()?.request();
+        }
         setState(() => _isEnabled = value);
       },
     );

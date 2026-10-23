@@ -31,6 +31,8 @@ import 'package:dalil_dimashq/data/datasource/remote/profile_api_client.dart'
     as _i413;
 import 'package:dalil_dimashq/data/datasource/remote/suggestion_api_client.dart'
     as _i954;
+import 'package:dalil_dimashq/data/datasource/system_notification_permission.dart'
+    as _i791;
 import 'package:dalil_dimashq/data/repository/auth_repository_impl.dart'
     as _i327;
 import 'package:dalil_dimashq/data/repository/booking_repository_impl.dart'
@@ -89,6 +91,8 @@ import 'package:dalil_dimashq/domain/repositories/suggestion_repository.dart'
     as _i406;
 import 'package:dalil_dimashq/domain/services/booking_clock.dart' as _i183;
 import 'package:dalil_dimashq/domain/services/device_location.dart' as _i845;
+import 'package:dalil_dimashq/domain/services/notification_permission.dart'
+    as _i423;
 import 'package:dalil_dimashq/domain/services/place_links.dart' as _i820;
 import 'package:dalil_dimashq/domain/usecase/accept_legal_use_case.dart'
     as _i901;
@@ -226,6 +230,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i944.TokenStorage>(
       () => _i944.TokenStorage(gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i423.NotificationPermission>(
+      () => const _i791.SystemNotificationPermission(),
     );
     gh.lazySingleton<_i820.PlaceLinks>(() => _i227.DevicePlaceLinks());
     gh.lazySingleton<_i366.SessionRepository>(
