@@ -8,11 +8,13 @@ import 'package:dalil_dimashq/presentation/features/owner/bloc/place_photo_bloc.
 
 class PlacePhotosPage extends StatelessWidget {
   const PlacePhotosPage({
+    required this.placeId,
     required this.isPremium,
     required this.bloc,
     super.key,
   });
 
+  final String placeId;
   final bool isPremium;
   final PlacePhotoBloc bloc;
 
@@ -34,14 +36,20 @@ class PlacePhotosPage extends StatelessWidget {
                   key: const Key('pick-camera'),
                   label: l10n.takePhoto,
                   onPressed: () => bloc.add(
-                    const PlacePhotoPickRequested(PhotoOrigin.camera),
+                    PlacePhotoPickRequested(
+                      placeId: placeId,
+                      origin: PhotoOrigin.camera,
+                    ),
                   ),
                 ),
                 AppButton(
                   key: const Key('pick-gallery'),
                   label: l10n.choosePhoto,
                   onPressed: () => bloc.add(
-                    const PlacePhotoPickRequested(PhotoOrigin.gallery),
+                    PlacePhotoPickRequested(
+                      placeId: placeId,
+                      origin: PhotoOrigin.gallery,
+                    ),
                   ),
                 ),
                 if (state.photo != null)

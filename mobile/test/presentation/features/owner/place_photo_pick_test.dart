@@ -6,7 +6,10 @@ import 'package:dalil_dimashq/domain/entities/premium_status.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/repositories/premium_repository.dart';
 import 'package:dalil_dimashq/domain/services/photo_picker.dart';
+import 'package:dalil_dimashq/domain/repositories/place_photo_repository.dart';
+import 'package:dalil_dimashq/domain/services/photo_compressor.dart';
 import 'package:dalil_dimashq/domain/usecase/pick_place_photo_use_case.dart';
+import 'package:dalil_dimashq/domain/usecase/upload_place_photo_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/features/owner/bloc/place_photo_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/owner/pages/place_photos_page.dart';
@@ -22,8 +25,12 @@ void main() {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: PlacePhotosPage(
+          placeId: 'p1',
           isPremium: true,
-          bloc: PlacePhotoBloc(PickPlacePhotoUseCase(const _Premium(), picker)),
+          bloc: PlacePhotoBloc(
+            PickPlacePhotoUseCase(const _Premium(), picker),
+            UploadPlacePhotoUseCase(_PassThrough(), _Uploads()),
+          ),
         ),
       ),
     );
@@ -50,6 +57,22 @@ class _Premium implements PremiumRepository {
         endsAt: DateTime.utc(2026, 12, 1),
       ),
     );
+  }
+}
+
+class _PassThrough implements PhotoCompressor {
+  @override
+  List<int> compress(List<int> bytes) => bytes;
+}
+
+class _Uploads implements PlacePhotoRepository {
+  @override
+  Future<Either<Failure, void>> upload({
+    required String placeId,
+    required String name,
+    required List<int> bytes,
+  }) async {
+    return const Right<Failure, void>(null);
   }
 }
 

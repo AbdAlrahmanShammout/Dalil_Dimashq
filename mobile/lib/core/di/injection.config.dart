@@ -13,6 +13,8 @@ import 'package:dalil_dimashq/core/di/register_module.dart' as _i111;
 import 'package:dalil_dimashq/core/storage/token_storage.dart' as _i944;
 import 'package:dalil_dimashq/data/datasource/device_push_token_source.dart'
     as _i280;
+import 'package:dalil_dimashq/data/datasource/image_photo_compressor.dart'
+    as _i166;
 import 'package:dalil_dimashq/data/datasource/local/device_place_links.dart'
     as _i227;
 import 'package:dalil_dimashq/data/datasource/local/geolocator_device_location.dart'
@@ -75,6 +77,8 @@ import 'package:dalil_dimashq/data/repository/place_hours_repository_impl.dart'
     as _i126;
 import 'package:dalil_dimashq/data/repository/place_name_search_repository_impl.dart'
     as _i962;
+import 'package:dalil_dimashq/data/repository/place_photo_repository_impl.dart'
+    as _i395;
 import 'package:dalil_dimashq/data/repository/place_repository_impl.dart'
     as _i401;
 import 'package:dalil_dimashq/data/repository/premium_repository_impl.dart'
@@ -123,6 +127,8 @@ import 'package:dalil_dimashq/domain/repositories/place_hours_repository.dart'
     as _i840;
 import 'package:dalil_dimashq/domain/repositories/place_name_search_repository.dart'
     as _i760;
+import 'package:dalil_dimashq/domain/repositories/place_photo_repository.dart'
+    as _i526;
 import 'package:dalil_dimashq/domain/repositories/place_repository.dart'
     as _i823;
 import 'package:dalil_dimashq/domain/repositories/premium_repository.dart'
@@ -140,6 +146,7 @@ import 'package:dalil_dimashq/domain/services/device_location.dart' as _i845;
 import 'package:dalil_dimashq/domain/services/device_push_token.dart' as _i800;
 import 'package:dalil_dimashq/domain/services/notification_permission.dart'
     as _i423;
+import 'package:dalil_dimashq/domain/services/photo_compressor.dart' as _i327;
 import 'package:dalil_dimashq/domain/services/photo_picker.dart' as _i584;
 import 'package:dalil_dimashq/domain/services/place_links.dart' as _i820;
 import 'package:dalil_dimashq/domain/usecase/accept_legal_use_case.dart'
@@ -229,6 +236,8 @@ import 'package:dalil_dimashq/domain/usecase/toggle_amenity_use_case.dart'
     as _i710;
 import 'package:dalil_dimashq/domain/usecase/update_profile_phone_use_case.dart'
     as _i544;
+import 'package:dalil_dimashq/domain/usecase/upload_place_photo_use_case.dart'
+    as _i614;
 import 'package:dalil_dimashq/presentation/features/auth/bloc/recovery_bloc.dart'
     as _i199;
 import 'package:dalil_dimashq/presentation/features/auth/bloc/sign_in_bloc.dart'
@@ -316,6 +325,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.contactApiClient(),
     );
     gh.lazySingleton<_i183.BookingClock>(() => _i183.BookingClock());
+    gh.lazySingleton<_i327.PhotoCompressor>(
+      () => const _i166.ImagePhotoCompressor(),
+    );
     gh.lazySingleton<_i100.NotificationPreferenceRepository>(
       () => _i390.NotificationPreferenceRepositoryImpl(
         gh<_i460.SharedPreferences>(),
@@ -382,6 +394,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i954.SuggestionApiClient>(
       () => registerModule.suggestionApiClient(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i526.PlacePhotoRepository>(
+      () => _i395.PlacePhotoRepositoryImpl(
+        gh<_i361.Dio>(),
+        gh<_i272.OwnerApiClient>(),
+      ),
+    );
     gh.factory<_i480.SendContactMessageUseCase>(
       () => _i480.SendContactMessageUseCase(
         gh<_i262.ContactRepository>(),
@@ -420,6 +438,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i840.PlaceHoursRepository>(
       () => _i126.PlaceHoursRepositoryImpl(gh<_i272.OwnerApiClient>()),
+    );
+    gh.factory<_i614.UploadPlacePhotoUseCase>(
+      () => _i614.UploadPlacePhotoUseCase(
+        gh<_i327.PhotoCompressor>(),
+        gh<_i526.PlacePhotoRepository>(),
+      ),
     );
     gh.lazySingleton<_i625.BookingRepository>(
       () => _i88.BookingRepositoryImpl(gh<_i990.BookingApiClient>()),
@@ -575,6 +599,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i52.SuggestionBloc>(
       () => _i52.SuggestionBloc(gh<_i101.SubmitSuggestionUseCase>()),
     );
+    gh.factory<_i770.PlacePhotoBloc>(
+      () => _i770.PlacePhotoBloc(
+        gh<_i1062.PickPlacePhotoUseCase>(),
+        gh<_i614.UploadPlacePhotoUseCase>(),
+      ),
+    );
     gh.lazySingleton<_i823.PlaceRepository>(
       () => _i401.PlaceRepositoryImpl(gh<_i360.DirectoryRemoteDataSource>()),
     );
@@ -634,9 +664,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1018.SiteContactRepository>(
       () =>
           _i31.SiteContactRepositoryImpl(gh<_i360.DirectoryRemoteDataSource>()),
-    );
-    gh.factory<_i770.PlacePhotoBloc>(
-      () => _i770.PlacePhotoBloc(gh<_i1062.PickPlacePhotoUseCase>()),
     );
     gh.factory<_i1043.OwnerAmenitiesBloc>(
       () => _i1043.OwnerAmenitiesBloc(

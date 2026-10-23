@@ -53,6 +53,9 @@ abstract class OwnerApiClient {
     @Query('select') String select,
   );
 
+  @POST('/rest/v1/photos')
+  Future<void> insertPhoto(@Body() Map<String, dynamic> body);
+
   @POST('/rest/v1/place_amenities')
   Future<void> insertPlaceAmenity(@Body() Map<String, dynamic> body);
 
