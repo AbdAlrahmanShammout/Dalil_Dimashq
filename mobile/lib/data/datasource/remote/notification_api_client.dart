@@ -19,4 +19,7 @@ abstract class NotificationApiClient {
     @Query('id') String id,
     @Body() Map<String, dynamic> body,
   );
+
+  @POST('/rest/v1/rpc/register_device')
+  Future<void> registerDevice(@Body() Map<String, dynamic> body);
 }

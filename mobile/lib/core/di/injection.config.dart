@@ -11,6 +11,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dalil_dimashq/core/di/register_module.dart' as _i111;
 import 'package:dalil_dimashq/core/storage/token_storage.dart' as _i944;
+import 'package:dalil_dimashq/data/datasource/device_push_token_source.dart'
+    as _i280;
 import 'package:dalil_dimashq/data/datasource/local/device_place_links.dart'
     as _i227;
 import 'package:dalil_dimashq/data/datasource/local/geolocator_device_location.dart'
@@ -39,6 +41,8 @@ import 'package:dalil_dimashq/data/repository/booking_repository_impl.dart'
     as _i88;
 import 'package:dalil_dimashq/data/repository/contact_repository_impl.dart'
     as _i453;
+import 'package:dalil_dimashq/data/repository/device_repository_impl.dart'
+    as _i415;
 import 'package:dalil_dimashq/data/repository/event_repository_impl.dart'
     as _i215;
 import 'package:dalil_dimashq/data/repository/legal_repository_impl.dart'
@@ -67,6 +71,8 @@ import 'package:dalil_dimashq/domain/repositories/booking_repository.dart'
     as _i625;
 import 'package:dalil_dimashq/domain/repositories/contact_repository.dart'
     as _i262;
+import 'package:dalil_dimashq/domain/repositories/device_repository.dart'
+    as _i766;
 import 'package:dalil_dimashq/domain/repositories/event_repository.dart'
     as _i203;
 import 'package:dalil_dimashq/domain/repositories/legal_repository.dart'
@@ -91,6 +97,7 @@ import 'package:dalil_dimashq/domain/repositories/suggestion_repository.dart'
     as _i406;
 import 'package:dalil_dimashq/domain/services/booking_clock.dart' as _i183;
 import 'package:dalil_dimashq/domain/services/device_location.dart' as _i845;
+import 'package:dalil_dimashq/domain/services/device_push_token.dart' as _i800;
 import 'package:dalil_dimashq/domain/services/notification_permission.dart'
     as _i423;
 import 'package:dalil_dimashq/domain/services/place_links.dart' as _i820;
@@ -134,6 +141,8 @@ import 'package:dalil_dimashq/domain/usecase/read_locale_use_case.dart'
     as _i1013;
 import 'package:dalil_dimashq/domain/usecase/recover_password_use_case.dart'
     as _i244;
+import 'package:dalil_dimashq/domain/usecase/register_device_use_case.dart'
+    as _i889;
 import 'package:dalil_dimashq/domain/usecase/reply_fake_report_use_case.dart'
     as _i798;
 import 'package:dalil_dimashq/domain/usecase/request_profile_change_use_case.dart'
@@ -221,6 +230,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i149.LocaleRepository>(
       () => _i289.LocaleRepositoryImpl(gh<_i460.SharedPreferences>()),
+    );
+    gh.lazySingleton<_i800.DevicePushToken>(
+      () => const _i280.DevicePushTokenSource(),
     );
     gh.lazySingleton<_i845.DeviceLocation>(
       () => _i787.GeolocatorDeviceLocation(),
@@ -334,6 +346,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i101.SubmitSuggestionUseCase>(
       () => _i101.SubmitSuggestionUseCase(gh<_i406.SuggestionRepository>()),
     );
+    gh.lazySingleton<_i766.DeviceRepository>(
+      () => _i415.DeviceRepositoryImpl(gh<_i100.NotificationApiClient>()),
+    );
     gh.lazySingleton<_i242.AuthRepository>(
       () => _i327.AuthRepositoryImpl(
         gh<_i371.AuthApiClient>(),
@@ -441,6 +456,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i489.PlaceBloc>(
       () => _i489.PlaceBloc(gh<_i654.GetPlaceUseCase>()),
+    );
+    gh.factory<_i889.RegisterDeviceUseCase>(
+      () => _i889.RegisterDeviceUseCase(
+        gh<_i766.DeviceRepository>(),
+        gh<_i800.DevicePushToken>(),
+      ),
     );
     gh.factory<_i60.SignOutBloc>(
       () => _i60.SignOutBloc(gh<_i334.SignOutUseCase>()),
