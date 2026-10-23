@@ -5,6 +5,7 @@ import 'package:dalil_dimashq/domain/entities/opening_period.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/repositories/place_hours_repository.dart';
 import 'package:dalil_dimashq/domain/usecase/load_place_hours_use_case.dart';
+import 'package:dalil_dimashq/domain/usecase/save_place_hours_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/features/owner/bloc/place_hours_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/owner/pages/place_hours_page.dart';
@@ -44,7 +45,10 @@ void main() {
         supportedLocales: AppLocalizations.supportedLocales,
         home: PlaceHoursPage(
           placeId: 'p1',
-          bloc: PlaceHoursBloc(LoadPlaceHoursUseCase(_Hours())),
+          bloc: PlaceHoursBloc(
+            LoadPlaceHoursUseCase(_Hours()),
+            SavePlaceHoursUseCase(_Hours()),
+          ),
         ),
       ),
     );
@@ -60,11 +64,56 @@ void main() {
     expect(find.text('09:00–17:00'), findsNWidgets(3));
     expect(find.byKey(const Key('add-period-0')), findsNothing);
   });
+
+  testWidgets('saving reports saved or requested', (WidgetTester tester) async {
+    final _Hours saved = _Hours();
+    await tester.pumpWidget(_hoursPage(saved));
+    await tester.pump();
+    await tester.tap(find.byKey(const Key('save-hours')));
+    await tester.pump();
+    expect(saved.week?.periods, isEmpty);
+    expect(find.byKey(const Key('hours-saved')), findsOneWidget);
+    final _Hours requested = _Hours(result: 'requested');
+    await tester.pumpWidget(_hoursPage(requested));
+    await tester.pump();
+    await tester.tap(find.byKey(const Key('save-hours')));
+    await tester.pump();
+    expect(find.byKey(const Key('hours-requested')), findsOneWidget);
+  });
+}
+
+Widget _hoursPage(_Hours hours) {
+  return MaterialApp(
+    locale: const Locale('en'),
+    localizationsDelegates: AppLocalizations.localizationsDelegates,
+    supportedLocales: AppLocalizations.supportedLocales,
+    home: PlaceHoursPage(
+      placeId: 'p1',
+      bloc: PlaceHoursBloc(
+        LoadPlaceHoursUseCase(hours),
+        SavePlaceHoursUseCase(hours),
+      ),
+    ),
+  );
 }
 
 class _Hours implements PlaceHoursRepository {
+  _Hours({this.result = 'saved'});
+
+  final String result;
+  PlaceWeek? week;
+
   @override
   Future<Either<Failure, PlaceWeek>> load(String placeId) async {
     return const Right<Failure, PlaceWeek>(PlaceWeek());
+  }
+
+  @override
+  Future<Either<Failure, String>> save({
+    required String placeId,
+    required PlaceWeek week,
+  }) async {
+    this.week = week;
+    return Right<Failure, String>(result);
   }
 }

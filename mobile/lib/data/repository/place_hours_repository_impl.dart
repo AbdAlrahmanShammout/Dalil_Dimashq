@@ -14,6 +14,30 @@ class PlaceHoursRepositoryImpl implements PlaceHoursRepository {
   final OwnerApiClient _client;
 
   @override
+  Future<Either<Failure, String>> save({
+    required String placeId,
+    required PlaceWeek week,
+  }) async {
+    try {
+      final dynamic result = await _client.setPlaceHours(<String, dynamic>{
+        'p_place': placeId,
+        'p_week': week.periods
+            .map(
+              (OpeningPeriod period) => <String, dynamic>{
+                'weekday': period.weekday,
+                'opens': period.opens,
+                'closes': period.closes,
+              },
+            )
+            .toList(growable: false),
+      });
+      return Right<Failure, String>('$result');
+    } on DioException catch (error) {
+      return Left<Failure, String>(mapSupabaseException(error));
+    }
+  }
+
+  @override
   Future<Either<Failure, PlaceWeek>> load(String placeId) async {
     try {
       final dynamic rows = await _client.placeHours(

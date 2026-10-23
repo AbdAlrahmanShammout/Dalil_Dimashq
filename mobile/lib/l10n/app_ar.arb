@@ -209,5 +209,8 @@
   "thursday": "الخميس",
   "friday": "الجمعة",
   "saturday": "السبت",
-  "addPeriod": "أضف ساعات"
+  "addPeriod": "أضف ساعات",
+  "saveHours": "احفظ الساعات",
+  "hoursSaved": "تم الحفظ",
+  "hoursRequested": "أُرسل الأسبوع للمراجعة"
 }

@@ -583,4 +583,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get addPeriod => 'أضف ساعات';
+
+  @override
+  String get saveHours => 'احفظ الساعات';
+
+  @override
+  String get hoursSaved => 'تم الحفظ';
+
+  @override
+  String get hoursRequested => 'أُرسل الأسبوع للمراجعة';
 }

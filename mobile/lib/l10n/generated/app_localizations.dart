@@ -1225,6 +1225,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add hours'**
   String get addPeriod;
+
+  /// No description provided for @saveHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Save hours'**
+  String get saveHours;
+
+  /// No description provided for @hoursSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get hoursSaved;
+
+  /// No description provided for @hoursRequested.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent for review'**
+  String get hoursRequested;
 }
 
 class _AppLocalizationsDelegate

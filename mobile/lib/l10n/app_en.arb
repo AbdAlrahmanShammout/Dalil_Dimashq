@@ -209,5 +209,8 @@
   "thursday": "Thursday",
   "friday": "Friday",
   "saturday": "Saturday",
-  "addPeriod": "Add hours"
+  "addPeriod": "Add hours",
+  "saveHours": "Save hours",
+  "hoursSaved": "Saved",
+  "hoursRequested": "Sent for review"
 }

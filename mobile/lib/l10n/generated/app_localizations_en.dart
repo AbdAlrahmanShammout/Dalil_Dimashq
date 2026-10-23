@@ -585,4 +585,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addPeriod => 'Add hours';
+
+  @override
+  String get saveHours => 'Save hours';
+
+  @override
+  String get hoursSaved => 'Saved';
+
+  @override
+  String get hoursRequested => 'Sent for review';
 }

@@ -197,6 +197,8 @@ import 'package:dalil_dimashq/domain/usecase/save_immediate_fields_use_case.dart
     as _i974;
 import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart'
     as _i399;
+import 'package:dalil_dimashq/domain/usecase/save_place_hours_use_case.dart'
+    as _i435;
 import 'package:dalil_dimashq/domain/usecase/search_places_by_name_use_case.dart'
     as _i7;
 import 'package:dalil_dimashq/domain/usecase/search_places_use_case.dart'
@@ -414,6 +416,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i931.LoadPlaceHoursUseCase>(
       () => _i931.LoadPlaceHoursUseCase(gh<_i840.PlaceHoursRepository>()),
     );
+    gh.factory<_i435.SavePlaceHoursUseCase>(
+      () => _i435.SavePlaceHoursUseCase(gh<_i840.PlaceHoursRepository>()),
+    );
     gh.lazySingleton<_i539.ProfileRepository>(
       () => _i352.ProfileRepositoryImpl(gh<_i413.ProfileApiClient>()),
     );
@@ -526,6 +531,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i391.DeleteAccountBloc>(
       () => _i391.DeleteAccountBloc(gh<_i867.DeleteAccountUseCase>()),
     );
+    gh.factory<_i399.PlaceHoursBloc>(
+      () => _i399.PlaceHoursBloc(
+        gh<_i931.LoadPlaceHoursUseCase>(),
+        gh<_i435.SavePlaceHoursUseCase>(),
+      ),
+    );
     gh.factory<_i52.SuggestionBloc>(
       () => _i52.SuggestionBloc(gh<_i101.SubmitSuggestionUseCase>()),
     );
@@ -578,9 +589,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i630.CreateBookingUseCase>(),
         gh<_i67.LoadBookingUseCase>(),
       ),
-    );
-    gh.factory<_i399.PlaceHoursBloc>(
-      () => _i399.PlaceHoursBloc(gh<_i931.LoadPlaceHoursUseCase>()),
     );
     gh.factory<_i974.SaveImmediateFieldsUseCase>(
       () => _i974.SaveImmediateFieldsUseCase(

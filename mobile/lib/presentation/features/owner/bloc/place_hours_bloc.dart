@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:dalil_dimashq/domain/entities/opening_period.dart';
 import 'package:dalil_dimashq/domain/failures/failure.dart';
 import 'package:dalil_dimashq/domain/usecase/load_place_hours_use_case.dart';
+import 'package:dalil_dimashq/domain/usecase/save_place_hours_use_case.dart';
 
 abstract class PlaceHoursEvent {
   const PlaceHoursEvent();
@@ -21,20 +22,29 @@ class PlaceHoursPeriodAdded extends PlaceHoursEvent {
   final int weekday;
 }
 
+class PlaceHoursSubmitted extends PlaceHoursEvent {
+  const PlaceHoursSubmitted(this.placeId);
+
+  final String placeId;
+}
+
 class PlaceHoursState {
-  const PlaceHoursState({this.week = const PlaceWeek()});
+  const PlaceHoursState({this.week = const PlaceWeek(), this.result});
 
   final PlaceWeek week;
+  final String? result;
 }
 
 @injectable
 class PlaceHoursBloc extends Bloc<PlaceHoursEvent, PlaceHoursState> {
-  PlaceHoursBloc(this._load) : super(const PlaceHoursState()) {
+  PlaceHoursBloc(this._load, this._save) : super(const PlaceHoursState()) {
     on<PlaceHoursStarted>(_onStarted);
     on<PlaceHoursPeriodAdded>(_onAdded);
+    on<PlaceHoursSubmitted>(_onSubmitted);
   }
 
   final LoadPlaceHoursUseCase _load;
+  final SavePlaceHoursUseCase _save;
 
   Future<void> _onStarted(
     PlaceHoursStarted event,
@@ -54,5 +64,18 @@ class PlaceHoursBloc extends Bloc<PlaceHoursEvent, PlaceHoursState> {
         ),
       ),
     );
+  }
+
+  Future<void> _onSubmitted(
+    PlaceHoursSubmitted event,
+    Emitter<PlaceHoursState> emit,
+  ) async {
+    final Either<Failure, String> result = await _save(
+      placeId: event.placeId,
+      week: state.week,
+    );
+    result.fold((Failure failure) {}, (String value) {
+      emit(PlaceHoursState(week: state.week, result: value));
+    });
   }
 }
