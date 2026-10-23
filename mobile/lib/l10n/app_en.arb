@@ -173,5 +173,12 @@
   "placeLinked": "Place linked",
   "invalidCode": "That code is not valid",
   "requestClaim": "Send for review",
-  "claimSent": "Claim sent for review"
+  "claimSent": "Claim sent for review",
+  "ownerHours": "Hours",
+  "ownerAmenities": "Amenities",
+  "ownerPhotos": "Photos",
+  "ownerOffers": "Offers",
+  "ownerBookings": "Bookings",
+  "ownerRequests": "Requests",
+  "ownerSettings": "Booking settings"
 }

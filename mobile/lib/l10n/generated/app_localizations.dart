@@ -1081,6 +1081,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Claim sent for review'**
   String get claimSent;
+
+  /// No description provided for @ownerHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Hours'**
+  String get ownerHours;
+
+  /// No description provided for @ownerAmenities.
+  ///
+  /// In en, this message translates to:
+  /// **'Amenities'**
+  String get ownerAmenities;
+
+  /// No description provided for @ownerPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get ownerPhotos;
+
+  /// No description provided for @ownerOffers.
+  ///
+  /// In en, this message translates to:
+  /// **'Offers'**
+  String get ownerOffers;
+
+  /// No description provided for @ownerBookings.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookings'**
+  String get ownerBookings;
+
+  /// No description provided for @ownerRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests'**
+  String get ownerRequests;
+
+  /// No description provided for @ownerSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking settings'**
+  String get ownerSettings;
 }
 
 class _AppLocalizationsDelegate

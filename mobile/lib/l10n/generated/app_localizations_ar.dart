@@ -511,4 +511,25 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get claimSent => 'أُرسل طلب الربط للمراجعة';
+
+  @override
+  String get ownerHours => 'ساعات العمل';
+
+  @override
+  String get ownerAmenities => 'المرافق';
+
+  @override
+  String get ownerPhotos => 'الصور';
+
+  @override
+  String get ownerOffers => 'العروض';
+
+  @override
+  String get ownerBookings => 'الحجوزات';
+
+  @override
+  String get ownerRequests => 'الطلبات';
+
+  @override
+  String get ownerSettings => 'إعدادات الحجز';
 }

@@ -513,4 +513,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get claimSent => 'Claim sent for review';
+
+  @override
+  String get ownerHours => 'Hours';
+
+  @override
+  String get ownerAmenities => 'Amenities';
+
+  @override
+  String get ownerPhotos => 'Photos';
+
+  @override
+  String get ownerOffers => 'Offers';
+
+  @override
+  String get ownerBookings => 'Bookings';
+
+  @override
+  String get ownerRequests => 'Requests';
+
+  @override
+  String get ownerSettings => 'Booking settings';
 }

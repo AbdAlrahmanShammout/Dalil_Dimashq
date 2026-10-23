@@ -173,5 +173,12 @@
   "placeLinked": "تم ربط المنشأة",
   "invalidCode": "الكود غير صالح",
   "requestClaim": "أرسل للمراجعة",
-  "claimSent": "أُرسل طلب الربط للمراجعة"
+  "claimSent": "أُرسل طلب الربط للمراجعة",
+  "ownerHours": "ساعات العمل",
+  "ownerAmenities": "المرافق",
+  "ownerPhotos": "الصور",
+  "ownerOffers": "العروض",
+  "ownerBookings": "الحجوزات",
+  "ownerRequests": "الطلبات",
+  "ownerSettings": "إعدادات الحجز"
 }

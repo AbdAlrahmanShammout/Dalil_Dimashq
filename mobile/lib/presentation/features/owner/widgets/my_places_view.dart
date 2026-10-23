@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dalil_dimashq/core/di/injection.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/features/owner/bloc/my_places_bloc.dart';
+import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_dashboard_bloc.dart';
+import 'package:dalil_dimashq/presentation/features/owner/pages/owner_dashboard_page.dart';
 
 class MyPlacesView extends StatelessWidget {
   const MyPlacesView({this.bloc, super.key});
@@ -33,6 +35,19 @@ class MyPlacesView extends StatelessWidget {
                   subtitle: Text(
                     '${place.type}${place.address == null ? '' : ' · ${place.address}'}',
                   ),
+                  onTap: () {
+                    if (!getIt.isRegistered<OwnerDashboardBloc>()) {
+                      return;
+                    }
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => OwnerDashboardPage(
+                          placeId: place.id,
+                          bloc: getIt<OwnerDashboardBloc>(),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],

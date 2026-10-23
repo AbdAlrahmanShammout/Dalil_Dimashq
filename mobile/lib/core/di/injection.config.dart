@@ -59,6 +59,8 @@ import 'package:dalil_dimashq/data/repository/notification_repository_impl.dart'
     as _i591;
 import 'package:dalil_dimashq/data/repository/offer_repository_impl.dart'
     as _i908;
+import 'package:dalil_dimashq/data/repository/owner_dashboard_repository_impl.dart'
+    as _i459;
 import 'package:dalil_dimashq/data/repository/owner_place_repository_impl.dart'
     as _i238;
 import 'package:dalil_dimashq/data/repository/place_claim_repository_impl.dart'
@@ -99,6 +101,8 @@ import 'package:dalil_dimashq/domain/repositories/notification_repository.dart'
     as _i1059;
 import 'package:dalil_dimashq/domain/repositories/offer_repository.dart'
     as _i921;
+import 'package:dalil_dimashq/domain/repositories/owner_dashboard_repository.dart'
+    as _i996;
 import 'package:dalil_dimashq/domain/repositories/owner_place_repository.dart'
     as _i266;
 import 'package:dalil_dimashq/domain/repositories/place_claim_repository.dart'
@@ -155,6 +159,8 @@ import 'package:dalil_dimashq/domain/usecase/load_booking_ban_use_case.dart'
     as _i875;
 import 'package:dalil_dimashq/domain/usecase/load_booking_use_case.dart'
     as _i67;
+import 'package:dalil_dimashq/domain/usecase/load_owner_dashboard_use_case.dart'
+    as _i506;
 import 'package:dalil_dimashq/domain/usecase/load_pending_legal_use_case.dart'
     as _i140;
 import 'package:dalil_dimashq/domain/usecase/load_premium_use_case.dart'
@@ -226,6 +232,8 @@ import 'package:dalil_dimashq/presentation/features/owner/bloc/claim_place_bloc.
     as _i321;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/my_places_bloc.dart'
     as _i478;
+import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_dashboard_bloc.dart'
+    as _i635;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_place_search_bloc.dart'
     as _i589;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/premium_bloc.dart'
@@ -349,6 +357,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i399.SaveLocaleUseCase>(),
       ),
     );
+    gh.lazySingleton<_i996.OwnerDashboardRepository>(
+      () => _i459.OwnerDashboardRepositoryImpl(gh<_i272.OwnerApiClient>()),
+    );
     gh.factory<_i631.ClaimPlaceUseCase>(
       () => _i631.ClaimPlaceUseCase(gh<_i158.PlaceClaimRepository>()),
     );
@@ -423,6 +434,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i602.ListOwnedPlacesUseCase>(
       () => _i602.ListOwnedPlacesUseCase(gh<_i266.OwnerPlaceRepository>()),
+    );
+    gh.factory<_i506.LoadOwnerDashboardUseCase>(
+      () =>
+          _i506.LoadOwnerDashboardUseCase(gh<_i996.OwnerDashboardRepository>()),
     );
     gh.factory<_i321.ClaimPlaceBloc>(
       () => _i321.ClaimPlaceBloc(gh<_i631.ClaimPlaceUseCase>()),
@@ -544,6 +559,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i489.PlaceBloc>(
       () => _i489.PlaceBloc(gh<_i654.GetPlaceUseCase>()),
+    );
+    gh.factory<_i635.OwnerDashboardBloc>(
+      () => _i635.OwnerDashboardBloc(gh<_i506.LoadOwnerDashboardUseCase>()),
     );
     gh.factory<_i889.RegisterDeviceUseCase>(
       () => _i889.RegisterDeviceUseCase(
