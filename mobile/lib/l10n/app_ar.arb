@@ -181,5 +181,15 @@
   "ownerBookings": "الحجوزات",
   "ownerRequests": "الطلبات",
   "ownerSettings": "إعدادات الحجز",
-  "viewAsVisitor": "اعرض كما يراها الزائر"
+  "viewAsVisitor": "اعرض كما يراها الزائر",
+  "editDetails": "تعديل البيانات",
+  "detailsSaved": "تم حفظ البيانات",
+  "premiumRequired": "هذا التعديل متاح للبريميوم",
+  "phones": "الهواتف",
+  "website": "الموقع",
+  "email": "البريد",
+  "facebook": "فيسبوك",
+  "instagram": "إنستغرام",
+  "descriptionAr": "الوصف بالعربية",
+  "descriptionEn": "الوصف بالإنكليزية"
 }

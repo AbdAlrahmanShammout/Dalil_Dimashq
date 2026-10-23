@@ -537,4 +537,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewAsVisitor => 'View as visitor';
+
+  @override
+  String get editDetails => 'Edit details';
+
+  @override
+  String get detailsSaved => 'Details saved';
+
+  @override
+  String get premiumRequired => 'Premium is required for this change';
+
+  @override
+  String get phones => 'Phones';
+
+  @override
+  String get descriptionAr => 'Arabic description';
+
+  @override
+  String get descriptionEn => 'English description';
 }

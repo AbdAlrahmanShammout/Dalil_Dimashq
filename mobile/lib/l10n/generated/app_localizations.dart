@@ -1129,6 +1129,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View as visitor'**
   String get viewAsVisitor;
+
+  /// No description provided for @editDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit details'**
+  String get editDetails;
+
+  /// No description provided for @detailsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Details saved'**
+  String get detailsSaved;
+
+  /// No description provided for @premiumRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium is required for this change'**
+  String get premiumRequired;
+
+  /// No description provided for @phones.
+  ///
+  /// In en, this message translates to:
+  /// **'Phones'**
+  String get phones;
+
+  /// No description provided for @descriptionAr.
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic description'**
+  String get descriptionAr;
+
+  /// No description provided for @descriptionEn.
+  ///
+  /// In en, this message translates to:
+  /// **'English description'**
+  String get descriptionEn;
 }
 
 class _AppLocalizationsDelegate

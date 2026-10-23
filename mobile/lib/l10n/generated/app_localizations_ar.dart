@@ -535,4 +535,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get viewAsVisitor => 'اعرض كما يراها الزائر';
+
+  @override
+  String get editDetails => 'تعديل البيانات';
+
+  @override
+  String get detailsSaved => 'تم حفظ البيانات';
+
+  @override
+  String get premiumRequired => 'هذا التعديل متاح للبريميوم';
+
+  @override
+  String get phones => 'الهواتف';
+
+  @override
+  String get descriptionAr => 'الوصف بالعربية';
+
+  @override
+  String get descriptionEn => 'الوصف بالإنكليزية';
 }

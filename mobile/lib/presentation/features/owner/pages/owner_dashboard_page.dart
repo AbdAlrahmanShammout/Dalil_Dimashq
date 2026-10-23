@@ -6,7 +6,9 @@ import 'package:dalil_dimashq/domain/services/place_links.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
+import 'package:dalil_dimashq/presentation/features/owner/bloc/immediate_fields_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_dashboard_bloc.dart';
+import 'package:dalil_dimashq/presentation/features/owner/pages/immediate_fields_page.dart';
 import 'package:dalil_dimashq/presentation/features/place/bloc/place_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/place/pages/place_page.dart';
 
@@ -50,6 +52,23 @@ class OwnerDashboardPage extends StatelessWidget {
                   key: const Key('view-as-visitor'),
                   label: l10n.viewAsVisitor,
                   onPressed: () => _openVisitor(context),
+                ),
+                AppButton(
+                  key: const Key('edit-details'),
+                  label: l10n.editDetails,
+                  onPressed: () {
+                    if (!getIt.isRegistered<ImmediateFieldsBloc>()) {
+                      return;
+                    }
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => ImmediateFieldsPage(
+                          placeId: placeId,
+                          bloc: getIt<ImmediateFieldsBloc>(),
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 ...OwnerDashboard.sections.map(
                   (String section) => ListTile(

@@ -181,5 +181,15 @@
   "ownerBookings": "Bookings",
   "ownerRequests": "Requests",
   "ownerSettings": "Booking settings",
-  "viewAsVisitor": "View as visitor"
+  "viewAsVisitor": "View as visitor",
+  "editDetails": "Edit details",
+  "detailsSaved": "Details saved",
+  "premiumRequired": "Premium is required for this change",
+  "phones": "Phones",
+  "website": "Website",
+  "email": "Email",
+  "facebook": "Facebook",
+  "instagram": "Instagram",
+  "descriptionAr": "Arabic description",
+  "descriptionEn": "English description"
 }
