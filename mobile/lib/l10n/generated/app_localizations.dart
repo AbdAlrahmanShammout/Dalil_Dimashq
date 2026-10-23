@@ -1321,6 +1321,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An offer can run for 60 days'**
   String get offerTooLong;
+
+  /// No description provided for @offerPremiumLock.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact us to add offers with Premium.'**
+  String get offerPremiumLock;
 }
 
 class _AppLocalizationsDelegate

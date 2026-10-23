@@ -225,5 +225,6 @@
   "stopOffer": "أوقف العرض",
   "deleteOffer": "احذف العرض",
   "offerSaved": "تم حفظ العرض",
-  "offerTooLong": "العرض يمكن أن يستمر 60 يوماً"
+  "offerTooLong": "العرض يمكن أن يستمر 60 يوماً",
+  "offerPremiumLock": "تواصل معنا لإضافة العروض مع البريميوم."
 }

@@ -631,4 +631,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get offerTooLong => 'العرض يمكن أن يستمر 60 يوماً';
+
+  @override
+  String get offerPremiumLock => 'تواصل معنا لإضافة العروض مع البريميوم.';
 }

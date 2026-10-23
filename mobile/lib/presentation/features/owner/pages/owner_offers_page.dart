@@ -1,23 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:dalil_dimashq/core/di/injection.dart';
 import 'package:dalil_dimashq/domain/entities/owner_offer.dart';
 import 'package:dalil_dimashq/domain/usecase/manage_owner_offer_use_case.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
+import 'package:dalil_dimashq/presentation/features/contact/bloc/contact_bloc.dart';
+import 'package:dalil_dimashq/presentation/features/contact/pages/contact_page.dart';
 
 class OwnerOffersPage extends StatefulWidget {
   const OwnerOffersPage({
     required this.placeId,
     required this.manage,
     required this.now,
+    required this.isPremium,
     this.offerId,
+    this.onContact,
     super.key,
   });
 
   final String placeId;
   final ManageOwnerOfferUseCase manage;
   final DateTime now;
+  final bool isPremium;
   final int? offerId;
+  final void Function(BuildContext context)? onContact;
 
   @override
   State<OwnerOffersPage> createState() => _OwnerOffersPageState();
@@ -42,6 +49,21 @@ class _OwnerOffersPageState extends State<OwnerOffersPage> {
   @override
   Widget build(BuildContext context) {
     final AppLocalizations l10n = AppLocalizations.of(context);
+    if (!widget.isPremium) {
+      return AppScaffold(
+        title: l10n.ownerOffers,
+        body: ListView(
+          children: <Widget>[
+            Text(l10n.offerPremiumLock, key: const Key('offer-premium-lock')),
+            AppButton(
+              key: const Key('offer-contact'),
+              label: l10n.contactUs,
+              onPressed: () => _openContact(context),
+            ),
+          ],
+        ),
+      );
+    }
     return AppScaffold(
       title: l10n.ownerOffers,
       body: ListView(
@@ -100,6 +122,22 @@ class _OwnerOffersPageState extends State<OwnerOffersPage> {
           if (_message == 'deleted')
             const Text('deleted', key: Key('offer-deleted')),
         ],
+      ),
+    );
+  }
+
+  void _openContact(BuildContext context) {
+    final void Function(BuildContext context)? open = widget.onContact;
+    if (open != null) {
+      open(context);
+      return;
+    }
+    if (!getIt.isRegistered<ContactBloc>()) {
+      return;
+    }
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => const ContactPage(),
       ),
     );
   }

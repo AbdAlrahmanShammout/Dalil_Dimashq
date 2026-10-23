@@ -633,4 +633,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get offerTooLong => 'An offer can run for 60 days';
+
+  @override
+  String get offerPremiumLock => 'Contact us to add offers with Premium.';
 }

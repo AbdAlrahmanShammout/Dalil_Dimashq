@@ -225,5 +225,6 @@
   "stopOffer": "Stop offer",
   "deleteOffer": "Delete offer",
   "offerSaved": "Offer saved",
-  "offerTooLong": "An offer can run for 60 days"
+  "offerTooLong": "An offer can run for 60 days",
+  "offerPremiumLock": "Contact us to add offers with Premium."
 }

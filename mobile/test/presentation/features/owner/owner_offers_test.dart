@@ -50,6 +50,7 @@ Widget _page(_Offers offers, DateTime now, {int? offerId}) {
       placeId: 'p1',
       offerId: offerId,
       now: now,
+      isPremium: true,
       manage: ManageOwnerOfferUseCase(const _Premium(), offers),
     ),
   );
