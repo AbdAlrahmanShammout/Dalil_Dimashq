@@ -534,4 +534,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ownerSettings => 'Booking settings';
+
+  @override
+  String get viewAsVisitor => 'View as visitor';
 }

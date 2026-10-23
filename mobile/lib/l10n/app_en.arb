@@ -180,5 +180,6 @@
   "ownerOffers": "Offers",
   "ownerBookings": "Bookings",
   "ownerRequests": "Requests",
-  "ownerSettings": "Booking settings"
+  "ownerSettings": "Booking settings",
+  "viewAsVisitor": "View as visitor"
 }

@@ -180,5 +180,6 @@
   "ownerOffers": "العروض",
   "ownerBookings": "الحجوزات",
   "ownerRequests": "الطلبات",
-  "ownerSettings": "إعدادات الحجز"
+  "ownerSettings": "إعدادات الحجز",
+  "viewAsVisitor": "اعرض كما يراها الزائر"
 }

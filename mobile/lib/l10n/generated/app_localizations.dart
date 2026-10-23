@@ -1123,6 +1123,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Booking settings'**
   String get ownerSettings;
+
+  /// No description provided for @viewAsVisitor.
+  ///
+  /// In en, this message translates to:
+  /// **'View as visitor'**
+  String get viewAsVisitor;
 }
 
 class _AppLocalizationsDelegate

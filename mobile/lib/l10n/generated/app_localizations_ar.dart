@@ -532,4 +532,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get ownerSettings => 'إعدادات الحجز';
+
+  @override
+  String get viewAsVisitor => 'اعرض كما يراها الزائر';
 }
