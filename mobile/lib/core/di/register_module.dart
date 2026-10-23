@@ -8,6 +8,7 @@ import 'package:dalil_dimashq/data/datasource/remote/auth_api_client.dart';
 import 'package:dalil_dimashq/data/datasource/remote/booking_api_client.dart';
 import 'package:dalil_dimashq/data/datasource/remote/contact_api_client.dart';
 import 'package:dalil_dimashq/data/datasource/remote/directory_api_client.dart';
+import 'package:dalil_dimashq/data/datasource/remote/owner_api_client.dart';
 import 'package:dalil_dimashq/data/datasource/remote/notification_api_client.dart';
 import 'package:dalil_dimashq/data/datasource/remote/profile_api_client.dart';
 import 'package:dalil_dimashq/data/datasource/remote/suggestion_api_client.dart';
@@ -22,6 +23,9 @@ abstract class RegisterModule {
 
   @lazySingleton
   DirectoryApiClient directoryApiClient(Dio dio) => DirectoryApiClient(dio);
+
+  @lazySingleton
+  OwnerApiClient ownerApiClient(Dio dio) => OwnerApiClient(dio);
 
   @lazySingleton
   AuthApiClient authApiClient(Dio dio) => AuthApiClient(dio);

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
+import 'package:dalil_dimashq/presentation/features/owner/bloc/my_places_bloc.dart';
+import 'package:dalil_dimashq/presentation/features/owner/widgets/my_places_view.dart';
 
 class OwnerGatePage extends StatelessWidget {
-  const OwnerGatePage({required this.hasSession, super.key});
+  const OwnerGatePage({required this.hasSession, this.places, super.key});
 
   final bool hasSession;
+  final MyPlacesBloc? places;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +21,7 @@ class OwnerGatePage extends StatelessWidget {
     }
     return AppScaffold(
       title: l10n.owner,
-      body: Center(child: Text(l10n.myPlaces)),
+      body: MyPlacesView(bloc: places),
     );
   }
 }
