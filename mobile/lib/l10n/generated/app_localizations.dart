@@ -805,6 +805,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Suggestion types are not confirmed yet'**
   String get suggestionKindPending;
+
+  /// No description provided for @book.
+  ///
+  /// In en, this message translates to:
+  /// **'Book'**
+  String get book;
 }
 
 class _AppLocalizationsDelegate

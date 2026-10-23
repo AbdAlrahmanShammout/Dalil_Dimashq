@@ -17,6 +17,8 @@ import 'package:dalil_dimashq/data/datasource/local/geolocator_device_location.d
     as _i787;
 import 'package:dalil_dimashq/data/datasource/remote/auth_api_client.dart'
     as _i371;
+import 'package:dalil_dimashq/data/datasource/remote/booking_api_client.dart'
+    as _i990;
 import 'package:dalil_dimashq/data/datasource/remote/contact_api_client.dart'
     as _i693;
 import 'package:dalil_dimashq/data/datasource/remote/directory_api_client.dart'
@@ -29,6 +31,8 @@ import 'package:dalil_dimashq/data/datasource/remote/suggestion_api_client.dart'
     as _i954;
 import 'package:dalil_dimashq/data/repository/auth_repository_impl.dart'
     as _i327;
+import 'package:dalil_dimashq/data/repository/booking_repository_impl.dart'
+    as _i88;
 import 'package:dalil_dimashq/data/repository/contact_repository_impl.dart'
     as _i453;
 import 'package:dalil_dimashq/data/repository/event_repository_impl.dart'
@@ -53,6 +57,8 @@ import 'package:dalil_dimashq/data/repository/suggestion_repository_impl.dart'
     as _i1061;
 import 'package:dalil_dimashq/domain/repositories/auth_repository.dart'
     as _i242;
+import 'package:dalil_dimashq/domain/repositories/booking_repository.dart'
+    as _i625;
 import 'package:dalil_dimashq/domain/repositories/contact_repository.dart'
     as _i262;
 import 'package:dalil_dimashq/domain/repositories/event_repository.dart'
@@ -91,6 +97,8 @@ import 'package:dalil_dimashq/domain/usecase/list_events_use_case.dart'
     as _i460;
 import 'package:dalil_dimashq/domain/usecase/list_offers_use_case.dart'
     as _i1024;
+import 'package:dalil_dimashq/domain/usecase/load_booking_availability_use_case.dart'
+    as _i283;
 import 'package:dalil_dimashq/domain/usecase/load_pending_legal_use_case.dart'
     as _i140;
 import 'package:dalil_dimashq/domain/usecase/load_profile_use_case.dart'
@@ -124,6 +132,8 @@ import 'package:dalil_dimashq/presentation/features/auth/bloc/sign_up_bloc.dart'
     as _i948;
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_bloc.dart'
     as _i162;
+import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_gate_bloc.dart'
+    as _i384;
 import 'package:dalil_dimashq/presentation/features/contact/bloc/contact_bloc.dart'
     as _i587;
 import 'package:dalil_dimashq/presentation/features/events/bloc/events_bloc.dart'
@@ -212,6 +222,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i371.AuthApiClient>(
       () => registerModule.authApiClient(gh<_i361.Dio>()),
     );
+    gh.lazySingleton<_i990.BookingApiClient>(
+      () => registerModule.bookingApiClient(gh<_i361.Dio>()),
+    );
     gh.lazySingleton<_i413.ProfileApiClient>(
       () => registerModule.profileApiClient(gh<_i361.Dio>()),
     );
@@ -236,6 +249,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i406.SuggestionRepository>(
       () => _i1061.SuggestionRepositoryImpl(gh<_i954.SuggestionApiClient>()),
     );
+    gh.lazySingleton<_i625.BookingRepository>(
+      () => _i88.BookingRepositoryImpl(gh<_i990.BookingApiClient>()),
+    );
     gh.lazySingleton<_i218.LegalRepository>(
       () => _i126.LegalRepositoryImpl(gh<_i413.ProfileApiClient>()),
     );
@@ -245,11 +261,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i539.ProfileRepository>(
       () => _i352.ProfileRepositoryImpl(gh<_i413.ProfileApiClient>()),
     );
+    gh.factory<_i283.LoadBookingAvailabilityUseCase>(
+      () => _i283.LoadBookingAvailabilityUseCase(gh<_i625.BookingRepository>()),
+    );
     gh.factory<_i901.AcceptLegalUseCase>(
       () => _i901.AcceptLegalUseCase(gh<_i218.LegalRepository>()),
     );
     gh.factory<_i140.LoadPendingLegalUseCase>(
       () => _i140.LoadPendingLegalUseCase(gh<_i218.LegalRepository>()),
+    );
+    gh.factory<_i384.BookingGateBloc>(
+      () => _i384.BookingGateBloc(
+        gh<_i283.LoadBookingAvailabilityUseCase>(),
+        gh<_i261.HasSessionUseCase>(),
+      ),
     );
     gh.factory<_i101.SubmitSuggestionUseCase>(
       () => _i101.SubmitSuggestionUseCase(gh<_i406.SuggestionRepository>()),

@@ -370,4 +370,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get suggestionKindPending => 'Suggestion types are not confirmed yet';
+
+  @override
+  String get book => 'Book';
 }

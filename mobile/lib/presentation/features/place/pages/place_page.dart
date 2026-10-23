@@ -6,6 +6,8 @@ import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/error_view.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/loading_view.dart';
+import 'package:dalil_dimashq/presentation/features/booking/widgets/book_place_button.dart';
+import 'package:dalil_dimashq/presentation/features/booking/widgets/book_place_button.dart';
 import 'package:dalil_dimashq/presentation/features/place/bloc/place_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/place/bloc/place_event.dart';
 import 'package:dalil_dimashq/presentation/features/place/bloc/place_state.dart';
@@ -79,6 +81,8 @@ class _PlaceView extends StatelessWidget {
             children: <Widget>[
               PlaceHeader(place: state.place!),
               PlaceActions(place: state.place!, links: links),
+              BookPlaceButton(placeId: state.place!.id),
+              BookPlaceButton(placeId: state.place!.id),
               PlaceOffersSection(place: state.place!, now: now),
               PlacePhotosSection(place: state.place!),
               PlaceOverviewSection(place: state.place!),

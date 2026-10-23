@@ -117,5 +117,6 @@
   "contactRateLimited": "انتظر قبل إرسال رسالة جديدة",
   "suggestion": "اقتراح",
   "optionalPlace": "المنشأة (اختياري)",
-  "suggestionKindPending": "أنواع الاقتراح لم تتأكد بعد"
+  "suggestionKindPending": "أنواع الاقتراح لم تتأكد بعد",
+  "book": "احجز"
 }

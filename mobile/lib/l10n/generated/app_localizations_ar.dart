@@ -369,4 +369,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get suggestionKindPending => 'أنواع الاقتراح لم تتأكد بعد';
+
+  @override
+  String get book => 'احجز';
 }

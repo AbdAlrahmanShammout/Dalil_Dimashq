@@ -3,5 +3,7 @@ abstract class BookingDraftEvent {
 }
 
 class BookingDraftStarted extends BookingDraftEvent {
-  const BookingDraftStarted();
+  const BookingDraftStarted({this.placeId});
+
+  final String? placeId;
 }

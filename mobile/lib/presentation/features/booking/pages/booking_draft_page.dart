@@ -8,21 +8,22 @@ import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_e
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_state.dart';
 
 class BookingDraftPage extends StatelessWidget {
-  const BookingDraftPage({this.bloc, super.key});
+  const BookingDraftPage({this.bloc, this.placeId, super.key});
 
   final BookingDraftBloc? bloc;
+  final String? placeId;
 
   @override
   Widget build(BuildContext context) {
     if (bloc != null) {
       return BlocProvider<BookingDraftBloc>.value(
-        value: bloc!..add(const BookingDraftStarted()),
+        value: bloc!..add(BookingDraftStarted(placeId: placeId)),
         child: const _BookingDraftForm(),
       );
     }
     return BlocProvider<BookingDraftBloc>(
       create: (BuildContext context) =>
-          getIt<BookingDraftBloc>()..add(const BookingDraftStarted()),
+          getIt<BookingDraftBloc>()..add(BookingDraftStarted(placeId: placeId)),
       child: const _BookingDraftForm(),
     );
   }

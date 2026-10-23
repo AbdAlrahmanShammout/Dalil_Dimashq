@@ -5,6 +5,7 @@ import 'package:dalil_dimashq/core/config/app_config.dart';
 import 'package:dalil_dimashq/core/network/dio_factory.dart';
 import 'package:dalil_dimashq/core/storage/token_storage.dart';
 import 'package:dalil_dimashq/data/datasource/remote/auth_api_client.dart';
+import 'package:dalil_dimashq/data/datasource/remote/booking_api_client.dart';
 import 'package:dalil_dimashq/data/datasource/remote/contact_api_client.dart';
 import 'package:dalil_dimashq/data/datasource/remote/directory_api_client.dart';
 import 'package:dalil_dimashq/data/datasource/remote/profile_api_client.dart';
@@ -23,6 +24,9 @@ abstract class RegisterModule {
 
   @lazySingleton
   AuthApiClient authApiClient(Dio dio) => AuthApiClient(dio);
+
+  @lazySingleton
+  BookingApiClient bookingApiClient(Dio dio) => BookingApiClient(dio);
 
   @lazySingleton
   ProfileApiClient profileApiClient(Dio dio) => ProfileApiClient(dio);

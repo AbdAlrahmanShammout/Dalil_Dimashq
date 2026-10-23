@@ -25,6 +25,7 @@ class BookingDraftBloc extends Bloc<BookingDraftEvent, BookingDraftState> {
         BookingDraftState(
           displayName: profile.displayName,
           phone: profile.phone,
+          placeId: event.placeId,
         ),
       );
     });
