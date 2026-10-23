@@ -648,4 +648,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exitSent => 'Request sent';
+
+  @override
+  String get reportedBooking => 'Reported';
 }

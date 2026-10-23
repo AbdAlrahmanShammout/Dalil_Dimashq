@@ -646,4 +646,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get exitSent => 'أُرسل الطلب';
+
+  @override
+  String get reportedBooking => 'مُبلّغ عنه';
 }

@@ -230,5 +230,6 @@
   "removePlace": "اطلب إزالة المنشأة",
   "unlinkPlace": "افصل هذا الحساب",
   "exitReason": "السبب",
-  "exitSent": "أُرسل الطلب"
+  "exitSent": "أُرسل الطلب",
+  "reportedBooking": "مُبلّغ عنه"
 }

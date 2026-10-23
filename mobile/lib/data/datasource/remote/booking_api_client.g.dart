@@ -179,6 +179,35 @@ class _BookingApiClient implements BookingApiClient {
   }
 
   @override
+  Future<dynamic> placeBookings(
+    String placeId,
+    String select,
+    String order,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'place_id': placeId,
+      r'select': select,
+      r'order': order,
+    };
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<dynamic>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/rest/v1/booking_list',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    return _value;
+  }
+
+  @override
   Future<dynamic> bookingById(String id, String select) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'id': id, r'select': select};

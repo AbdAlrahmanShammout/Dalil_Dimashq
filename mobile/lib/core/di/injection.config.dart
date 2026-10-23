@@ -65,6 +65,8 @@ import 'package:dalil_dimashq/data/repository/offer_repository_impl.dart'
     as _i908;
 import 'package:dalil_dimashq/data/repository/owner_amenity_repository_impl.dart'
     as _i257;
+import 'package:dalil_dimashq/data/repository/owner_booking_repository_impl.dart'
+    as _i530;
 import 'package:dalil_dimashq/data/repository/owner_dashboard_repository_impl.dart'
     as _i459;
 import 'package:dalil_dimashq/data/repository/owner_offer_repository_impl.dart'
@@ -119,6 +121,8 @@ import 'package:dalil_dimashq/domain/repositories/offer_repository.dart'
     as _i921;
 import 'package:dalil_dimashq/domain/repositories/owner_amenity_repository.dart'
     as _i531;
+import 'package:dalil_dimashq/domain/repositories/owner_booking_repository.dart'
+    as _i468;
 import 'package:dalil_dimashq/domain/repositories/owner_dashboard_repository.dart'
     as _i996;
 import 'package:dalil_dimashq/domain/repositories/owner_offer_repository.dart'
@@ -185,6 +189,8 @@ import 'package:dalil_dimashq/domain/usecase/list_offers_use_case.dart'
     as _i1024;
 import 'package:dalil_dimashq/domain/usecase/list_owned_places_use_case.dart'
     as _i602;
+import 'package:dalil_dimashq/domain/usecase/list_place_bookings_use_case.dart'
+    as _i994;
 import 'package:dalil_dimashq/domain/usecase/load_booking_availability_use_case.dart'
     as _i283;
 import 'package:dalil_dimashq/domain/usecase/load_booking_ban_use_case.dart'
@@ -296,6 +302,8 @@ import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_dashboard_b
     as _i635;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_place_search_bloc.dart'
     as _i589;
+import 'package:dalil_dimashq/presentation/features/owner/bloc/place_bookings_bloc.dart'
+    as _i583;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/place_hours_bloc.dart'
     as _i399;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/place_photo_bloc.dart'
@@ -513,6 +521,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i798.ReplyFakeReportUseCase>(
       () => _i798.ReplyFakeReportUseCase(gh<_i625.BookingRepository>()),
     );
+    gh.lazySingleton<_i468.OwnerBookingRepository>(
+      () => _i530.OwnerBookingRepositoryImpl(gh<_i990.BookingApiClient>()),
+    );
     gh.lazySingleton<_i390.ChangeRequestRepository>(
       () => _i298.ChangeRequestRepositoryImpl(gh<_i272.OwnerApiClient>()),
     );
@@ -664,6 +675,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i901.AcceptLegalUseCase>(),
       ),
     );
+    gh.factory<_i994.ListPlaceBookingsUseCase>(
+      () => _i994.ListPlaceBookingsUseCase(gh<_i468.OwnerBookingRepository>()),
+    );
     gh.factory<_i630.SubmitClaimBloc>(
       () => _i630.SubmitClaimBloc(gh<_i637.SubmitClaimUseCase>()),
     );
@@ -689,6 +703,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i630.CreateBookingUseCase>(),
         gh<_i67.LoadBookingUseCase>(),
       ),
+    );
+    gh.factory<_i583.PlaceBookingsBloc>(
+      () => _i583.PlaceBookingsBloc(gh<_i994.ListPlaceBookingsUseCase>()),
     );
     gh.factory<_i974.SaveImmediateFieldsUseCase>(
       () => _i974.SaveImmediateFieldsUseCase(

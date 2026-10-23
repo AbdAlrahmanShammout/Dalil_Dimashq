@@ -38,6 +38,13 @@ abstract class BookingApiClient {
   );
 
   @GET('/rest/v1/booking_list')
+  Future<dynamic> placeBookings(
+    @Query('place_id') String placeId,
+    @Query('select') String select,
+    @Query('order') String order,
+  );
+
+  @GET('/rest/v1/booking_list')
   Future<dynamic> bookingById(
     @Query('id') String id,
     @Query('select') String select,

@@ -230,5 +230,6 @@
   "removePlace": "Request removal",
   "unlinkPlace": "Unlink this account",
   "exitReason": "Reason",
-  "exitSent": "Request sent"
+  "exitSent": "Request sent",
+  "reportedBooking": "Reported"
 }

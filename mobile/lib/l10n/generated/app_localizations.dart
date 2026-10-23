@@ -1351,6 +1351,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Request sent'**
   String get exitSent;
+
+  /// No description provided for @reportedBooking.
+  ///
+  /// In en, this message translates to:
+  /// **'Reported'**
+  String get reportedBooking;
 }
 
 class _AppLocalizationsDelegate
