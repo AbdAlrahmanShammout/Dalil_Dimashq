@@ -3,15 +3,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dalil_dimashq/core/di/injection.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
+import 'package:dalil_dimashq/presentation/features/contact/bloc/contact_bloc.dart';
+import 'package:dalil_dimashq/presentation/features/contact/pages/contact_page.dart';
 import 'package:dalil_dimashq/presentation/features/owner/bloc/claim_place_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_place_search_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/owner/bloc/submit_claim_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/owner/pages/claim_place_page.dart';
 
 class OwnerPlaceSearch extends StatefulWidget {
-  const OwnerPlaceSearch({this.bloc, super.key});
+  const OwnerPlaceSearch({this.bloc, this.onMissingPlace, super.key});
 
   final OwnerPlaceSearchBloc? bloc;
+  final void Function(BuildContext context)? onMissingPlace;
 
   @override
   State<OwnerPlaceSearch> createState() => _OwnerPlaceSearchState();
@@ -52,6 +55,27 @@ class _OwnerPlaceSearchState extends State<OwnerPlaceSearch> {
                   OwnerPlaceSearchRequested(_name.text),
                 ),
               ),
+              if (state.filter.trim().isNotEmpty && state.places.isEmpty)
+                AppButton(
+                  key: const Key('missing-place'),
+                  label: l10n.contactUs,
+                  onPressed: () {
+                    final void Function(BuildContext context)? open =
+                        widget.onMissingPlace;
+                    if (open != null) {
+                      open(context);
+                      return;
+                    }
+                    if (!getIt.isRegistered<ContactBloc>()) {
+                      return;
+                    }
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => const ContactPage(),
+                      ),
+                    );
+                  },
+                ),
               ...state.places.map(
                 (place) => ListTile(
                   key: Key('found-${place.id}'),

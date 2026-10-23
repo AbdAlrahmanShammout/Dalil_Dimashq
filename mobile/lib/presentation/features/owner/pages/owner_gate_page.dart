@@ -14,6 +14,7 @@ class OwnerGatePage extends StatelessWidget {
     this.places,
     this.premium,
     this.search,
+    this.onMissingPlace,
     this.now,
     super.key,
   });
@@ -22,6 +23,7 @@ class OwnerGatePage extends StatelessWidget {
   final MyPlacesBloc? places;
   final PremiumBloc? premium;
   final OwnerPlaceSearchBloc? search;
+  final void Function(BuildContext context)? onMissingPlace;
   final DateTime? now;
 
   @override
@@ -37,7 +39,7 @@ class OwnerGatePage extends StatelessWidget {
       title: l10n.owner,
       body: Column(
         children: <Widget>[
-          OwnerPlaceSearch(bloc: search),
+          OwnerPlaceSearch(bloc: search, onMissingPlace: onMissingPlace),
           Expanded(child: MyPlacesView(bloc: places)),
           PremiumStatusView(bloc: premium, now: now),
         ],
