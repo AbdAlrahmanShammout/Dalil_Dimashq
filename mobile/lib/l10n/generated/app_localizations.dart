@@ -1045,6 +1045,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search places'**
   String get searchPlaces;
+
+  /// No description provided for @linkWithCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Link with code'**
+  String get linkWithCode;
+
+  /// No description provided for @placeCode.
+  ///
+  /// In en, this message translates to:
+  /// **'DD- code'**
+  String get placeCode;
+
+  /// No description provided for @placeLinked.
+  ///
+  /// In en, this message translates to:
+  /// **'Place linked'**
+  String get placeLinked;
+
+  /// No description provided for @invalidCode.
+  ///
+  /// In en, this message translates to:
+  /// **'That code is not valid'**
+  String get invalidCode;
 }
 
 class _AppLocalizationsDelegate

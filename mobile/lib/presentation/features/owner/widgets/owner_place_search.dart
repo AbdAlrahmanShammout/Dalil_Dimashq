@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dalil_dimashq/core/di/injection.dart';
 import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
+import 'package:dalil_dimashq/presentation/features/owner/bloc/claim_place_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_place_search_bloc.dart';
+import 'package:dalil_dimashq/presentation/features/owner/pages/claim_place_page.dart';
 
 class OwnerPlaceSearch extends StatefulWidget {
   const OwnerPlaceSearch({this.bloc, super.key});
@@ -53,6 +55,19 @@ class _OwnerPlaceSearchState extends State<OwnerPlaceSearch> {
                 (place) => ListTile(
                   key: Key('found-${place.id}'),
                   title: Text(place.nameAr),
+                  onTap: () {
+                    if (!getIt.isRegistered<ClaimPlaceBloc>()) {
+                      return;
+                    }
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => ClaimPlacePage(
+                          placeId: place.id,
+                          bloc: getIt<ClaimPlaceBloc>(),
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],

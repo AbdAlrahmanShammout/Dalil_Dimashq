@@ -493,4 +493,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get searchPlaces => 'ابحث عن منشأة';
+
+  @override
+  String get linkWithCode => 'اربط بالكود';
+
+  @override
+  String get placeCode => 'كود DD-';
+
+  @override
+  String get placeLinked => 'تم ربط المنشأة';
+
+  @override
+  String get invalidCode => 'الكود غير صالح';
 }

@@ -167,5 +167,9 @@
       "count": {"type": "int"}
     }
   },
-  "searchPlaces": "Search places"
+  "searchPlaces": "Search places",
+  "linkWithCode": "Link with code",
+  "placeCode": "DD- code",
+  "placeLinked": "Place linked",
+  "invalidCode": "That code is not valid"
 }

@@ -30,4 +30,7 @@ abstract class OwnerApiClient {
     @Query('status') String status,
     @Query('select') String select,
   );
+
+  @POST('/rest/v1/rpc/claim_with_code')
+  Future<dynamic> claimWithCode(@Body() Map<String, dynamic> body);
 }

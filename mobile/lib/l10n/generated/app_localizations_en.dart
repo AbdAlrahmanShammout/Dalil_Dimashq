@@ -495,4 +495,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchPlaces => 'Search places';
+
+  @override
+  String get linkWithCode => 'Link with code';
+
+  @override
+  String get placeCode => 'DD- code';
+
+  @override
+  String get placeLinked => 'Place linked';
+
+  @override
+  String get invalidCode => 'That code is not valid';
 }
