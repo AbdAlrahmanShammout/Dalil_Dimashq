@@ -607,4 +607,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get deletePhoto => 'احذف الصورة';
+
+  @override
+  String get photoPremiumLock => 'تواصل معنا لإضافة الصور مع البريميوم.';
 }

@@ -1273,6 +1273,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete photo'**
   String get deletePhoto;
+
+  /// No description provided for @photoPremiumLock.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact us to add photos with Premium.'**
+  String get photoPremiumLock;
 }
 
 class _AppLocalizationsDelegate

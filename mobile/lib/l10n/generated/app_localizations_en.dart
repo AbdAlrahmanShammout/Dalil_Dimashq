@@ -609,4 +609,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deletePhoto => 'Delete photo';
+
+  @override
+  String get photoPremiumLock => 'Contact us to add photos with Premium.';
 }

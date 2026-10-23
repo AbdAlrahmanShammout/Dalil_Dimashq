@@ -217,5 +217,6 @@
   "choosePhoto": "اختر من المعرض",
   "setCover": "اجعلها غلافاً",
   "setLogo": "اجعلها شعاراً",
-  "deletePhoto": "احذف الصورة"
+  "deletePhoto": "احذف الصورة",
+  "photoPremiumLock": "تواصل معنا لإضافة الصور مع البريميوم."
 }

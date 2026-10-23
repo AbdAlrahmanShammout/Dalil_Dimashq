@@ -217,5 +217,6 @@
   "choosePhoto": "Choose from gallery",
   "setCover": "Set cover",
   "setLogo": "Set logo",
-  "deletePhoto": "Delete photo"
+  "deletePhoto": "Delete photo",
+  "photoPremiumLock": "Contact us to add photos with Premium."
 }
