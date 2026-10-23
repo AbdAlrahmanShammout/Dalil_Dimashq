@@ -131,5 +131,6 @@
   "statusCancelledByCustomer": "Cancelled by you",
   "statusCancelledByOwner": "Cancelled by the place",
   "statusAttended": "Attended",
-  "statusNoShow": "No show"
+  "statusNoShow": "No show",
+  "myBookings": "My bookings"
 }

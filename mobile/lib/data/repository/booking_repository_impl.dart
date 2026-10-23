@@ -75,4 +75,17 @@ class BookingRepositoryImpl implements BookingRepository {
       return Left<Failure, BookingSummary>(mapSupabaseException(error));
     }
   }
+
+  @override
+  Future<Either<Failure, List<BookingSummary>>> list() async {
+    try {
+      final dynamic raw = await _client.bookings(
+        'id,place_id,booking_at,party_size,note,current_status,reason,reported',
+        'booking_at.desc',
+      );
+      return Right<Failure, List<BookingSummary>>(mapBookingList(raw));
+    } on DioException catch (error) {
+      return Left<Failure, List<BookingSummary>>(mapSupabaseException(error));
+    }
+  }
 }

@@ -131,5 +131,6 @@
   "statusCancelledByCustomer": "ألغي من طرفك",
   "statusCancelledByOwner": "ألغي من المنشأة",
   "statusAttended": "حضرت",
-  "statusNoShow": "لم تحضر"
+  "statusNoShow": "لم تحضر",
+  "myBookings": "حجوزاتي"
 }

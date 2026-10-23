@@ -412,4 +412,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statusNoShow => 'No show';
+
+  @override
+  String get myBookings => 'My bookings';
 }

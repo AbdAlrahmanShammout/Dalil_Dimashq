@@ -10,4 +10,6 @@ abstract class BookingRepository {
   Future<Either<Failure, int>> create(BookingRequest request);
 
   Future<Either<Failure, BookingSummary>> find(int id);
+
+  Future<Either<Failure, List<BookingSummary>>> list();
 }

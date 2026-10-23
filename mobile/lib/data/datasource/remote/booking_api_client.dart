@@ -14,6 +14,12 @@ abstract class BookingApiClient {
   Future<dynamic> createBooking(@Body() Map<String, dynamic> body);
 
   @GET('/rest/v1/booking_list')
+  Future<dynamic> bookings(
+    @Query('select') String select,
+    @Query('order') String order,
+  );
+
+  @GET('/rest/v1/booking_list')
   Future<dynamic> bookingById(
     @Query('id') String id,
     @Query('select') String select,

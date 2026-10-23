@@ -140,4 +140,9 @@ class _Availability implements BookingRepository {
       BookingSummary(id: id, status: 'waiting'),
     );
   }
+
+  @override
+  Future<Either<Failure, List<BookingSummary>>> list() async {
+    return const Right<Failure, List<BookingSummary>>(<BookingSummary>[]);
+  }
 }

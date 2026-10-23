@@ -889,6 +889,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No show'**
   String get statusNoShow;
+
+  /// No description provided for @myBookings.
+  ///
+  /// In en, this message translates to:
+  /// **'My bookings'**
+  String get myBookings;
 }
 
 class _AppLocalizationsDelegate

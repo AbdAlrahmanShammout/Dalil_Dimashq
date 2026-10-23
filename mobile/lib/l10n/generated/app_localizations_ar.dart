@@ -411,4 +411,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get statusNoShow => 'لم تحضر';
+
+  @override
+  String get myBookings => 'حجوزاتي';
 }
