@@ -592,4 +592,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get hoursRequested => 'أُرسل الأسبوع للمراجعة';
+
+  @override
+  String get takePhoto => 'التقط صورة';
+
+  @override
+  String get choosePhoto => 'اختر من المعرض';
 }

@@ -212,5 +212,7 @@
   "addPeriod": "Add hours",
   "saveHours": "Save hours",
   "hoursSaved": "Saved",
-  "hoursRequested": "Sent for review"
+  "hoursRequested": "Sent for review",
+  "takePhoto": "Take a photo",
+  "choosePhoto": "Choose from gallery"
 }

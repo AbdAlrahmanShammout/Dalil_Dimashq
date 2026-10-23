@@ -212,5 +212,7 @@
   "addPeriod": "أضف ساعات",
   "saveHours": "احفظ الساعات",
   "hoursSaved": "تم الحفظ",
-  "hoursRequested": "أُرسل الأسبوع للمراجعة"
+  "hoursRequested": "أُرسل الأسبوع للمراجعة",
+  "takePhoto": "التقط صورة",
+  "choosePhoto": "اختر من المعرض"
 }

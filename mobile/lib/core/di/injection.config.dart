@@ -37,6 +37,8 @@ import 'package:dalil_dimashq/data/datasource/remote/suggestion_api_client.dart'
     as _i954;
 import 'package:dalil_dimashq/data/datasource/system_notification_permission.dart'
     as _i791;
+import 'package:dalil_dimashq/data/datasource/unavailable_photo_picker.dart'
+    as _i63;
 import 'package:dalil_dimashq/data/repository/auth_repository_impl.dart'
     as _i327;
 import 'package:dalil_dimashq/data/repository/booking_repository_impl.dart'
@@ -138,6 +140,7 @@ import 'package:dalil_dimashq/domain/services/device_location.dart' as _i845;
 import 'package:dalil_dimashq/domain/services/device_push_token.dart' as _i800;
 import 'package:dalil_dimashq/domain/services/notification_permission.dart'
     as _i423;
+import 'package:dalil_dimashq/domain/services/photo_picker.dart' as _i584;
 import 'package:dalil_dimashq/domain/services/place_links.dart' as _i820;
 import 'package:dalil_dimashq/domain/usecase/accept_legal_use_case.dart'
     as _i901;
@@ -189,6 +192,8 @@ import 'package:dalil_dimashq/domain/usecase/load_site_contacts_use_case.dart'
     as _i430;
 import 'package:dalil_dimashq/domain/usecase/open_notification_use_case.dart'
     as _i148;
+import 'package:dalil_dimashq/domain/usecase/pick_place_photo_use_case.dart'
+    as _i1062;
 import 'package:dalil_dimashq/domain/usecase/read_locale_use_case.dart'
     as _i1013;
 import 'package:dalil_dimashq/domain/usecase/recover_password_use_case.dart'
@@ -270,6 +275,8 @@ import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_place_searc
     as _i589;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/place_hours_bloc.dart'
     as _i399;
+import 'package:dalil_dimashq/presentation/features/owner/bloc/place_photo_bloc.dart'
+    as _i770;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/premium_bloc.dart'
     as _i241;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/reviewed_changes_bloc.dart'
@@ -322,6 +329,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i845.DeviceLocation>(
       () => _i787.GeolocatorDeviceLocation(),
+    );
+    gh.lazySingleton<_i584.PhotoPicker>(
+      () => const _i63.UnavailablePhotoPicker(),
     );
     gh.lazySingleton<_i480.ContactHistory>(
       () => _i453.ContactHistoryImpl(gh<_i460.SharedPreferences>()),
@@ -471,6 +481,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i101.SubmitSuggestionUseCase>(
       () => _i101.SubmitSuggestionUseCase(gh<_i406.SuggestionRepository>()),
     );
+    gh.factory<_i1062.PickPlacePhotoUseCase>(
+      () => _i1062.PickPlacePhotoUseCase(
+        gh<_i13.PremiumRepository>(),
+        gh<_i584.PhotoPicker>(),
+      ),
+    );
     gh.lazySingleton<_i766.DeviceRepository>(
       () => _i415.DeviceRepositoryImpl(gh<_i100.NotificationApiClient>()),
     );
@@ -618,6 +634,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1018.SiteContactRepository>(
       () =>
           _i31.SiteContactRepositoryImpl(gh<_i360.DirectoryRemoteDataSource>()),
+    );
+    gh.factory<_i770.PlacePhotoBloc>(
+      () => _i770.PlacePhotoBloc(gh<_i1062.PickPlacePhotoUseCase>()),
     );
     gh.factory<_i1043.OwnerAmenitiesBloc>(
       () => _i1043.OwnerAmenitiesBloc(

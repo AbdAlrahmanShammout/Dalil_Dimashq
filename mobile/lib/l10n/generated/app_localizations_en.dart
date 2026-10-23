@@ -594,4 +594,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hoursRequested => 'Sent for review';
+
+  @override
+  String get takePhoto => 'Take a photo';
+
+  @override
+  String get choosePhoto => 'Choose from gallery';
 }
