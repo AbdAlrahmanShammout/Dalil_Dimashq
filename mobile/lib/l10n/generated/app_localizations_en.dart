@@ -482,4 +482,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noticeBanLifted => 'Booking ban lifted';
+
+  @override
+  String premiumUntil(String date) {
+    return 'Premium until $date';
+  }
+
+  @override
+  String pendingRequests(int count) {
+    return '$count pending requests';
+  }
 }

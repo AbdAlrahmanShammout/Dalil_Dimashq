@@ -1027,6 +1027,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Booking ban lifted'**
   String get noticeBanLifted;
+
+  /// No description provided for @premiumUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Premium until {date}'**
+  String premiumUntil(String date);
+
+  /// No description provided for @pendingRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} pending requests'**
+  String pendingRequests(int count);
 }
 
 class _AppLocalizationsDelegate

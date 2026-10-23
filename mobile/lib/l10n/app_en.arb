@@ -154,5 +154,17 @@
   "noticeFakeReportNew": "New fake-booking report",
   "noticeFakeReportDecided": "Report decided",
   "noticeBanStarted": "Booking ban started",
-  "noticeBanLifted": "Booking ban lifted"
+  "noticeBanLifted": "Booking ban lifted",
+  "premiumUntil": "Premium until {date}",
+  "@premiumUntil": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "pendingRequests": "{count} pending requests",
+  "@pendingRequests": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  }
 }

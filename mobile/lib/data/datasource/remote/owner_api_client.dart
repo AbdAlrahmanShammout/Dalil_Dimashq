@@ -15,4 +15,13 @@ abstract class OwnerApiClient {
     @Query('id') String id,
     @Query('select') String select,
   );
+
+  @GET('/rest/v1/subscriptions')
+  Future<dynamic> subscriptions(@Query('select') String select);
+
+  @GET('/rest/v1/change_requests')
+  Future<dynamic> changeRequests(
+    @Query('status') String status,
+    @Query('select') String select,
+  );
 }

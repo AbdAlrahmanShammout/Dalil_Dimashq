@@ -154,5 +154,17 @@
   "noticeFakeReportNew": "بلاغ حجز وهمي جديد",
   "noticeFakeReportDecided": "تم البت في البلاغ",
   "noticeBanStarted": "بدأ حظر الحجوزات",
-  "noticeBanLifted": "رُفع حظر الحجوزات"
+  "noticeBanLifted": "رُفع حظر الحجوزات",
+  "premiumUntil": "بريميوم حتى {date}",
+  "@premiumUntil": {
+    "placeholders": {
+      "date": {"type": "String"}
+    }
+  },
+  "pendingRequests": "{count} طلبات معلّقة",
+  "@pendingRequests": {
+    "placeholders": {
+      "count": {"type": "int"}
+    }
+  }
 }

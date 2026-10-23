@@ -480,4 +480,14 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noticeBanLifted => 'رُفع حظر الحجوزات';
+
+  @override
+  String premiumUntil(String date) {
+    return 'بريميوم حتى $date';
+  }
+
+  @override
+  String pendingRequests(int count) {
+    return '$count طلبات معلّقة';
+  }
 }

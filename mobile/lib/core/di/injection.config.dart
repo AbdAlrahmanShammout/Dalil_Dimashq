@@ -61,6 +61,8 @@ import 'package:dalil_dimashq/data/repository/owner_place_repository_impl.dart'
     as _i238;
 import 'package:dalil_dimashq/data/repository/place_repository_impl.dart'
     as _i401;
+import 'package:dalil_dimashq/data/repository/premium_repository_impl.dart'
+    as _i234;
 import 'package:dalil_dimashq/data/repository/profile_repository_impl.dart'
     as _i352;
 import 'package:dalil_dimashq/data/repository/session_repository_impl.dart'
@@ -93,6 +95,8 @@ import 'package:dalil_dimashq/domain/repositories/owner_place_repository.dart'
     as _i266;
 import 'package:dalil_dimashq/domain/repositories/place_repository.dart'
     as _i823;
+import 'package:dalil_dimashq/domain/repositories/premium_repository.dart'
+    as _i13;
 import 'package:dalil_dimashq/domain/repositories/profile_repository.dart'
     as _i539;
 import 'package:dalil_dimashq/domain/repositories/session_repository.dart'
@@ -139,6 +143,8 @@ import 'package:dalil_dimashq/domain/usecase/load_booking_use_case.dart'
     as _i67;
 import 'package:dalil_dimashq/domain/usecase/load_pending_legal_use_case.dart'
     as _i140;
+import 'package:dalil_dimashq/domain/usecase/load_premium_use_case.dart'
+    as _i712;
 import 'package:dalil_dimashq/domain/usecase/load_profile_use_case.dart'
     as _i525;
 import 'package:dalil_dimashq/domain/usecase/load_site_contacts_use_case.dart'
@@ -200,6 +206,8 @@ import 'package:dalil_dimashq/presentation/features/offers/bloc/offers_bloc.dart
     as _i367;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/my_places_bloc.dart'
     as _i478;
+import 'package:dalil_dimashq/presentation/features/owner/bloc/premium_bloc.dart'
+    as _i241;
 import 'package:dalil_dimashq/presentation/features/place/bloc/place_bloc.dart'
     as _i489;
 import 'package:dalil_dimashq/presentation/features/profile/bloc/profile_bloc.dart'
@@ -317,6 +325,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i406.SuggestionRepository>(
       () => _i1061.SuggestionRepositoryImpl(gh<_i954.SuggestionApiClient>()),
     );
+    gh.lazySingleton<_i13.PremiumRepository>(
+      () => _i234.PremiumRepositoryImpl(gh<_i272.OwnerApiClient>()),
+    );
     gh.lazySingleton<_i625.BookingRepository>(
       () => _i88.BookingRepositoryImpl(gh<_i990.BookingApiClient>()),
     );
@@ -377,6 +388,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i478.MyPlacesBloc>(
       () => _i478.MyPlacesBloc(gh<_i602.ListOwnedPlacesUseCase>()),
     );
+    gh.factory<_i712.LoadPremiumUseCase>(
+      () => _i712.LoadPremiumUseCase(gh<_i13.PremiumRepository>()),
+    );
     gh.factory<_i867.DeleteAccountUseCase>(
       () => _i867.DeleteAccountUseCase(gh<_i242.AuthRepository>()),
     );
@@ -424,6 +438,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1059.NotificationRepository>(),
         gh<_i67.LoadBookingUseCase>(),
       ),
+    );
+    gh.factory<_i241.PremiumBloc>(
+      () => _i241.PremiumBloc(gh<_i712.LoadPremiumUseCase>()),
     );
     gh.factory<_i734.MyBookingsBloc>(
       () => _i734.MyBookingsBloc(gh<_i194.ListBookingsUseCase>()),
