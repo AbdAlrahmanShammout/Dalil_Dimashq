@@ -103,5 +103,16 @@
   "contactChannels": "Contact",
   "deleteAccount": "Delete account",
   "accountDeleted": "Account deleted",
-  "signOut": "Sign out"
+  "signOut": "Sign out",
+  "contactUs": "Contact us",
+  "contactValue": "Email or phone",
+  "message": "Message",
+  "send": "Send",
+  "contactSent": "Message sent",
+  "contactTypeGeneral": "General",
+  "contactTypeFacility": "Add a place",
+  "contactTypePartnership": "Partnership",
+  "contactTypeOther": "Other",
+  "messageTooLarge": "The message is too large",
+  "contactRateLimited": "Please wait before sending another message"
 }

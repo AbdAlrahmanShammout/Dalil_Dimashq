@@ -721,6 +721,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign out'**
   String get signOut;
+
+  /// No description provided for @contactUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact us'**
+  String get contactUs;
+
+  /// No description provided for @contactValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Email or phone'**
+  String get contactValue;
+
+  /// No description provided for @message.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get message;
+
+  /// No description provided for @send.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get send;
+
+  /// No description provided for @contactSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Message sent'**
+  String get contactSent;
+
+  /// No description provided for @contactTypeGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get contactTypeGeneral;
+
+  /// No description provided for @contactTypeFacility.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a place'**
+  String get contactTypeFacility;
+
+  /// No description provided for @contactTypePartnership.
+  ///
+  /// In en, this message translates to:
+  /// **'Partnership'**
+  String get contactTypePartnership;
+
+  /// No description provided for @contactTypeOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get contactTypeOther;
+
+  /// No description provided for @messageTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'The message is too large'**
+  String get messageTooLarge;
+
+  /// No description provided for @contactRateLimited.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait before sending another message'**
+  String get contactRateLimited;
 }
 
 class _AppLocalizationsDelegate

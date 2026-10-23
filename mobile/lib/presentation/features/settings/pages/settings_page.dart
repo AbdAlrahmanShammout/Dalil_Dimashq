@@ -7,6 +7,7 @@ import 'package:dalil_dimashq/presentation/core/widgets/app_section.dart';
 import 'package:dalil_dimashq/domain/repositories/notification_preference_repository.dart';
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_bloc.dart';
 import 'package:dalil_dimashq/presentation/features/language/bloc/language_event.dart';
+import 'package:dalil_dimashq/presentation/features/contact/pages/contact_page.dart';
 import 'package:dalil_dimashq/presentation/features/legal/pages/legal_page.dart';
 import 'package:dalil_dimashq/presentation/features/settings/pages/privacy_policy_page.dart';
 import 'package:dalil_dimashq/presentation/features/settings/widgets/delete_account_button.dart';
@@ -53,6 +54,17 @@ class SettingsPage extends StatelessWidget {
               const DeleteAccountButton(),
               const SignOutButton(),
               SiteContactShortcuts(),
+              const SizedBox(height: 12),
+              AppButton(
+                label: l10n.contactUs,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => const ContactPage(),
+                    ),
+                  );
+                },
+              ),
               const SizedBox(height: 12),
               AppButton(
                 label: l10n.termsAndPrivacy,

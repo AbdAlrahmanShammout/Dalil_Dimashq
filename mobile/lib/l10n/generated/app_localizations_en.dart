@@ -328,4 +328,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signOut => 'Sign out';
+
+  @override
+  String get contactUs => 'Contact us';
+
+  @override
+  String get contactValue => 'Email or phone';
+
+  @override
+  String get message => 'Message';
+
+  @override
+  String get send => 'Send';
+
+  @override
+  String get contactSent => 'Message sent';
+
+  @override
+  String get contactTypeGeneral => 'General';
+
+  @override
+  String get contactTypeFacility => 'Add a place';
+
+  @override
+  String get contactTypePartnership => 'Partnership';
+
+  @override
+  String get contactTypeOther => 'Other';
+
+  @override
+  String get messageTooLarge => 'The message is too large';
+
+  @override
+  String get contactRateLimited => 'Please wait before sending another message';
 }

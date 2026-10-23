@@ -103,5 +103,16 @@
   "contactChannels": "التواصل",
   "deleteAccount": "حذف الحساب",
   "accountDeleted": "تم حذف الحساب",
-  "signOut": "تسجيل الخروج"
+  "signOut": "تسجيل الخروج",
+  "contactUs": "تواصل معنا",
+  "contactValue": "البريد أو الهاتف",
+  "message": "الرسالة",
+  "send": "إرسال",
+  "contactSent": "تم إرسال الرسالة",
+  "contactTypeGeneral": "عام",
+  "contactTypeFacility": "إضافة منشأة",
+  "contactTypePartnership": "شراكة",
+  "contactTypeOther": "أخرى",
+  "messageTooLarge": "الرسالة كبيرة جداً",
+  "contactRateLimited": "انتظر قبل إرسال رسالة جديدة"
 }

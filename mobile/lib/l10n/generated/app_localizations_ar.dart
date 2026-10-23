@@ -327,4 +327,37 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get signOut => 'تسجيل الخروج';
+
+  @override
+  String get contactUs => 'تواصل معنا';
+
+  @override
+  String get contactValue => 'البريد أو الهاتف';
+
+  @override
+  String get message => 'الرسالة';
+
+  @override
+  String get send => 'إرسال';
+
+  @override
+  String get contactSent => 'تم إرسال الرسالة';
+
+  @override
+  String get contactTypeGeneral => 'عام';
+
+  @override
+  String get contactTypeFacility => 'إضافة منشأة';
+
+  @override
+  String get contactTypePartnership => 'شراكة';
+
+  @override
+  String get contactTypeOther => 'أخرى';
+
+  @override
+  String get messageTooLarge => 'الرسالة كبيرة جداً';
+
+  @override
+  String get contactRateLimited => 'انتظر قبل إرسال رسالة جديدة';
 }

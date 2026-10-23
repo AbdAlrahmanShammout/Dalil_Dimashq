@@ -17,6 +17,8 @@ import 'package:dalil_dimashq/data/datasource/local/geolocator_device_location.d
     as _i787;
 import 'package:dalil_dimashq/data/datasource/remote/auth_api_client.dart'
     as _i371;
+import 'package:dalil_dimashq/data/datasource/remote/contact_api_client.dart'
+    as _i693;
 import 'package:dalil_dimashq/data/datasource/remote/directory_api_client.dart'
     as _i807;
 import 'package:dalil_dimashq/data/datasource/remote/directory_remote_data_source.dart'
@@ -25,6 +27,8 @@ import 'package:dalil_dimashq/data/datasource/remote/profile_api_client.dart'
     as _i413;
 import 'package:dalil_dimashq/data/repository/auth_repository_impl.dart'
     as _i327;
+import 'package:dalil_dimashq/data/repository/contact_repository_impl.dart'
+    as _i453;
 import 'package:dalil_dimashq/data/repository/event_repository_impl.dart'
     as _i215;
 import 'package:dalil_dimashq/data/repository/legal_repository_impl.dart'
@@ -45,6 +49,8 @@ import 'package:dalil_dimashq/data/repository/site_contact_repository_impl.dart'
     as _i31;
 import 'package:dalil_dimashq/domain/repositories/auth_repository.dart'
     as _i242;
+import 'package:dalil_dimashq/domain/repositories/contact_repository.dart'
+    as _i262;
 import 'package:dalil_dimashq/domain/repositories/event_repository.dart'
     as _i203;
 import 'package:dalil_dimashq/domain/repositories/legal_repository.dart'
@@ -95,6 +101,8 @@ import 'package:dalil_dimashq/domain/usecase/save_locale_use_case.dart'
     as _i399;
 import 'package:dalil_dimashq/domain/usecase/search_places_use_case.dart'
     as _i116;
+import 'package:dalil_dimashq/domain/usecase/send_contact_message_use_case.dart'
+    as _i480;
 import 'package:dalil_dimashq/domain/usecase/sign_in_use_case.dart' as _i873;
 import 'package:dalil_dimashq/domain/usecase/sign_out_use_case.dart' as _i334;
 import 'package:dalil_dimashq/domain/usecase/sign_up_use_case.dart' as _i62;
@@ -108,6 +116,8 @@ import 'package:dalil_dimashq/presentation/features/auth/bloc/sign_up_bloc.dart'
     as _i948;
 import 'package:dalil_dimashq/presentation/features/booking/bloc/booking_draft_bloc.dart'
     as _i162;
+import 'package:dalil_dimashq/presentation/features/contact/bloc/contact_bloc.dart'
+    as _i587;
 import 'package:dalil_dimashq/presentation/features/events/bloc/events_bloc.dart'
     as _i646;
 import 'package:dalil_dimashq/presentation/features/explore/bloc/explore_bloc.dart'
@@ -147,6 +157,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.preferences,
       preResolve: true,
     );
+    gh.lazySingleton<_i693.ContactApiClient>(
+      () => registerModule.contactApiClient(),
+    );
     gh.lazySingleton<_i100.NotificationPreferenceRepository>(
       () => _i390.NotificationPreferenceRepositoryImpl(
         gh<_i460.SharedPreferences>(),
@@ -157,6 +170,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i845.DeviceLocation>(
       () => _i787.GeolocatorDeviceLocation(),
+    );
+    gh.lazySingleton<_i480.ContactHistory>(
+      () => _i453.ContactHistoryImpl(gh<_i460.SharedPreferences>()),
     );
     gh.lazySingleton<_i944.TokenStorage>(
       () => _i944.TokenStorage(gh<_i460.SharedPreferences>()),
@@ -170,6 +186,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i361.Dio>(
       () => registerModule.dio(gh<_i944.TokenStorage>()),
+    );
+    gh.lazySingleton<_i262.ContactRepository>(
+      () => _i453.ContactRepositoryImpl(gh<_i693.ContactApiClient>()),
     );
     gh.factory<_i1013.ReadLocaleUseCase>(
       () => _i1013.ReadLocaleUseCase(gh<_i149.LocaleRepository>()),
@@ -185,6 +204,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i413.ProfileApiClient>(
       () => registerModule.profileApiClient(gh<_i361.Dio>()),
+    );
+    gh.factory<_i480.SendContactMessageUseCase>(
+      () => _i480.SendContactMessageUseCase(
+        gh<_i262.ContactRepository>(),
+        gh<_i480.ContactHistory>(),
+      ),
+    );
+    gh.factory<_i587.ContactBloc>(
+      () => _i587.ContactBloc(gh<_i480.SendContactMessageUseCase>()),
     );
     gh.factory<_i308.LanguageBloc>(
       () => _i308.LanguageBloc(
