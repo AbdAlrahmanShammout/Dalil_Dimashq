@@ -8,9 +8,11 @@ import {
 } from '@nestjs/common';
 
 import { AppConfigService } from '@/config/app/app-config.service';
+import { applyErrorText } from '@/common/filter/apply-error-text';
 import { formatHttpExceptionResponse } from '@/common/filter/exception_return_handler/http-exception.handler';
 import { GeneralTypeException } from '@/common/filter/exception_return_handler/type/general-type.exception';
 import { normalizeException } from '@/common/filter/exception_mappers/exception-mapper';
+import { resolveErrorLanguage } from '@/common/filter/resolve-error-language';
 
 const SAFE_INTERNAL_MESSAGE = 'Something went wrong, please try again.';
 
@@ -24,10 +26,16 @@ export class GlobalExceptionFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost): void {
     let normalized = normalizeException(exception);
     this.logError(normalized);
-    if (!normalized.userFriendly && this.shouldHideErrorDetails()) {
+    const shouldHide = !normalized.userFriendly && this.shouldHideErrorDetails();
+    if (shouldHide) {
       normalized = this.createSafeProductionError(normalized);
     }
-    formatHttpExceptionResponse(normalized, host);
+    const request = host.switchToHttp().getRequest<{ headers?: { 'accept-language'?: string } }>();
+    const language = resolveErrorLanguage(request.headers?.['accept-language']);
+    formatHttpExceptionResponse(
+      applyErrorText(normalized, language, normalized.userFriendly || shouldHide),
+      host,
+    );
   }
 
   private logError(exception: GeneralTypeException): void {
