@@ -22,6 +22,11 @@ export class PlaceMapper {
       isFeatured: row.isFeatured,
       starValue: row.starValue,
       starSource: row.starSource,
+      phone: row.phone,
+      website: row.website,
+      email: row.email,
+      facebook: row.facebook,
+      instagram: row.instagram,
     });
     if (row.area) {
       place.area = AreaMapper.toEntity(row.area);

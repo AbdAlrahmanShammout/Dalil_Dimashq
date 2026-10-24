@@ -16,6 +16,11 @@ export class PlaceEntity extends BaseEntity {
   isFeatured!: boolean;
   starValue!: number | null;
   starSource!: string | null;
+  phone!: string | null;
+  website!: string | null;
+  email!: string | null;
+  facebook!: string | null;
+  instagram!: string | null;
   area?: AreaEntity;
 
   constructor(data: PlaceZodType) {

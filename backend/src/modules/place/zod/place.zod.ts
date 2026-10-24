@@ -22,6 +22,11 @@ export const PlaceZodSchema = BaseZodSchema.extend({
   isFeatured: ZodBoolean,
   starValue: ZodNumber.nullable(),
   starSource: ZodStringNullable,
+  phone: ZodStringNullable,
+  website: ZodStringNullable,
+  email: ZodStringNullable,
+  facebook: ZodStringNullable,
+  instagram: ZodStringNullable,
 });
 
 export type PlaceZodType = z.infer<typeof PlaceZodSchema>;

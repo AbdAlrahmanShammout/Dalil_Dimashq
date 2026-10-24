@@ -44,6 +44,7 @@ describe('place summary', () => {
         isFeatured: true,
         starValue: 4,
         starSource: 'tourism',
+        phone: '+963944000000',
       },
     });
     const hidden = await prisma.place.create({
@@ -70,7 +71,10 @@ describe('place summary', () => {
       photoFallback: 'cafe',
       latitude: 33.51,
       longitude: 36.27,
+      phone: '+963944000000',
     });
+    expect(response.body.website).toBeUndefined();
+    expect(response.body.email).toBeUndefined();
     expect(response.body.area).toEqual({ id: area.id, nameAr: 'المزة', nameEn: 'Mazzeh' });
     expect(response.body.hidden).toBeUndefined();
     await request(app.getHttpServer()).get(`/client-app/places/${hidden.id}`).expect(404);

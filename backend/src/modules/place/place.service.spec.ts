@@ -32,6 +32,11 @@ function buildPlace(status: PlaceStatus): PlaceEntity {
     isFeatured: true,
     starValue: 4,
     starSource: 'tourism',
+    phone: null,
+    website: null,
+    email: null,
+    facebook: null,
+    instagram: null,
   });
   place.area = new AreaEntity({
     id: 'area-1',
