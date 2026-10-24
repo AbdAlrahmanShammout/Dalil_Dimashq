@@ -670,4 +670,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get markNoShow => 'لم يحضر';
+
+  @override
+  String get reportFakeBooking => 'بلّغ عن حجز وهمي';
+
+  @override
+  String get reportReason => 'سبب البلاغ';
+
+  @override
+  String get fakeReportSent => 'أُرسل البلاغ';
 }

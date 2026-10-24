@@ -1399,6 +1399,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No-show'**
   String get markNoShow;
+
+  /// No description provided for @reportFakeBooking.
+  ///
+  /// In en, this message translates to:
+  /// **'Report as fake'**
+  String get reportFakeBooking;
+
+  /// No description provided for @reportReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Report reason'**
+  String get reportReason;
+
+  /// No description provided for @fakeReportSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Report sent'**
+  String get fakeReportSent;
 }
 
 class _AppLocalizationsDelegate

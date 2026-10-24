@@ -229,6 +229,8 @@ import 'package:dalil_dimashq/domain/usecase/register_device_use_case.dart'
     as _i889;
 import 'package:dalil_dimashq/domain/usecase/reply_fake_report_use_case.dart'
     as _i798;
+import 'package:dalil_dimashq/domain/usecase/report_fake_booking_use_case.dart'
+    as _i878;
 import 'package:dalil_dimashq/domain/usecase/request_place_exit_use_case.dart'
     as _i228;
 import 'package:dalil_dimashq/domain/usecase/request_profile_change_use_case.dart'
@@ -684,6 +686,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i994.ListPlaceBookingsUseCase>(
       () => _i994.ListPlaceBookingsUseCase(gh<_i468.OwnerBookingRepository>()),
+    );
+    gh.factory<_i878.ReportFakeBookingUseCase>(
+      () => _i878.ReportFakeBookingUseCase(gh<_i468.OwnerBookingRepository>()),
     );
     gh.factory<_i1061.SettleBookingUseCase>(
       () => _i1061.SettleBookingUseCase(gh<_i468.OwnerBookingRepository>()),

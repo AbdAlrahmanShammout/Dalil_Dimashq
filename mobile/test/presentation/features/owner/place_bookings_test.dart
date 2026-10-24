@@ -77,4 +77,12 @@ class _Bookings implements OwnerBookingRepository {
       ),
     ]);
   }
+
+  @override
+  Future<Either<Failure, int>> reportFake({
+    required int id,
+    required String reason,
+  }) async {
+    return const Right<Failure, int>(1);
+  }
 }

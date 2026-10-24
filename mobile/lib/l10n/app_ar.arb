@@ -238,5 +238,8 @@
   "cancelThisBooking": "ألغِ الحجز",
   "cancelReason": "سبب الإلغاء",
   "markAttended": "حضر",
-  "markNoShow": "لم يحضر"
+  "markNoShow": "لم يحضر",
+  "reportFakeBooking": "بلّغ عن حجز وهمي",
+  "reportReason": "سبب البلاغ",
+  "fakeReportSent": "أُرسل البلاغ"
 }

@@ -71,6 +71,23 @@ class OwnerBookingRepositoryImpl implements OwnerBookingRepository {
     );
   }
 
+  @override
+  Future<Either<Failure, int>> reportFake({
+    required int id,
+    required String reason,
+  }) async {
+    try {
+      final dynamic result = await _client.reportFakeBooking(<String, dynamic>{
+        'p_id': id,
+        'p_reason': reason,
+      });
+      final int reportId = result is int ? result : int.parse('$result');
+      return Right<Failure, int>(reportId);
+    } on DioException catch (error) {
+      return Left<Failure, int>(mapSupabaseException(error));
+    }
+  }
+
   Future<Either<Failure, String>> _status(
     Future<dynamic> Function() action,
   ) async {

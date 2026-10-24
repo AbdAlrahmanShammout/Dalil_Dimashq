@@ -672,4 +672,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get markNoShow => 'No-show';
+
+  @override
+  String get reportFakeBooking => 'Report as fake';
+
+  @override
+  String get reportReason => 'Report reason';
+
+  @override
+  String get fakeReportSent => 'Report sent';
 }

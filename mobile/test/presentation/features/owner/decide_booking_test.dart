@@ -91,4 +91,12 @@ class _Bookings implements OwnerBookingRepository {
   }) async {
     return Right<Failure, String>(attended ? 'attended' : 'no_show');
   }
+
+  @override
+  Future<Either<Failure, int>> reportFake({
+    required int id,
+    required String reason,
+  }) async {
+    return const Right<Failure, int>(1);
+  }
 }

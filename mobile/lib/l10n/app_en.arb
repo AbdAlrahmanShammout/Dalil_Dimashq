@@ -238,5 +238,8 @@
   "cancelThisBooking": "Cancel booking",
   "cancelReason": "Cancellation reason",
   "markAttended": "Attended",
-  "markNoShow": "No-show"
+  "markNoShow": "No-show",
+  "reportFakeBooking": "Report as fake",
+  "reportReason": "Report reason",
+  "fakeReportSent": "Report sent"
 }

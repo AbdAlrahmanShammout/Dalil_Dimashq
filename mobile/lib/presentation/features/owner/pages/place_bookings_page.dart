@@ -6,7 +6,9 @@ import 'package:dalil_dimashq/l10n/generated/app_localizations.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_scaffold.dart';
 import 'package:dalil_dimashq/presentation/features/booking/booking_status_label.dart';
 import 'package:dalil_dimashq/domain/services/attendance_window.dart';
+import 'package:dalil_dimashq/domain/services/fake_booking_rules.dart';
 import 'package:dalil_dimashq/domain/usecase/decide_booking_use_case.dart';
+import 'package:dalil_dimashq/domain/usecase/report_fake_booking_use_case.dart';
 import 'package:dalil_dimashq/domain/usecase/settle_booking_use_case.dart';
 import 'package:dalil_dimashq/presentation/core/widgets/app_button.dart';
 import 'package:dalil_dimashq/presentation/features/owner/bloc/place_bookings_bloc.dart';
@@ -17,6 +19,7 @@ class PlaceBookingsPage extends StatefulWidget {
     required this.bloc,
     this.decide,
     this.settle,
+    this.report,
     this.now,
     super.key,
   });
@@ -25,6 +28,7 @@ class PlaceBookingsPage extends StatefulWidget {
   final PlaceBookingsBloc bloc;
   final DecideBookingUseCase? decide;
   final SettleBookingUseCase? settle;
+  final ReportFakeBookingUseCase? report;
   final DateTime? now;
 
   @override
@@ -34,12 +38,15 @@ class PlaceBookingsPage extends StatefulWidget {
 class _PlaceBookingsPageState extends State<PlaceBookingsPage> {
   final TextEditingController _reason = TextEditingController();
   final TextEditingController _cancelReason = TextEditingController();
+  final TextEditingController _reportReason = TextEditingController();
   String? _status;
+  int? _reportId;
 
   @override
   void dispose() {
     _reason.dispose();
     _cancelReason.dispose();
+    _reportReason.dispose();
     super.dispose();
   }
 
@@ -48,6 +55,7 @@ class _PlaceBookingsPageState extends State<PlaceBookingsPage> {
     final AppLocalizations l10n = AppLocalizations.of(context);
     final DecideBookingUseCase? decide = widget.decide;
     final SettleBookingUseCase? settle = widget.settle;
+    final ReportFakeBookingUseCase? report = widget.report;
     final DateTime now = widget.now ?? DateTime.now();
     return BlocProvider<PlaceBookingsBloc>.value(
       value: widget.bloc..add(PlaceBookingsStarted(widget.placeId)),
@@ -68,6 +76,12 @@ class _PlaceBookingsPageState extends State<PlaceBookingsPage> {
                     key: const Key('cancel-reason'),
                     controller: _cancelReason,
                     decoration: InputDecoration(labelText: l10n.cancelReason),
+                  ),
+                if (report != null)
+                  TextField(
+                    key: const Key('report-reason'),
+                    controller: _reportReason,
+                    decoration: InputDecoration(labelText: l10n.reportReason),
                   ),
                 ...state.bookings.map((OwnerBooking booking) {
                   return Column(
@@ -136,6 +150,16 @@ class _PlaceBookingsPageState extends State<PlaceBookingsPage> {
                             ),
                           ),
                         ],
+                      if (report != null &&
+                          canReportFakeBooking(
+                            reported: booking.reported,
+                            status: booking.status,
+                          ))
+                        AppButton(
+                          key: Key('report-${booking.id}'),
+                          label: l10n.reportFakeBooking,
+                          onPressed: () => _report(report, booking),
+                        ),
                     ],
                   );
                 }),
@@ -144,6 +168,8 @@ class _PlaceBookingsPageState extends State<PlaceBookingsPage> {
                     bookingStatusLabel(l10n, _status!),
                     key: const Key('decision-status'),
                   ),
+                if (_reportId != null)
+                  Text(l10n.fakeReportSent, key: const Key('fake-report-sent')),
               ],
             );
           },
@@ -182,6 +208,21 @@ class _PlaceBookingsPageState extends State<PlaceBookingsPage> {
     );
     result.fold((_) {}, (String status) {
       setState(() => _status = status);
+    });
+  }
+
+  Future<void> _report(
+    ReportFakeBookingUseCase report,
+    OwnerBooking booking,
+  ) async {
+    final result = await report(
+      id: booking.id,
+      reason: _reportReason.text,
+      reported: booking.reported,
+      status: booking.status,
+    );
+    result.fold((_) {}, (int reportId) {
+      setState(() => _reportId = reportId);
     });
   }
 }

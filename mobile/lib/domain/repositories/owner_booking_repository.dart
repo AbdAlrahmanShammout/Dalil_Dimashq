@@ -18,4 +18,9 @@ abstract class OwnerBookingRepository {
     required int id,
     required bool attended,
   });
+
+  Future<Either<Failure, int>> reportFake({
+    required int id,
+    required String reason,
+  });
 }
