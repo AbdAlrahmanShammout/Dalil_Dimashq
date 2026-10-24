@@ -226,6 +226,13 @@ describe('visitor sign-up', () => {
       .send({ email: 'staff@example.com', password: 'Password123' })
       .expect(200);
     expect(readAudience(session.body.accessToken)).toBe('admin-panel');
+    const me = await request(app.getHttpServer())
+      .get('/admin-panel/auth/me')
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .expect(200);
+    expect(me.body).toMatchObject({ email: 'staff@example.com', staffRole: 'admin' });
+    expect(me.body.isVisitor).toBeUndefined();
+    expect(me.body.isOwner).toBeUndefined();
     await request(app.getHttpServer())
       .post('/client-app/auth/sign-up')
       .send({ email: 'other-visitor@example.com', password: 'Password123' })
@@ -254,6 +261,64 @@ describe('visitor sign-up', () => {
     const visitorToken = await prisma.refreshToken.findFirst({ where: { userId: visitorRow.id } });
     expect(staffToken?.revokedAt).not.toBeNull();
     expect(visitorToken?.revokedAt).toBeNull();
+  });
+
+  it('returns only the door flag and revokes every session when the password changes', async () => {
+    const email = 'account@example.com';
+    await request(app.getHttpServer())
+      .post('/client-app/auth/sign-up')
+      .send({ email, password: 'Password123' })
+      .expect(201);
+    await request(app.getHttpServer())
+      .post('/client-app/auth/verify-email')
+      .send({ email, code: readCode() })
+      .expect(200);
+    await request(app.getHttpServer())
+      .post('/dashboard-owner/auth/sign-up')
+      .send({ email, password: 'Password123' })
+      .expect(201);
+    const visitor = await request(app.getHttpServer())
+      .post('/client-app/auth/sign-in')
+      .send({ email, password: 'Password123' })
+      .expect(200);
+    const owner = await request(app.getHttpServer())
+      .post('/dashboard-owner/auth/sign-in')
+      .send({ email, password: 'Password123' })
+      .expect(200);
+    const me = await request(app.getHttpServer())
+      .get('/client-app/auth/me')
+      .set('Authorization', `Bearer ${visitor.body.accessToken}`)
+      .expect(200);
+    expect(me.body).toEqual({ id: expect.any(String), email, isVisitor: true });
+    expect(me.body.isOwner).toBeUndefined();
+    expect(me.body.passwordHash).toBeUndefined();
+    await request(app.getHttpServer())
+      .get('/dashboard-owner/auth/me')
+      .set('Authorization', `Bearer ${visitor.body.accessToken}`)
+      .expect(401);
+    const ownerMe = await request(app.getHttpServer())
+      .get('/dashboard-owner/auth/me')
+      .set('Authorization', `Bearer ${owner.body.accessToken}`)
+      .expect(200);
+    expect(ownerMe.body.isOwner).toBe(true);
+    expect(ownerMe.body.isVisitor).toBeUndefined();
+    await request(app.getHttpServer())
+      .patch('/client-app/auth/password')
+      .set('Authorization', `Bearer ${visitor.body.accessToken}`)
+      .send({ currentPassword: 'Password123', newPassword: 'Password456' })
+      .expect(200);
+    await request(app.getHttpServer())
+      .post('/client-app/auth/refresh')
+      .send({ refreshToken: visitor.body.refreshToken })
+      .expect(401);
+    await request(app.getHttpServer())
+      .post('/dashboard-owner/auth/refresh')
+      .send({ refreshToken: owner.body.refreshToken })
+      .expect(401);
+    await request(app.getHttpServer())
+      .get('/client-app/auth/me')
+      .set('Authorization', `Bearer ${visitor.body.accessToken}`)
+      .expect(401);
   });
 });
 

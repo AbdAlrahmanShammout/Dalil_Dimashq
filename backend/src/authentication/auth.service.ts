@@ -3,6 +3,7 @@ import { createHash, randomBytes } from 'crypto';
 import { Injectable } from '@nestjs/common';
 
 import { ApiAudience } from '@/common/auth/principal.interface';
+import { UnauthenticatedException } from '@/common/exceptions/unauthenticated.exception';
 import { JwtConfigService } from '@/config/jwt/jwt-config.service';
 import {
   AuthenticateServiceInput,
@@ -76,6 +77,22 @@ export class AuthService {
    */
   async signOut(input: { readonly userId: string; readonly audience: ApiAudience }): Promise<void> {
     await this.userService.revokeAudienceRefreshTokens(input);
+  }
+
+  async changePassword(input: {
+    readonly userId: string;
+    readonly currentPassword: string;
+    readonly newPassword: string;
+  }): Promise<void> {
+    await this.userService.changePassword(input);
+  }
+
+  async requireUser(userId: string) {
+    const user = await this.userService.findById(userId);
+    if (!user) {
+      throw new UnauthenticatedException();
+    }
+    return user;
   }
 
   async refresh(input: {

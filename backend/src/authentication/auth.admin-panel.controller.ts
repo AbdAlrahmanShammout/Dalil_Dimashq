@@ -1,10 +1,13 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 
 import { AuthService } from '@/authentication/auth.service';
+import { ChangePasswordRequestDto } from '@/authentication/dto/request/change-password-request.dto';
 import { SignInRequestDto } from '@/authentication/dto/request/sign-in-request.dto';
+import { AdminPanelMeResponseDto } from '@/authentication/dto/response/admin-panel-me-response.dto';
 import { AuthSessionResponseDto } from '@/authentication/dto/response/auth-session-response.dto';
+import { ChangePasswordResponseDto } from '@/authentication/dto/response/change-password-response.dto';
 import { SignOutResponseDto } from '@/authentication/dto/response/sign-out-response.dto';
 import { ApiAudience, Principal } from '@/common/auth/principal.interface';
 import { AUTH_THROTTLE } from '@/common/constants/auth-throttle';
@@ -33,5 +36,25 @@ export class AuthAdminPanelController {
   async signOut(@LoggedInUser() currentUser: Principal): Promise<SignOutResponseDto> {
     await this.authService.signOut({ userId: currentUser.id, audience: currentUser.audience });
     return new SignOutResponseDto();
+  }
+
+  @Get('me')
+  async me(@LoggedInUser() currentUser: Principal): Promise<AdminPanelMeResponseDto> {
+    const user = await this.authService.requireUser(currentUser.id);
+    return new AdminPanelMeResponseDto(user);
+  }
+
+  @Patch('password')
+  async changePassword(
+    @LoggedInUser() currentUser: Principal,
+    @Body() body: ChangePasswordRequestDto,
+  ): Promise<ChangePasswordResponseDto> {
+    const { currentPassword, newPassword } = body;
+    await this.authService.changePassword({
+      userId: currentUser.id,
+      currentPassword,
+      newPassword,
+    });
+    return new ChangePasswordResponseDto();
   }
 }

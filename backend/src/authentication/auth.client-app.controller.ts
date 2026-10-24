@@ -1,9 +1,10 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 
 import { AuthService } from '@/authentication/auth.service';
 import { ForgetPasswordService } from '@/authentication/forget-password.service';
+import { ChangePasswordRequestDto } from '@/authentication/dto/request/change-password-request.dto';
 import { ForgotPasswordRequestDto } from '@/authentication/dto/request/forgot-password-request.dto';
 import { GoogleSignInRequestDto } from '@/authentication/dto/request/google-sign-in-request.dto';
 import { RefreshSessionRequestDto } from '@/authentication/dto/request/refresh-session-request.dto';
@@ -12,6 +13,8 @@ import { SignInRequestDto } from '@/authentication/dto/request/sign-in-request.d
 import { SignUpRequestDto } from '@/authentication/dto/request/sign-up-request.dto';
 import { VerifyEmailRequestDto } from '@/authentication/dto/request/verify-email-request.dto';
 import { AuthSessionResponseDto } from '@/authentication/dto/response/auth-session-response.dto';
+import { ChangePasswordResponseDto } from '@/authentication/dto/response/change-password-response.dto';
+import { ClientAppMeResponseDto } from '@/authentication/dto/response/client-app-me-response.dto';
 import { ForgotPasswordResponseDto } from '@/authentication/dto/response/forgot-password-response.dto';
 import { ResetPasswordResponseDto } from '@/authentication/dto/response/reset-password-response.dto';
 import { SignOutResponseDto } from '@/authentication/dto/response/sign-out-response.dto';
@@ -130,5 +133,25 @@ export class AuthClientAppController {
   async signOut(@LoggedInUser() currentUser: Principal): Promise<SignOutResponseDto> {
     await this.authService.signOut({ userId: currentUser.id, audience: currentUser.audience });
     return new SignOutResponseDto();
+  }
+
+  @Get('me')
+  async me(@LoggedInUser() currentUser: Principal): Promise<ClientAppMeResponseDto> {
+    const user = await this.authService.requireUser(currentUser.id);
+    return new ClientAppMeResponseDto(user);
+  }
+
+  @Patch('password')
+  async changePassword(
+    @LoggedInUser() currentUser: Principal,
+    @Body() body: ChangePasswordRequestDto,
+  ): Promise<ChangePasswordResponseDto> {
+    const { currentPassword, newPassword } = body;
+    await this.authService.changePassword({
+      userId: currentUser.id,
+      currentPassword,
+      newPassword,
+    });
+    return new ChangePasswordResponseDto();
   }
 }
