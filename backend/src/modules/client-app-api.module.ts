@@ -4,11 +4,18 @@ import { AuthClientAppController } from '@/authentication/auth.client-app.contro
 import { AuthModule } from '@/authentication/auth.module';
 import { AreaClientAppController } from '@/modules/area/area.client-app.controller';
 import { AreaModule } from '@/modules/area/area.module';
+import { PlaceClientAppController } from '@/modules/place/place.client-app.controller';
+import { PlaceModule } from '@/modules/place/place.module';
 import { AccountClientAppController } from '@/modules/user/account.client-app.controller';
 import { UserModule } from '@/modules/user/user.module';
 
 @Module({
-  imports: [AuthModule, UserModule, AreaModule],
-  controllers: [AuthClientAppController, AccountClientAppController, AreaClientAppController],
+  imports: [AuthModule, UserModule, AreaModule, PlaceModule],
+  controllers: [
+    AuthClientAppController,
+    AccountClientAppController,
+    AreaClientAppController,
+    PlaceClientAppController,
+  ],
 })
 export class ClientAppApiModule {}

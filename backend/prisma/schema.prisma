@@ -66,6 +66,46 @@ model Area {
   nameEn    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  places    Place[]
+}
+
+enum PlaceType {
+  restaurant
+  fast_food
+  cafe
+  hotel
+  guest_house
+  hostel
+  motel
+}
+
+enum PlaceStatus {
+  active
+  temporarily_closed
+  permanently_closed
+  hidden
+}
+
+model Place {
+  id          String      @id @default(cuid())
+  nameAr      String
+  nameEn      String
+  type        PlaceType
+  status      PlaceStatus @default(active)
+  areaId      String
+  area        Area        @relation(fields: [areaId], references: [id])
+  addressAr   String?
+  addressEn   String?
+  latitude    Float?
+  longitude   Float?
+  isFeatured  Boolean     @default(false)
+  starValue   Int?
+  starSource  String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([areaId])
+  @@index([status, type])
 }
 
 model RefreshToken {
