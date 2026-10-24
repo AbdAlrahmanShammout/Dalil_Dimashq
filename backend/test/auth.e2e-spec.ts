@@ -198,6 +198,63 @@ describe('visitor sign-up', () => {
       .expect(200);
     expect(readAudience(owner.body.accessToken)).toBe('dashboard-owner');
   });
+
+  it('signs staff in on the panel and revokes only that audience', async () => {
+    await prisma.user.create({
+      data: {
+        email: 'staff@example.com',
+        passwordHash: await bcrypt.hash('Password123', 10),
+        staffRole: 'admin',
+        isVisitor: false,
+        isOwner: false,
+        emailVerifiedAt: new Date(),
+        profile: { create: {} },
+      },
+    });
+    const refused = await request(app.getHttpServer())
+      .post('/client-app/auth/sign-up')
+      .send({ email: 'staff@example.com', password: 'Password123' })
+      .expect(403);
+    expect(refused.body.code).toBe('staff_email');
+    const visitorDoor = await request(app.getHttpServer())
+      .post('/client-app/auth/sign-in')
+      .send({ email: 'staff@example.com', password: 'Password123' })
+      .expect(401);
+    expect(visitorDoor.body.code).toBe('invalid_credentials');
+    const session = await request(app.getHttpServer())
+      .post('/admin-panel/auth/sign-in')
+      .send({ email: 'staff@example.com', password: 'Password123' })
+      .expect(200);
+    expect(readAudience(session.body.accessToken)).toBe('admin-panel');
+    await request(app.getHttpServer())
+      .post('/client-app/auth/sign-up')
+      .send({ email: 'other-visitor@example.com', password: 'Password123' })
+      .expect(201);
+    await request(app.getHttpServer())
+      .post('/client-app/auth/verify-email')
+      .send({ email: 'other-visitor@example.com', code: readCode() })
+      .expect(200);
+    const visitorSession = await request(app.getHttpServer())
+      .post('/client-app/auth/sign-in')
+      .send({ email: 'other-visitor@example.com', password: 'Password123' })
+      .expect(200);
+    await request(app.getHttpServer())
+      .post('/admin-panel/auth/sign-out')
+      .set('Authorization', `Bearer ${visitorSession.body.accessToken}`)
+      .expect(401);
+    await request(app.getHttpServer())
+      .post('/admin-panel/auth/sign-out')
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .expect(200);
+    const staff = await prisma.user.findUniqueOrThrow({ where: { email: 'staff@example.com' } });
+    const staffToken = await prisma.refreshToken.findFirst({ where: { userId: staff.id } });
+    const visitorRow = await prisma.user.findUniqueOrThrow({
+      where: { email: 'other-visitor@example.com' },
+    });
+    const visitorToken = await prisma.refreshToken.findFirst({ where: { userId: visitorRow.id } });
+    expect(staffToken?.revokedAt).not.toBeNull();
+    expect(visitorToken?.revokedAt).toBeNull();
+  });
 });
 
 function readAudience(accessToken: string): string {

@@ -6,6 +6,7 @@ import { DEFAULT_THROTTLE_LIMIT, DEFAULT_THROTTLE_TTL_MS } from '@/common/consta
 import { GlobalExceptionFilter } from '@/common/filter/global-exception.filter';
 import { ValidationExceptionFilter } from '@/common/filter/validation-exception.filter';
 import { AppThrottlerGuard } from '@/common/guards/app-throttler.guard';
+import { AudienceGuard } from '@/common/guards/audience.guard';
 import { AuthenticationGuard } from '@/common/guards/authentication.guard';
 import { AuthorizationGuard } from '@/common/guards/authorization.guard';
 import { ConfigsModule } from '@/config/configs.module';
@@ -28,6 +29,7 @@ import { ProviderModule } from '@/providers/provider.module';
     { provide: APP_FILTER, useClass: ValidationExceptionFilter },
     { provide: APP_GUARD, useClass: AppThrottlerGuard },
     { provide: APP_GUARD, useClass: AuthenticationGuard },
+    { provide: APP_GUARD, useClass: AudienceGuard },
     { provide: APP_GUARD, useClass: AuthorizationGuard },
   ],
 })

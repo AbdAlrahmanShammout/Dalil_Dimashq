@@ -63,6 +63,21 @@ export class AuthService {
     return this.issueSession(user.id, user.tokenVersion, ApiAudience.ClientApp);
   }
 
+  async signInStaff(input: {
+    readonly email: string;
+    readonly password: string;
+  }): Promise<AuthSession> {
+    const user = await this.userService.authenticateStaff(input);
+    return this.issueSession(user.id, user.tokenVersion, ApiAudience.AdminPanel);
+  }
+
+  /**
+   * Revokes refresh tokens for this audience only. The shared token version stays put.
+   */
+  async signOut(input: { readonly userId: string; readonly audience: ApiAudience }): Promise<void> {
+    await this.userService.revokeAudienceRefreshTokens(input);
+  }
+
   async refresh(input: {
     readonly refreshToken: string;
     readonly audience: ApiAudience;

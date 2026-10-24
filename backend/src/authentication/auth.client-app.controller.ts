@@ -14,14 +14,18 @@ import { VerifyEmailRequestDto } from '@/authentication/dto/request/verify-email
 import { AuthSessionResponseDto } from '@/authentication/dto/response/auth-session-response.dto';
 import { ForgotPasswordResponseDto } from '@/authentication/dto/response/forgot-password-response.dto';
 import { ResetPasswordResponseDto } from '@/authentication/dto/response/reset-password-response.dto';
+import { SignOutResponseDto } from '@/authentication/dto/response/sign-out-response.dto';
 import { SignUpResponseDto } from '@/authentication/dto/response/sign-up-response.dto';
 import { VerifyEmailResponseDto } from '@/authentication/dto/response/verify-email-response.dto';
-import { ApiAudience } from '@/common/auth/principal.interface';
-import { AUTH_THROTTLE } from '@/common/constants/auth-throttle';
+import { LoggedInUser } from '@/common/decorators/requests/logged-in-user.decorator';
+import { Audience } from '@/common/decorators/route/audience.decorator';
 import { PublicRoute } from '@/common/decorators/route/public-route.decorator';
+import { ApiAudience, Principal } from '@/common/auth/principal.interface';
+import { AUTH_THROTTLE } from '@/common/constants/auth-throttle';
 import { AuthDoor } from '@/modules/user/enum/general.enum';
 
 @ApiTags('auth')
+@Audience(ApiAudience.ClientApp)
 @Controller('client-app/auth')
 export class AuthClientAppController {
   constructor(
@@ -119,5 +123,12 @@ export class AuthClientAppController {
       door: AuthDoor.Visitor,
     });
     return new ResetPasswordResponseDto();
+  }
+
+  @HttpCode(200)
+  @Post('sign-out')
+  async signOut(@LoggedInUser() currentUser: Principal): Promise<SignOutResponseDto> {
+    await this.authService.signOut({ userId: currentUser.id, audience: currentUser.audience });
+    return new SignOutResponseDto();
   }
 }
