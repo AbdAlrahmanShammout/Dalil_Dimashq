@@ -130,6 +130,44 @@ describe('visitor sign-up', () => {
       .expect(401);
     expect(invalid.body.code).toBe('google_token_invalid');
   });
+
+  it('sends a reset code only for the open door and keeps the reply identical', async () => {
+    const email = 'reset@example.com';
+    await request(app.getHttpServer())
+      .post('/client-app/auth/sign-up')
+      .send({ email, password: 'Password123' })
+      .expect(201);
+    await request(app.getHttpServer())
+      .post('/client-app/auth/verify-email')
+      .send({ email, code: readCode() })
+      .expect(200);
+    clearCapturedMail();
+    const known = await request(app.getHttpServer())
+      .post('/client-app/auth/forgot-password')
+      .send({ email })
+      .expect(200);
+    const unknown = await request(app.getHttpServer())
+      .post('/client-app/auth/forgot-password')
+      .send({ email: 'missing@example.com' })
+      .expect(200);
+    expect(known.body).toEqual(unknown.body);
+    expect(known.body.code).toBe('forgot_password_sent');
+    expect(capturedMail).toHaveLength(1);
+    const ownerReply = await request(app.getHttpServer())
+      .post('/dashboard-owner/auth/forgot-password')
+      .send({ email })
+      .expect(200);
+    expect(ownerReply.body).toEqual(known.body);
+    expect(capturedMail).toHaveLength(1);
+    await request(app.getHttpServer())
+      .post('/client-app/auth/reset-password')
+      .send({ email, code: readCode(), password: 'Password456' })
+      .expect(200);
+    await request(app.getHttpServer())
+      .post('/client-app/auth/sign-in')
+      .send({ email, password: 'Password456' })
+      .expect(200);
+  });
 });
 
 function readAudience(accessToken: string): string {
