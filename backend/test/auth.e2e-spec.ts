@@ -168,6 +168,36 @@ describe('visitor sign-up', () => {
       .send({ email, password: 'Password456' })
       .expect(200);
   });
+
+  it('opens the owner door on the same password without a place link', async () => {
+    const email = 'both@example.com';
+    await request(app.getHttpServer())
+      .post('/client-app/auth/sign-up')
+      .send({ email, password: 'Password123' })
+      .expect(201);
+    await request(app.getHttpServer())
+      .post('/client-app/auth/verify-email')
+      .send({ email, code: readCode() })
+      .expect(200);
+    const ownerSignUp = await request(app.getHttpServer())
+      .post('/dashboard-owner/auth/sign-up')
+      .send({ email, password: 'Password123' })
+      .expect(201);
+    expect(ownerSignUp.body).toEqual({ status: 'ready' });
+    const visitor = await request(app.getHttpServer())
+      .post('/client-app/auth/sign-in')
+      .send({ email, password: 'Password123' })
+      .expect(200);
+    await request(app.getHttpServer())
+      .post('/dashboard-owner/auth/refresh')
+      .send({ refreshToken: visitor.body.refreshToken })
+      .expect(401);
+    const owner = await request(app.getHttpServer())
+      .post('/dashboard-owner/auth/sign-in')
+      .send({ email, password: 'Password123' })
+      .expect(200);
+    expect(readAudience(owner.body.accessToken)).toBe('dashboard-owner');
+  });
 });
 
 function readAudience(accessToken: string): string {
