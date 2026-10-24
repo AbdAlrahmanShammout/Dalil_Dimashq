@@ -6,3 +6,69 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum StaffRole {
+  admin
+  editor
+  moderator
+  sales
+}
+
+enum ProfileLanguage {
+  ar
+  en
+}
+
+model User {
+  id              String     @id @default(cuid())
+  email           String     @unique
+  passwordHash    String?
+  tokenVersion    Int        @default(0)
+  emailVerifiedAt DateTime?
+  isVisitor       Boolean    @default(false)
+  isOwner         Boolean    @default(false)
+  staffRole       StaffRole?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  profile         Profile?
+  emailCodes      EmailCode[]
+  refreshTokens   RefreshToken[]
+}
+
+model Profile {
+  userId          String          @id
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName       String?
+  lastName        String?
+  phone           String?
+  phoneVerifiedAt DateTime?
+  birthYear       Int?
+  language        ProfileLanguage @default(ar)
+}
+
+model EmailCode {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  audience   String
+  purpose    String
+  codeHash   String
+  expiresAt  DateTime
+  consumedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([userId, audience, purpose])
+}
+
+model RefreshToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  audience  String
+  tokenHash String    @unique
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId, audience])
+}
