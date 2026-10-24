@@ -3,8 +3,11 @@ import { ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 
 import { AuthService } from '@/authentication/auth.service';
+import { RefreshSessionRequestDto } from '@/authentication/dto/request/refresh-session-request.dto';
+import { SignInRequestDto } from '@/authentication/dto/request/sign-in-request.dto';
 import { SignUpRequestDto } from '@/authentication/dto/request/sign-up-request.dto';
 import { VerifyEmailRequestDto } from '@/authentication/dto/request/verify-email-request.dto';
+import { AuthSessionResponseDto } from '@/authentication/dto/response/auth-session-response.dto';
 import { SignUpResponseDto } from '@/authentication/dto/response/sign-up-response.dto';
 import { VerifyEmailResponseDto } from '@/authentication/dto/response/verify-email-response.dto';
 import { ApiAudience } from '@/common/auth/principal.interface';
@@ -39,5 +42,33 @@ export class AuthClientAppController {
     const { email, code } = body;
     await this.authService.verifyEmail({ email, code, audience: ApiAudience.ClientApp });
     return new VerifyEmailResponseDto();
+  }
+
+  @PublicRoute()
+  @Throttle(AUTH_THROTTLE)
+  @HttpCode(200)
+  @Post('sign-in')
+  async signIn(@Body() body: SignInRequestDto): Promise<AuthSessionResponseDto> {
+    const { email, password } = body;
+    const session = await this.authService.signIn({
+      email,
+      password,
+      door: AuthDoor.Visitor,
+      audience: ApiAudience.ClientApp,
+    });
+    return new AuthSessionResponseDto(session);
+  }
+
+  @PublicRoute()
+  @Throttle(AUTH_THROTTLE)
+  @HttpCode(200)
+  @Post('refresh')
+  async refresh(@Body() body: RefreshSessionRequestDto): Promise<AuthSessionResponseDto> {
+    const { refreshToken } = body;
+    const session = await this.authService.refresh({
+      refreshToken,
+      audience: ApiAudience.ClientApp,
+    });
+    return new AuthSessionResponseDto(session);
   }
 }
