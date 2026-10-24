@@ -195,6 +195,8 @@ import 'package:dalil_dimashq/domain/usecase/list_offers_use_case.dart'
     as _i1024;
 import 'package:dalil_dimashq/domain/usecase/list_owned_places_use_case.dart'
     as _i602;
+import 'package:dalil_dimashq/domain/usecase/list_owner_notifications_use_case.dart'
+    as _i799;
 import 'package:dalil_dimashq/domain/usecase/list_place_bookings_use_case.dart'
     as _i994;
 import 'package:dalil_dimashq/domain/usecase/load_booking_availability_use_case.dart'
@@ -314,6 +316,8 @@ import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_amenities_b
     as _i1043;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_dashboard_bloc.dart'
     as _i635;
+import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_inbox_bloc.dart'
+    as _i107;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/owner_place_search_bloc.dart'
     as _i589;
 import 'package:dalil_dimashq/presentation/features/owner/bloc/place_bookings_bloc.dart'
@@ -767,6 +771,11 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i1047.ListNotificationsUseCase(gh<_i1059.NotificationRepository>()),
     );
+    gh.factory<_i799.ListOwnerNotificationsUseCase>(
+      () => _i799.ListOwnerNotificationsUseCase(
+        gh<_i1059.NotificationRepository>(),
+      ),
+    );
     gh.factory<_i948.SignUpBloc>(
       () => _i948.SignUpBloc(gh<_i62.SignUpUseCase>()),
     );
@@ -778,6 +787,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i635.OwnerDashboardBloc>(
       () => _i635.OwnerDashboardBloc(gh<_i506.LoadOwnerDashboardUseCase>()),
+    );
+    gh.factory<_i107.OwnerInboxBloc>(
+      () => _i107.OwnerInboxBloc(
+        gh<_i799.ListOwnerNotificationsUseCase>(),
+        gh<_i148.OpenNotificationUseCase>(),
+      ),
     );
     gh.factory<_i609.MyRequestsBloc>(
       () => _i609.MyRequestsBloc(gh<_i122.ListChangeRequestsUseCase>()),

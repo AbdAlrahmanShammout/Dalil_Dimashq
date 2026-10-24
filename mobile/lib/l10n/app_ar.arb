@@ -256,5 +256,6 @@
   "closureStart": "يبدأ",
   "closureEnd": "ينتهي",
   "removeItem": "احذف",
-  "saveSettings": "احفظ الإعدادات"
+  "saveSettings": "احفظ الإعدادات",
+  "ownerInbox": "إشعارات المنشأة"
 }

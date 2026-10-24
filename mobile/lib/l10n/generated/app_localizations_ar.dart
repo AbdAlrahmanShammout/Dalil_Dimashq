@@ -724,4 +724,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get saveSettings => 'احفظ الإعدادات';
+
+  @override
+  String get ownerInbox => 'إشعارات المنشأة';
 }

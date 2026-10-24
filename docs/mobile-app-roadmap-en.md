@@ -84,7 +84,7 @@ Errors look up `message` in `x-dalil-error-codes` first (stable code, then the s
 
 ## Task list
 
-Status: tasks 1–95 are built. Next is task 96. Explore still calls `search_places`, which the 21 Oct spec does not contain. Owner name search uses PostgREST `ilike` on `places.name_ar` and `places.name_en`.
+Status: tasks 1–99 are built. Next is task 100, which waits for the Figma file along with tasks 101–104. Explore still calls `search_places`, which the 21 Oct spec does not contain. Owner name search uses PostgREST `ilike` on `places.name_ar` and `places.name_en`.
 
 | # | Task | Done when |
 |---|---|---|

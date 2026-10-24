@@ -726,4 +726,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saveSettings => 'Save settings';
+
+  @override
+  String get ownerInbox => 'Place notifications';
 }

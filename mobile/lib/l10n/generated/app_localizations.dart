@@ -1507,6 +1507,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save settings'**
   String get saveSettings;
+
+  /// No description provided for @ownerInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Place notifications'**
+  String get ownerInbox;
 }
 
 class _AppLocalizationsDelegate

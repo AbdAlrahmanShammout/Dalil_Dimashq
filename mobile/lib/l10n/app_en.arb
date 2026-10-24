@@ -256,5 +256,6 @@
   "closureStart": "Starts",
   "closureEnd": "Ends",
   "removeItem": "Remove",
-  "saveSettings": "Save settings"
+  "saveSettings": "Save settings",
+  "ownerInbox": "Place notifications"
 }
