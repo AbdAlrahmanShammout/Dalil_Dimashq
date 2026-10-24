@@ -7,6 +7,7 @@ import { appConfigSchema } from '@/config/app/app-config.schema';
 import { awsS3ConfigSchema } from '@/config/aws-s3/aws-s3-config.schema';
 import { corsConfigSchema } from '@/config/cors/cors-config.schema';
 import { databaseConfigSchema } from '@/config/database/database-config.schema';
+import { googleAuthConfigSchema } from '@/config/google-auth/google-auth-config.schema';
 import { googleMapsConfigSchema } from '@/config/google-maps/google-maps-config.schema';
 import { mailConfigSchema } from '@/config/mail/mail-config.schema';
 import { jwtConfigSchema } from '@/config/jwt/jwt-config.schema';
@@ -20,6 +21,7 @@ const validationSchema = Joi.object({
   ...corsConfigSchema,
   ...awsS3ConfigSchema,
   ...googleMapsConfigSchema,
+  ...googleAuthConfigSchema,
   ...mailConfigSchema,
 });
 

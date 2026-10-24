@@ -14,6 +14,7 @@ import { EmailCodePurpose } from '@/modules/user/enum/general.enum';
 import { UserService } from '@/modules/user/user.service';
 import { JwtManagerService } from '@/providers/jwt/jwt-manager.service';
 import { MailManagerService } from '@/providers/mail/mail-manager.service';
+import { GoogleAuthManagerService } from '@/providers/google-auth/google-auth-manager.service';
 
 export interface AuthSession {
   readonly accessToken: string;
@@ -27,6 +28,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtManagerService: JwtManagerService,
     private readonly mailManagerService: MailManagerService,
+    private readonly googleAuthManagerService: GoogleAuthManagerService,
     private readonly jwtConfigService: JwtConfigService,
   ) {}
 
@@ -50,6 +52,15 @@ export class AuthService {
   ): Promise<AuthSession> {
     const user = await this.userService.authenticate(input);
     return this.issueSession(user.id, user.tokenVersion, input.audience);
+  }
+
+  /**
+   * Verifies a Google identity token and opens only the visitor door.
+   */
+  async signInWithGoogle(idToken: string): Promise<AuthSession> {
+    const identity = await this.googleAuthManagerService.verifyIdentityToken(idToken);
+    const user = await this.userService.signInWithGoogleEmail({ email: identity.email });
+    return this.issueSession(user.id, user.tokenVersion, ApiAudience.ClientApp);
   }
 
   async refresh(input: {

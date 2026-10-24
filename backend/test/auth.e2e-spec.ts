@@ -1,4 +1,5 @@
 process.env.MAIL_CAPTURE = 'true';
+process.env.GOOGLE_OAUTH_CLIENT_ID = 'test-google-client';
 
 import { INestApplication } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -9,6 +10,23 @@ import { AppModule } from '@/app.module';
 import { InputValidationPipe } from '@/common/pipes/input-validation.pipe';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
 import { capturedMail, clearCapturedMail } from '@/providers/mail/mail-capture';
+
+jest.mock('google-auth-library', () => ({
+  OAuth2Client: jest.fn().mockImplementation(() => ({
+    verifyIdToken: jest.fn(async ({ idToken }: { idToken: string }) => {
+      if (idToken !== 'valid-google-token') {
+        throw new Error('invalid google token');
+      }
+      return {
+        getPayload: () => ({
+          email: 'google.user@example.com',
+          email_verified: true,
+          sub: 'google-subject',
+        }),
+      };
+    }),
+  })),
+}));
 
 describe('visitor sign-up', () => {
   let app: INestApplication;
@@ -95,6 +113,22 @@ describe('visitor sign-up', () => {
       .send({ email: 'owner-only@example.com', password: 'Password123' })
       .expect(401);
     expect(response.body.code).toBe('invalid_credentials');
+  });
+
+  it('opens only the visitor door for a Google account', async () => {
+    const session = await request(app.getHttpServer())
+      .post('/client-app/auth/google')
+      .send({ idToken: 'valid-google-token' })
+      .expect(200);
+    expect(readAudience(session.body.accessToken)).toBe('client-app');
+    const row = await prisma.user.findUnique({ where: { email: 'google.user@example.com' } });
+    expect(row?.isVisitor).toBe(true);
+    expect(row?.isOwner).toBe(false);
+    const invalid = await request(app.getHttpServer())
+      .post('/client-app/auth/google')
+      .send({ idToken: 'not-valid' })
+      .expect(401);
+    expect(invalid.body.code).toBe('google_token_invalid');
   });
 });
 

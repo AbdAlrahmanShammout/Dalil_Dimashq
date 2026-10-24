@@ -3,6 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 
 import { AuthService } from '@/authentication/auth.service';
+import { GoogleSignInRequestDto } from '@/authentication/dto/request/google-sign-in-request.dto';
 import { RefreshSessionRequestDto } from '@/authentication/dto/request/refresh-session-request.dto';
 import { SignInRequestDto } from '@/authentication/dto/request/sign-in-request.dto';
 import { SignUpRequestDto } from '@/authentication/dto/request/sign-up-request.dto';
@@ -69,6 +70,16 @@ export class AuthClientAppController {
       refreshToken,
       audience: ApiAudience.ClientApp,
     });
+    return new AuthSessionResponseDto(session);
+  }
+
+  @PublicRoute()
+  @Throttle(AUTH_THROTTLE)
+  @HttpCode(200)
+  @Post('google')
+  async google(@Body() body: GoogleSignInRequestDto): Promise<AuthSessionResponseDto> {
+    const { idToken } = body;
+    const session = await this.authService.signInWithGoogle(idToken);
     return new AuthSessionResponseDto(session);
   }
 }

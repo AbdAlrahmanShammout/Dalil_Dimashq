@@ -9,6 +9,8 @@ import corsConfigs from '@/config/cors/cors-configs';
 import { CorsConfigService } from '@/config/cors/cors-config.service';
 import databaseConfigs from '@/config/database/database-configs';
 import { DatabaseConfigService } from '@/config/database/database-config.service';
+import googleAuthConfigs from '@/config/google-auth/google-auth-configs';
+import { GoogleAuthConfigService } from '@/config/google-auth/google-auth-config.service';
 import googleMapsConfigs from '@/config/google-maps/google-maps-configs';
 import mailConfigs from '@/config/mail/mail-configs';
 import { MailConfigService } from '@/config/mail/mail-config.service';
@@ -33,6 +35,7 @@ import { validateEnvironment } from '@/config/validate-environment';
         ...corsConfigs,
         ...awsS3Configs,
         ...googleMapsConfigs,
+        ...googleAuthConfigs,
         ...mailConfigs,
       ],
       validate: validateEnvironment,
@@ -46,6 +49,7 @@ import { validateEnvironment } from '@/config/validate-environment';
     CorsConfigService,
     AwsS3ConfigService,
     GoogleMapsConfigService,
+    GoogleAuthConfigService,
     MailConfigService,
   ],
   exports: [
@@ -56,6 +60,7 @@ import { validateEnvironment } from '@/config/validate-environment';
     CorsConfigService,
     AwsS3ConfigService,
     GoogleMapsConfigService,
+    GoogleAuthConfigService,
     MailConfigService,
   ],
 })
