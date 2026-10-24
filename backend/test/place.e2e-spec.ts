@@ -123,4 +123,35 @@ describe('place summary', () => {
       'Table',
     ]);
   });
+
+  it('returns featured places as summaries', async () => {
+    const area = await prisma.area.create({ data: { nameAr: 'الشعلان', nameEn: 'Shaalan' } });
+    const featured = await prisma.place.create({
+      data: {
+        nameAr: 'مميز',
+        nameEn: 'Featured',
+        type: 'hotel',
+        status: 'active',
+        areaId: area.id,
+        isFeatured: true,
+      },
+    });
+    await prisma.place.create({
+      data: {
+        nameAr: 'عادي',
+        nameEn: 'Plain',
+        type: 'cafe',
+        status: 'active',
+        areaId: area.id,
+        isFeatured: false,
+      },
+    });
+    const response = await request(app.getHttpServer())
+      .get('/client-app/places/featured')
+      .expect(200);
+    expect(response.body).toHaveLength(1);
+    expect(response.body[0].id).toBe(featured.id);
+    expect(response.body[0].featured).toBe(true);
+    expect(response.body[0].photoFallback).toBe('hotel');
+  });
 });

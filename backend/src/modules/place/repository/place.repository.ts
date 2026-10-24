@@ -10,4 +10,5 @@ export interface PlaceCounts {
 export abstract class PlaceRepository {
   abstract findPublicById(id: string): Promise<PlaceEntity | null>;
   abstract countPublic(): Promise<PlaceCounts>;
+  abstract listFeatured(): Promise<PlaceEntity[]>;
 }

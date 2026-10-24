@@ -26,4 +26,11 @@ export class PlaceService {
   async countPublicPlaces(): Promise<PlaceCounts> {
     return this.placeRepository.countPublic();
   }
+
+  /**
+   * Current featured places as public summaries.
+   */
+  async listFeaturedPlaces(): Promise<PlaceEntity[]> {
+    return this.placeRepository.listFeatured();
+  }
 }

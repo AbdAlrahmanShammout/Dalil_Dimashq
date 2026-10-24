@@ -40,4 +40,13 @@ export class PlacePrismaRepository extends PlaceRepository {
     ]);
     return { all, hotels, restaurants, cafes };
   }
+
+  async listFeatured(): Promise<PlaceEntity[]> {
+    const rows = await this.prisma.place.findMany({
+      where: { isFeatured: true, status: { not: PlaceStatus.hidden } },
+      include: placeDetailsInclude,
+      orderBy: { nameEn: 'asc' },
+    });
+    return rows.map((row) => PlaceMapper.toEntity(row));
+  }
 }

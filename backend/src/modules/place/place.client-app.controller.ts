@@ -28,6 +28,13 @@ export class PlaceClientAppController {
   }
 
   @PublicRoute()
+  @Get('featured')
+  async listFeatured(): Promise<PlaceSummaryResponseDto[]> {
+    const places = await this.placeService.listFeaturedPlaces();
+    return places.map((place) => new PlaceSummaryResponseDto(place));
+  }
+
+  @PublicRoute()
   @Get()
   async searchPlaces(@Query() query: SearchPlacesQueryDto): Promise<PlaceSearchResponseDto> {
     const { text, type, areaId, minimumStars, hasPhone, sort, limit, offset } = query;

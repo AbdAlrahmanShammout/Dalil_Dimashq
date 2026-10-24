@@ -30,6 +30,10 @@ class MemoryPlaceRepository extends PlaceRepository {
       cafes: visible.filter((place) => place.type === PlaceType.Cafe).length,
     };
   }
+
+  async listFeatured(): Promise<PlaceEntity[]> {
+    return this.places.filter((place) => place.isFeatured && place.status !== PlaceStatus.Hidden);
+  }
 }
 
 function buildPlace(status: PlaceStatus): PlaceEntity {
@@ -84,5 +88,7 @@ describe('PlaceService', () => {
     expect(actual.type).toBe(PlaceType.Cafe);
     const counts = await new PlaceService(repository).countPublicPlaces();
     expect(counts).toEqual({ all: 1, hotels: 0, restaurants: 0, cafes: 1 });
+    const featured = await new PlaceService(repository).listFeaturedPlaces();
+    expect(featured).toHaveLength(1);
   });
 });
