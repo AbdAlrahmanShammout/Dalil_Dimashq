@@ -234,5 +234,9 @@
   "reportedBooking": "مُبلّغ عنه",
   "confirmBooking": "تأكيد",
   "rejectBooking": "رفض",
-  "optionalReason": "سبب اختياري"
+  "optionalReason": "سبب اختياري",
+  "cancelThisBooking": "ألغِ الحجز",
+  "cancelReason": "سبب الإلغاء",
+  "markAttended": "حضر",
+  "markNoShow": "لم يحضر"
 }

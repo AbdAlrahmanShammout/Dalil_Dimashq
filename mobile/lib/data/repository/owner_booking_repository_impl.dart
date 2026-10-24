@@ -45,6 +45,32 @@ class OwnerBookingRepositoryImpl implements OwnerBookingRepository {
     );
   }
 
+  @override
+  Future<Either<Failure, String>> cancel({
+    required int id,
+    required String reason,
+  }) {
+    return _status(
+      () => _client.ownerCancelBooking(<String, dynamic>{
+        'p_id': id,
+        'p_reason': reason,
+      }),
+    );
+  }
+
+  @override
+  Future<Either<Failure, String>> mark({
+    required int id,
+    required bool attended,
+  }) {
+    return _status(
+      () => _client.markBooking(<String, dynamic>{
+        'p_id': id,
+        'p_attended': attended,
+      }),
+    );
+  }
+
   Future<Either<Failure, String>> _status(
     Future<dynamic> Function() action,
   ) async {

@@ -19,6 +19,12 @@ abstract class BookingApiClient {
   @POST('/rest/v1/rpc/reject_booking')
   Future<dynamic> rejectBooking(@Body() Map<String, dynamic> body);
 
+  @POST('/rest/v1/rpc/owner_cancel_booking')
+  Future<dynamic> ownerCancelBooking(@Body() Map<String, dynamic> body);
+
+  @POST('/rest/v1/rpc/mark_booking')
+  Future<dynamic> markBooking(@Body() Map<String, dynamic> body);
+
   @POST('/rest/v1/rpc/cancel_booking')
   Future<dynamic> cancelBooking(@Body() Map<String, dynamic> body);
 

@@ -658,4 +658,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get optionalReason => 'سبب اختياري';
+
+  @override
+  String get cancelThisBooking => 'ألغِ الحجز';
+
+  @override
+  String get cancelReason => 'سبب الإلغاء';
+
+  @override
+  String get markAttended => 'حضر';
+
+  @override
+  String get markNoShow => 'لم يحضر';
 }

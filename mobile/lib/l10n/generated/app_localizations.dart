@@ -1375,6 +1375,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Optional reason'**
   String get optionalReason;
+
+  /// No description provided for @cancelThisBooking.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel booking'**
+  String get cancelThisBooking;
+
+  /// No description provided for @cancelReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancellation reason'**
+  String get cancelReason;
+
+  /// No description provided for @markAttended.
+  ///
+  /// In en, this message translates to:
+  /// **'Attended'**
+  String get markAttended;
+
+  /// No description provided for @markNoShow.
+  ///
+  /// In en, this message translates to:
+  /// **'No-show'**
+  String get markNoShow;
 }
 
 class _AppLocalizationsDelegate

@@ -245,6 +245,8 @@ import 'package:dalil_dimashq/domain/usecase/search_places_use_case.dart'
     as _i116;
 import 'package:dalil_dimashq/domain/usecase/send_contact_message_use_case.dart'
     as _i480;
+import 'package:dalil_dimashq/domain/usecase/settle_booking_use_case.dart'
+    as _i1061;
 import 'package:dalil_dimashq/domain/usecase/sign_in_use_case.dart' as _i873;
 import 'package:dalil_dimashq/domain/usecase/sign_out_use_case.dart' as _i334;
 import 'package:dalil_dimashq/domain/usecase/sign_up_use_case.dart' as _i62;
@@ -682,6 +684,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i994.ListPlaceBookingsUseCase>(
       () => _i994.ListPlaceBookingsUseCase(gh<_i468.OwnerBookingRepository>()),
+    );
+    gh.factory<_i1061.SettleBookingUseCase>(
+      () => _i1061.SettleBookingUseCase(gh<_i468.OwnerBookingRepository>()),
     );
     gh.factory<_i630.SubmitClaimBloc>(
       () => _i630.SubmitClaimBloc(gh<_i637.SubmitClaimUseCase>()),

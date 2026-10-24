@@ -234,5 +234,9 @@
   "reportedBooking": "Reported",
   "confirmBooking": "Confirm",
   "rejectBooking": "Reject",
-  "optionalReason": "Optional reason"
+  "optionalReason": "Optional reason",
+  "cancelThisBooking": "Cancel booking",
+  "cancelReason": "Cancellation reason",
+  "markAttended": "Attended",
+  "markNoShow": "No-show"
 }

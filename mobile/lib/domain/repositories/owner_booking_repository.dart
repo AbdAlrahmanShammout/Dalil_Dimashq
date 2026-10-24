@@ -8,4 +8,14 @@ abstract class OwnerBookingRepository {
   Future<Either<Failure, String>> confirm(int id);
 
   Future<Either<Failure, String>> reject({required int id, String? reason});
+
+  Future<Either<Failure, String>> cancel({
+    required int id,
+    required String reason,
+  });
+
+  Future<Either<Failure, String>> mark({
+    required int id,
+    required bool attended,
+  });
 }

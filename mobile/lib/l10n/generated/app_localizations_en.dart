@@ -660,4 +660,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get optionalReason => 'Optional reason';
+
+  @override
+  String get cancelThisBooking => 'Cancel booking';
+
+  @override
+  String get cancelReason => 'Cancellation reason';
+
+  @override
+  String get markAttended => 'Attended';
+
+  @override
+  String get markNoShow => 'No-show';
 }

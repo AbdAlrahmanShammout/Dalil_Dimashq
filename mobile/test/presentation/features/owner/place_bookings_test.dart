@@ -47,6 +47,22 @@ class _Bookings implements OwnerBookingRepository {
   }
 
   @override
+  Future<Either<Failure, String>> cancel({
+    required int id,
+    required String reason,
+  }) async {
+    return const Right<Failure, String>('cancelled_by_owner');
+  }
+
+  @override
+  Future<Either<Failure, String>> mark({
+    required int id,
+    required bool attended,
+  }) async {
+    return Right<Failure, String>(attended ? 'attended' : 'no_show');
+  }
+
+  @override
   Future<Either<Failure, List<OwnerBooking>>> list(String placeId) async {
     return Right<Failure, List<OwnerBooking>>(<OwnerBooking>[
       OwnerBooking(
