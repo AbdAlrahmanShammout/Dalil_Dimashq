@@ -12,6 +12,24 @@ class MemoryPlaceRepository extends PlaceRepository {
       this.places.find((place) => place.id === id && place.status !== PlaceStatus.Hidden) ?? null
     );
   }
+
+  async countPublic(): Promise<{
+    all: number;
+    hotels: number;
+    restaurants: number;
+    cafes: number;
+  }> {
+    const visible = this.places.filter((place) => place.status !== PlaceStatus.Hidden);
+    const hotels = [PlaceType.Hotel, PlaceType.GuestHouse, PlaceType.Hostel, PlaceType.Motel];
+    return {
+      all: visible.length,
+      hotels: visible.filter((place) => hotels.includes(place.type)).length,
+      restaurants: visible.filter(
+        (place) => place.type === PlaceType.Restaurant || place.type === PlaceType.FastFood,
+      ).length,
+      cafes: visible.filter((place) => place.type === PlaceType.Cafe).length,
+    };
+  }
 }
 
 function buildPlace(status: PlaceStatus): PlaceEntity {
@@ -64,5 +82,7 @@ describe('PlaceService', () => {
     const actual = await new PlaceService(repository).getPublicPlace('place-1');
     expect(actual.nameEn).toBe('House');
     expect(actual.type).toBe(PlaceType.Cafe);
+    const counts = await new PlaceService(repository).countPublicPlaces();
+    expect(counts).toEqual({ all: 1, hotels: 0, restaurants: 0, cafes: 1 });
   });
 });

@@ -78,5 +78,7 @@ describe('place summary', () => {
     expect(response.body.area).toEqual({ id: area.id, nameAr: 'المزة', nameEn: 'Mazzeh' });
     expect(response.body.hidden).toBeUndefined();
     await request(app.getHttpServer()).get(`/client-app/places/${hidden.id}`).expect(404);
+    const counts = await request(app.getHttpServer()).get('/client-app/places/counts').expect(200);
+    expect(counts.body).toEqual({ all: 1, hotels: 0, restaurants: 0, cafes: 1 });
   });
 });
