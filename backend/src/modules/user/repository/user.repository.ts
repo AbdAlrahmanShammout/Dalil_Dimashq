@@ -41,4 +41,5 @@ export abstract class UserRepository {
     context?: TransactionContext,
   ): Promise<void>;
   abstract revokeAllRefreshTokens(userId: string, context?: TransactionContext): Promise<void>;
+  abstract deleteById(id: string, context?: TransactionContext): Promise<void>;
 }

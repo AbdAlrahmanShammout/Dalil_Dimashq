@@ -159,6 +159,10 @@ export class UserPrismaRepository extends UserRepository {
     });
   }
 
+  async deleteById(id: string, context?: TransactionContext): Promise<void> {
+    await this.client(context).user.delete({ where: { id } });
+  }
+
   private client(context?: TransactionContext): DatabaseClient {
     return (context as Prisma.TransactionClient | undefined) ?? this.prisma;
   }

@@ -215,6 +215,46 @@ export class UserService {
     return this.userRepository.findById(id);
   }
 
+  /**
+   * Closes one door. The row is removed only when both doors are closed and the user is not staff.
+   * Place links and bookings stay detached from the user when those tables exist.
+   */
+  async deleteDoor(input: {
+    readonly userId: string;
+    readonly door: AuthDoor;
+    readonly password: string;
+    readonly audience: ApiAudience;
+  }): Promise<{ readonly removed: boolean }> {
+    const user = await this.requireUser(input.userId);
+    if (!this.hasDoor(user, input.door)) {
+      throw new AccessDeniedException({ message: 'Door is closed', code: 'not_allowed' });
+    }
+    if (!user.passwordHash) {
+      throw new InvalidStateException({ message: 'Password not set', code: 'password_not_set' });
+    }
+    const matches = await bcrypt.compare(input.password, user.passwordHash);
+    if (!matches) {
+      throw new UnauthenticatedException({
+        message: 'Password mismatch',
+        code: 'password_mismatch',
+      });
+    }
+    const isVisitor = input.door === AuthDoor.Visitor ? false : user.isVisitor;
+    const isOwner = input.door === AuthDoor.Owner ? false : user.isOwner;
+    const removed = !isVisitor && !isOwner && user.staffRole === null;
+    await this.transactionRunner.run(async (context) => {
+      await this.userRepository.updateDoor({ id: user.id, isVisitor, isOwner }, context);
+      await this.userRepository.revokeAudienceRefreshTokens(
+        { userId: user.id, audience: input.audience },
+        context,
+      );
+      if (removed) {
+        await this.userRepository.deleteById(user.id, context);
+      }
+    });
+    return { removed };
+  }
+
   async saveRefreshToken(input: CreateRefreshTokenRepoInput): Promise<void> {
     await this.userRepository.createRefreshToken(input);
   }

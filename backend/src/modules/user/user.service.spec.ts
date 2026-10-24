@@ -140,6 +140,13 @@ class MemoryUserRepository extends UserRepository {
     }
   }
 
+  async deleteById(id: string): Promise<void> {
+    const index = this.users.findIndex((user) => user.id === id);
+    if (index >= 0) {
+      this.users.splice(index, 1);
+    }
+  }
+
   private async require(id: string): Promise<UserEntity> {
     const user = await this.findById(id);
     if (!user) {
@@ -306,6 +313,79 @@ describe('UserService', () => {
       newPassword: 'Password456',
     });
     expect(repository.users[0].tokenVersion).toBe(1);
+  });
+
+  it('keeps the row when the other door is still open and drops only that audience', async () => {
+    const created = await service.signUp({
+      email: 'both@example.com',
+      password: 'Password123',
+      door: AuthDoor.Visitor,
+      audience: ApiAudience.ClientApp,
+    });
+    await service.verifyEmail({
+      email: 'both@example.com',
+      code: created.code ?? '',
+      audience: ApiAudience.ClientApp,
+      purpose: EmailCodePurpose.Signup,
+    });
+    await service.signUp({
+      email: 'both@example.com',
+      password: 'Password123',
+      door: AuthDoor.Owner,
+      audience: ApiAudience.DashboardOwner,
+    });
+    await service.saveRefreshToken({
+      userId: repository.users[0].id,
+      audience: ApiAudience.ClientApp,
+      tokenHash: 'visitor-hash',
+      expiresAt: new Date(Date.now() + 60_000),
+    });
+    await service.saveRefreshToken({
+      userId: repository.users[0].id,
+      audience: ApiAudience.DashboardOwner,
+      tokenHash: 'owner-hash',
+      expiresAt: new Date(Date.now() + 60_000),
+    });
+    const actual = await service.deleteDoor({
+      userId: repository.users[0].id,
+      door: AuthDoor.Visitor,
+      password: 'Password123',
+      audience: ApiAudience.ClientApp,
+    });
+    expect(actual.removed).toBe(false);
+    expect(repository.users).toHaveLength(1);
+    expect(repository.users[0].isVisitor).toBe(false);
+    expect(repository.users[0].isOwner).toBe(true);
+    expect(repository.users[0].tokenVersion).toBe(0);
+    expect(
+      repository.tokens.find((token) => token.audience === ApiAudience.ClientApp)?.revokedAt,
+    ).toBeInstanceOf(Date);
+    expect(
+      repository.tokens.find((token) => token.audience === ApiAudience.DashboardOwner)?.revokedAt,
+    ).toBeNull();
+  });
+
+  it('removes the row when the last door closes', async () => {
+    const created = await service.signUp({
+      email: 'only@example.com',
+      password: 'Password123',
+      door: AuthDoor.Visitor,
+      audience: ApiAudience.ClientApp,
+    });
+    await service.verifyEmail({
+      email: 'only@example.com',
+      code: created.code ?? '',
+      audience: ApiAudience.ClientApp,
+      purpose: EmailCodePurpose.Signup,
+    });
+    const actual = await service.deleteDoor({
+      userId: repository.users[0].id,
+      door: AuthDoor.Visitor,
+      password: 'Password123',
+      audience: ApiAudience.ClientApp,
+    });
+    expect(actual.removed).toBe(true);
+    expect(repository.users).toHaveLength(0);
   });
 
   it('sets only the visitor flag for Google', async () => {

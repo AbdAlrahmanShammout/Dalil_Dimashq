@@ -320,6 +320,57 @@ describe('visitor sign-up', () => {
       .set('Authorization', `Bearer ${visitor.body.accessToken}`)
       .expect(401);
   });
+
+  it('closes the visitor door and keeps the owner row', async () => {
+    const email = 'doors@example.com';
+    await request(app.getHttpServer())
+      .post('/client-app/auth/sign-up')
+      .send({ email, password: 'Password123' })
+      .expect(201);
+    await request(app.getHttpServer())
+      .post('/client-app/auth/verify-email')
+      .send({ email, code: readCode() })
+      .expect(200);
+    await request(app.getHttpServer())
+      .post('/dashboard-owner/auth/sign-up')
+      .send({ email, password: 'Password123' })
+      .expect(201);
+    const visitor = await request(app.getHttpServer())
+      .post('/client-app/auth/sign-in')
+      .send({ email, password: 'Password123' })
+      .expect(200);
+    const owner = await request(app.getHttpServer())
+      .post('/dashboard-owner/auth/sign-in')
+      .send({ email, password: 'Password123' })
+      .expect(200);
+    const wrong = await request(app.getHttpServer())
+      .post('/client-app/account/delete')
+      .set('Authorization', `Bearer ${visitor.body.accessToken}`)
+      .send({ password: 'Password999' })
+      .expect(401);
+    expect(wrong.body.code).toBe('password_mismatch');
+    const closed = await request(app.getHttpServer())
+      .post('/client-app/account/delete')
+      .set('Authorization', `Bearer ${visitor.body.accessToken}`)
+      .send({ password: 'Password123' })
+      .expect(200);
+    expect(closed.body).toEqual({ removed: false });
+    await request(app.getHttpServer())
+      .post('/client-app/auth/refresh')
+      .send({ refreshToken: visitor.body.refreshToken })
+      .expect(401);
+    await request(app.getHttpServer())
+      .post('/dashboard-owner/auth/refresh')
+      .send({ refreshToken: owner.body.refreshToken })
+      .expect(200);
+    const removed = await request(app.getHttpServer())
+      .post('/dashboard-owner/account/delete')
+      .set('Authorization', `Bearer ${owner.body.accessToken}`)
+      .send({ password: 'Password123' })
+      .expect(200);
+    expect(removed.body).toEqual({ removed: true });
+    expect(await prisma.user.count()).toBe(0);
+  });
 });
 
 function readAudience(accessToken: string): string {
