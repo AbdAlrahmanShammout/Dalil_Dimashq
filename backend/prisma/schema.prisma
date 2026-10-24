@@ -108,9 +108,21 @@ model Place {
   instagram   String?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+  hours       PlaceHour[]
 
   @@index([areaId])
   @@index([status, type])
+}
+
+model PlaceHour {
+  id        String @id @default(cuid())
+  placeId   String
+  place     Place  @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  dayOfWeek Int
+  opensAt   Int
+  closesAt  Int
+
+  @@index([placeId, dayOfWeek])
 }
 
 model RefreshToken {

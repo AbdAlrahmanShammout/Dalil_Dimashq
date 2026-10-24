@@ -154,4 +154,52 @@ describe('place summary', () => {
     expect(response.body[0].featured).toBe(true);
     expect(response.body[0].photoFallback).toBe('hotel');
   });
+
+  it('returns open now and the week, and neither when hours are missing', async () => {
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const open = await prisma.place.create({
+      data: {
+        nameAr: 'مفتوح',
+        nameEn: 'Open',
+        type: 'cafe',
+        status: 'active',
+        areaId: area.id,
+      },
+    });
+    const closed = await prisma.place.create({
+      data: {
+        nameAr: 'بدون',
+        nameEn: 'No hours',
+        type: 'cafe',
+        status: 'active',
+        areaId: area.id,
+      },
+    });
+    const now = new Date();
+    const shifted = new Date(now.getTime() + 3 * 60 * 60 * 1000);
+    await prisma.placeHour.create({
+      data: {
+        placeId: open.id,
+        dayOfWeek: shifted.getUTCDay(),
+        opensAt: 0,
+        closesAt: 24 * 60,
+      },
+    });
+    const openNow = await request(app.getHttpServer())
+      .get(`/client-app/places/${open.id}/open-now`)
+      .expect(200);
+    expect(openNow.body).toEqual({ openNow: true });
+    const hours = await request(app.getHttpServer())
+      .get(`/client-app/places/${open.id}/hours`)
+      .expect(200);
+    expect(hours.body.week).toHaveLength(7);
+    const missing = await request(app.getHttpServer())
+      .get(`/client-app/places/${closed.id}/hours`)
+      .expect(200);
+    expect(missing.body).toEqual({ week: null });
+    const missingNow = await request(app.getHttpServer())
+      .get(`/client-app/places/${closed.id}/open-now`)
+      .expect(200);
+    expect(missingNow.body).toEqual({ openNow: null });
+  });
 });
