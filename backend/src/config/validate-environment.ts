@@ -4,8 +4,10 @@ import { resolve } from 'path';
 import Joi from 'joi';
 
 import { appConfigSchema } from '@/config/app/app-config.schema';
+import { awsS3ConfigSchema } from '@/config/aws-s3/aws-s3-config.schema';
 import { corsConfigSchema } from '@/config/cors/cors-config.schema';
 import { databaseConfigSchema } from '@/config/database/database-config.schema';
+import { googleMapsConfigSchema } from '@/config/google-maps/google-maps-config.schema';
 import { jwtConfigSchema } from '@/config/jwt/jwt-config.schema';
 import { swaggerConfigSchema } from '@/config/swagger/swagger-config.schema';
 
@@ -15,6 +17,8 @@ const validationSchema = Joi.object({
   ...jwtConfigSchema,
   ...swaggerConfigSchema,
   ...corsConfigSchema,
+  ...awsS3ConfigSchema,
+  ...googleMapsConfigSchema,
 });
 
 function readDotenvKeys(): Record<string, string> {
