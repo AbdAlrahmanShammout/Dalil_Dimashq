@@ -241,5 +241,20 @@
   "markNoShow": "No-show",
   "reportFakeBooking": "Report as fake",
   "reportReason": "Report reason",
-  "fakeReportSent": "Report sent"
+  "fakeReportSent": "Report sent",
+  "acceptBookings": "Accept bookings",
+  "maxParty": "Maximum party",
+  "minimumNotice": "Minimum notice (minutes)",
+  "replyHours": "Reply hours",
+  "closedPeriods": "Closed periods",
+  "addReplyHours": "Add reply hours",
+  "addClosedPeriod": "Add closed period",
+  "settingsSaved": "Saved",
+  "weekday": "Weekday",
+  "opens": "Opens",
+  "closes": "Closes",
+  "closureStart": "Starts",
+  "closureEnd": "Ends",
+  "removeItem": "Remove",
+  "saveSettings": "Save settings"
 }

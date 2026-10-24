@@ -679,4 +679,49 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get fakeReportSent => 'أُرسل البلاغ';
+
+  @override
+  String get acceptBookings => 'قبول الحجوزات';
+
+  @override
+  String get maxParty => 'أكبر عدد';
+
+  @override
+  String get minimumNotice => 'أقل مهلة (دقائق)';
+
+  @override
+  String get replyHours => 'ساعات الرد';
+
+  @override
+  String get closedPeriods => 'فترات الإغلاق';
+
+  @override
+  String get addReplyHours => 'أضف ساعات الرد';
+
+  @override
+  String get addClosedPeriod => 'أضف فترة إغلاق';
+
+  @override
+  String get settingsSaved => 'تم الحفظ';
+
+  @override
+  String get weekday => 'اليوم';
+
+  @override
+  String get opens => 'يفتح';
+
+  @override
+  String get closes => 'يغلق';
+
+  @override
+  String get closureStart => 'يبدأ';
+
+  @override
+  String get closureEnd => 'ينتهي';
+
+  @override
+  String get removeItem => 'احذف';
+
+  @override
+  String get saveSettings => 'احفظ الإعدادات';
 }

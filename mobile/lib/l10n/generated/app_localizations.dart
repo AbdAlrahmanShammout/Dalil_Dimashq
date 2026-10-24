@@ -1417,6 +1417,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Report sent'**
   String get fakeReportSent;
+
+  /// No description provided for @acceptBookings.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept bookings'**
+  String get acceptBookings;
+
+  /// No description provided for @maxParty.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum party'**
+  String get maxParty;
+
+  /// No description provided for @minimumNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum notice (minutes)'**
+  String get minimumNotice;
+
+  /// No description provided for @replyHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Reply hours'**
+  String get replyHours;
+
+  /// No description provided for @closedPeriods.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed periods'**
+  String get closedPeriods;
+
+  /// No description provided for @addReplyHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Add reply hours'**
+  String get addReplyHours;
+
+  /// No description provided for @addClosedPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Add closed period'**
+  String get addClosedPeriod;
+
+  /// No description provided for @settingsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get settingsSaved;
+
+  /// No description provided for @weekday.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekday'**
+  String get weekday;
+
+  /// No description provided for @opens.
+  ///
+  /// In en, this message translates to:
+  /// **'Opens'**
+  String get opens;
+
+  /// No description provided for @closes.
+  ///
+  /// In en, this message translates to:
+  /// **'Closes'**
+  String get closes;
+
+  /// No description provided for @closureStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts'**
+  String get closureStart;
+
+  /// No description provided for @closureEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Ends'**
+  String get closureEnd;
+
+  /// No description provided for @removeItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get removeItem;
+
+  /// No description provided for @saveSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Save settings'**
+  String get saveSettings;
 }
 
 class _AppLocalizationsDelegate

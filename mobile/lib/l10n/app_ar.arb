@@ -241,5 +241,20 @@
   "markNoShow": "لم يحضر",
   "reportFakeBooking": "بلّغ عن حجز وهمي",
   "reportReason": "سبب البلاغ",
-  "fakeReportSent": "أُرسل البلاغ"
+  "fakeReportSent": "أُرسل البلاغ",
+  "acceptBookings": "قبول الحجوزات",
+  "maxParty": "أكبر عدد",
+  "minimumNotice": "أقل مهلة (دقائق)",
+  "replyHours": "ساعات الرد",
+  "closedPeriods": "فترات الإغلاق",
+  "addReplyHours": "أضف ساعات الرد",
+  "addClosedPeriod": "أضف فترة إغلاق",
+  "settingsSaved": "تم الحفظ",
+  "weekday": "اليوم",
+  "opens": "يفتح",
+  "closes": "يغلق",
+  "closureStart": "يبدأ",
+  "closureEnd": "ينتهي",
+  "removeItem": "احذف",
+  "saveSettings": "احفظ الإعدادات"
 }

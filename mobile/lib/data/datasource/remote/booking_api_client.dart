@@ -28,6 +28,41 @@ abstract class BookingApiClient {
   @POST('/rest/v1/rpc/report_fake_booking')
   Future<dynamic> reportFakeBooking(@Body() Map<String, dynamic> body);
 
+  @GET('/rest/v1/booking_settings')
+  Future<dynamic> bookingSettings(
+    @Query('place_id') String placeId,
+    @Query('select') String select,
+  );
+
+  @POST('/rest/v1/rpc/set_booking_options')
+  Future<void> setBookingOptions(@Body() Map<String, dynamic> body);
+
+  @GET('/rest/v1/booking_response_hours')
+  Future<dynamic> responseHours(
+    @Query('place_id') String placeId,
+    @Query('select') String select,
+    @Query('order') String order,
+  );
+
+  @POST('/rest/v1/booking_response_hours')
+  Future<void> insertResponseHour(@Body() Map<String, dynamic> body);
+
+  @DELETE('/rest/v1/booking_response_hours')
+  Future<void> deleteResponseHour(@Query('id') String id);
+
+  @GET('/rest/v1/booking_blackouts')
+  Future<dynamic> blackouts(
+    @Query('place_id') String placeId,
+    @Query('select') String select,
+    @Query('order') String order,
+  );
+
+  @POST('/rest/v1/booking_blackouts')
+  Future<void> insertBlackout(@Body() Map<String, dynamic> body);
+
+  @DELETE('/rest/v1/booking_blackouts')
+  Future<void> deleteBlackout(@Query('id') String id);
+
   @POST('/rest/v1/rpc/cancel_booking')
   Future<dynamic> cancelBooking(@Body() Map<String, dynamic> body);
 

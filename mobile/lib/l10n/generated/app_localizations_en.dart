@@ -681,4 +681,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fakeReportSent => 'Report sent';
+
+  @override
+  String get acceptBookings => 'Accept bookings';
+
+  @override
+  String get maxParty => 'Maximum party';
+
+  @override
+  String get minimumNotice => 'Minimum notice (minutes)';
+
+  @override
+  String get replyHours => 'Reply hours';
+
+  @override
+  String get closedPeriods => 'Closed periods';
+
+  @override
+  String get addReplyHours => 'Add reply hours';
+
+  @override
+  String get addClosedPeriod => 'Add closed period';
+
+  @override
+  String get settingsSaved => 'Saved';
+
+  @override
+  String get weekday => 'Weekday';
+
+  @override
+  String get opens => 'Opens';
+
+  @override
+  String get closes => 'Closes';
+
+  @override
+  String get closureStart => 'Starts';
+
+  @override
+  String get closureEnd => 'Ends';
+
+  @override
+  String get removeItem => 'Remove';
+
+  @override
+  String get saveSettings => 'Save settings';
 }
