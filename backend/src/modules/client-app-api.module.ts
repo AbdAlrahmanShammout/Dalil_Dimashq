@@ -6,11 +6,12 @@ import { AreaClientAppController } from '@/modules/area/area.client-app.controll
 import { AreaModule } from '@/modules/area/area.module';
 import { PlaceClientAppController } from '@/modules/place/place.client-app.controller';
 import { PlaceModule } from '@/modules/place/place.module';
+import { SearchModule } from '@/modules/search/search.module';
 import { AccountClientAppController } from '@/modules/user/account.client-app.controller';
 import { UserModule } from '@/modules/user/user.module';
 
 @Module({
-  imports: [AuthModule, UserModule, AreaModule, PlaceModule],
+  imports: [AuthModule, UserModule, AreaModule, PlaceModule, SearchModule],
   controllers: [
     AuthClientAppController,
     AccountClientAppController,

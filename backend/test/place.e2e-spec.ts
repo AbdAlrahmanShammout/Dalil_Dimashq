@@ -81,4 +81,46 @@ describe('place summary', () => {
     const counts = await request(app.getHttpServer()).get('/client-app/places/counts').expect(200);
     expect(counts.body).toEqual({ all: 1, hotels: 0, restaurants: 0, cafes: 1 });
   });
+
+  it('filters search and returns the real total', async () => {
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    await prisma.place.create({
+      data: {
+        nameAr: 'مقهى النور',
+        nameEn: 'Light Cafe',
+        type: 'cafe',
+        status: 'active',
+        areaId: area.id,
+        phone: '+963944000001',
+        starValue: 5,
+        addressEn: 'Light street',
+      },
+    });
+    await prisma.place.create({
+      data: {
+        nameAr: 'مطعم',
+        nameEn: 'Table',
+        type: 'restaurant',
+        status: 'active',
+        areaId: area.id,
+        starValue: 2,
+      },
+    });
+    const response = await request(app.getHttpServer())
+      .get('/client-app/places')
+      .query({ text: 'Light', type: 'cafe', areaId: area.id, minimumStars: 4, hasPhone: true })
+      .expect(200);
+    expect(response.body.total).toBe(1);
+    expect(response.body.items).toHaveLength(1);
+    expect(response.body.items[0].nameEn).toBe('Light Cafe');
+    const byName = await request(app.getHttpServer())
+      .get('/client-app/places')
+      .query({ sort: 'name' })
+      .expect(200);
+    expect(byName.body.total).toBe(2);
+    expect(byName.body.items.map((item: { nameEn: string }) => item.nameEn)).toEqual([
+      'Light Cafe',
+      'Table',
+    ]);
+  });
 });
