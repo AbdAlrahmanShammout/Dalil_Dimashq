@@ -8,6 +8,7 @@ import { awsS3ConfigSchema } from '@/config/aws-s3/aws-s3-config.schema';
 import { corsConfigSchema } from '@/config/cors/cors-config.schema';
 import { databaseConfigSchema } from '@/config/database/database-config.schema';
 import { googleMapsConfigSchema } from '@/config/google-maps/google-maps-config.schema';
+import { mailConfigSchema } from '@/config/mail/mail-config.schema';
 import { jwtConfigSchema } from '@/config/jwt/jwt-config.schema';
 import { swaggerConfigSchema } from '@/config/swagger/swagger-config.schema';
 
@@ -19,6 +20,7 @@ const validationSchema = Joi.object({
   ...corsConfigSchema,
   ...awsS3ConfigSchema,
   ...googleMapsConfigSchema,
+  ...mailConfigSchema,
 });
 
 function readDotenvKeys(): Record<string, string> {

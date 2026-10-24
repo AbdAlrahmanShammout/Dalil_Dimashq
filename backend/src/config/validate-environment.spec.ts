@@ -4,6 +4,9 @@ const required = {
   DATABASE_URL: 'postgresql://dalil:dalil@localhost:5432/dalil',
   JWT_ACCESS_SECRET: 'access-secret-value',
   JWT_REFRESH_SECRET: 'refresh-secret-value',
+  MAIL_HOST: 'sandbox.smtp.mailtrap.io',
+  MAIL_USER: 'mailtrap-user',
+  MAIL_PASSWORD: 'mailtrap-password',
 };
 
 describe('validateEnvironment', () => {

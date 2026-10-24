@@ -10,6 +10,8 @@ import { CorsConfigService } from '@/config/cors/cors-config.service';
 import databaseConfigs from '@/config/database/database-configs';
 import { DatabaseConfigService } from '@/config/database/database-config.service';
 import googleMapsConfigs from '@/config/google-maps/google-maps-configs';
+import mailConfigs from '@/config/mail/mail-configs';
+import { MailConfigService } from '@/config/mail/mail-config.service';
 import { GoogleMapsConfigService } from '@/config/google-maps/google-maps-config.service';
 import jwtConfigs from '@/config/jwt/jwt-configs';
 import { JwtConfigService } from '@/config/jwt/jwt-config.service';
@@ -31,6 +33,7 @@ import { validateEnvironment } from '@/config/validate-environment';
         ...corsConfigs,
         ...awsS3Configs,
         ...googleMapsConfigs,
+        ...mailConfigs,
       ],
       validate: validateEnvironment,
     }),
@@ -43,6 +46,7 @@ import { validateEnvironment } from '@/config/validate-environment';
     CorsConfigService,
     AwsS3ConfigService,
     GoogleMapsConfigService,
+    MailConfigService,
   ],
   exports: [
     AppConfigService,
@@ -52,6 +56,7 @@ import { validateEnvironment } from '@/config/validate-environment';
     CorsConfigService,
     AwsS3ConfigService,
     GoogleMapsConfigService,
+    MailConfigService,
   ],
 })
 export class ConfigsModule {}
