@@ -155,6 +155,7 @@ describe('place summary', () => {
     expect(response.body[0].id).toBe(featured.id);
     expect(response.body[0].featured).toBe(true);
     expect(response.body[0].photoFallback).toBe('hotel');
+    expect(response.body[0].starLabel).toBe('not_rated');
   });
 
   it('returns open now and the week, and neither when hours are missing', async () => {

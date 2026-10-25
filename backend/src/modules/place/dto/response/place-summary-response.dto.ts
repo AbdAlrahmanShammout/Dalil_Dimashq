@@ -38,8 +38,8 @@ export class PlaceSummaryResponseDto {
   @ApiProperty()
   readonly featured: boolean;
 
-  @ApiProperty({ nullable: true })
-  readonly starLabel: number | null;
+  @ApiProperty()
+  readonly starLabel: number | 'not_rated';
 
   @ApiProperty({ nullable: true })
   readonly starSource: string | null;
@@ -77,7 +77,7 @@ export class PlaceSummaryResponseDto {
     this.latitude = place.latitude;
     this.longitude = place.longitude;
     this.featured = place.isFeatured;
-    this.starLabel = place.starValue;
+    this.starLabel = place.starValue ?? 'not_rated';
     this.starSource = place.starSource;
     this.photoFallback = resolvePhotoFallback(place.type);
     this.phone = place.phone ?? undefined;
