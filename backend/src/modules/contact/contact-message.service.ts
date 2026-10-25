@@ -2,13 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { AccessDeniedException } from '@/common/exceptions/access-denied.exception';
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
-import {
-  CONTACT_BODY_MAX_BYTES,
-  CONTACT_DAILY_LIMIT,
-  CONTACT_HOURLY_LIMIT,
-  HOUR_MS,
-  damascusDayStart,
-} from '@/modules/contact/contact-limits';
+import { CONTACT_BODY_MAX_BYTES, assertMessageQuota } from '@/modules/contact/contact-limits';
 import { ContactMessageRepository } from '@/modules/contact/repository/contact-message.repository';
 
 export interface SubmitContactInput {
@@ -44,7 +38,12 @@ export class ContactMessageService {
         code: 'contact_required',
       });
     }
-    await this.assertQuota(input.visitorKey, now);
+    await assertMessageQuota(
+      (visitorKey, since) => this.contactMessageRepository.countSince(visitorKey, since),
+      input.visitorKey,
+      now,
+      'contact_rate',
+    );
     return this.contactMessageRepository.create({
       name: input.name,
       email: input.email ?? null,
@@ -54,19 +53,5 @@ export class ContactMessageService {
       visitorKey: input.visitorKey,
       now,
     });
-  }
-
-  private async assertQuota(visitorKey: string, now: Date): Promise<void> {
-    const hourly = await this.contactMessageRepository.countSince(
-      visitorKey,
-      new Date(now.getTime() - HOUR_MS),
-    );
-    if (hourly >= CONTACT_HOURLY_LIMIT) {
-      throw new InvalidStateException({ message: 'Hourly contact limit', code: 'contact_rate' });
-    }
-    const daily = await this.contactMessageRepository.countSince(visitorKey, damascusDayStart(now));
-    if (daily >= CONTACT_DAILY_LIMIT) {
-      throw new InvalidStateException({ message: 'Daily contact limit', code: 'contact_rate' });
-    }
   }
 }

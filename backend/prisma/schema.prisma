@@ -123,6 +123,19 @@ model ContactMessage {
   @@index([visitorKey, createdAt])
 }
 
+model Suggestion {
+  id         String   @id @default(cuid())
+  name       String
+  contact    String
+  kind       String
+  message    String
+  placeId    String?
+  visitorKey String
+  createdAt  DateTime @default(now())
+
+  @@index([visitorKey, createdAt])
+}
+
 model EmailCode {
   id         String    @id @default(cuid())
   userId     String

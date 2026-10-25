@@ -9,6 +9,7 @@ import { AmenityModule } from '@/modules/amenity/amenity.module';
 import { EventClientAppController } from '@/modules/event/event.client-app.controller';
 import { EventModule } from '@/modules/event/event.module';
 import { ContactClientAppController } from '@/modules/contact/contact.client-app.controller';
+import { SuggestionClientAppController } from '@/modules/contact/suggestion.client-app.controller';
 import { SiteContactClientAppController } from '@/modules/contact/site-contact.client-app.controller';
 import { ContactModule } from '@/modules/contact/contact.module';
 import { LegalClientAppController } from '@/modules/legal/legal.client-app.controller';
@@ -61,6 +62,7 @@ import { UserModule } from '@/modules/user/user.module';
     LegalClientAppController,
     SiteContactClientAppController,
     ContactClientAppController,
+    SuggestionClientAppController,
   ],
 })
 export class ClientAppApiModule {}
