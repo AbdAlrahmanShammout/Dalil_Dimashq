@@ -85,4 +85,8 @@ export abstract class BookingSettingsRepository {
   deleteBlackout(_placeId: string, _blackoutId: string): Promise<boolean> {
     return Promise.resolve(false);
   }
+
+  setAcceptsBookings(_placeId: string, _enabled: boolean): Promise<boolean> {
+    return Promise.resolve(false);
+  }
 }

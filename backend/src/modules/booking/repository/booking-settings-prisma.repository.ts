@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 
 import {
   BookingAvailability,
@@ -121,6 +122,22 @@ export class BookingSettingsPrismaRepository extends BookingSettingsRepository {
       where: { id: blackoutId, placeId },
     });
     return result.count > 0;
+  }
+
+  override async setAcceptsBookings(placeId: string, enabled: boolean): Promise<boolean> {
+    try {
+      await this.prisma.placeBookingSettings.upsert({
+        where: { placeId },
+        create: { placeId, acceptsBookings: enabled },
+        update: { acceptsBookings: enabled },
+      });
+      return true;
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2003') {
+        return false;
+      }
+      throw error;
+    }
   }
 
   private toOwnerSettings(

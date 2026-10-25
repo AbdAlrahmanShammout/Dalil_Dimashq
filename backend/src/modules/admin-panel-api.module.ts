@@ -6,6 +6,8 @@ import { AmenityAdminPanelController } from '@/modules/amenity/amenity.admin-pan
 import { AmenityModule } from '@/modules/amenity/amenity.module';
 import { AreaAdminPanelController } from '@/modules/area/area.admin-panel.controller';
 import { AreaModule } from '@/modules/area/area.module';
+import { BookingEnabledAdminPanelController } from '@/modules/booking/booking-enabled.admin-panel.controller';
+import { BookingModule } from '@/modules/booking/booking.module';
 import { ChangeRequestAdminPanelController } from '@/modules/change-request/change-request.admin-panel.controller';
 import { FeaturedAdminPanelController } from '@/modules/place/featured.admin-panel.controller';
 import { PlaceAdminPanelController } from '@/modules/place/place.admin-panel.controller';
@@ -45,6 +47,7 @@ import { UserModule } from '@/modules/user/user.module';
     SubscriptionModule,
     PaymentModule,
     RatingModule,
+    BookingModule,
   ],
   controllers: [
     AuthAdminPanelController,
@@ -62,6 +65,7 @@ import { UserModule } from '@/modules/user/user.module';
     SubscriptionAdminPanelController,
     PaymentAdminPanelController,
     RatingAdminPanelController,
+    BookingEnabledAdminPanelController,
     PlacePaymentAdminPanelController,
     OwnerLinkAdminPanelController,
     ChangeRequestAdminPanelController,

@@ -33,6 +33,16 @@ export class OwnerBookingSettingsService {
   }
 
   /**
+   * Switches booking on or off without opening a review request.
+   */
+  async setEnabled(placeId: string, enabled: boolean): Promise<void> {
+    const saved = await this.bookingSettingsRepository.setAcceptsBookings(placeId, enabled);
+    if (!saved) {
+      throw new ResourceNotFoundException('Place', placeId);
+    }
+  }
+
+  /**
    * Adds a weekday reply window. The row is live; it is not a review request.
    */
   async addResponseHour(input: {
