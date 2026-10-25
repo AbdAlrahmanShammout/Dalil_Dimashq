@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–109 are done. Task 22 is skipped. Next is task 110.
+Status: tasks 1–21 and 23–110 are done. Task 22 is skipped. Next is task 111.
 
 ### 1. Foundation
 
@@ -306,7 +306,7 @@ Status: tasks 1–21 and 23–109 are done. Task 22 is skipped. Next is task 110
 | ✅ 107 | View as visitor is not an API | The owner client calls `client-app` for the public place. No second public payload is added under `dashboard-owner` |
 | ✅ 108 | Missing place | Search returning an empty page is the signal. The owner client then calls `POST /client-app/contact`. No extra endpoint |
 | ✅ 109 | Owner booking decision notifications | Confirm, reject, owner cancel, attendance, and a new fake report write the visitor or staff inbox row in the same transaction |
-| 110 | Premium check | Premium means a subscription whose `endsAt` is in the future. Pending requests are counted from change requests in `pending` for that place |
+| ✅ 110 | Premium check | Premium means a subscription whose `endsAt` is in the future. Pending requests are counted from change requests in `pending` for that place |
 
 ### 9. Admin — `admin-panel`
 

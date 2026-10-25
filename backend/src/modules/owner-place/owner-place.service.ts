@@ -17,7 +17,8 @@ export class OwnerPlaceService {
   constructor(private readonly placeOwnerRepository: PlaceOwnerRepository) {}
 
   /**
-   * Places linked to this owner account.
+   * Places linked to this owner. Premium means a subscription whose end is still ahead.
+   * The pending count is change requests still in pending.
    */
   async listMine(userId: string, now: Date = new Date()): Promise<OwnedPlaceSummary[]> {
     return this.placeOwnerRepository.listByUser(userId, now);
