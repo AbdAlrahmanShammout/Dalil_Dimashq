@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
+
+import { AuditLogService, writeStaffAudit } from '@/modules/audit-log/audit-log.service';
 
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
 import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
@@ -6,7 +8,10 @@ import { LegalRepository, LegalText } from '@/modules/legal/repository/legal.rep
 
 @Injectable()
 export class LegalService {
-  constructor(private readonly legalRepository: LegalRepository) {}
+  constructor(
+    private readonly legalRepository: LegalRepository,
+    @Optional() private readonly auditLogService?: AuditLogService,
+  ) {}
 
   /**
    * The current terms or privacy text in the requested language.
@@ -40,11 +45,24 @@ export class LegalService {
     readonly kind: 'terms' | 'privacy';
     readonly language: 'ar' | 'en';
     readonly body: string;
+    readonly actorId?: string;
   }): Promise<LegalText> {
     const body = input.body.trim();
     if (!body) {
       throw new InvalidStateException({ message: 'Nothing to change', code: 'nothing_to_change' });
     }
-    return this.legalRepository.publish({ kind: input.kind, language: input.language, body });
+    const published = await this.legalRepository.publish({
+      kind: input.kind,
+      language: input.language,
+      body,
+    });
+    await writeStaffAudit(this.auditLogService, {
+      actorId: input.actorId,
+      action: 'legal_published',
+      targetType: 'legal_document',
+      targetId: published.id,
+      note: `${input.kind}:${input.language}`,
+    });
+    return published;
   }
 }

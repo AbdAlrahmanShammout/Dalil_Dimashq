@@ -9,10 +9,11 @@ import { SuggestionService } from '@/modules/contact/suggestion.service';
 import { SiteContactPrismaRepository } from '@/modules/contact/repository/site-contact-prisma.repository';
 import { SiteContactRepository } from '@/modules/contact/repository/site-contact.repository';
 import { SiteContactService } from '@/modules/contact/site-contact.service';
+import { AuditLogModule } from '@/modules/audit-log/audit-log.module';
 import { DatabaseProviderModule } from '@/providers/database/database-provider.module';
 
 @Module({
-  imports: [DatabaseProviderModule],
+  imports: [DatabaseProviderModule, AuditLogModule],
   providers: [
     SiteContactService,
     ContactMessageService,

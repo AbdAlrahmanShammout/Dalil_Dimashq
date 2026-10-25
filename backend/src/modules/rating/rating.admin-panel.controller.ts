@@ -1,7 +1,8 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { ApiAudience } from '@/common/auth/principal.interface';
+import { ApiAudience, Principal } from '@/common/auth/principal.interface';
+import { LoggedInUser } from '@/common/decorators/requests/logged-in-user.decorator';
 import { STAFF_ROLE_MODERATOR } from '@/common/constants/staff-role';
 import { Audience } from '@/common/decorators/route/audience.decorator';
 import { Roles } from '@/common/decorators/route/roles.decorator';
@@ -18,9 +19,12 @@ export class RatingAdminPanelController {
 
   @Post('decide')
   @HttpCode(200)
-  async decide(@Body() body: DecideRatingRequestDto): Promise<PlaceAmenityChangedResponseDto> {
+  async decide(
+    @LoggedInUser() currentUser: Principal,
+    @Body() body: DecideRatingRequestDto,
+  ): Promise<PlaceAmenityChangedResponseDto> {
     const { ratingId, decision } = body;
-    await this.ratingService.decideHeld(ratingId, decision);
+    await this.ratingService.decideHeld(ratingId, decision, currentUser.id);
     return new PlaceAmenityChangedResponseDto();
   }
 }

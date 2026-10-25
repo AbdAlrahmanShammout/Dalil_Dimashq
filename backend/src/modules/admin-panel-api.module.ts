@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 
+import { AuditLogAdminPanelController } from '@/modules/audit-log/audit-log.admin-panel.controller';
+import { AuditLogModule } from '@/modules/audit-log/audit-log.module';
 import { AuthAdminPanelController } from '@/authentication/auth.admin-panel.controller';
 import { AuthModule } from '@/authentication/auth.module';
 import { AmenityAdminPanelController } from '@/modules/amenity/amenity.admin-panel.controller';
@@ -42,6 +44,7 @@ import { UserModule } from '@/modules/user/user.module';
   imports: [
     AuthModule,
     UserModule,
+    AuditLogModule,
     AreaModule,
     AmenityModule,
     PlaceModule,
@@ -59,6 +62,7 @@ import { UserModule } from '@/modules/user/user.module';
     AuthAdminPanelController,
     StaffAdminPanelController,
     UserContactAdminPanelController,
+    AuditLogAdminPanelController,
     ProfileChangeAdminPanelController,
     LegalAdminPanelController,
     SiteContactAdminPanelController,

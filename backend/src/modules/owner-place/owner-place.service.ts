@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
+
+import { AuditLogService, writeStaffAudit } from '@/modules/audit-log/audit-log.service';
 
 import { AccessDeniedException } from '@/common/exceptions/access-denied.exception';
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
@@ -15,7 +17,10 @@ import {
 
 @Injectable()
 export class OwnerPlaceService {
-  constructor(private readonly placeOwnerRepository: PlaceOwnerRepository) {}
+  constructor(
+    private readonly placeOwnerRepository: PlaceOwnerRepository,
+    @Optional() private readonly auditLogService?: AuditLogService,
+  ) {}
 
   /**
    * Places linked to this owner. Premium means a subscription whose end is still ahead.
@@ -125,7 +130,7 @@ export class OwnerPlaceService {
   /**
    * Links an owner account to a place. A visitor-only account is refused.
    */
-  async linkForStaff(placeId: string, userId: string): Promise<void> {
+  async linkForStaff(placeId: string, userId: string, actorId?: string): Promise<void> {
     const place = await this.placeOwnerRepository.findDetail(placeId);
     if (!place) {
       throw new ResourceNotFoundException('Place', placeId);
@@ -138,16 +143,30 @@ export class OwnerPlaceService {
       throw new AccessDeniedException({ message: 'Not an owner account', code: 'not_allowed' });
     }
     await this.placeOwnerRepository.linkOwner(userId, placeId);
+    await writeStaffAudit(this.auditLogService, {
+      actorId,
+      action: 'owner_linked',
+      targetType: 'place',
+      targetId: placeId,
+      note: userId,
+    });
   }
 
   /**
    * Removes one owner link.
    */
-  async unlinkForStaff(placeId: string, userId: string): Promise<void> {
+  async unlinkForStaff(placeId: string, userId: string, actorId?: string): Promise<void> {
     const removed = await this.placeOwnerRepository.unlinkOwner(placeId, userId);
     if (!removed) {
       throw new ResourceNotFoundException('PlaceOwner', userId);
     }
+    await writeStaffAudit(this.auditLogService, {
+      actorId,
+      action: 'owner_unlinked',
+      targetType: 'place',
+      targetId: placeId,
+      note: userId,
+    });
   }
 
   /**

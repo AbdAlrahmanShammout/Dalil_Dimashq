@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
+
+import { AuditLogService, writeStaffAudit } from '@/modules/audit-log/audit-log.service';
 
 import { ConflictException } from '@/common/exceptions/conflict.exception';
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
@@ -28,7 +30,10 @@ export interface RecordPaymentInput {
 
 @Injectable()
 export class PaymentService {
-  constructor(private readonly paymentRepository: PaymentRepository) {}
+  constructor(
+    private readonly paymentRepository: PaymentRepository,
+    @Optional() private readonly auditLogService?: AuditLogService,
+  ) {}
 
   /**
    * Records a staff payment and issues the receipt number. The client cannot choose it.
@@ -70,7 +75,12 @@ export class PaymentService {
   /**
    * Records a void beside the payment. The payment row itself stays unchanged.
    */
-  async voidPayment(id: string, reason: string, now: Date = new Date()): Promise<PaymentRecord> {
+  async voidPayment(
+    id: string,
+    reason: string,
+    now: Date = new Date(),
+    actorId?: string,
+  ): Promise<PaymentRecord> {
     const trimmed = reason.trim();
     if (!trimmed) {
       throw new InvalidStateException({ message: 'Reason is required', code: 'reason' });
@@ -82,6 +92,13 @@ export class PaymentService {
     if (saved === 'already_void') {
       throw new InvalidStateException({ message: 'Already voided', code: 'invalid_state' });
     }
+    await writeStaffAudit(this.auditLogService, {
+      actorId,
+      action: 'payment_voided',
+      targetType: 'payment',
+      targetId: id,
+      note: trimmed,
+    });
     return saved;
   }
 

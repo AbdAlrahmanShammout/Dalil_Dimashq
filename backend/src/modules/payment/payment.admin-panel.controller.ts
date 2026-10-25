@@ -1,7 +1,8 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { ApiAudience } from '@/common/auth/principal.interface';
+import { ApiAudience, Principal } from '@/common/auth/principal.interface';
+import { LoggedInUser } from '@/common/decorators/requests/logged-in-user.decorator';
 import { STAFF_ROLE_SALES } from '@/common/constants/staff-role';
 import { Audience } from '@/common/decorators/route/audience.decorator';
 import { Roles } from '@/common/decorators/route/roles.decorator';
@@ -36,10 +37,16 @@ export class PaymentAdminPanelController {
 
   @Post(':id/void')
   async voidPayment(
+    @LoggedInUser() currentUser: Principal,
     @Param('id') id: string,
     @Body() body: VoidPaymentRequestDto,
   ): Promise<PaymentResponseDto> {
-    const payment = await this.paymentService.voidPayment(id, body.reason);
+    const payment = await this.paymentService.voidPayment(
+      id,
+      body.reason,
+      new Date(),
+      currentUser.id,
+    );
     return new PaymentResponseDto(payment);
   }
 

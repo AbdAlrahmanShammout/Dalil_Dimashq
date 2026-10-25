@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
+
+import { AuditLogService, writeStaffAudit } from '@/modules/audit-log/audit-log.service';
 
 import { TransactionContext } from '@/common/base/transaction-runner';
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
@@ -10,7 +12,10 @@ const MONTHLY_FAKE_REPORT_LIMIT = 5;
 
 @Injectable()
 export class FakeReportService {
-  constructor(private readonly fakeReportRepository: FakeReportRepository) {}
+  constructor(
+    private readonly fakeReportRepository: FakeReportRepository,
+    @Optional() private readonly auditLogService?: AuditLogService,
+  ) {}
 
   /**
    * Stores the visitor reply while the report is still open.
@@ -91,6 +96,7 @@ export class FakeReportService {
     readonly note: string;
     readonly badFaith: boolean;
     readonly now?: Date;
+    readonly actorId?: string;
   }): Promise<void> {
     const note = input.note.trim();
     if (!note) {
@@ -109,5 +115,12 @@ export class FakeReportService {
     if (result === 'closed') {
       throw new InvalidStateException({ message: 'Already decided', code: 'invalid_state' });
     }
+    await writeStaffAudit(this.auditLogService, {
+      actorId: input.actorId,
+      action: 'fake_report_decided',
+      targetType: 'fake_report',
+      targetId: input.id,
+      note: input.decision,
+    });
   }
 }

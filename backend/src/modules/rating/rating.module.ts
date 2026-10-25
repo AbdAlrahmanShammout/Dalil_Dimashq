@@ -5,10 +5,11 @@ import { RatingPrismaRepository } from '@/modules/rating/repository/rating-prism
 import { RatingRepository } from '@/modules/rating/repository/rating.repository';
 import { RatingService } from '@/modules/rating/rating.service';
 import { UserModule } from '@/modules/user/user.module';
+import { AuditLogModule } from '@/modules/audit-log/audit-log.module';
 import { DatabaseProviderModule } from '@/providers/database/database-provider.module';
 
 @Module({
-  imports: [DatabaseProviderModule, PlaceModule, UserModule],
+  imports: [DatabaseProviderModule, PlaceModule, UserModule, AuditLogModule],
   providers: [RatingService, { provide: RatingRepository, useClass: RatingPrismaRepository }],
   exports: [RatingService],
 })

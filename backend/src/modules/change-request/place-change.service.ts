@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
+import { AuditLogService, writeStaffAudit } from '@/modules/audit-log/audit-log.service';
 
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
 import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
@@ -24,6 +25,7 @@ export class PlaceChangeService {
   constructor(
     private readonly placeChangeRepository: PlaceChangeRepository,
     private readonly placeService: PlaceService,
+    @Optional() private readonly auditLogService?: AuditLogService,
   ) {}
 
   /**
@@ -118,6 +120,7 @@ export class PlaceChangeService {
     readonly id: string;
     readonly decision: 'approved' | 'rejected';
     readonly note: string;
+    readonly actorId?: string;
   }): Promise<PlaceChangeRecord> {
     const note = input.note.trim();
     if (!note) {
@@ -140,6 +143,13 @@ export class PlaceChangeService {
     if (!saved) {
       throw new InvalidStateException({ message: 'Already decided', code: 'invalid_state' });
     }
+    await writeStaffAudit(this.auditLogService, {
+      actorId: input.actorId,
+      action: 'change_request_decided',
+      targetType: 'place_change_request',
+      targetId: saved.id,
+      note: saved.status,
+    });
     return saved;
   }
 }

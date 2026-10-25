@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
+
+import { AuditLogService, writeStaffAudit } from '@/modules/audit-log/audit-log.service';
 
 import { ConflictException } from '@/common/exceptions/conflict.exception';
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
@@ -19,6 +21,7 @@ export class RatingService {
     private readonly ratingRepository: RatingRepository,
     private readonly placeService: PlaceService,
     private readonly userService: UserService,
+    @Optional() private readonly auditLogService?: AuditLogService,
   ) {}
 
   /**
@@ -60,16 +63,27 @@ export class RatingService {
   /**
    * Counts or rejects a rating that is still held. A decided rating stays as it is.
    */
-  async decideHeld(ratingId: string, decision: 'counted' | 'rejected'): Promise<void> {
+  async decideHeld(
+    ratingId: string,
+    decision: 'counted' | 'rejected',
+    actorId?: string,
+  ): Promise<void> {
     const rating = await this.requireRating(ratingId);
     if (rating.status !== 'held') {
       throw new InvalidStateException({ message: 'Already decided', code: 'invalid_state' });
     }
     if (decision === 'counted') {
       await this.countRating(ratingId);
-      return;
+    } else {
+      await this.rejectRating(ratingId);
     }
-    await this.rejectRating(ratingId);
+    await writeStaffAudit(this.auditLogService, {
+      actorId,
+      action: 'rating_decided',
+      targetType: 'rating',
+      targetId: ratingId,
+      note: decision,
+    });
   }
 
   private async refreshPublicScore(placeId: string): Promise<void> {

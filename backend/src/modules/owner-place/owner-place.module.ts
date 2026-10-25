@@ -9,11 +9,13 @@ import { OfferModule } from '@/modules/offer/offer.module';
 import { PlacePhotoModule } from '@/modules/place-photo/place-photo.module';
 import { AmenityModule } from '@/modules/amenity/amenity.module';
 import { PlaceHourModule } from '@/modules/place-hour/place-hour.module';
+import { AuditLogModule } from '@/modules/audit-log/audit-log.module';
 import { DatabaseProviderModule } from '@/providers/database/database-provider.module';
 
 @Module({
   imports: [
     DatabaseProviderModule,
+    AuditLogModule,
     ChangeRequestModule,
     PlaceHourModule,
     AmenityModule,

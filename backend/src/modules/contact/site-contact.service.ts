@@ -1,4 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
+
+import { AuditLogService, writeStaffAudit } from '@/modules/audit-log/audit-log.service';
 
 import {
   SiteContactRepository,
@@ -7,7 +9,10 @@ import {
 
 @Injectable()
 export class SiteContactService {
-  constructor(private readonly siteContactRepository: SiteContactRepository) {}
+  constructor(
+    private readonly siteContactRepository: SiteContactRepository,
+    @Optional() private readonly auditLogService?: AuditLogService,
+  ) {}
 
   /**
    * Public shortcuts. Empty values are omitted.
@@ -19,14 +24,21 @@ export class SiteContactService {
   /**
    * Replaces the public shortcuts. An empty string clears that shortcut.
    */
-  async saveShortcuts(input: SiteContacts): Promise<SiteContacts> {
-    return this.siteContactRepository.save({
+  async saveShortcuts(input: SiteContacts, actorId?: string): Promise<SiteContacts> {
+    const saved = await this.siteContactRepository.save({
       whatsapp: emptyToUndefined(input.whatsapp),
       phone: emptyToUndefined(input.phone),
       email: emptyToUndefined(input.email),
       facebook: emptyToUndefined(input.facebook),
       instagram: emptyToUndefined(input.instagram),
     });
+    await writeStaffAudit(this.auditLogService, {
+      actorId,
+      action: 'site_contacts_saved',
+      targetType: 'site_contact',
+      targetId: 'site',
+    });
+    return saved;
   }
 }
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
 import bcrypt from 'bcrypt';
 
 import { ApiAudience } from '@/common/auth/principal.interface';
@@ -37,6 +37,7 @@ import {
   normalizeSyrianPhone,
 } from '@/modules/user/profile-rules';
 import { UserRepository } from '@/modules/user/repository/user.repository';
+import { AuditLogService, writeStaffAudit } from '@/modules/audit-log/audit-log.service';
 import { SmsSender } from '@/providers/sms/sms-sender';
 import {
   createNumericCode,
@@ -51,6 +52,7 @@ export class UserService {
     private readonly userRepository: UserRepository,
     private readonly transactionRunner: TransactionRunner,
     private readonly smsSender: SmsSender,
+    @Optional() private readonly auditLogService?: AuditLogService,
   ) {}
 
   /**
@@ -230,6 +232,7 @@ export class UserService {
     readonly email: string;
     readonly password: string;
     readonly staffRole: StaffRole;
+    readonly actorId?: string;
   }): Promise<UserEntity> {
     if (input.staffRole === StaffRole.Admin) {
       throw new AccessDeniedException({
@@ -244,7 +247,7 @@ export class UserService {
       throw new ConflictException({ message: 'Email taken', code: 'email_taken' });
     }
     const passwordHash = await bcrypt.hash(input.password, BCRYPT_ROUNDS);
-    return this.userRepository.create({
+    const created = await this.userRepository.create({
       email,
       passwordHash,
       isVisitor: false,
@@ -252,6 +255,14 @@ export class UserService {
       staffRole: input.staffRole,
       emailVerifiedAt: new Date(),
     });
+    await writeStaffAudit(this.auditLogService, {
+      actorId: input.actorId,
+      action: 'staff_created',
+      targetType: 'user',
+      targetId: created.id,
+      note: input.staffRole,
+    });
+    return created;
   }
 
   /**
@@ -433,6 +444,7 @@ export class UserService {
   async decideProfileChange(input: {
     readonly id: string;
     readonly decision: 'approved' | 'rejected';
+    readonly actorId?: string;
   }): Promise<{ readonly id: string; readonly status: 'approved' | 'rejected' }> {
     const existing = await this.userRepository.findProfileChange(input.id);
     if (!existing) {
@@ -448,6 +460,13 @@ export class UserService {
     if (!saved || saved.status === 'pending') {
       throw new InvalidStateException({ message: 'Already decided', code: 'invalid_state' });
     }
+    await writeStaffAudit(this.auditLogService, {
+      actorId: input.actorId,
+      action: 'profile_change_decided',
+      targetType: 'profile_change_request',
+      targetId: saved.id,
+      note: saved.status,
+    });
     return { id: saved.id, status: saved.status };
   }
 

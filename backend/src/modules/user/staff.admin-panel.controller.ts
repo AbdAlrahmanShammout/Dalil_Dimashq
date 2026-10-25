@@ -1,10 +1,11 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { ApiAudience } from '@/common/auth/principal.interface';
+import { ApiAudience, Principal } from '@/common/auth/principal.interface';
 import { STAFF_ROLE_ADMIN } from '@/common/constants/staff-role';
 import { Audience } from '@/common/decorators/route/audience.decorator';
 import { Roles } from '@/common/decorators/route/roles.decorator';
+import { LoggedInUser } from '@/common/decorators/requests/logged-in-user.decorator';
 import { CreateStaffRequestDto } from '@/modules/user/dto/request/create-staff-request.dto';
 import {
   StaffAccountListResponseDto,
@@ -20,9 +21,17 @@ export class StaffAdminPanelController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async create(@Body() body: CreateStaffRequestDto): Promise<StaffAccountResponseDto> {
+  async create(
+    @LoggedInUser() currentUser: Principal,
+    @Body() body: CreateStaffRequestDto,
+  ): Promise<StaffAccountResponseDto> {
     const { email, password, staffRole } = body;
-    const created = await this.userService.createStaff({ email, password, staffRole });
+    const created = await this.userService.createStaff({
+      email,
+      password,
+      staffRole,
+      actorId: currentUser.id,
+    });
     return new StaffAccountResponseDto({
       id: created.id,
       email: created.email,

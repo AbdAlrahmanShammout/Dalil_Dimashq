@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { ApiAudience } from '@/common/auth/principal.interface';
+import { ApiAudience, Principal } from '@/common/auth/principal.interface';
+import { LoggedInUser } from '@/common/decorators/requests/logged-in-user.decorator';
 import { STAFF_ROLE_EDITOR } from '@/common/constants/staff-role';
 import { Audience } from '@/common/decorators/route/audience.decorator';
 import { Roles } from '@/common/decorators/route/roles.decorator';
@@ -19,20 +20,22 @@ export class OwnerLinkAdminPanelController {
   @Roles(STAFF_ROLE_EDITOR)
   @Post('places/:id/owners')
   async link(
+    @LoggedInUser() currentUser: Principal,
     @Param('id') placeId: string,
     @Body() body: LinkOwnerRequestDto,
   ): Promise<PlaceAmenityChangedResponseDto> {
-    await this.ownerPlaceService.linkForStaff(placeId, body.userId);
+    await this.ownerPlaceService.linkForStaff(placeId, body.userId, currentUser.id);
     return new PlaceAmenityChangedResponseDto();
   }
 
   @Roles(STAFF_ROLE_EDITOR)
   @Delete('places/:id/owners/:userId')
   async unlink(
+    @LoggedInUser() currentUser: Principal,
     @Param('id') placeId: string,
     @Param('userId') userId: string,
   ): Promise<PlaceAmenityChangedResponseDto> {
-    await this.ownerPlaceService.unlinkForStaff(placeId, userId);
+    await this.ownerPlaceService.unlinkForStaff(placeId, userId, currentUser.id);
     return new PlaceAmenityChangedResponseDto();
   }
 
