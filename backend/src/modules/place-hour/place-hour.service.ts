@@ -20,6 +20,7 @@ type HourWeek = Array<{
 }>;
 
 const WEEK_LENGTH = 7;
+const PERIODS_PER_DAY_LIMIT = 3;
 
 @Injectable()
 export class PlaceHourService {
@@ -56,6 +57,21 @@ export class PlaceHourService {
       week: buildWeek(regular),
       ramadan: buildWeek(ramadanRows),
     };
+  }
+
+  /**
+   * Regular week for the owner editor. Ramadan rows stay out, and a day keeps at most three periods.
+   */
+  async readRegularWeek(placeId: string): Promise<HoursWeekResult['week']> {
+    const regular = await this.placeHourRepository.listByPlace(placeId, 'regular');
+    const week = buildWeek(regular);
+    if (!week) {
+      return null;
+    }
+    return week.map((day) => ({
+      dayOfWeek: day.dayOfWeek,
+      periods: day.periods.slice(0, PERIODS_PER_DAY_LIMIT),
+    }));
   }
 
   private async requireHours(placeId: string): Promise<PlaceHourEntity[]> {

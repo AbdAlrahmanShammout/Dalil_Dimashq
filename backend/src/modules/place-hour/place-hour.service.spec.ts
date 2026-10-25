@@ -108,5 +108,7 @@ describe('PlaceHourService', () => {
     const inside = await service.readWeek('place-1', new Date('2026-10-25T09:00:00Z'));
     expect(inside.week?.[0].periods).toEqual([{ opensAt: 540, closesAt: 1020 }]);
     expect(inside.ramadan?.[0].periods).toEqual([{ opensAt: 1080, closesAt: 1380 }]);
+    const ownerWeek = await service.readRegularWeek('place-1');
+    expect(ownerWeek?.[0].periods).toEqual([{ opensAt: 540, closesAt: 1020 }]);
   });
 });

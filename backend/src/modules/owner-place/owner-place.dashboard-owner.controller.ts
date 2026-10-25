@@ -13,7 +13,9 @@ import { ImmediatePlaceResponseDto } from '@/modules/owner-place/dto/response/im
 import { OwnedPlaceListResponseDto } from '@/modules/owner-place/dto/response/owned-place-list-response.dto';
 import { OwnerPlaceDetailResponseDto } from '@/modules/owner-place/dto/response/owner-place-detail-response.dto';
 import { OwnerPlaceSearchResponseDto } from '@/modules/owner-place/dto/response/owner-place-search-response.dto';
+import { OwnerHoursResponseDto } from '@/modules/owner-place/dto/response/owner-hours-response.dto';
 import { OwnerPlaceService } from '@/modules/owner-place/owner-place.service';
+import { PlaceHourService } from '@/modules/place-hour/place-hour.service';
 import { PlaceChangeService } from '@/modules/change-request/place-change.service';
 import { PlaceChangeResponseDto } from '@/modules/change-request/dto/response/place-change-response.dto';
 import { PlaceChangeListResponseDto } from '@/modules/change-request/dto/response/place-change-list-response.dto';
@@ -25,6 +27,7 @@ export class OwnerPlaceDashboardController {
   constructor(
     private readonly ownerPlaceService: OwnerPlaceService,
     private readonly placeChangeService: PlaceChangeService,
+    private readonly placeHourService: PlaceHourService,
   ) {}
 
   @Get('search')
@@ -35,6 +38,16 @@ export class OwnerPlaceDashboardController {
     const { name, limit, offset } = query;
     const page = await this.ownerPlaceService.searchByName({ name, limit, offset });
     return new OwnerPlaceSearchResponseDto(page);
+  }
+
+  @Get(':id/hours')
+  async readHours(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+  ): Promise<OwnerHoursResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    const week = await this.placeHourService.readRegularWeek(placeId);
+    return new OwnerHoursResponseDto(week);
   }
 
   @Get(':id')
