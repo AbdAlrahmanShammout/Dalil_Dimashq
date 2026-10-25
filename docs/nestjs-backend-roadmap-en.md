@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–142 are done. Tasks 143–145 are withdrawn. Task 22 is skipped. Next is task 146.
+Status: tasks 1–21 and 23–142 and 146 are done. Tasks 143–145 are withdrawn. Task 22 is skipped. Next is task 147.
 
 ### 1. Foundation
 
@@ -354,7 +354,7 @@ Old Supabase rows are not copied. The schema is not required to match the old ta
 | ⏭ 143 | No data import | Withdrawn. There is no mapping, copy, or reconciliation of Supabase places, owners, photos, payments, or bookings |
 | ⏭ 144 | No password import | Withdrawn. Accounts are created through the three sign-up doors. Old password hashes are not read |
 | ⏭ 145 | No photo copy | Withdrawn. Photos enter only through the upload routes, which write to S3 |
-| 146 | Fresh start check | A clean migration plus seed boots, and `GET /health/ready` passes against that empty database |
+| ✅ 146 | Fresh start check | A clean migration plus seed boots, and `GET /health/ready` passes against that empty database |
 | 147 | Deploy | Not started here. Host and S3 region are chosen when deployment is planned |
 | 148 | Client switch | A short note lists every old Supabase path and its new audience path, so the mobile app can be pointed at this API in a later change. This roadmap does not edit the Flutter client |
 
