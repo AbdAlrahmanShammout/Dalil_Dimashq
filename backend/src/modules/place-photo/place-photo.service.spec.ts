@@ -44,6 +44,10 @@ class MemoryPlaceRepository extends PlaceRepository {
 }
 
 class MemoryPhotoRepository extends PlacePhotoRepository {
+  created: { id: string; objectKey: string } | null = null;
+  assigned: string | null = null;
+  deletedKey: string | null = null;
+
   async listVisible(): Promise<PlacePhotoEntity[]> {
     return [
       new PlacePhotoEntity({
@@ -62,6 +66,28 @@ class MemoryPhotoRepository extends PlacePhotoRepository {
       }),
     ];
   }
+
+  override async create(input: {
+    placeId: string;
+    objectKey: string;
+  }): Promise<{ id: string; objectKey: string }> {
+    this.created = { id: 'photo-1', objectKey: input.objectKey };
+    return this.created;
+  }
+
+  override async assignRole(
+    _placeId: string,
+    photoId: string,
+    role: 'cover' | 'logo',
+  ): Promise<boolean> {
+    this.assigned = `${photoId}:${role}`;
+    return true;
+  }
+
+  override async deleteOwned(): Promise<{ objectKey: string }> {
+    this.deletedKey = 'place-1/front.jpg';
+    return { objectKey: 'place-1/front.jpg' };
+  }
 }
 
 class MemoryStorage extends PhotoStorage {
@@ -73,6 +99,10 @@ class MemoryStorage extends PhotoStorage {
 
   override async uploadObject(input: { key: string }): Promise<void> {
     this.uploads.push(input.key);
+  }
+
+  override async deleteObject(key: string): Promise<void> {
+    this.uploads.push(`deleted:${key}`);
   }
 }
 
@@ -112,5 +142,22 @@ describe('PlacePhotoService', () => {
     });
     expect(stored.key).toBe('place-1/front.jpg');
     expect(storage.uploads).toEqual(['place-1/front.jpg']);
+    const repository = new MemoryPhotoRepository();
+    const saving = new PlacePhotoService(
+      new PlaceService(new MemoryPlaceRepository()),
+      repository,
+      storage,
+    );
+    const created = await saving.addOwnerPhoto({
+      placeId: 'place-1',
+      fileName: 'front.jpg',
+      mimeType: 'image/jpeg',
+      bytes: Uint8Array.from([1, 2, 3]),
+    });
+    expect(created.objectKey).toBe('place-1/front.jpg');
+    await saving.assignRole('place-1', created.id, 'cover');
+    expect(repository.assigned).toBe('photo-1:cover');
+    await saving.removeOwnerPhoto('place-1', created.id);
+    expect(storage.uploads).toContain('deleted:place-1/front.jpg');
   });
 });

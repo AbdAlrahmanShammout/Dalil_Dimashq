@@ -7,6 +7,7 @@ import { DeviceModule } from '@/modules/device/device.module';
 import { OwnerPlaceDashboardController } from '@/modules/owner-place/owner-place.dashboard-owner.controller';
 import { OwnerPlaceModule } from '@/modules/owner-place/owner-place.module';
 import { AmenityDashboardOwnerController } from '@/modules/amenity/amenity.dashboard-owner.controller';
+import { PlacePhotoDashboardOwnerController } from '@/modules/place-photo/place-photo.dashboard-owner.controller';
 import { AccountDashboardOwnerController } from '@/modules/user/account.dashboard-owner.controller';
 import { UserModule } from '@/modules/user/user.module';
 
@@ -18,6 +19,7 @@ import { UserModule } from '@/modules/user/user.module';
     DeviceDashboardOwnerController,
     OwnerPlaceDashboardController,
     AmenityDashboardOwnerController,
+    PlacePhotoDashboardOwnerController,
   ],
 })
 export class DashboardOwnerApiModule {}

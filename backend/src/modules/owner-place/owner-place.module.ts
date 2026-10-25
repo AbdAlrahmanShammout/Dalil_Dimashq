@@ -4,12 +4,19 @@ import { ChangeRequestModule } from '@/modules/change-request/change-request.mod
 import { OwnerPlaceService } from '@/modules/owner-place/owner-place.service';
 import { PlaceOwnerPrismaRepository } from '@/modules/owner-place/repository/place-owner-prisma.repository';
 import { PlaceOwnerRepository } from '@/modules/owner-place/repository/place-owner.repository';
+import { PlacePhotoModule } from '@/modules/place-photo/place-photo.module';
 import { AmenityModule } from '@/modules/amenity/amenity.module';
 import { PlaceHourModule } from '@/modules/place-hour/place-hour.module';
 import { DatabaseProviderModule } from '@/providers/database/database-provider.module';
 
 @Module({
-  imports: [DatabaseProviderModule, ChangeRequestModule, PlaceHourModule, AmenityModule],
+  imports: [
+    DatabaseProviderModule,
+    ChangeRequestModule,
+    PlaceHourModule,
+    AmenityModule,
+    PlacePhotoModule,
+  ],
   providers: [
     OwnerPlaceService,
     { provide: PlaceOwnerRepository, useClass: PlaceOwnerPrismaRepository },
@@ -20,6 +27,7 @@ import { DatabaseProviderModule } from '@/providers/database/database-provider.m
     ChangeRequestModule,
     PlaceHourModule,
     AmenityModule,
+    PlacePhotoModule,
   ],
 })
 export class OwnerPlaceModule {}

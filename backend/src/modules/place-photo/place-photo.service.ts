@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
+import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
+import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
 import { PlaceService } from '@/modules/place/place.service';
 import { PlacePhotoEntity, PlacePhotoRole } from '@/modules/place-photo/entity/place-photo.entity';
 import { prepareOwnerPhoto } from '@/modules/place-photo/owner-photo-rules';
@@ -68,5 +70,49 @@ export class PlacePhotoService {
       contentType: input.mimeType,
     });
     return prepared;
+  }
+
+  /**
+   * Uploads the file and stores the object key. No presigned upload URL is issued.
+   */
+  async addOwnerPhoto(input: {
+    readonly placeId: string;
+    readonly fileName: string;
+    readonly mimeType: string;
+    readonly bytes: Uint8Array;
+  }): Promise<{ id: string; objectKey: string }> {
+    const stored = await this.storeOwnerPhoto(input);
+    return this.placePhotoRepository.create({ placeId: input.placeId, objectKey: stored.key });
+  }
+
+  /**
+   * Assigns the cover or the logo. The previous photo in that role returns to the gallery.
+   */
+  async assignRole(placeId: string, photoId: string, role: 'cover' | 'logo'): Promise<void> {
+    const assigned = await this.placePhotoRepository.assignRole(placeId, photoId, role);
+    if (!assigned) {
+      throw new ResourceNotFoundException('Photo', photoId);
+    }
+  }
+
+  /**
+   * Removes the owner's photo row and the stored object.
+   */
+  async removeOwnerPhoto(placeId: string, photoId: string): Promise<void> {
+    const removed = await this.placePhotoRepository.deleteOwned(placeId, photoId);
+    if (!removed) {
+      throw new ResourceNotFoundException('Photo', photoId);
+    }
+    await this.photoStorage.deleteObject(removed.objectKey);
+  }
+
+  /**
+   * A missing file is refused before storage.
+   */
+  requirePhotoFile(file: { buffer?: Uint8Array } | undefined): Uint8Array {
+    if (!file?.buffer || file.buffer.byteLength === 0) {
+      throw new InvalidStateException({ message: 'Photo type is invalid', code: 'photo_invalid' });
+    }
+    return file.buffer;
   }
 }

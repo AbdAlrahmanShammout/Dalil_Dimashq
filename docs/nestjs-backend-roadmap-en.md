@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–92 are done. Task 22 is skipped. Next is task 93.
+Status: tasks 1–21 and 23–93 are done. Task 22 is skipped. Next is task 94.
 
 ### 1. Foundation
 
@@ -289,7 +289,7 @@ Status: tasks 1–21 and 23–92 are done. Task 22 is skipped. Next is task 93.
 | ✅ 90 | Amenities editor | `GET /dashboard-owner/amenities` is the approved list. `POST` and `DELETE /dashboard-owner/places/:id/amenities/:code` add and remove |
 | ✅ 91 | Photo pick is the client's | The phone still chooses camera or gallery. It then sends the file to the API. The API does not open a picker |
 | ✅ 92 | Reject an oversized photo | The API accepts jpeg, png, or webp up to 2 MB, at most 30 owner photos per place, and stores the object at `{placeId}/{file}`. Anything else is refused before S3 is called |
-| 93 | Upload, cover, logo, delete | `POST /dashboard-owner/places/:id/photos` receives the file, uploads it to S3, and stores the key. `POST .../cover` and `.../logo` assign. `DELETE .../photos/:photoId` removes the owner's photo and the object. There is no presigned upload URL |
+| ✅ 93 | Upload, cover, logo, delete | `POST /dashboard-owner/places/:id/photos` receives the file, uploads it to S3, and stores the key. `POST .../cover` and `.../logo` assign. `DELETE .../photos/:photoId` removes the owner's photo and the object. There is no presigned upload URL |
 | 94 | Photo Premium lock | Tasks 91–93 return `premium_required` when the place is not Premium. The client shows the contact card |
 | 95 | Offers | `POST /dashboard-owner/places/:id/offers` creates an offer with title, details, an optional image file, and dates. The API uploads that file to S3. The window must be at most 60 days. `POST .../stop` sets the end to now. `DELETE` removes it |
 | 96 | Offer Premium lock | The same `premium_required` rule as photos |

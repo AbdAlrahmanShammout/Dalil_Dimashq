@@ -30,4 +30,42 @@ export class PlacePhotoPrismaRepository extends PlacePhotoRepository {
   override async countByPlace(placeId: string): Promise<number> {
     return this.prisma.placePhoto.count({ where: { placeId } });
   }
+
+  override async create(input: {
+    placeId: string;
+    objectKey: string;
+  }): Promise<{ id: string; objectKey: string }> {
+    const row = await this.prisma.placePhoto.create({
+      data: { placeId: input.placeId, objectKey: input.objectKey, role: 'gallery' },
+    });
+    return { id: row.id, objectKey: row.objectKey };
+  }
+
+  override async assignRole(
+    placeId: string,
+    photoId: string,
+    role: 'cover' | 'logo',
+  ): Promise<boolean> {
+    const photo = await this.prisma.placePhoto.findFirst({ where: { id: photoId, placeId } });
+    if (!photo) {
+      return false;
+    }
+    await this.prisma.$transaction([
+      this.prisma.placePhoto.updateMany({ where: { placeId, role }, data: { role: 'gallery' } }),
+      this.prisma.placePhoto.update({ where: { id: photoId }, data: { role } }),
+    ]);
+    return true;
+  }
+
+  override async deleteOwned(
+    placeId: string,
+    photoId: string,
+  ): Promise<{ objectKey: string } | null> {
+    const photo = await this.prisma.placePhoto.findFirst({ where: { id: photoId, placeId } });
+    if (!photo) {
+      return null;
+    }
+    await this.prisma.placePhoto.delete({ where: { id: photo.id } });
+    return { objectKey: photo.objectKey };
+  }
 }
