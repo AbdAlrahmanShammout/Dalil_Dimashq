@@ -25,4 +25,38 @@ export class AreaService {
     }
     return area;
   }
+
+  /**
+   * Creates an area with both names.
+   */
+  async createArea(input: {
+    readonly nameAr: string;
+    readonly nameEn: string;
+  }): Promise<AreaEntity> {
+    return this.areaRepository.create(input);
+  }
+
+  /**
+   * Renames an area. An unknown id is not found.
+   */
+  async updateArea(
+    id: string,
+    input: { readonly nameAr: string; readonly nameEn: string },
+  ): Promise<AreaEntity> {
+    const area = await this.areaRepository.update(id, input);
+    if (!area) {
+      throw new ResourceNotFoundException('Area', id);
+    }
+    return area;
+  }
+
+  /**
+   * Removes an area that has no places.
+   */
+  async deleteArea(id: string): Promise<void> {
+    const removed = await this.areaRepository.delete(id);
+    if (!removed) {
+      throw new ResourceNotFoundException('Area', id);
+    }
+  }
 }
