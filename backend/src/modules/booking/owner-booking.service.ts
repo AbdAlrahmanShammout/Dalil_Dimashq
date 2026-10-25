@@ -9,6 +9,9 @@ import {
   PlaceBooking,
 } from '@/modules/booking/repository/booking.repository';
 
+const ATTENDANCE_LEAD_MS = 30 * 60 * 1000;
+const ATTENDANCE_GRACE_MS = 3 * 24 * 60 * 60 * 1000;
+
 @Injectable()
 export class OwnerBookingService {
   constructor(private readonly bookingRepository: BookingRepository) {}
@@ -83,6 +86,45 @@ export class OwnerBookingService {
       status: 'cancelled_by_owner',
       fromStatuses: ['confirmed'],
       cancellationReason: trimmed,
+    });
+  }
+
+  /**
+   * Marks attended or no-show from 30 minutes before the booking until 3 days after.
+   */
+  async markAttendance(
+    placeId: string,
+    bookingId: string,
+    result: string | null,
+    now: Date = new Date(),
+  ): Promise<void> {
+    if (result !== 'attended' && result !== 'no_show') {
+      throw new InvalidStateException({
+        message: 'Attendance is required',
+        code: 'booking_mark_missing',
+      });
+    }
+    const booking = await this.loadPlaceBooking(placeId, bookingId);
+    if (booking.status !== 'confirmed') {
+      throw new InvalidStateException({
+        message: 'Only a confirmed booking can be marked',
+        code: 'booking_mark_confirmed',
+      });
+    }
+    const start = booking.startsAt.getTime();
+    const tooEarly = now.getTime() < start - ATTENDANCE_LEAD_MS;
+    const tooLate = now.getTime() > start + ATTENDANCE_GRACE_MS;
+    if (tooEarly || tooLate) {
+      throw new InvalidStateException({
+        message: 'Outside the attendance window',
+        code: 'booking_mark_window',
+      });
+    }
+    await this.applyDecision({
+      placeId,
+      bookingId,
+      status: result,
+      fromStatuses: ['confirmed'],
     });
   }
 

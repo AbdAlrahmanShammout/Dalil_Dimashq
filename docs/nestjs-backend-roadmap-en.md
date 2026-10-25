@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–100 are done. Task 22 is skipped. Next is task 101.
+Status: tasks 1–21 and 23–101 are done. Task 22 is skipped. Next is task 102.
 
 ### 1. Foundation
 
@@ -297,7 +297,7 @@ Status: tasks 1–21 and 23–100 are done. Task 22 is skipped. Next is task 101
 | ✅ 98 | Place bookings | `GET /dashboard-owner/places/:id/bookings` returns name, phone, party, time, note, status, and the report flag |
 | ✅ 99 | Confirm and reject | `POST .../bookings/:bookingId/confirm` and `.../reject`. Reject takes an optional reason |
 | ✅ 100 | Owner cancel | `POST .../bookings/:bookingId/cancel` requires a reason and a time still in the future, then sets `cancelled_by_owner` |
-| 101 | Attendance | `POST .../bookings/:bookingId/attendance` accepts attended or no-show only from 30 minutes before the booking until 3 days after |
+| ✅ 101 | Attendance | `POST .../bookings/:bookingId/attendance` accepts attended or no-show only from 30 minutes before the booking until 3 days after |
 | 102 | Fake booking report | `POST .../bookings/:bookingId/fake-report` requires a reason, one report per booking, not when the status is attended, and at most five reports for that place in the Damascus month |
 | 103 | Booking settings | `GET` and `PUT /dashboard-owner/places/:id/booking-settings` cover accepting, max party, and minimum notice. Null notice on PUT keeps the stored value |
 | 104 | Reply hours | `POST` and `DELETE /dashboard-owner/places/:id/response-hours` add and remove a weekday window. Premium only. A non-premium owner gets `premium_required`. There is no review request for these rows |

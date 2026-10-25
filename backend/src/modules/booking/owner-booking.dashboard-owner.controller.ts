@@ -7,6 +7,7 @@ import { Audience } from '@/common/decorators/route/audience.decorator';
 import { OwnerBookingListResponseDto } from '@/modules/booking/dto/response/owner-booking-list-response.dto';
 import { RejectBookingRequestDto } from '@/modules/booking/dto/request/reject-booking-request.dto';
 import { CancelBookingRequestDto } from '@/modules/booking/dto/request/cancel-booking-request.dto';
+import { AttendanceRequestDto } from '@/modules/booking/dto/request/attendance-request.dto';
 import { PlaceAmenityChangedResponseDto } from '@/modules/amenity/dto/response/place-amenity-changed-response.dto';
 import { OwnerBookingService } from '@/modules/booking/owner-booking.service';
 import { OwnerPlaceService } from '@/modules/owner-place/owner-place.service';
@@ -62,6 +63,18 @@ export class OwnerBookingDashboardController {
   ): Promise<PlaceAmenityChangedResponseDto> {
     await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
     await this.ownerBookingService.cancel(placeId, bookingId, body.reason);
+    return new PlaceAmenityChangedResponseDto();
+  }
+
+  @Post(':id/bookings/:bookingId/attendance')
+  async attendance(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+    @Param('bookingId') bookingId: string,
+    @Body() body: AttendanceRequestDto,
+  ): Promise<PlaceAmenityChangedResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    await this.ownerBookingService.markAttendance(placeId, bookingId, body.result ?? null);
     return new PlaceAmenityChangedResponseDto();
   }
 }

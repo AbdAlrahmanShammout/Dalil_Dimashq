@@ -179,6 +179,55 @@ describe('owner place bookings', () => {
     expect(stored.status).toBe('cancelled_by_owner');
     expect(stored.cancellationReason).toBe('Kitchen closed');
   });
+
+  it('marks attendance only inside the window', async () => {
+    const token = await signInOwner(app, 'owner-attend@example.com');
+    const owner = await prisma.user.findUniqueOrThrow({
+      where: { email: 'owner-attend@example.com' },
+    });
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: { nameAr: 'مقهى', nameEn: 'Cafe', type: 'cafe', areaId: area.id },
+    });
+    await prisma.placeOwner.create({ data: { placeId: place.id, userId: owner.id } });
+    const visitor = await prisma.user.create({
+      data: { email: 'guest-attend@example.com', passwordHash: 'hash', isVisitor: true },
+    });
+    const startsAt = new Date(Date.now() + 2 * 60 * 60 * 1000);
+    const booking = await prisma.booking.create({
+      data: {
+        clientKey: 'attend',
+        userId: visitor.id,
+        placeId: place.id,
+        startsAt,
+        partySize: 2,
+        status: 'confirmed',
+      },
+    });
+    const early = await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/bookings/${booking.id}/attendance`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ result: 'attended' })
+      .expect(400);
+    expect(early.body.code).toBe('booking_mark_window');
+    await prisma.booking.update({
+      where: { id: booking.id },
+      data: { startsAt: new Date() },
+    });
+    const missing = await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/bookings/${booking.id}/attendance`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({})
+      .expect(400);
+    expect(missing.body.code).toBe('booking_mark_missing');
+    await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/bookings/${booking.id}/attendance`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ result: 'no_show' })
+      .expect(201);
+    const stored = await prisma.booking.findUniqueOrThrow({ where: { id: booking.id } });
+    expect(stored.status).toBe('no_show');
+  });
 });
 
 async function clearBookings(prisma: PrismaProviderService): Promise<void> {
