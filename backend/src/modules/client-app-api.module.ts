@@ -8,6 +8,8 @@ import { AmenityClientAppController } from '@/modules/amenity/amenity.client-app
 import { AmenityModule } from '@/modules/amenity/amenity.module';
 import { EventClientAppController } from '@/modules/event/event.client-app.controller';
 import { EventModule } from '@/modules/event/event.module';
+import { BookingAvailabilityClientAppController } from '@/modules/booking/booking-availability.client-app.controller';
+import { BookingModule } from '@/modules/booking/booking.module';
 import { ContactClientAppController } from '@/modules/contact/contact.client-app.controller';
 import { SuggestionClientAppController } from '@/modules/contact/suggestion.client-app.controller';
 import { SiteContactClientAppController } from '@/modules/contact/site-contact.client-app.controller';
@@ -44,6 +46,7 @@ import { UserModule } from '@/modules/user/user.module';
     EventModule,
     LegalModule,
     ContactModule,
+    BookingModule,
   ],
   controllers: [
     AuthClientAppController,
@@ -63,6 +66,7 @@ import { UserModule } from '@/modules/user/user.module';
     SiteContactClientAppController,
     ContactClientAppController,
     SuggestionClientAppController,
+    BookingAvailabilityClientAppController,
   ],
 })
 export class ClientAppApiModule {}
