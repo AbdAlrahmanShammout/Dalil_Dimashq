@@ -119,6 +119,50 @@ describe('complete profile', () => {
       changePending: true,
     });
   });
+
+  it('accepts only Arabic or English on the profile', async () => {
+    const email = 'language@example.com';
+    await request(app.getHttpServer())
+      .post('/client-app/auth/sign-up')
+      .send({ email, password: 'Password123' })
+      .expect(201);
+    await request(app.getHttpServer())
+      .post('/client-app/auth/verify-email')
+      .send({ email, code: readCode() })
+      .expect(200);
+    const session = await request(app.getHttpServer())
+      .post('/client-app/auth/sign-in')
+      .send({ email, password: 'Password123' })
+      .expect(200);
+    await request(app.getHttpServer())
+      .post('/client-app/profile/complete')
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .send({
+        firstName: 'Ahmad',
+        lastName: 'Ali',
+        phone: '0944222222',
+        birthYear: 2000,
+        language: 'fr',
+      })
+      .expect(422);
+    const completed = await request(app.getHttpServer())
+      .post('/client-app/profile/complete')
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .send({
+        firstName: 'Ahmad',
+        lastName: 'Ali',
+        phone: '0944222222',
+        birthYear: 2000,
+        language: 'ar',
+      })
+      .expect(200);
+    const mine = await request(app.getHttpServer())
+      .get('/client-app/profile')
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .expect(200);
+    expect(completed.body.language).toBe('ar');
+    expect(mine.body.language).toBe('ar');
+  });
 });
 
 function readCode(): string {
