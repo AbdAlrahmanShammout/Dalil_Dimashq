@@ -129,6 +129,38 @@ describe('owner places', () => {
     expect(page.body.nextOffset).toBe(1);
     expect(page.body.places[0].nameEn).toBe('Cafe One');
   });
+
+  it('links a place when the claim code matches', async () => {
+    const token = await signInOwner(app, 'owner-claim@example.com');
+    const user = await prisma.user.findUniqueOrThrow({
+      where: { email: 'owner-claim@example.com' },
+    });
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: {
+        nameAr: 'مقهى',
+        nameEn: 'Cafe',
+        type: 'cafe',
+        areaId: area.id,
+        claimCode: 'DD-1001',
+      },
+    });
+    const wrong = await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/claim-code`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ code: 'DD-0000' })
+      .expect(400);
+    expect(wrong.body.code).toBe('invalid_code');
+    await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/claim-code`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ code: 'DD-1001' })
+      .expect(200);
+    const link = await prisma.placeOwner.findUnique({
+      where: { placeId_userId: { placeId: place.id, userId: user.id } },
+    });
+    expect(link).not.toBeNull();
+  });
 });
 
 async function signInOwner(app: INestApplication, email: string): Promise<string> {

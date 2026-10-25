@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import {
+  ClaimTarget,
   OwnedPlaceSummary,
   PlaceNamePage,
   PlaceOwnerRepository,
@@ -83,5 +84,24 @@ export class PlaceOwnerPrismaRepository extends PlaceOwnerRepository {
       limit: input.limit,
       offset: input.offset,
     };
+  }
+
+  override async findClaimTarget(placeId: string): Promise<ClaimTarget | null> {
+    const place = await this.prisma.place.findUnique({
+      where: { id: placeId },
+      select: { claimCode: true },
+    });
+    if (!place) {
+      return null;
+    }
+    return { claimCode: place.claimCode };
+  }
+
+  override async linkOwner(userId: string, placeId: string): Promise<void> {
+    await this.prisma.placeOwner.upsert({
+      where: { placeId_userId: { placeId, userId } },
+      create: { placeId, userId },
+      update: {},
+    });
   }
 }

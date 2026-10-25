@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–80 are done. Task 22 is skipped. Next is task 81.
+Status: tasks 1–21 and 23–81 are done. Task 22 is skipped. Next is task 82.
 
 ### 1. Foundation
 
@@ -277,7 +277,7 @@ Status: tasks 1–21 and 23–80 are done. Task 22 is skipped. Next is task 81.
 | ✅ 78 | My places | `GET /dashboard-owner/places` returns linked places with name, type, and address |
 | ✅ 79 | Premium status | Each place includes whether Premium is active, the end date, and the count of pending change requests |
 | ✅ 80 | Search to link | `GET /dashboard-owner/places/search?name=` matches `nameAr` or `nameEn` and returns a page |
-| 81 | Link with a code | `POST /dashboard-owner/places/:id/claim-code` links immediately when the code starts with `DD-` and matches. Anything else is `invalid_code` |
+| ✅ 81 | Link with a code | `POST /dashboard-owner/places/:id/claim-code` links immediately when the code starts with `DD-` and matches. Anything else is `invalid_code` |
 | 82 | Claim without a code | `POST /dashboard-owner/places/:id/claims` creates a `claim` change request with an empty change set |
 | 83 | Ownership policy | Every `:id` route under `dashboard-owner/places/:id` rejects a user who is not linked, except claim and search |
 | 84 | Place summary | `GET /dashboard-owner/places/:id` returns the owner summary: both names, type, address |

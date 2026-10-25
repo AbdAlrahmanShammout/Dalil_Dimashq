@@ -14,6 +14,10 @@ export interface PlaceNamePage {
   readonly offset: number;
 }
 
+export interface ClaimTarget {
+  readonly claimCode: string | null;
+}
+
 export interface SearchPlacesByNameInput {
   readonly name: string;
   readonly limit: number;
@@ -35,6 +39,8 @@ export interface OwnedPlaceSummary {
 export abstract class PlaceOwnerRepository {
   abstract listByUser(userId: string, now: Date): Promise<OwnedPlaceSummary[]>;
   abstract searchByName(input: SearchPlacesByNameInput): Promise<PlaceNamePage>;
+  abstract findClaimTarget(placeId: string): Promise<ClaimTarget | null>;
+  abstract linkOwner(userId: string, placeId: string): Promise<void>;
 
   isLinked(_userId: string, _placeId: string): Promise<boolean> {
     return Promise.resolve(false);

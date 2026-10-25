@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
+import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
+import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
 import { DEFAULT_PAGE_LIMIT, DEFAULT_PAGE_OFFSET } from '@/modules/place/enum/general.enum';
 import {
   OwnedPlaceSummary,
@@ -31,5 +33,24 @@ export class OwnerPlaceService {
       limit: input.limit ?? DEFAULT_PAGE_LIMIT,
       offset: input.offset ?? DEFAULT_PAGE_OFFSET,
     });
+  }
+
+  /**
+   * Links the owner immediately when the code starts with DD- and matches the place.
+   */
+  async claimWithCode(input: {
+    readonly userId: string;
+    readonly placeId: string;
+    readonly code: string;
+  }): Promise<void> {
+    const place = await this.placeOwnerRepository.findClaimTarget(input.placeId);
+    if (!place) {
+      throw new ResourceNotFoundException('Place', input.placeId);
+    }
+    const matches = input.code.startsWith('DD-') && input.code === place.claimCode;
+    if (!matches) {
+      throw new InvalidStateException({ message: 'Invalid code', code: 'invalid_code' });
+    }
+    await this.placeOwnerRepository.linkOwner(input.userId, input.placeId);
   }
 }

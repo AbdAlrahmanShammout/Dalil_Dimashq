@@ -6,6 +6,7 @@ import {
 } from '@/modules/owner-place/repository/place-owner.repository';
 
 class MemoryPlaceOwnerRepository extends PlaceOwnerRepository {
+  readonly linked: string[] = [];
   readonly rows: OwnedPlaceSummary[] = [
     {
       id: 'place-1',
@@ -28,6 +29,17 @@ class MemoryPlaceOwnerRepository extends PlaceOwnerRepository {
 
   async searchByName(): Promise<PlaceNamePage> {
     return this.searchPage;
+  }
+
+  async findClaimTarget(placeId: string): Promise<{ claimCode: string | null } | null> {
+    if (placeId === 'missing') {
+      return null;
+    }
+    return { claimCode: 'DD-1001' };
+  }
+
+  async linkOwner(userId: string, placeId: string): Promise<void> {
+    this.linked.push(`${userId}:${placeId}`);
   }
 }
 
@@ -71,5 +83,19 @@ describe('OwnerPlaceService', () => {
     const page = await service.searchByName({ name: 'cafe', limit: 1, offset: 0 });
     expect(page.total).toBe(2);
     expect(page.places).toHaveLength(1);
+  });
+
+  it('links only when the code starts with DD- and matches', async () => {
+    const repository = new MemoryPlaceOwnerRepository();
+    const service = new OwnerPlaceService(repository);
+    await expect(
+      service.claimWithCode({ userId: 'user-1', placeId: 'place-1', code: '1001' }),
+    ).rejects.toMatchObject({ code: 'invalid_code' });
+    await expect(
+      service.claimWithCode({ userId: 'user-1', placeId: 'place-1', code: 'DD-9999' }),
+    ).rejects.toMatchObject({ code: 'invalid_code' });
+    expect(repository.linked).toHaveLength(0);
+    await service.claimWithCode({ userId: 'user-1', placeId: 'place-1', code: 'DD-1001' });
+    expect(repository.linked).toEqual(['user-1:place-1']);
   });
 });
