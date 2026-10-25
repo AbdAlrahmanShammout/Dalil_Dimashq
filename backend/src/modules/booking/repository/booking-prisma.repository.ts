@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { BookingStatus, Prisma } from '@prisma/client';
 
 import {
   BookingDetail,
@@ -9,6 +9,8 @@ import {
   CreateBookingInput,
   ListBookingsInput,
   OwnerBookingRow,
+  PlaceBooking,
+  DecideBookingInput,
 } from '@/modules/booking/repository/booking.repository';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
 
@@ -126,6 +128,30 @@ export class BookingPrismaRepository extends BookingRepository {
       status: row.status,
       reported: row.fakeReport !== null,
     }));
+  }
+
+  override async findForPlace(placeId: string, bookingId: string): Promise<PlaceBooking | null> {
+    const row = await this.prisma.booking.findFirst({ where: { id: bookingId, placeId } });
+    if (!row) {
+      return null;
+    }
+    return { id: row.id, userId: row.userId, status: row.status, startsAt: row.startsAt };
+  }
+
+  override async decide(input: DecideBookingInput): Promise<boolean> {
+    const result = await this.prisma.booking.updateMany({
+      where: {
+        id: input.bookingId,
+        placeId: input.placeId,
+        status: { in: [...input.fromStatuses] as BookingStatus[] },
+      },
+      data: {
+        status: input.status as BookingStatus,
+        rejectionReason: input.rejectionReason,
+        cancellationReason: input.cancellationReason,
+      },
+    });
+    return result.count > 0;
   }
 
   private toRecord(row: {

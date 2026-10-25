@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–98 are done. Task 22 is skipped. Next is task 99.
+Status: tasks 1–21 and 23–99 are done. Task 22 is skipped. Next is task 100.
 
 ### 1. Foundation
 
@@ -295,7 +295,7 @@ Status: tasks 1–21 and 23–98 are done. Task 22 is skipped. Next is task 99.
 | ✅ 96 | Offer Premium lock | The same `premium_required` rule as photos |
 | ✅ 97 | Removal and unlink | `POST /dashboard-owner/places/:id/removal` creates kind `remove` with a reason. `POST /dashboard-owner/places/:id/unlink` creates the unlink request with a reason. An empty reason is `reason` |
 | ✅ 98 | Place bookings | `GET /dashboard-owner/places/:id/bookings` returns name, phone, party, time, note, status, and the report flag |
-| 99 | Confirm and reject | `POST .../bookings/:bookingId/confirm` and `.../reject`. Reject takes an optional reason |
+| ✅ 99 | Confirm and reject | `POST .../bookings/:bookingId/confirm` and `.../reject`. Reject takes an optional reason |
 | 100 | Owner cancel | `POST .../bookings/:bookingId/cancel` requires a reason and a time still in the future, then sets `cancelled_by_owner` |
 | 101 | Attendance | `POST .../bookings/:bookingId/attendance` accepts attended or no-show only from 30 minutes before the booking until 3 days after |
 | 102 | Fake booking report | `POST .../bookings/:bookingId/fake-report` requires a reason, one report per booking, not when the status is attended, and at most five reports for that place in the Damascus month |

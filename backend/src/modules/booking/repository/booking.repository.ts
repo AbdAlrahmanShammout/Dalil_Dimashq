@@ -61,6 +61,22 @@ export interface OwnerBookingRow {
   readonly reported: boolean;
 }
 
+export interface PlaceBooking {
+  readonly id: string;
+  readonly userId: string;
+  readonly status: string;
+  readonly startsAt: Date;
+}
+
+export interface DecideBookingInput {
+  readonly placeId: string;
+  readonly bookingId: string;
+  readonly status: 'confirmed' | 'rejected' | 'cancelled_by_owner' | 'attended' | 'no_show';
+  readonly fromStatuses: readonly string[];
+  readonly rejectionReason?: string | null;
+  readonly cancellationReason?: string | null;
+}
+
 export abstract class BookingRepository {
   abstract findByClientKey(userId: string, clientKey: string): Promise<BookingRecord | null>;
   abstract create(input: CreateBookingInput): Promise<BookingRecord>;
@@ -75,5 +91,13 @@ export abstract class BookingRepository {
 
   listForPlace(_placeId: string): Promise<OwnerBookingRow[]> {
     return Promise.resolve([]);
+  }
+
+  findForPlace(_placeId: string, _bookingId: string): Promise<PlaceBooking | null> {
+    return Promise.resolve(null);
+  }
+
+  decide(_input: DecideBookingInput): Promise<boolean> {
+    return Promise.resolve(false);
   }
 }
