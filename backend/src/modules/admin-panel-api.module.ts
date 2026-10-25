@@ -12,6 +12,8 @@ import { PlaceModule } from '@/modules/place/place.module';
 import { SiteContactAdminPanelController } from '@/modules/contact/site-contact.admin-panel.controller';
 import { SuggestionAdminPanelController } from '@/modules/contact/suggestion.admin-panel.controller';
 import { ContactMessageAdminPanelController } from '@/modules/contact/contact-message.admin-panel.controller';
+import { EventAdminPanelController } from '@/modules/event/event.admin-panel.controller';
+import { EventModule } from '@/modules/event/event.module';
 import { ContactModule } from '@/modules/contact/contact.module';
 import { LegalAdminPanelController } from '@/modules/legal/legal.admin-panel.controller';
 import { LegalModule } from '@/modules/legal/legal.module';
@@ -31,6 +33,7 @@ import { UserModule } from '@/modules/user/user.module';
     OwnerPlaceModule,
     LegalModule,
     ContactModule,
+    EventModule,
   ],
   controllers: [
     AuthAdminPanelController,
@@ -40,6 +43,7 @@ import { UserModule } from '@/modules/user/user.module';
     SiteContactAdminPanelController,
     SuggestionAdminPanelController,
     ContactMessageAdminPanelController,
+    EventAdminPanelController,
     AreaAdminPanelController,
     AmenityAdminPanelController,
     PlaceAdminPanelController,

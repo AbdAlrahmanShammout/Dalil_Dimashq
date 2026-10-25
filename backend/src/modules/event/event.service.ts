@@ -2,9 +2,33 @@ import { Injectable } from '@nestjs/common';
 
 import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
 import { EventEntity } from '@/modules/event/entity/event.entity';
-import { EventPage, EventRepository } from '@/modules/event/repository/event.repository';
+import {
+  EventPage,
+  EventRepository,
+  StaffEventWrite,
+} from '@/modules/event/repository/event.repository';
 import { DEFAULT_PAGE_LIMIT, DEFAULT_PAGE_OFFSET } from '@/modules/place/enum/general.enum';
+import { prepareOwnerPhoto } from '@/modules/place-photo/owner-photo-rules';
 import { PhotoStorage } from '@/modules/place-photo/photo-storage';
+
+interface StaffEventFields {
+  readonly placeId: string | null;
+  readonly titleAr: string;
+  readonly titleEn: string;
+  readonly descriptionAr: string;
+  readonly descriptionEn: string;
+  readonly addressAr: string | null;
+  readonly addressEn: string | null;
+  readonly phone: string | null;
+  readonly published: boolean;
+  readonly startsAt: Date;
+}
+
+interface EventPoster {
+  readonly fileName: string;
+  readonly mimeType: string;
+  readonly bytes: Uint8Array;
+}
 
 export interface EventView {
   readonly id: string;
@@ -54,6 +78,69 @@ export class EventService {
     return this.toView(event);
   }
 
+  /**
+   * Creates an event. A poster is uploaded before the row is stored.
+   */
+  async createStaff(input: StaffEventFields & { poster?: EventPoster }): Promise<{ id: string }> {
+    const posterKey = input.poster ? await this.storePoster(input.placeId, input.poster) : null;
+    try {
+      return await this.eventRepository.createStaff(toWrite(input, posterKey));
+    } catch (error) {
+      if (posterKey) {
+        await this.photoStorage.deleteObject(posterKey);
+      }
+      throw error;
+    }
+  }
+
+  /**
+   * Updates an event. A new poster replaces the stored object.
+   */
+  async updateStaff(id: string, input: StaffEventFields & { poster?: EventPoster }): Promise<void> {
+    const posterKey = input.poster
+      ? await this.storePoster(input.placeId, input.poster)
+      : undefined;
+    const previous = await this.eventRepository.updateStaff(id, toWrite(input, posterKey));
+    if (previous === null) {
+      if (posterKey) {
+        await this.photoStorage.deleteObject(posterKey);
+      }
+      throw new ResourceNotFoundException('Event', id);
+    }
+    if (posterKey && previous && previous !== posterKey) {
+      await this.photoStorage.deleteObject(previous);
+    }
+  }
+
+  /**
+   * Deletes an event and its poster object.
+   */
+  async deleteStaff(id: string): Promise<void> {
+    const previous = await this.eventRepository.deleteStaff(id);
+    if (previous === null) {
+      throw new ResourceNotFoundException('Event', id);
+    }
+    if (previous) {
+      await this.photoStorage.deleteObject(previous);
+    }
+  }
+
+  private async storePoster(placeId: string | null, poster: EventPoster): Promise<string> {
+    const prepared = prepareOwnerPhoto({
+      placeId: placeId ?? 'events',
+      fileName: poster.fileName,
+      mimeType: poster.mimeType,
+      byteLength: poster.bytes.byteLength,
+      existingCount: 0,
+    });
+    await this.photoStorage.uploadObject({
+      key: prepared.key,
+      body: poster.bytes,
+      contentType: poster.mimeType,
+    });
+    return prepared.key;
+  }
+
   private async withPosters(page: EventPage): Promise<{
     items: EventView[];
     total: number;
@@ -82,4 +169,20 @@ export class EventService {
       placeId: event.place ? event.place.id : null,
     };
   }
+}
+
+function toWrite(input: StaffEventFields, posterKey: string | null | undefined): StaffEventWrite {
+  return {
+    placeId: input.placeId,
+    titleAr: input.titleAr,
+    titleEn: input.titleEn,
+    descriptionAr: input.descriptionAr,
+    descriptionEn: input.descriptionEn,
+    addressAr: input.addressAr,
+    addressEn: input.addressEn,
+    phone: input.phone,
+    published: input.published,
+    startsAt: input.startsAt,
+    ...(posterKey !== undefined ? { posterKey } : {}),
+  };
 }

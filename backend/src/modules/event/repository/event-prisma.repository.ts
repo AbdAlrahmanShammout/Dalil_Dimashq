@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { PlaceStatus } from '@prisma/client';
 
 import { EventEntity } from '@/modules/event/entity/event.entity';
-import { EventPage, EventRepository } from '@/modules/event/repository/event.repository';
+import {
+  EventPage,
+  EventRepository,
+  StaffEventWrite,
+} from '@/modules/event/repository/event.repository';
 import { PlaceMapper } from '@/modules/place/mapper/place.mapper';
 import { placeDetailsInclude } from '@/modules/place/types/place-details.include';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
@@ -38,6 +42,63 @@ export class EventPrismaRepository extends EventRepository {
       include: eventInclude,
     });
     return row ? this.toEntity(row) : null;
+  }
+
+  override async createStaff(input: StaffEventWrite): Promise<{ id: string }> {
+    const row = await this.prisma.event.create({ data: this.toData(input) });
+    return { id: row.id };
+  }
+
+  override async updateStaff(id: string, input: StaffEventWrite): Promise<string | null> {
+    const existing = await this.prisma.event.findUnique({
+      where: { id },
+      select: { posterKey: true },
+    });
+    if (!existing) {
+      return null;
+    }
+    await this.prisma.event.update({ where: { id }, data: this.toData(input) });
+    return existing.posterKey ?? '';
+  }
+
+  override async deleteStaff(id: string): Promise<string | null> {
+    const existing = await this.prisma.event.findUnique({
+      where: { id },
+      select: { posterKey: true },
+    });
+    if (!existing) {
+      return null;
+    }
+    await this.prisma.event.delete({ where: { id } });
+    return existing.posterKey ?? '';
+  }
+
+  private toData(input: StaffEventWrite): {
+    placeId: string | null;
+    titleAr: string;
+    titleEn: string;
+    descriptionAr: string;
+    descriptionEn: string;
+    addressAr: string | null;
+    addressEn: string | null;
+    phone: string | null;
+    published: boolean;
+    startsAt: Date;
+    posterKey?: string | null;
+  } {
+    return {
+      placeId: input.placeId,
+      titleAr: input.titleAr,
+      titleEn: input.titleEn,
+      descriptionAr: input.descriptionAr,
+      descriptionEn: input.descriptionEn,
+      addressAr: input.addressAr,
+      addressEn: input.addressEn,
+      phone: input.phone,
+      published: input.published,
+      startsAt: input.startsAt,
+      ...(input.posterKey !== undefined ? { posterKey: input.posterKey } : {}),
+    };
   }
 
   private toEntity(row: {
