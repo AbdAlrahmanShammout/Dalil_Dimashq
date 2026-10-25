@@ -6,6 +6,7 @@ import { TransactionRunner } from '@/common/base/transaction-runner';
 import { AccessDeniedException } from '@/common/exceptions/access-denied.exception';
 import { ConflictException } from '@/common/exceptions/conflict.exception';
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
+import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
 import { UnauthenticatedException } from '@/common/exceptions/unauthenticated.exception';
 import {
   AuthenticateServiceInput,
@@ -413,6 +414,30 @@ export class UserService {
       lastName: null,
       birthYear,
     });
+  }
+
+  /**
+   * Applies or rejects a pending name or birth-year change.
+   */
+  async decideProfileChange(input: {
+    readonly id: string;
+    readonly decision: 'approved' | 'rejected';
+  }): Promise<{ readonly id: string; readonly status: 'approved' | 'rejected' }> {
+    const existing = await this.userRepository.findProfileChange(input.id);
+    if (!existing) {
+      throw new ResourceNotFoundException('ProfileChangeRequest', input.id);
+    }
+    if (existing.status !== 'pending') {
+      throw new InvalidStateException({ message: 'Already decided', code: 'invalid_state' });
+    }
+    const saved = await this.userRepository.applyProfileDecision({
+      id: input.id,
+      approved: input.decision === 'approved',
+    });
+    if (!saved || saved.status === 'pending') {
+      throw new InvalidStateException({ message: 'Already decided', code: 'invalid_state' });
+    }
+    return { id: saved.id, status: saved.status };
   }
 
   /**

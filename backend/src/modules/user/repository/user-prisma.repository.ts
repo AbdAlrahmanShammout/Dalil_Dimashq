@@ -18,6 +18,7 @@ import { UserMapper } from '@/modules/user/mapper/user.mapper';
 import {
   CompleteProfileRepoInput,
   CreateProfileChangeRepoInput,
+  ProfileChangeRow,
   StaffAccountRow,
   UpdateProfileContactRepoInput,
   UserRepository,
@@ -241,6 +242,42 @@ export class UserPrismaRepository extends UserRepository {
     return rows.flatMap((row) =>
       row.staffRole === null ? [] : [{ id: row.id, email: row.email, staffRole: row.staffRole }],
     );
+  }
+
+  override async findProfileChange(id: string): Promise<ProfileChangeRow | null> {
+    const row = await this.prisma.profileChangeRequest.findUnique({ where: { id } });
+    return row ? { id: row.id, status: row.status } : null;
+  }
+
+  override async applyProfileDecision(input: {
+    id: string;
+    approved: boolean;
+  }): Promise<ProfileChangeRow | null> {
+    return this.prisma.$transaction(async (tx) => {
+      const pending = await tx.profileChangeRequest.findFirst({
+        where: { id: input.id, status: 'pending' },
+      });
+      if (!pending) {
+        return null;
+      }
+      if (input.approved && pending.kind === 'name' && pending.firstName && pending.lastName) {
+        await tx.profile.update({
+          where: { userId: pending.userId },
+          data: { firstName: pending.firstName, lastName: pending.lastName },
+        });
+      }
+      if (input.approved && pending.kind === 'birth_year' && pending.birthYear !== null) {
+        await tx.profile.update({
+          where: { userId: pending.userId },
+          data: { birthYear: pending.birthYear },
+        });
+      }
+      const row = await tx.profileChangeRequest.update({
+        where: { id: pending.id },
+        data: { status: input.approved ? 'approved' : 'rejected' },
+      });
+      return { id: row.id, status: row.status };
+    });
   }
 
   override async markPhoneVerified(userId: string, verifiedAt: Date): Promise<void> {

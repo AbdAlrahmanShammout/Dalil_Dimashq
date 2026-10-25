@@ -89,6 +89,22 @@ export abstract class UserRepository {
   listStaff(): Promise<StaffAccountRow[]> {
     return Promise.resolve([]);
   }
+
+  findProfileChange(_id: string): Promise<ProfileChangeRow | null> {
+    return Promise.resolve(null);
+  }
+
+  applyProfileDecision(_input: {
+    readonly id: string;
+    readonly approved: boolean;
+  }): Promise<ProfileChangeRow | null> {
+    return Promise.resolve(null);
+  }
+}
+
+export interface ProfileChangeRow {
+  readonly id: string;
+  readonly status: 'pending' | 'approved' | 'rejected';
 }
 
 export interface StaffAccountRow {

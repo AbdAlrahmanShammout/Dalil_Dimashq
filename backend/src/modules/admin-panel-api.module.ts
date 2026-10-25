@@ -11,6 +11,7 @@ import { PlaceAdminPanelController } from '@/modules/place/place.admin-panel.con
 import { PlaceModule } from '@/modules/place/place.module';
 import { OwnerLinkAdminPanelController } from '@/modules/owner-place/owner-link.admin-panel.controller';
 import { OwnerPlaceModule } from '@/modules/owner-place/owner-place.module';
+import { ProfileChangeAdminPanelController } from '@/modules/user/profile-change.admin-panel.controller';
 import { StaffAdminPanelController } from '@/modules/user/staff.admin-panel.controller';
 import { UserModule } from '@/modules/user/user.module';
 
@@ -19,6 +20,7 @@ import { UserModule } from '@/modules/user/user.module';
   controllers: [
     AuthAdminPanelController,
     StaffAdminPanelController,
+    ProfileChangeAdminPanelController,
     AreaAdminPanelController,
     AmenityAdminPanelController,
     PlaceAdminPanelController,
