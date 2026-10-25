@@ -7,7 +7,9 @@ import { ApiAudience, Principal } from '@/common/auth/principal.interface';
 import { LoggedInUser } from '@/common/decorators/requests/logged-in-user.decorator';
 import { Audience } from '@/common/decorators/route/audience.decorator';
 import { BookingService } from '@/modules/booking/booking.service';
+import { BookingGateService } from '@/modules/booking/booking-gate.service';
 import { CreateBookingRequestDto } from '@/modules/booking/dto/request/create-booking-request.dto';
+import { BookingBanResponseDto } from '@/modules/booking/dto/response/booking-ban-response.dto';
 import { BookingDetailResponseDto } from '@/modules/booking/dto/response/booking-detail-response.dto';
 import { BookingListResponseDto } from '@/modules/booking/dto/response/booking-list-response.dto';
 import { CreateBookingResponseDto } from '@/modules/booking/dto/response/create-booking-response.dto';
@@ -31,7 +33,10 @@ class BookingListQueryDto {
 @Audience(ApiAudience.ClientApp)
 @Controller('client-app/bookings')
 export class BookingClientAppController {
-  constructor(private readonly bookingService: BookingService) {}
+  constructor(
+    private readonly bookingService: BookingService,
+    private readonly bookingGateService: BookingGateService,
+  ) {}
 
   @Post()
   async create(
@@ -60,6 +65,12 @@ export class BookingClientAppController {
     const offset = query.offset ?? 0;
     const page = await this.bookingService.listMine({ userId: currentUser.id, limit, offset });
     return new BookingListResponseDto({ ...page, limit, offset });
+  }
+
+  @Get('ban')
+  async readBan(@LoggedInUser() currentUser: Principal): Promise<BookingBanResponseDto> {
+    const ban = await this.bookingGateService.readBan(currentUser.id);
+    return new BookingBanResponseDto(ban);
   }
 
   @Get(':id')

@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { AccessDeniedException } from '@/common/exceptions/access-denied.exception';
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
 import { BookingAvailabilityService } from '@/modules/booking/booking-availability.service';
+import { describeBan, BanExplanation } from '@/modules/booking/booking-ban';
 import { BookingBanRepository } from '@/modules/booking/repository/booking-ban.repository';
 
 @Injectable()
@@ -29,5 +30,13 @@ export class BookingGateService {
     if (ban) {
       throw new AccessDeniedException({ message: 'Booking is banned', code: 'booking_banned' });
     }
+  }
+
+  /**
+   * Explains the caller's active ban: 15 days, 45 days, or permanent.
+   */
+  async readBan(userId: string, now: Date = new Date()): Promise<BanExplanation> {
+    const ban = await this.bookingBanRepository.findActive(userId, now);
+    return describeBan(ban);
   }
 }

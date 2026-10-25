@@ -122,6 +122,11 @@ describe('booking gate', () => {
       })
       .expect(403);
     expect(banned.body.code).toBe('booking_banned');
+    const explanation = await request(app.getHttpServer())
+      .get('/client-app/bookings/ban')
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .expect(200);
+    expect(explanation.body).toMatchObject({ active: true, kind: '15_days', level: 1 });
     await request(app.getHttpServer())
       .post('/client-app/bookings')
       .send({ placeId: open.id })
