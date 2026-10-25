@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
+import { AccessDeniedException } from '@/common/exceptions/access-denied.exception';
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
 import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
 import { DEFAULT_PAGE_LIMIT, DEFAULT_PAGE_OFFSET } from '@/modules/place/enum/general.enum';
@@ -52,5 +53,15 @@ export class OwnerPlaceService {
       throw new InvalidStateException({ message: 'Invalid code', code: 'invalid_code' });
     }
     await this.placeOwnerRepository.linkOwner(input.userId, input.placeId);
+  }
+
+  /**
+   * Refuses a place route when this owner is not linked. Claim and search do not call this.
+   */
+  async assertLinked(userId: string, placeId: string): Promise<void> {
+    const linked = await this.placeOwnerRepository.isLinked(userId, placeId);
+    if (!linked) {
+      throw new AccessDeniedException({ message: 'Not linked', code: 'not_linked' });
+    }
   }
 }

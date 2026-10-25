@@ -41,6 +41,10 @@ class MemoryPlaceOwnerRepository extends PlaceOwnerRepository {
   async linkOwner(userId: string, placeId: string): Promise<void> {
     this.linked.push(`${userId}:${placeId}`);
   }
+
+  override isLinked(userId: string, placeId: string): Promise<boolean> {
+    return Promise.resolve(this.linked.includes(`${userId}:${placeId}`));
+  }
 }
 
 describe('OwnerPlaceService', () => {
@@ -97,5 +101,9 @@ describe('OwnerPlaceService', () => {
     expect(repository.linked).toHaveLength(0);
     await service.claimWithCode({ userId: 'user-1', placeId: 'place-1', code: 'DD-1001' });
     expect(repository.linked).toEqual(['user-1:place-1']);
+    await service.assertLinked('user-1', 'place-1');
+    await expect(service.assertLinked('user-2', 'place-1')).rejects.toMatchObject({
+      code: 'not_linked',
+    });
   });
 });

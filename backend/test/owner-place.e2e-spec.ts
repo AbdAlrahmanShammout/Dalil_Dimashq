@@ -182,6 +182,28 @@ describe('owner places', () => {
     const link = await prisma.placeOwner.findFirst({ where: { placeId: place.id } });
     expect(link).toBeNull();
   });
+
+  it('refuses an unlinked owner on a place route and still allows claim and search', async () => {
+    const token = await signInOwner(app, 'owner-policy@example.com');
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: { nameAr: 'مقهى', nameEn: 'Cafe Policy', type: 'cafe', areaId: area.id },
+    });
+    const refused = await request(app.getHttpServer())
+      .get(`/dashboard-owner/places/${place.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(403);
+    expect(refused.body.code).toBe('not_linked');
+    await request(app.getHttpServer())
+      .get('/dashboard-owner/places/search')
+      .query({ name: 'Policy' })
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+    await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/claims`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(201);
+  });
 });
 
 async function signInOwner(app: INestApplication, email: string): Promise<string> {

@@ -104,4 +104,11 @@ export class PlaceOwnerPrismaRepository extends PlaceOwnerRepository {
       update: {},
     });
   }
+
+  override async isLinked(userId: string, placeId: string): Promise<boolean> {
+    const row = await this.prisma.placeOwner.findUnique({
+      where: { placeId_userId: { placeId, userId } },
+    });
+    return row !== null;
+  }
 }

@@ -9,6 +9,7 @@ import { OwnerPlaceSearchQueryDto } from '@/modules/owner-place/dto/request/owne
 import { ClaimCodeResponseDto } from '@/modules/owner-place/dto/response/claim-code-response.dto';
 import { OwnedPlaceListResponseDto } from '@/modules/owner-place/dto/response/owned-place-list-response.dto';
 import { OwnerPlaceSearchResponseDto } from '@/modules/owner-place/dto/response/owner-place-search-response.dto';
+import { OwnerLinkResponseDto } from '@/modules/owner-place/dto/response/owner-link-response.dto';
 import { OwnerPlaceService } from '@/modules/owner-place/owner-place.service';
 import { PlaceChangeService } from '@/modules/change-request/place-change.service';
 import { PlaceChangeResponseDto } from '@/modules/change-request/dto/response/place-change-response.dto';
@@ -30,6 +31,15 @@ export class OwnerPlaceDashboardController {
     const { name, limit, offset } = query;
     const page = await this.ownerPlaceService.searchByName({ name, limit, offset });
     return new OwnerPlaceSearchResponseDto(page);
+  }
+
+  @Get(':id')
+  async readLink(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+  ): Promise<OwnerLinkResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    return new OwnerLinkResponseDto();
   }
 
   @Get()
