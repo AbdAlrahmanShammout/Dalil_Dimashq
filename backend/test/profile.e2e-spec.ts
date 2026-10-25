@@ -117,6 +117,7 @@ describe('complete profile', () => {
       phone: '+963944111111',
       language: 'en',
       changePending: true,
+      bookingPrefill: { name: 'Ahmad Ali', phone: '+963944111111' },
     });
   });
 

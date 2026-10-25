@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 52.
+Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 53.
 
 ### 1. Foundation
 
@@ -228,7 +228,7 @@ Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 52.
 | ✅ 49 | Contact confirmation | The contact response is the shared message DTO. The row is stored for the panel |
 | ✅ 50 | Suggestions | `POST /client-app/suggestions` accepts name, contact, kind, message, and an optional place. Kind is `wrong_info`, `missing_place`, `closed_place`, or `other`. The same hourly and daily limits as contact apply |
 | ✅ 51 | Language on the profile | `language` is `ar` or `en` and is returned on the profile |
-| 52 | Booking prefill | `GET /client-app/profile` includes the name and phone the booking form should start with |
+| ✅ 52 | Booking prefill | `GET /client-app/profile` includes the name and phone the booking form should start with |
 
 ### 5. Bookings — visitor — `client-app`
 
