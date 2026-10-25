@@ -106,6 +106,7 @@ model Place {
   email       String?
   facebook    String?
   instagram   String?
+  geocodeFailedAt DateTime?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   hours       PlaceHour[]

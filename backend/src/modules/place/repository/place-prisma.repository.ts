@@ -3,7 +3,12 @@ import { PlaceStatus, PlaceType } from '@prisma/client';
 
 import { PlaceEntity } from '@/modules/place/entity/place.entity';
 import { PlaceMapper } from '@/modules/place/mapper/place.mapper';
-import { PlaceCounts, PlaceRepository } from '@/modules/place/repository/place.repository';
+import {
+  PlaceCounts,
+  PlaceRepository,
+  SaveGeocodeRepoInput,
+  SaveGeocodeResult,
+} from '@/modules/place/repository/place.repository';
 import { placeDetailsInclude } from '@/modules/place/types/place-details.include';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
 
@@ -48,5 +53,29 @@ export class PlacePrismaRepository extends PlaceRepository {
       orderBy: { nameEn: 'asc' },
     });
     return rows.map((row) => PlaceMapper.toEntity(row));
+  }
+
+  override async findAnyById(id: string): Promise<PlaceEntity | null> {
+    const row = await this.prisma.place.findUnique({
+      where: { id },
+      include: placeDetailsInclude,
+    });
+    return row ? PlaceMapper.toEntity(row) : null;
+  }
+
+  override async saveGeocode(input: SaveGeocodeRepoInput): Promise<SaveGeocodeResult> {
+    const row = await this.prisma.place.update({
+      where: { id: input.id },
+      data: {
+        latitude: input.latitude,
+        longitude: input.longitude,
+        geocodeFailedAt: input.geocodeFailedAt,
+      },
+    });
+    return {
+      latitude: row.latitude,
+      longitude: row.longitude,
+      geocodeFailedAt: row.geocodeFailedAt,
+    };
   }
 }
