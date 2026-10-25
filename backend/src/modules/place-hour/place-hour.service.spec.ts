@@ -113,8 +113,10 @@ describe('PlaceHourService', () => {
   });
 
   it('refuses more than three periods or an overlap', () => {
-    const week: Array<{ dayOfWeek: number; periods: Array<{ opensAt: number; closesAt: number }> }> =
-      Array.from({ length: 7 }, (_, dayOfWeek) => ({ dayOfWeek, periods: [] }));
+    const week: Array<{
+      dayOfWeek: number;
+      periods: Array<{ opensAt: number; closesAt: number }>;
+    }> = Array.from({ length: 7 }, (_, dayOfWeek) => ({ dayOfWeek, periods: [] }));
     week[0].periods = [
       { opensAt: 0, closesAt: 60 },
       { opensAt: 60, closesAt: 120 },

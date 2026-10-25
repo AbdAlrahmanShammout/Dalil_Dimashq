@@ -8,6 +8,8 @@ import {
   RegularHourPeriod,
 } from '@/modules/place-hour/repository/place-hour.repository';
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
+import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
+import { HourSeasonName } from '@/modules/place-hour/entity/place-hour.entity';
 
 export interface OpenNowResult {
   readonly openNow: boolean | null;
@@ -87,6 +89,21 @@ export class PlaceHourService {
   ): Promise<void> {
     const periods = assertValidWeek(week);
     await this.placeHourRepository.replaceRegular(placeId, periods);
+  }
+
+  /**
+   * Staff write for a regular or Ramadan week. Nothing is sent for review.
+   */
+  async replaceSeasonWeek(
+    placeId: string,
+    season: HourSeasonName,
+    week: Array<{ dayOfWeek: number; periods: Array<{ opensAt: number; closesAt: number }> }>,
+  ): Promise<void> {
+    const periods = assertValidWeek(week);
+    const saved = await this.placeHourRepository.replaceSeason(placeId, season, periods);
+    if (!saved) {
+      throw new ResourceNotFoundException('Place', placeId);
+    }
   }
 
   private async requireHours(placeId: string): Promise<PlaceHourEntity[]> {

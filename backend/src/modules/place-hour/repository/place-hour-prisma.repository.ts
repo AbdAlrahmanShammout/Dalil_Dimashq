@@ -41,6 +41,33 @@ export class PlaceHourPrismaRepository extends PlaceHourRepository {
     return count > 0;
   }
 
+  override async replaceSeason(
+    placeId: string,
+    season: HourSeasonName,
+    periods: RegularHourPeriod[],
+  ): Promise<boolean> {
+    const place = await this.prisma.place.findUnique({
+      where: { id: placeId },
+      select: { id: true },
+    });
+    if (!place) {
+      return false;
+    }
+    await this.prisma.$transaction([
+      this.prisma.placeHour.deleteMany({ where: { placeId, season } }),
+      this.prisma.placeHour.createMany({
+        data: periods.map((period) => ({
+          placeId,
+          dayOfWeek: period.dayOfWeek,
+          opensAt: period.opensAt,
+          closesAt: period.closesAt,
+          season,
+        })),
+      }),
+    ]);
+    return true;
+  }
+
   override async replaceRegular(placeId: string, periods: RegularHourPeriod[]): Promise<void> {
     await this.prisma.$transaction([
       this.prisma.placeHour.deleteMany({ where: { placeId, season: 'regular' } }),

@@ -13,7 +13,10 @@ import { AreaModule } from '@/modules/area/area.module';
 import { BookingBanAdminPanelController } from '@/modules/booking/booking-ban.admin-panel.controller';
 import { NoShowWatchAdminPanelController } from '@/modules/booking/no-show-watch.admin-panel.controller';
 import { BookingEnabledAdminPanelController } from '@/modules/booking/booking-enabled.admin-panel.controller';
+import { BookingHoursAdminPanelController } from '@/modules/booking/booking-hours.admin-panel.controller';
 import { BookingModule } from '@/modules/booking/booking.module';
+import { PlaceHourAdminPanelController } from '@/modules/place-hour/place-hour.admin-panel.controller';
+import { PlaceHourModule } from '@/modules/place-hour/place-hour.module';
 import { ChangeRequestAdminPanelController } from '@/modules/change-request/change-request.admin-panel.controller';
 import { FeaturedAdminPanelController } from '@/modules/place/featured.admin-panel.controller';
 import { PlaceAdminPanelController } from '@/modules/place/place.admin-panel.controller';
@@ -59,6 +62,7 @@ import { UserModule } from '@/modules/user/user.module';
     PaymentModule,
     RatingModule,
     BookingModule,
+    PlaceHourModule,
     FakeReportModule,
   ],
   controllers: [
@@ -81,6 +85,8 @@ import { UserModule } from '@/modules/user/user.module';
     PaymentAdminPanelController,
     RatingAdminPanelController,
     BookingEnabledAdminPanelController,
+    BookingHoursAdminPanelController,
+    PlaceHourAdminPanelController,
     BookingBanAdminPanelController,
     NoShowWatchAdminPanelController,
     FakeReportAdminPanelController,
