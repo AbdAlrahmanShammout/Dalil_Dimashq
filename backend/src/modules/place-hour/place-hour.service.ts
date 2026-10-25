@@ -10,11 +10,14 @@ export interface OpenNowResult {
 }
 
 export interface HoursWeekResult {
-  readonly week: Array<{
-    readonly dayOfWeek: number;
-    readonly periods: Array<{ readonly opensAt: number; readonly closesAt: number }>;
-  }> | null;
+  readonly week: HourWeek | null;
+  readonly ramadan: HourWeek | null;
 }
+
+type HourWeek = Array<{
+  readonly dayOfWeek: number;
+  readonly periods: Array<{ readonly opensAt: number; readonly closesAt: number }>;
+}>;
 
 const WEEK_LENGTH = 7;
 
@@ -40,24 +43,35 @@ export class PlaceHourService {
   }
 
   /**
-   * Weekly hours for every place that has them. No hours means no week.
+   * Weekly hours for every place that has them. Ramadan hours appear only inside a stored season.
    */
-  async readWeek(placeId: string): Promise<HoursWeekResult> {
-    const hours = await this.requireHours(placeId);
-    if (hours.length === 0) {
-      return { week: null };
-    }
-    const week = Array.from({ length: WEEK_LENGTH }, (_, dayOfWeek) => ({
-      dayOfWeek,
-      periods: hours
-        .filter((hour) => hour.dayOfWeek === dayOfWeek)
-        .map((hour) => ({ opensAt: hour.opensAt, closesAt: hour.closesAt })),
-    }));
-    return { week };
+  async readWeek(placeId: string, now: Date = new Date()): Promise<HoursWeekResult> {
+    await this.placeService.getPublicPlace(placeId);
+    const regular = await this.placeHourRepository.listByPlace(placeId, 'regular');
+    const inSeason = await this.placeHourRepository.isRamadan(now);
+    const ramadanRows = inSeason
+      ? await this.placeHourRepository.listByPlace(placeId, 'ramadan')
+      : [];
+    return {
+      week: buildWeek(regular),
+      ramadan: buildWeek(ramadanRows),
+    };
   }
 
   private async requireHours(placeId: string): Promise<PlaceHourEntity[]> {
     await this.placeService.getPublicPlace(placeId);
-    return this.placeHourRepository.listByPlace(placeId);
+    return this.placeHourRepository.listByPlace(placeId, 'regular');
   }
+}
+
+function buildWeek(hours: PlaceHourEntity[]): HoursWeekResult['week'] {
+  if (hours.length === 0) {
+    return null;
+  }
+  return Array.from({ length: WEEK_LENGTH }, (_, dayOfWeek) => ({
+    dayOfWeek,
+    periods: hours
+      .filter((hour) => hour.dayOfWeek === dayOfWeek)
+      .map((hour) => ({ opensAt: hour.opensAt, closesAt: hour.closesAt })),
+  }));
 }

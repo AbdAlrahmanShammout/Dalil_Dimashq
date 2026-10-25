@@ -32,7 +32,11 @@ export class PlaceHoursResponseDto {
   @ApiProperty({ type: [HourDayResponseDto], nullable: true })
   readonly week: HourDayResponseDto[] | null;
 
+  @ApiProperty({ type: [HourDayResponseDto], nullable: true })
+  readonly ramadan: HourDayResponseDto[] | null;
+
   constructor(result: HoursWeekResult) {
     this.week = result.week ? result.week.map((day) => new HourDayResponseDto(day)) : null;
+    this.ramadan = result.ramadan ? result.ramadan.map((day) => new HourDayResponseDto(day)) : null;
   }
 }

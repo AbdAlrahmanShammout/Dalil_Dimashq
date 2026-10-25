@@ -46,9 +46,17 @@ class MemoryPlaceRepository extends PlaceRepository {
 
 class MemoryHourRepository extends PlaceHourRepository {
   hours: PlaceHourEntity[] = [];
+  ramadan = false;
 
-  async listByPlace(): Promise<PlaceHourEntity[]> {
-    return this.hours;
+  async listByPlace(
+    _placeId: string,
+    season: 'regular' | 'ramadan' = 'regular',
+  ): Promise<PlaceHourEntity[]> {
+    return this.hours.filter((hour) => hour.season === season);
+  }
+
+  async isRamadan(): Promise<boolean> {
+    return this.ramadan;
   }
 }
 
@@ -61,7 +69,7 @@ describe('PlaceHourService', () => {
     expect(await service.readOpenNow('place-1', new Date('2026-10-25T12:00:00Z'))).toEqual({
       openNow: null,
     });
-    expect(await service.readWeek('place-1')).toEqual({ week: null });
+    expect(await service.readWeek('place-1')).toEqual({ week: null, ramadan: null });
   });
 
   it('decides open now in Damascus time', async () => {
@@ -82,5 +90,23 @@ describe('PlaceHourService', () => {
     const week = await service.readWeek('place-1');
     expect(week.week).toHaveLength(7);
     expect(week.week?.[0].periods).toEqual([{ opensAt: 540, closesAt: 1020 }]);
+    expect(week.ramadan).toBeNull();
+    hours.hours.push(
+      new PlaceHourEntity({
+        id: 'hour-2',
+        placeId: 'place-1',
+        dayOfWeek: 0,
+        opensAt: 18 * 60,
+        closesAt: 23 * 60,
+        season: 'ramadan',
+      }),
+    );
+    const outside = await service.readWeek('place-1', new Date('2026-10-25T09:00:00Z'));
+    expect(outside.ramadan).toBeNull();
+    expect(outside.week?.[0].periods).toEqual([{ opensAt: 540, closesAt: 1020 }]);
+    hours.ramadan = true;
+    const inside = await service.readWeek('place-1', new Date('2026-10-25T09:00:00Z'));
+    expect(inside.week?.[0].periods).toEqual([{ opensAt: 540, closesAt: 1020 }]);
+    expect(inside.ramadan?.[0].periods).toEqual([{ opensAt: 1080, closesAt: 1380 }]);
   });
 });

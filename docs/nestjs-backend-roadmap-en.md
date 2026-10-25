@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–75 are done. Task 22 is skipped. Next is task 76.
+Status: tasks 1–21 and 23–76 are done. Task 22 is skipped. Next is task 77.
 
 ### 1. Foundation
 
@@ -267,7 +267,7 @@ Status: tasks 1–21 and 23–75 are done. Task 22 is skipped. Next is task 76.
 | ✅ 73 | Phone verification | `POST /client-app/profile/phone/code` does not send SMS. `POST /client-app/profile/phone/verify` accepts only `000000` and marks the phone verified. Any other code is rejected. `providers/sms/` is the seam a later provider replaces |
 | ✅ 74 | Ratings | `POST /client-app/places/:id/ratings` requires a phone verified with `000000`. Otherwise the code is `phone_unverified` and nothing is stored. One rating per visitor per place |
 | ✅ 75 | Report a place | `POST /client-app/places/:id/reports` creates a change request of kind `report` with a reason |
-| 76 | Ramadan hours | `GET /client-app/places/:id/hours` includes a `ramadan` season only while the server says Ramadan is in effect. The regular week is unchanged |
+| ✅ 76 | Ramadan hours | `GET /client-app/places/:id/hours` includes a `ramadan` season only while the server says Ramadan is in effect. The regular week is unchanged |
 | 77 | Public score refresh | When a rating becomes `counted`, the place score and its source label change. `held` and `rejected` do not |
 
 ### 8. Owner — `dashboard-owner`

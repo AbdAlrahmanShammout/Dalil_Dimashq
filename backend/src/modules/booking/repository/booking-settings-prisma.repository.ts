@@ -27,7 +27,7 @@ export class BookingSettingsPrismaRepository extends BookingSettingsRepository {
       orderBy: { dayOfWeek: 'asc' },
     });
     const openingHours = await this.prisma.placeHour.findMany({
-      where: { placeId },
+      where: { placeId, season: 'regular' },
       orderBy: { dayOfWeek: 'asc' },
     });
     if (
