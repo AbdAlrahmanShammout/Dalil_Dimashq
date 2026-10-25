@@ -18,6 +18,7 @@ import { BookingBanPrismaRepository } from '@/modules/booking/repository/booking
 import { BookingBanRepository } from '@/modules/booking/repository/booking-ban.repository';
 import { BookingSettingsPrismaRepository } from '@/modules/booking/repository/booking-settings-prisma.repository';
 import { BookingSettingsRepository } from '@/modules/booking/repository/booking-settings.repository';
+import { FakeReportModule } from '@/modules/fake-report/fake-report.module';
 import { NotificationModule } from '@/modules/notification/notification.module';
 import { PlaceModule } from '@/modules/place/place.module';
 import { DatabaseProviderModule } from '@/providers/database/database-provider.module';
@@ -35,6 +36,7 @@ import { FirebaseProviderModule } from '@/providers/firebase/firebase-provider.m
     DeviceModule,
     FirebaseProviderModule,
     NotificationModule,
+    FakeReportModule,
   ],
   providers: [
     BookingAvailabilityService,

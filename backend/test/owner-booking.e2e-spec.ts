@@ -228,6 +228,89 @@ describe('owner place bookings', () => {
     const stored = await prisma.booking.findUniqueOrThrow({ where: { id: booking.id } });
     expect(stored.status).toBe('no_show');
   });
+
+  it('reports a booking once, refuses an attended booking, and stops at five in the month', async () => {
+    const token = await signInOwner(app, 'owner-fake@example.com');
+    const owner = await prisma.user.findUniqueOrThrow({
+      where: { email: 'owner-fake@example.com' },
+    });
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: { nameAr: 'مقهى', nameEn: 'Cafe', type: 'cafe', areaId: area.id },
+    });
+    await prisma.placeOwner.create({ data: { placeId: place.id, userId: owner.id } });
+    const visitor = await prisma.user.create({
+      data: { email: 'guest-fake@example.com', passwordHash: 'hash', isVisitor: true },
+    });
+    const attended = await prisma.booking.create({
+      data: {
+        clientKey: 'attended',
+        userId: visitor.id,
+        placeId: place.id,
+        startsAt: new Date(),
+        partySize: 2,
+        status: 'attended',
+      },
+    });
+    const attendedReply = await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/bookings/${attended.id}/fake-report`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ reason: 'Never came' })
+      .expect(400);
+    expect(attendedReply.body.code).toBe('fake_attended');
+    const booking = await prisma.booking.create({
+      data: {
+        clientKey: 'open',
+        userId: visitor.id,
+        placeId: place.id,
+        startsAt: new Date(),
+        partySize: 2,
+        status: 'confirmed',
+      },
+    });
+    const empty = await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/bookings/${booking.id}/fake-report`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ reason: ' ' })
+      .expect(400);
+    expect(empty.body.code).toBe('fake_reason');
+    const created = await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/bookings/${booking.id}/fake-report`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ reason: 'Never came' })
+      .expect(201);
+    const stored = await prisma.fakeReport.findUniqueOrThrow({ where: { id: created.body.id } });
+    expect(stored.bookingId).toBe(booking.id);
+    const duplicate = await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/bookings/${booking.id}/fake-report`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ reason: 'Again' })
+      .expect(400);
+    expect(duplicate.body.code).toBe('fake_duplicate');
+    await prisma.fakeReport.createMany({
+      data: [1, 2, 3, 4].map((index) => ({
+        userId: owner.id,
+        placeId: place.id,
+        message: `extra ${index}`,
+      })),
+    });
+    const sixth = await prisma.booking.create({
+      data: {
+        clientKey: 'sixth',
+        userId: visitor.id,
+        placeId: place.id,
+        startsAt: new Date(),
+        partySize: 1,
+        status: 'no_show',
+      },
+    });
+    const limited = await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/bookings/${sixth.id}/fake-report`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ reason: 'Another' })
+      .expect(400);
+    expect(limited.body.code).toBe('fake_monthly_limit');
+  });
 });
 
 async function clearBookings(prisma: PrismaProviderService): Promise<void> {

@@ -8,6 +8,8 @@ import { OwnerBookingListResponseDto } from '@/modules/booking/dto/response/owne
 import { RejectBookingRequestDto } from '@/modules/booking/dto/request/reject-booking-request.dto';
 import { CancelBookingRequestDto } from '@/modules/booking/dto/request/cancel-booking-request.dto';
 import { AttendanceRequestDto } from '@/modules/booking/dto/request/attendance-request.dto';
+import { FakeBookingReportRequestDto } from '@/modules/booking/dto/request/fake-booking-report-request.dto';
+import { FakeBookingReportResponseDto } from '@/modules/booking/dto/response/fake-booking-report-response.dto';
 import { PlaceAmenityChangedResponseDto } from '@/modules/amenity/dto/response/place-amenity-changed-response.dto';
 import { OwnerBookingService } from '@/modules/booking/owner-booking.service';
 import { OwnerPlaceService } from '@/modules/owner-place/owner-place.service';
@@ -76,5 +78,22 @@ export class OwnerBookingDashboardController {
     await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
     await this.ownerBookingService.markAttendance(placeId, bookingId, body.result ?? null);
     return new PlaceAmenityChangedResponseDto();
+  }
+
+  @Post(':id/bookings/:bookingId/fake-report')
+  async reportFake(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+    @Param('bookingId') bookingId: string,
+    @Body() body: FakeBookingReportRequestDto,
+  ): Promise<FakeBookingReportResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    const created = await this.ownerBookingService.reportFake({
+      userId: currentUser.id,
+      placeId,
+      bookingId,
+      reason: body.reason,
+    });
+    return new FakeBookingReportResponseDto(created.id);
   }
 }

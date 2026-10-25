@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
+import { Prisma } from '@prisma/client';
+
 import {
+  CreateBookingReportInput,
   FakeReportRepository,
   OwnedFakeReport,
 } from '@/modules/fake-report/repository/fake-report.repository';
@@ -20,5 +23,37 @@ export class FakeReportPrismaRepository extends FakeReportRepository {
   async addReply(reportId: string, body: string): Promise<{ id: string }> {
     const row = await this.prisma.fakeReportReply.create({ data: { reportId, body } });
     return { id: row.id };
+  }
+
+  override async findByBooking(bookingId: string): Promise<{ id: string } | null> {
+    const row = await this.prisma.fakeReport.findUnique({ where: { bookingId } });
+    return row ? { id: row.id } : null;
+  }
+
+  override async countForPlace(placeId: string, from: Date, until: Date): Promise<number> {
+    return this.prisma.fakeReport.count({
+      where: { placeId, createdAt: { gte: from, lt: until } },
+    });
+  }
+
+  override async createBookingReport(
+    input: CreateBookingReportInput,
+  ): Promise<{ id: string } | null> {
+    try {
+      const row = await this.prisma.fakeReport.create({
+        data: {
+          userId: input.userId,
+          placeId: input.placeId,
+          bookingId: input.bookingId,
+          message: input.message,
+        },
+      });
+      return { id: row.id };
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+        return null;
+      }
+      throw error;
+    }
   }
 }

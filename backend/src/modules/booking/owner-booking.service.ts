@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
 import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
+import { FakeReportService } from '@/modules/fake-report/fake-report.service';
 import {
   BookingRepository,
   DecideBookingInput,
@@ -14,7 +15,10 @@ const ATTENDANCE_GRACE_MS = 3 * 24 * 60 * 60 * 1000;
 
 @Injectable()
 export class OwnerBookingService {
-  constructor(private readonly bookingRepository: BookingRepository) {}
+  constructor(
+    private readonly bookingRepository: BookingRepository,
+    private readonly fakeReportService: FakeReportService,
+  ) {}
 
   /**
    * Bookings for a linked place, with the visitor name, phone, and report flag.
@@ -125,6 +129,25 @@ export class OwnerBookingService {
       bookingId,
       status: result,
       fromStatuses: ['confirmed'],
+    });
+  }
+
+  /**
+   * Reports one booking as fake. The visitor reply path is unchanged.
+   */
+  async reportFake(input: {
+    readonly userId: string;
+    readonly placeId: string;
+    readonly bookingId: string;
+    readonly reason: string;
+  }): Promise<{ id: string }> {
+    const booking = await this.loadPlaceBooking(input.placeId, input.bookingId);
+    return this.fakeReportService.reportBooking({
+      userId: input.userId,
+      placeId: input.placeId,
+      bookingId: booking.id,
+      status: booking.status,
+      reason: input.reason,
     });
   }
 
