@@ -163,6 +163,10 @@ export const ERROR_TEXT: Readonly<Record<string, ErrorText>> = {
     ar: 'جدول الدوام غير صحيح: تحقّق من الأوقات وألّا تتداخل الفترات، وبحدّ أقصى ثلاث فترات في اليوم.',
     en: 'The opening hours are not valid: check the times, that periods do not overlap, and at most 3 periods a day.',
   },
+  offer_window: {
+    ar: 'مدة العرض يجب ألا تتجاوز ٦٠ يوماً.',
+    en: 'An offer can run for at most 60 days.',
+  },
   photo_invalid: {
     ar: 'يُقبل فقط jpeg أو png أو webp.',
     en: 'Only jpeg, png, or webp photos are accepted.',

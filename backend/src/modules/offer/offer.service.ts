@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
+import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
 import { DEFAULT_PAGE_LIMIT, DEFAULT_PAGE_OFFSET } from '@/modules/place/enum/general.enum';
 import { PlaceService } from '@/modules/place/place.service';
 import { PhotoStorage } from '@/modules/place-photo/photo-storage';
+import { assertOfferWindow, prepareOfferImage } from '@/modules/offer/offer-rules';
 import { OfferEntity } from '@/modules/offer/entity/offer.entity';
 import { OfferPage, OfferRepository } from '@/modules/offer/repository/offer.repository';
 
@@ -54,6 +56,70 @@ export class OfferService {
     await this.placeService.getPublicPlace(placeId);
     const page = await this.offerRepository.listCurrentForPlace(placeId, this.query(input));
     return this.withImages(page);
+  }
+
+  /**
+   * Creates an owner offer. The image, when present, is uploaded by the API.
+   */
+  async createOwnerOffer(input: {
+    readonly placeId: string;
+    readonly titleAr: string;
+    readonly titleEn: string;
+    readonly detailsAr: string;
+    readonly detailsEn: string;
+    readonly startsAt: Date;
+    readonly endsAt: Date;
+    readonly image?: { fileName: string; mimeType: string; bytes: Uint8Array };
+  }): Promise<{ id: string }> {
+    assertOfferWindow(input.startsAt, input.endsAt);
+    let imageKey: string | null = null;
+    if (input.image) {
+      const prepared = prepareOfferImage({
+        placeId: input.placeId,
+        fileName: input.image.fileName,
+        mimeType: input.image.mimeType,
+        byteLength: input.image.bytes.byteLength,
+      });
+      await this.photoStorage.uploadObject({
+        key: prepared.key,
+        body: input.image.bytes,
+        contentType: input.image.mimeType,
+      });
+      imageKey = prepared.key;
+    }
+    return this.offerRepository.create({
+      placeId: input.placeId,
+      titleAr: input.titleAr,
+      titleEn: input.titleEn,
+      detailsAr: input.detailsAr,
+      detailsEn: input.detailsEn,
+      imageKey,
+      startsAt: input.startsAt,
+      endsAt: input.endsAt,
+    });
+  }
+
+  /**
+   * Ends the offer now.
+   */
+  async stopOwnerOffer(placeId: string, offerId: string, now: Date = new Date()): Promise<void> {
+    const stopped = await this.offerRepository.stop(placeId, offerId, now);
+    if (!stopped) {
+      throw new ResourceNotFoundException('Offer', offerId);
+    }
+  }
+
+  /**
+   * Removes the offer and its stored image.
+   */
+  async deleteOwnerOffer(placeId: string, offerId: string): Promise<void> {
+    const removed = await this.offerRepository.deleteOwned(placeId, offerId);
+    if (!removed) {
+      throw new ResourceNotFoundException('Offer', offerId);
+    }
+    if (removed.imageKey) {
+      await this.photoStorage.deleteObject(removed.imageKey);
+    }
   }
 
   private query(input: { limit?: number; offset?: number; now?: Date }) {

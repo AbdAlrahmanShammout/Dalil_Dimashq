@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { OfferEntity } from '@/modules/offer/entity/offer.entity';
 import {
+  CreateOwnerOfferRepoInput,
   OfferListQuery,
   OfferPage,
   OfferRepository,
@@ -59,5 +60,42 @@ export class OfferPrismaRepository extends OfferRepository {
       limit: query.limit,
       offset: query.offset,
     };
+  }
+
+  override async create(input: CreateOwnerOfferRepoInput): Promise<{ id: string }> {
+    const row = await this.prisma.offer.create({
+      data: {
+        placeId: input.placeId,
+        titleAr: input.titleAr,
+        titleEn: input.titleEn,
+        detailsAr: input.detailsAr,
+        detailsEn: input.detailsEn,
+        imageKey: input.imageKey,
+        startsAt: input.startsAt,
+        endsAt: input.endsAt,
+        published: true,
+      },
+    });
+    return { id: row.id };
+  }
+
+  override async stop(placeId: string, offerId: string, endsAt: Date): Promise<boolean> {
+    const result = await this.prisma.offer.updateMany({
+      where: { id: offerId, placeId },
+      data: { endsAt },
+    });
+    return result.count > 0;
+  }
+
+  override async deleteOwned(
+    placeId: string,
+    offerId: string,
+  ): Promise<{ imageKey: string | null } | null> {
+    const offer = await this.prisma.offer.findFirst({ where: { id: offerId, placeId } });
+    if (!offer) {
+      return null;
+    }
+    await this.prisma.offer.delete({ where: { id: offer.id } });
+    return { imageKey: offer.imageKey };
   }
 }
