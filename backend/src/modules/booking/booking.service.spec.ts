@@ -8,6 +8,7 @@ import {
   BookingRepository,
   CreateBookingInput,
 } from '@/modules/booking/repository/booking.repository';
+import { CurrentOfferRepository } from '@/modules/booking/repository/current-offer.repository';
 import { PlaceService } from '@/modules/place/place.service';
 
 class MemoryBookingRepository extends BookingRepository {
@@ -26,7 +27,7 @@ class MemoryBookingRepository extends BookingRepository {
       startsAt: input.startsAt,
       partySize: input.partySize,
       note: input.note,
-      offerId: null,
+      offerId: input.offerId,
       status: 'pending',
     };
     this.rows.push(row);
@@ -56,7 +57,17 @@ function buildService(repository: BookingRepository): BookingService {
     }
   })();
   const availability = new BookingAvailabilityService(places, settings);
-  return new BookingService(new BookingGateService(availability, bans), availability, repository);
+  const offers = new (class extends CurrentOfferRepository {
+    async findCurrentId(_placeId: string, offerId: string): Promise<string | null> {
+      return offerId === 'current-offer' ? offerId : null;
+    }
+  })();
+  return new BookingService(
+    new BookingGateService(availability, bans),
+    availability,
+    repository,
+    offers,
+  );
 }
 
 describe('BookingService', () => {
@@ -76,5 +87,27 @@ describe('BookingService', () => {
     const second = await service.create({ ...input, partySize: 3 });
     expect(second.id).toBe(first.id);
     expect(repository.rows).toHaveLength(1);
+    const linked = await service.create({
+      clientKey: 'key-2',
+      userId: 'user-1',
+      placeId: 'place-1',
+      startsAt: input.startsAt,
+      partySize: 2,
+      note: null,
+      now: input.now,
+      requestedOfferId: 'current-offer',
+    });
+    expect(linked.offerId).toBe('current-offer');
+    const ignored = await service.create({
+      clientKey: 'key-3',
+      userId: 'user-1',
+      placeId: 'place-1',
+      startsAt: input.startsAt,
+      partySize: 2,
+      note: null,
+      now: input.now,
+      requestedOfferId: 'old-offer',
+    });
+    expect(ignored.offerId).toBeNull();
   });
 });

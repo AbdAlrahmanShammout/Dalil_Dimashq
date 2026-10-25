@@ -5,6 +5,8 @@ import { BookingGateService } from '@/modules/booking/booking-gate.service';
 import { BookingService } from '@/modules/booking/booking.service';
 import { BookingPrismaRepository } from '@/modules/booking/repository/booking-prisma.repository';
 import { BookingRepository } from '@/modules/booking/repository/booking.repository';
+import { CurrentOfferPrismaRepository } from '@/modules/booking/repository/current-offer-prisma.repository';
+import { CurrentOfferRepository } from '@/modules/booking/repository/current-offer.repository';
 import { BookingBanPrismaRepository } from '@/modules/booking/repository/booking-ban-prisma.repository';
 import { BookingBanRepository } from '@/modules/booking/repository/booking-ban.repository';
 import { BookingSettingsPrismaRepository } from '@/modules/booking/repository/booking-settings-prisma.repository';
@@ -21,6 +23,7 @@ import { DatabaseProviderModule } from '@/providers/database/database-provider.m
     { provide: BookingSettingsRepository, useClass: BookingSettingsPrismaRepository },
     { provide: BookingBanRepository, useClass: BookingBanPrismaRepository },
     { provide: BookingRepository, useClass: BookingPrismaRepository },
+    { provide: CurrentOfferRepository, useClass: CurrentOfferPrismaRepository },
   ],
   exports: [BookingAvailabilityService, BookingGateService, BookingService],
 })

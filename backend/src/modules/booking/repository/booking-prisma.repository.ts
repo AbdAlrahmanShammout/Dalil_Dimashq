@@ -31,6 +31,7 @@ export class BookingPrismaRepository extends BookingRepository {
           startsAt: input.startsAt,
           partySize: input.partySize,
           note: input.note,
+          offerId: input.offerId,
         },
       });
       return this.toRecord(row);

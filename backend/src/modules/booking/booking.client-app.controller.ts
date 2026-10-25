@@ -19,7 +19,7 @@ export class BookingClientAppController {
     @LoggedInUser() currentUser: Principal,
     @Body() body: CreateBookingRequestDto,
   ): Promise<CreateBookingResponseDto> {
-    const { clientKey, placeId, startsAt, partySize, note } = body;
+    const { clientKey, placeId, startsAt, partySize, note, offerId } = body;
     const booking = await this.bookingService.create({
       clientKey,
       userId: currentUser.id,
@@ -27,6 +27,7 @@ export class BookingClientAppController {
       startsAt: new Date(startsAt),
       partySize,
       note: note ?? null,
+      requestedOfferId: offerId,
     });
     return new CreateBookingResponseDto(booking);
   }

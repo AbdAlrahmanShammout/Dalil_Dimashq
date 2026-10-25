@@ -9,6 +9,7 @@ import {
   BookingRepository,
   CreateBookingInput,
 } from '@/modules/booking/repository/booking.repository';
+import { CurrentOfferRepository } from '@/modules/booking/repository/current-offer.repository';
 
 @Injectable()
 export class BookingService {
@@ -16,12 +17,18 @@ export class BookingService {
     private readonly bookingGateService: BookingGateService,
     private readonly bookingAvailabilityService: BookingAvailabilityService,
     private readonly bookingRepository: BookingRepository,
+    private readonly currentOfferRepository: CurrentOfferRepository,
   ) {}
 
   /**
    * Creates a pending booking. The same client key returns the first booking.
    */
-  async create(input: CreateBookingInput & { readonly now?: Date }): Promise<BookingRecord> {
+  async create(
+    input: Omit<CreateBookingInput, 'offerId'> & {
+      readonly requestedOfferId?: string;
+      readonly now?: Date;
+    },
+  ): Promise<BookingRecord> {
     const existing = await this.bookingRepository.findByClientKey(input.userId, input.clientKey);
     if (existing) {
       return existing;
@@ -37,6 +44,9 @@ export class BookingService {
       throw new InvalidStateException({ message: 'Party is too large', code: 'party_too_large' });
     }
     assertBookableSlot({ startsAt: input.startsAt, now, availability });
-    return this.bookingRepository.create(input);
+    const offerId = input.requestedOfferId
+      ? await this.currentOfferRepository.findCurrentId(input.placeId, input.requestedOfferId, now)
+      : null;
+    return this.bookingRepository.create({ ...input, offerId });
   }
 }

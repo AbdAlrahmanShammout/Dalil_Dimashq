@@ -19,6 +19,7 @@ export interface CreateBookingInput {
   readonly startsAt: Date;
   readonly partySize: number;
   readonly note: string | null;
+  readonly offerId: string | null;
 }
 
 export abstract class BookingRepository {
