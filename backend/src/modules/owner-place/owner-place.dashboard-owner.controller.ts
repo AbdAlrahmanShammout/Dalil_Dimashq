@@ -1,4 +1,15 @@
-import { Body, Controller, Get, HttpCode, Param, Patch, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Patch,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { ApiAudience, Principal } from '@/common/auth/principal.interface';
@@ -16,6 +27,8 @@ import { OwnerPlaceDetailResponseDto } from '@/modules/owner-place/dto/response/
 import { OwnerPlaceSearchResponseDto } from '@/modules/owner-place/dto/response/owner-place-search-response.dto';
 import { OwnerHoursResponseDto } from '@/modules/owner-place/dto/response/owner-hours-response.dto';
 import { OwnerHoursSaveResponseDto } from '@/modules/owner-place/dto/response/owner-hours-save-response.dto';
+import { AmenityService } from '@/modules/amenity/amenity.service';
+import { PlaceAmenityChangedResponseDto } from '@/modules/amenity/dto/response/place-amenity-changed-response.dto';
 import { OwnerPlaceService } from '@/modules/owner-place/owner-place.service';
 import { PlaceHourService, assertValidWeek } from '@/modules/place-hour/place-hour.service';
 import { PlaceChangeService } from '@/modules/change-request/place-change.service';
@@ -30,6 +43,7 @@ export class OwnerPlaceDashboardController {
     private readonly ownerPlaceService: OwnerPlaceService,
     private readonly placeChangeService: PlaceChangeService,
     private readonly placeHourService: PlaceHourService,
+    private readonly amenityService: AmenityService,
   ) {}
 
   @Get('search')
@@ -72,6 +86,28 @@ export class OwnerPlaceDashboardController {
       payload: { hours: week },
     });
     return new OwnerHoursSaveResponseDto('requested');
+  }
+
+  @Post(':id/amenities/:code')
+  async addAmenity(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+    @Param('code') code: string,
+  ): Promise<PlaceAmenityChangedResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    await this.amenityService.addToPlace(placeId, code);
+    return new PlaceAmenityChangedResponseDto();
+  }
+
+  @Delete(':id/amenities/:code')
+  async removeAmenity(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+    @Param('code') code: string,
+  ): Promise<PlaceAmenityChangedResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    await this.amenityService.removeFromPlace(placeId, code);
+    return new PlaceAmenityChangedResponseDto();
   }
 
   @Get(':id')
