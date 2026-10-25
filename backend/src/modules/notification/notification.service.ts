@@ -21,6 +21,13 @@ export class NotificationService {
   }
 
   /**
+   * Owner inbox: new bookings, the reply clock, customer cancels, and new fake reports.
+   */
+  async listOwner(userId: string): Promise<NotificationRow[]> {
+    return this.notificationRepository.listForOwner(userId);
+  }
+
+  /**
    * Sets readAt on the caller's row and leaves another visitor's row untouched.
    */
   async markRead(

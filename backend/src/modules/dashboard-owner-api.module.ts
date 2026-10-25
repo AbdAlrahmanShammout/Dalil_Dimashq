@@ -10,11 +10,13 @@ import { AmenityDashboardOwnerController } from '@/modules/amenity/amenity.dashb
 import { OwnerBookingDashboardController } from '@/modules/booking/owner-booking.dashboard-owner.controller';
 import { OfferDashboardOwnerController } from '@/modules/offer/offer.dashboard-owner.controller';
 import { PlacePhotoDashboardOwnerController } from '@/modules/place-photo/place-photo.dashboard-owner.controller';
+import { NotificationDashboardOwnerController } from '@/modules/notification/notification.dashboard-owner.controller';
+import { NotificationModule } from '@/modules/notification/notification.module';
 import { AccountDashboardOwnerController } from '@/modules/user/account.dashboard-owner.controller';
 import { UserModule } from '@/modules/user/user.module';
 
 @Module({
-  imports: [AuthModule, UserModule, DeviceModule, OwnerPlaceModule],
+  imports: [AuthModule, UserModule, DeviceModule, OwnerPlaceModule, NotificationModule],
   controllers: [
     AuthDashboardOwnerController,
     AccountDashboardOwnerController,
@@ -24,6 +26,7 @@ import { UserModule } from '@/modules/user/user.module';
     PlacePhotoDashboardOwnerController,
     OfferDashboardOwnerController,
     OwnerBookingDashboardController,
+    NotificationDashboardOwnerController,
   ],
 })
 export class DashboardOwnerApiModule {}

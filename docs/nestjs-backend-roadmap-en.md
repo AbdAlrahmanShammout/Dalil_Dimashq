@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–105 are done. Task 22 is skipped. Next is task 106.
+Status: tasks 1–21 and 23–106 are done. Task 22 is skipped. Next is task 107.
 
 ### 1. Foundation
 
@@ -302,7 +302,7 @@ Status: tasks 1–21 and 23–105 are done. Task 22 is skipped. Next is task 106
 | ✅ 103 | Booking settings | `GET` and `PUT /dashboard-owner/places/:id/booking-settings` cover accepting, max party, and minimum notice. Null notice on PUT keeps the stored value |
 | ✅ 104 | Reply hours | `POST` and `DELETE /dashboard-owner/places/:id/response-hours` add and remove a weekday window. Premium only. A non-premium owner gets `premium_required`. There is no review request for these rows |
 | ✅ 105 | Closed periods | `POST` and `DELETE /dashboard-owner/places/:id/blackouts` add and remove a closed range. Premium only, same refusal as reply hours. There is no review request |
-| 106 | Owner notifications | `GET /dashboard-owner/notifications` returns only `booking_new`, `booking_clock_started`, `booking_cancelled_by_customer`, and `fake_report_new`. Each has a `bookingId` |
+| ✅ 106 | Owner notifications | `GET /dashboard-owner/notifications` returns only `booking_new`, `booking_clock_started`, `booking_cancelled_by_customer`, and `fake_report_new`. Each has a `bookingId` |
 | 107 | View as visitor is not an API | The owner client calls `client-app` for the public place. No second public payload is added under `dashboard-owner` |
 | 108 | Missing place | Search returning an empty page is the signal. The owner client then calls `POST /client-app/contact`. No extra endpoint |
 | 109 | Owner booking decision notifications | Confirm, reject, owner cancel, attendance, and a new fake report write the visitor or staff inbox row in the same transaction |

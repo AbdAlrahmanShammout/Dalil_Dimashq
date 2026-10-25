@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
+import { NotificationKind } from '@prisma/client';
+
 import {
   NotificationRepository,
   NotificationRow,
+  OWNER_NOTIFICATION_KINDS,
   RecordNotificationInput,
 } from '@/modules/notification/repository/notification.repository';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
@@ -52,6 +55,14 @@ export class NotificationPrismaRepository extends NotificationRepository {
       },
     });
     return this.toRow(row);
+  }
+
+  override async listForOwner(userId: string): Promise<NotificationRow[]> {
+    const rows = await this.prisma.notification.findMany({
+      where: { userId, kind: { in: [...OWNER_NOTIFICATION_KINDS] as NotificationKind[] } },
+      orderBy: { createdAt: 'desc' },
+    });
+    return rows.map((row) => this.toRow(row));
   }
 
   private toRow(row: {

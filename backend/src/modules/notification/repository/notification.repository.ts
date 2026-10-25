@@ -9,7 +9,15 @@ export const VISITOR_NOTIFICATION_KINDS = [
   'booking_ban_lifted',
 ] as const;
 
+export const OWNER_NOTIFICATION_KINDS = [
+  'booking_new',
+  'booking_clock_started',
+  'booking_cancelled_by_customer',
+  'fake_report_new',
+] as const;
+
 export type VisitorNotificationKind = (typeof VISITOR_NOTIFICATION_KINDS)[number];
+export type OwnerNotificationKind = (typeof OWNER_NOTIFICATION_KINDS)[number];
 
 export interface RecordNotificationInput {
   readonly userId: string;
@@ -34,4 +42,8 @@ export abstract class NotificationRepository {
     readAt: Date,
   ): Promise<NotificationRow | null>;
   abstract record(input: RecordNotificationInput): Promise<NotificationRow>;
+
+  listForOwner(_userId: string): Promise<NotificationRow[]> {
+    return Promise.resolve([]);
+  }
 }
