@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { ApiAudience, Principal } from '@/common/auth/principal.interface';
@@ -11,6 +11,9 @@ import { AttendanceRequestDto } from '@/modules/booking/dto/request/attendance-r
 import { FakeBookingReportRequestDto } from '@/modules/booking/dto/request/fake-booking-report-request.dto';
 import { FakeBookingReportResponseDto } from '@/modules/booking/dto/response/fake-booking-report-response.dto';
 import { PlaceAmenityChangedResponseDto } from '@/modules/amenity/dto/response/place-amenity-changed-response.dto';
+import { SaveBookingSettingsRequestDto } from '@/modules/booking/dto/request/save-booking-settings-request.dto';
+import { OwnerBookingSettingsResponseDto } from '@/modules/booking/dto/response/owner-booking-settings-response.dto';
+import { OwnerBookingSettingsService } from '@/modules/booking/owner-booking-settings.service';
 import { OwnerBookingService } from '@/modules/booking/owner-booking.service';
 import { OwnerPlaceService } from '@/modules/owner-place/owner-place.service';
 
@@ -21,6 +24,7 @@ export class OwnerBookingDashboardController {
   constructor(
     private readonly ownerPlaceService: OwnerPlaceService,
     private readonly ownerBookingService: OwnerBookingService,
+    private readonly ownerBookingSettingsService: OwnerBookingSettingsService,
   ) {}
 
   @Get(':id/bookings')
@@ -95,5 +99,32 @@ export class OwnerBookingDashboardController {
       reason: body.reason,
     });
     return new FakeBookingReportResponseDto(created.id);
+  }
+
+  @Get(':id/booking-settings')
+  async readSettings(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+  ): Promise<OwnerBookingSettingsResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    const settings = await this.ownerBookingSettingsService.read(placeId);
+    return new OwnerBookingSettingsResponseDto(settings);
+  }
+
+  @Put(':id/booking-settings')
+  async saveSettings(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+    @Body() body: SaveBookingSettingsRequestDto,
+  ): Promise<OwnerBookingSettingsResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    const { acceptsBookings, maxParty, noticeMinutes } = body;
+    const settings = await this.ownerBookingSettingsService.save({
+      placeId,
+      acceptsBookings,
+      maxParty,
+      noticeMinutes: noticeMinutes ?? null,
+    });
+    return new OwnerBookingSettingsResponseDto(settings);
   }
 }

@@ -7,6 +7,8 @@ import {
   DEFAULT_BOOKING_MAX_PARTY,
   DEFAULT_BOOKING_NOTICE_MINUTES,
   DEFAULT_BOOKING_REPLY_MINUTES,
+  OwnerBookingSettings,
+  SaveOwnerBookingSettingsInput,
 } from '@/modules/booking/repository/booking-settings.repository';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
 
@@ -55,6 +57,44 @@ export class BookingSettingsPrismaRepository extends BookingSettingsRepository {
         opensAt: row.opensAt,
         closesAt: row.closesAt,
       })),
+    };
+  }
+
+  override async readOwner(placeId: string): Promise<OwnerBookingSettings> {
+    const row = await this.prisma.placeBookingSettings.findUnique({ where: { placeId } });
+    return this.toOwnerSettings(row);
+  }
+
+  override async saveOwner(input: SaveOwnerBookingSettingsInput): Promise<OwnerBookingSettings> {
+    const current = await this.prisma.placeBookingSettings.findUnique({
+      where: { placeId: input.placeId },
+    });
+    const noticeMinutes =
+      input.noticeMinutes ?? current?.noticeMinutes ?? DEFAULT_BOOKING_NOTICE_MINUTES;
+    const row = await this.prisma.placeBookingSettings.upsert({
+      where: { placeId: input.placeId },
+      create: {
+        placeId: input.placeId,
+        acceptsBookings: input.acceptsBookings,
+        maxParty: input.maxParty,
+        noticeMinutes,
+      },
+      update: {
+        acceptsBookings: input.acceptsBookings,
+        maxParty: input.maxParty,
+        noticeMinutes,
+      },
+    });
+    return this.toOwnerSettings(row);
+  }
+
+  private toOwnerSettings(
+    row: { acceptsBookings: boolean; maxParty: number; noticeMinutes: number } | null,
+  ): OwnerBookingSettings {
+    return {
+      acceptsBookings: row?.acceptsBookings ?? false,
+      maxParty: row?.maxParty ?? DEFAULT_BOOKING_MAX_PARTY,
+      noticeMinutes: row?.noticeMinutes ?? DEFAULT_BOOKING_NOTICE_MINUTES,
     };
   }
 }

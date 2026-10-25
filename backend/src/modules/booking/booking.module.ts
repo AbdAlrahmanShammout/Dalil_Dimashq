@@ -8,6 +8,7 @@ import {
 import { BookingGateService } from '@/modules/booking/booking-gate.service';
 import { BookingService } from '@/modules/booking/booking.service';
 import { OwnerBookingService } from '@/modules/booking/owner-booking.service';
+import { OwnerBookingSettingsService } from '@/modules/booking/owner-booking-settings.service';
 import { BookingClockPrismaRepository } from '@/modules/booking/repository/booking-clock-prisma.repository';
 import { BookingClockRepository } from '@/modules/booking/repository/booking-clock.repository';
 import { BookingPrismaRepository } from '@/modules/booking/repository/booking-prisma.repository';
@@ -43,6 +44,7 @@ import { FirebaseProviderModule } from '@/providers/firebase/firebase-provider.m
     BookingGateService,
     BookingService,
     OwnerBookingService,
+    OwnerBookingSettingsService,
     BookingClockService,
     { provide: BookingSettingsRepository, useClass: BookingSettingsPrismaRepository },
     { provide: BookingBanRepository, useClass: BookingBanPrismaRepository },
@@ -56,6 +58,7 @@ import { FirebaseProviderModule } from '@/providers/firebase/firebase-provider.m
     BookingGateService,
     BookingService,
     OwnerBookingService,
+    OwnerBookingSettingsService,
     BookingClockService,
   ],
 })

@@ -25,6 +25,35 @@ export interface BookingAvailability {
   readonly openingHours: readonly ResponseHour[];
 }
 
+export interface OwnerBookingSettings {
+  readonly acceptsBookings: boolean;
+  readonly maxParty: number;
+  readonly noticeMinutes: number;
+}
+
+export interface SaveOwnerBookingSettingsInput {
+  readonly placeId: string;
+  readonly acceptsBookings: boolean;
+  readonly maxParty: number;
+  readonly noticeMinutes: number | null;
+}
+
 export abstract class BookingSettingsRepository {
   abstract read(placeId: string): Promise<BookingAvailability | null>;
+
+  readOwner(_placeId: string): Promise<OwnerBookingSettings> {
+    return Promise.resolve({
+      acceptsBookings: false,
+      maxParty: DEFAULT_BOOKING_MAX_PARTY,
+      noticeMinutes: DEFAULT_BOOKING_NOTICE_MINUTES,
+    });
+  }
+
+  saveOwner(input: SaveOwnerBookingSettingsInput): Promise<OwnerBookingSettings> {
+    return Promise.resolve({
+      acceptsBookings: input.acceptsBookings,
+      maxParty: input.maxParty,
+      noticeMinutes: input.noticeMinutes ?? DEFAULT_BOOKING_NOTICE_MINUTES,
+    });
+  }
 }

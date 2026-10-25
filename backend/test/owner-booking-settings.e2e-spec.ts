@@ -1,0 +1,85 @@
+process.env.MAIL_CAPTURE = 'true';
+
+import { INestApplication } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import request from 'supertest';
+
+import { AppModule } from '@/app.module';
+import { InputValidationPipe } from '@/common/pipes/input-validation.pipe';
+import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
+import { capturedMail, clearCapturedMail } from '@/providers/mail/mail-capture';
+
+describe('owner booking settings', () => {
+  let app: INestApplication;
+  let prisma: PrismaProviderService;
+
+  beforeAll(async () => {
+    app = await NestFactory.create(AppModule, { logger: false });
+    app.useGlobalPipes(new InputValidationPipe());
+    await app.init();
+    prisma = app.get(PrismaProviderService);
+  });
+
+  afterAll(async () => {
+    await clearSettings(prisma);
+    await app.close();
+  });
+
+  beforeEach(async () => {
+    clearCapturedMail();
+    await clearSettings(prisma);
+  });
+
+  it('keeps the stored notice when the update sends null', async () => {
+    const token = await signInOwner(app, 'owner-settings@example.com');
+    const owner = await prisma.user.findUniqueOrThrow({
+      where: { email: 'owner-settings@example.com' },
+    });
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: { nameAr: 'مقهى', nameEn: 'Cafe', type: 'cafe', areaId: area.id },
+    });
+    await prisma.placeOwner.create({ data: { placeId: place.id, userId: owner.id } });
+    const initial = await request(app.getHttpServer())
+      .get(`/dashboard-owner/places/${place.id}/booking-settings`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+    expect(initial.body).toEqual({ acceptsBookings: false, maxParty: 8, noticeMinutes: 60 });
+    await request(app.getHttpServer())
+      .put(`/dashboard-owner/places/${place.id}/booking-settings`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ acceptsBookings: true, maxParty: 4, noticeMinutes: 90 })
+      .expect(200);
+    const kept = await request(app.getHttpServer())
+      .put(`/dashboard-owner/places/${place.id}/booking-settings`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ acceptsBookings: true, maxParty: 6, noticeMinutes: null })
+      .expect(200);
+    expect(kept.body).toEqual({ acceptsBookings: true, maxParty: 6, noticeMinutes: 90 });
+  });
+});
+
+async function clearSettings(prisma: PrismaProviderService): Promise<void> {
+  await prisma.placeBookingSettings.deleteMany();
+  await prisma.placeOwner.deleteMany();
+  await prisma.place.deleteMany();
+  await prisma.area.deleteMany();
+  await prisma.user.deleteMany();
+}
+
+async function signInOwner(app: INestApplication, email: string): Promise<string> {
+  await request(app.getHttpServer())
+    .post('/dashboard-owner/auth/sign-up')
+    .send({ email, password: 'Password123' })
+    .expect(201);
+  const code = (capturedMail.at(-1)?.text ?? '').match(/\d{6}/)?.[0];
+  await request(app.getHttpServer())
+    .post('/dashboard-owner/auth/verify-email')
+    .send({ email, code })
+    .expect(200);
+  const session = await request(app.getHttpServer())
+    .post('/dashboard-owner/auth/sign-in')
+    .send({ email, password: 'Password123' })
+    .expect(200);
+  return session.body.accessToken as string;
+}
