@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 54.
+Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 55.
 
 ### 1. Foundation
 
@@ -235,7 +235,7 @@ Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 54.
 | # | Task | Done when |
 |---|---|---|
 | ✅ 53 | Availability | `GET /client-app/places/:id/booking-availability` says whether the place accepts bookings, the horizon, the notice, the max party, and the closed periods. A signed-out caller may read it |
-| 54 | Gate | `POST /client-app/bookings` requires a user, a place that accepts bookings, and no active ban. Otherwise the code is `booking_closed` or `booking_banned` |
+| ✅ 54 | Gate | `POST /client-app/bookings` requires a user, a place that accepts bookings, and no active ban. Otherwise the code is `booking_closed` or `booking_banned` |
 | 55 | Create | The body has a client key, place, time, party size, note (max 300), and an optional offer id. There is no payment field. The same client key returns the same booking |
 | 56 | Result | The create response includes the booking number and status `pending` |
 | 57 | Slots | Offered times respect notice, weekly hours, response hours, and blackouts, in Damascus time |

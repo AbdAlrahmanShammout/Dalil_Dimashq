@@ -35,6 +35,7 @@ model User {
   refreshTokens   RefreshToken[]
   profileChangeRequests ProfileChangeRequest[]
   legalAcceptances LegalAcceptance[]
+  bookingBans      BookingBan[]
 }
 
 model Profile {
@@ -252,6 +253,17 @@ model BookingResponseHour {
   closesAt  Int
 
   @@index([placeId, dayOfWeek])
+}
+
+model BookingBan {
+  id       String    @id @default(cuid())
+  userId   String
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  level    Int
+  startsAt DateTime
+  endsAt   DateTime?
+
+  @@index([userId])
 }
 
 model Amenity {
