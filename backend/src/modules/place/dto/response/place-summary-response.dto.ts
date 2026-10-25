@@ -35,6 +35,9 @@ export class PlaceSummaryResponseDto {
   @ApiProperty({ nullable: true })
   readonly longitude: number | null;
 
+  @ApiProperty({ nullable: true })
+  readonly directionsTarget: { latitude: number; longitude: number } | null;
+
   @ApiProperty()
   readonly featured: boolean;
 
@@ -76,6 +79,10 @@ export class PlaceSummaryResponseDto {
     this.addressEn = place.addressEn;
     this.latitude = place.latitude;
     this.longitude = place.longitude;
+    this.directionsTarget =
+      place.latitude === null || place.longitude === null
+        ? null
+        : { latitude: place.latitude, longitude: place.longitude };
     this.featured = place.isFeatured;
     this.starLabel = place.starValue ?? 'not_rated';
     this.starSource = place.starSource;

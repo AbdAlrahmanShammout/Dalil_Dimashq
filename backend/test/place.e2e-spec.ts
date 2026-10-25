@@ -78,6 +78,8 @@ describe('place summary', () => {
     expect(response.body.website).toBeUndefined();
     expect(response.body.email).toBeUndefined();
     expect(response.body.area).toEqual({ id: area.id, nameAr: 'المزة', nameEn: 'Mazzeh' });
+    expect(response.body.directionsTarget).toEqual({ latitude: 33.51, longitude: 36.27 });
+    expect(response.body.directionsUrl).toBeUndefined();
     expect(response.body.hidden).toBeUndefined();
     await request(app.getHttpServer()).get(`/client-app/places/${hidden.id}`).expect(404);
     const counts = await request(app.getHttpServer()).get('/client-app/places/counts').expect(200);
