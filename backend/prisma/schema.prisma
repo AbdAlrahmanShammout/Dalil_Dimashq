@@ -36,6 +36,7 @@ model User {
   profileChangeRequests ProfileChangeRequest[]
   legalAcceptances LegalAcceptance[]
   bookingBans      BookingBan[]
+  bookings         Booking[]
 }
 
 model Profile {
@@ -208,6 +209,7 @@ model Place {
   bookingSettings PlaceBookingSettings?
   bookingBlackouts BookingBlackout[]
   bookingResponseHours BookingResponseHour[]
+  bookings             Booking[]
 
   @@index([areaId])
   @@index([status, type])
@@ -264,6 +266,38 @@ model BookingBan {
   endsAt   DateTime?
 
   @@index([userId])
+}
+
+enum BookingStatus {
+  waiting
+  pending
+  confirmed
+  rejected
+  expired
+  cancelled_by_customer
+  cancelled_by_owner
+  attended
+  no_show
+}
+
+model Booking {
+  id                 String        @id @default(cuid())
+  clientKey          String
+  userId             String
+  user               User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  placeId            String
+  place              Place         @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  startsAt           DateTime
+  partySize          Int
+  note               String?
+  offerId            String?
+  status             BookingStatus @default(pending)
+  rejectionReason    String?
+  cancellationReason String?
+  createdAt          DateTime      @default(now())
+
+  @@unique([userId, clientKey])
+  @@index([userId, createdAt])
 }
 
 model Amenity {

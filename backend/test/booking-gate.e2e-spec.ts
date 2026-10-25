@@ -58,7 +58,12 @@ describe('booking gate', () => {
     const closedResponse = await request(app.getHttpServer())
       .post('/client-app/bookings')
       .set('Authorization', `Bearer ${session.body.accessToken}`)
-      .send({ placeId: closed.id })
+      .send({
+        placeId: closed.id,
+        clientKey: 'key-1',
+        startsAt: '2026-11-01T18:00:00.000Z',
+        partySize: 2,
+      })
       .expect(400);
     expect(closedResponse.body.code).toBe('booking_closed');
     const open = await prisma.place.create({
@@ -74,9 +79,26 @@ describe('booking gate', () => {
     const allowed = await request(app.getHttpServer())
       .post('/client-app/bookings')
       .set('Authorization', `Bearer ${session.body.accessToken}`)
-      .send({ placeId: open.id })
+      .send({
+        placeId: open.id,
+        clientKey: 'key-1',
+        startsAt: '2026-11-01T18:00:00.000Z',
+        partySize: 2,
+      })
       .expect(201);
-    expect(allowed.body.code).toBe('booking_open');
+    expect(allowed.body.id).toEqual(expect.any(String));
+    const repeat = await request(app.getHttpServer())
+      .post('/client-app/bookings')
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .send({
+        placeId: open.id,
+        clientKey: 'key-1',
+        startsAt: '2026-11-02T18:00:00.000Z',
+        partySize: 3,
+      })
+      .expect(201);
+    expect(repeat.body.id).toBe(allowed.body.id);
+    expect(await prisma.booking.count()).toBe(1);
     const user = await prisma.user.findUniqueOrThrow({ where: { email } });
     await prisma.bookingBan.create({
       data: {
@@ -89,7 +111,12 @@ describe('booking gate', () => {
     const banned = await request(app.getHttpServer())
       .post('/client-app/bookings')
       .set('Authorization', `Bearer ${session.body.accessToken}`)
-      .send({ placeId: open.id })
+      .send({
+        placeId: open.id,
+        clientKey: 'key-2',
+        startsAt: '2026-11-01T18:00:00.000Z',
+        partySize: 2,
+      })
       .expect(403);
     expect(banned.body.code).toBe('booking_banned');
     await request(app.getHttpServer())
