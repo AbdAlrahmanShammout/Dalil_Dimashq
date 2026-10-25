@@ -8,4 +8,8 @@ export interface SiteContacts {
 
 export abstract class SiteContactRepository {
   abstract read(): Promise<SiteContacts>;
+
+  save(_input: SiteContacts): Promise<SiteContacts> {
+    return Promise.reject(new Error('save is not implemented'));
+  }
 }
