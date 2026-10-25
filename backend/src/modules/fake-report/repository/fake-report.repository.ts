@@ -28,4 +28,16 @@ export abstract class FakeReportRepository {
   createBookingReport(_input: CreateBookingReportInput): Promise<{ id: string } | null> {
     return Promise.resolve(null);
   }
+
+  decide(_input: DecideFakeReportInput): Promise<'missing' | 'closed' | 'saved'> {
+    return Promise.resolve('missing');
+  }
+}
+
+export interface DecideFakeReportInput {
+  readonly id: string;
+  readonly confirmed: boolean;
+  readonly note: string;
+  readonly badFaith: boolean;
+  readonly now: Date;
 }

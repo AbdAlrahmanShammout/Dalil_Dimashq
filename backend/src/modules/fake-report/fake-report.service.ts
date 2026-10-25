@@ -81,4 +81,33 @@ export class FakeReportService {
     }
     return created;
   }
+
+  /**
+   * Confirms or rejects an open report. Confirming a booking report starts the next ban.
+   */
+  async decide(input: {
+    readonly id: string;
+    readonly decision: 'confirmed' | 'rejected';
+    readonly note: string;
+    readonly badFaith: boolean;
+    readonly now?: Date;
+  }): Promise<void> {
+    const note = input.note.trim();
+    if (!note) {
+      throw new InvalidStateException({ message: 'Reason is required', code: 'reason' });
+    }
+    const result = await this.fakeReportRepository.decide({
+      id: input.id,
+      confirmed: input.decision === 'confirmed',
+      note,
+      badFaith: input.badFaith,
+      now: input.now ?? new Date(),
+    });
+    if (result === 'missing') {
+      throw new ResourceNotFoundException('FakeReport', input.id);
+    }
+    if (result === 'closed') {
+      throw new InvalidStateException({ message: 'Already decided', code: 'invalid_state' });
+    }
+  }
 }

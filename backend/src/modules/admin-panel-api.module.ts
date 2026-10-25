@@ -16,6 +16,8 @@ import { SiteContactAdminPanelController } from '@/modules/contact/site-contact.
 import { SuggestionAdminPanelController } from '@/modules/contact/suggestion.admin-panel.controller';
 import { ContactMessageAdminPanelController } from '@/modules/contact/contact-message.admin-panel.controller';
 import { EventAdminPanelController } from '@/modules/event/event.admin-panel.controller';
+import { FakeReportAdminPanelController } from '@/modules/fake-report/fake-report.admin-panel.controller';
+import { FakeReportModule } from '@/modules/fake-report/fake-report.module';
 import { EventModule } from '@/modules/event/event.module';
 import { ContactModule } from '@/modules/contact/contact.module';
 import { LegalAdminPanelController } from '@/modules/legal/legal.admin-panel.controller';
@@ -48,6 +50,7 @@ import { UserModule } from '@/modules/user/user.module';
     PaymentModule,
     RatingModule,
     BookingModule,
+    FakeReportModule,
   ],
   controllers: [
     AuthAdminPanelController,
@@ -66,6 +69,7 @@ import { UserModule } from '@/modules/user/user.module';
     PaymentAdminPanelController,
     RatingAdminPanelController,
     BookingEnabledAdminPanelController,
+    FakeReportAdminPanelController,
     PlacePaymentAdminPanelController,
     OwnerLinkAdminPanelController,
     ChangeRequestAdminPanelController,

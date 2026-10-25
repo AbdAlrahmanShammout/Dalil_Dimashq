@@ -11,6 +11,26 @@ export interface BanExplanation {
 
 const FIRST_BAN_LEVEL = 1;
 const SECOND_BAN_LEVEL = 2;
+const DAY_MS = 24 * 60 * 60 * 1000;
+const FIRST_BAN_DAYS = 15;
+const SECOND_BAN_DAYS = 45;
+
+/**
+ * The next ban after `existingCount` bans that still count. Level 3 does not end.
+ */
+export function nextBan(
+  existingCount: number,
+  now: Date,
+): { readonly level: number; readonly endsAt: Date | null } {
+  const level = existingCount + 1;
+  if (level === FIRST_BAN_LEVEL) {
+    return { level, endsAt: new Date(now.getTime() + FIRST_BAN_DAYS * DAY_MS) };
+  }
+  if (level === SECOND_BAN_LEVEL) {
+    return { level, endsAt: new Date(now.getTime() + SECOND_BAN_DAYS * DAY_MS) };
+  }
+  return { level, endsAt: null };
+}
 
 /**
  * Level 1 lasts 15 days, level 2 lasts 45 days, and level 3 or a missing end is permanent.

@@ -402,10 +402,13 @@ model FakeReport {
   place     Place            @relation(fields: [placeId], references: [id], onDelete: Cascade)
   bookingId String?          @unique
   booking   Booking?         @relation(fields: [bookingId], references: [id], onDelete: SetNull)
-  status    FakeReportStatus @default(open)
-  message   String
-  replies   FakeReportReply[]
-  createdAt DateTime         @default(now())
+  status       FakeReportStatus @default(open)
+  message      String
+  decisionNote String?
+  badFaith     Boolean          @default(false)
+  decidedAt    DateTime?
+  replies      FakeReportReply[]
+  createdAt    DateTime         @default(now())
 
   @@index([userId, status])
   @@index([placeId, createdAt])

@@ -3,9 +3,10 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
 import { TransactionContext } from '@/common/base/transaction-runner';
-
+import { nextBan } from '@/modules/booking/booking-ban';
 import {
   CreateBookingReportInput,
+  DecideFakeReportInput,
   FakeReportRepository,
   OwnedFakeReport,
 } from '@/modules/fake-report/repository/fake-report.repository';
@@ -57,6 +58,61 @@ export class FakeReportPrismaRepository extends FakeReportRepository {
       }
       throw error;
     }
+  }
+
+  override async decide(input: DecideFakeReportInput): Promise<'missing' | 'closed' | 'saved'> {
+    return this.prisma.$transaction(async (tx) => {
+      const report = await tx.fakeReport.findUnique({
+        where: { id: input.id },
+        include: { booking: true },
+      });
+      if (!report) {
+        return 'missing';
+      }
+      if (report.status !== 'open') {
+        return 'closed';
+      }
+      await tx.fakeReport.update({
+        where: { id: report.id },
+        data: {
+          status: input.confirmed ? 'confirmed' : 'rejected',
+          decisionNote: input.note,
+          badFaith: input.badFaith,
+          decidedAt: input.now,
+        },
+      });
+      if (!report.booking) {
+        return 'saved';
+      }
+      await tx.notification.create({
+        data: {
+          userId: report.booking.userId,
+          kind: 'fake_report_decided',
+          bookingId: report.booking.id,
+        },
+      });
+      if (!input.confirmed) {
+        return 'saved';
+      }
+      const existing = await tx.bookingBan.count({ where: { userId: report.booking.userId } });
+      const ban = nextBan(existing, input.now);
+      await tx.bookingBan.create({
+        data: {
+          userId: report.booking.userId,
+          level: ban.level,
+          startsAt: input.now,
+          endsAt: ban.endsAt,
+        },
+      });
+      await tx.notification.create({
+        data: {
+          userId: report.booking.userId,
+          kind: 'booking_ban_started',
+          bookingId: report.booking.id,
+        },
+      });
+      return 'saved';
+    });
   }
 
   private client(context?: TransactionContext): Prisma.TransactionClient | PrismaProviderService {
