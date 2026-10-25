@@ -8,6 +8,8 @@ import { AmenityClientAppController } from '@/modules/amenity/amenity.client-app
 import { AmenityModule } from '@/modules/amenity/amenity.module';
 import { EventClientAppController } from '@/modules/event/event.client-app.controller';
 import { EventModule } from '@/modules/event/event.module';
+import { LegalClientAppController } from '@/modules/legal/legal.client-app.controller';
+import { LegalModule } from '@/modules/legal/legal.module';
 import { OfferClientAppController } from '@/modules/offer/offer.client-app.controller';
 import { OfferPlaceClientAppController } from '@/modules/offer/offer-place.client-app.controller';
 import { OfferModule } from '@/modules/offer/offer.module';
@@ -36,6 +38,7 @@ import { UserModule } from '@/modules/user/user.module';
     PlacePhotoModule,
     OfferModule,
     EventModule,
+    LegalModule,
   ],
   controllers: [
     AuthClientAppController,
@@ -51,6 +54,7 @@ import { UserModule } from '@/modules/user/user.module';
     OfferClientAppController,
     OfferPlaceClientAppController,
     EventClientAppController,
+    LegalClientAppController,
   ],
 })
 export class ClientAppApiModule {}

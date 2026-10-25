@@ -72,6 +72,22 @@ model ProfileChangeRequest {
   @@index([userId, status])
 }
 
+enum LegalKind {
+  terms
+  privacy
+}
+
+model LegalDocument {
+  id          String          @id @default(cuid())
+  kind        LegalKind
+  language    ProfileLanguage
+  body        String
+  isCurrent   Boolean         @default(false)
+  publishedAt DateTime        @default(now())
+
+  @@index([kind, language, isCurrent])
+}
+
 model EmailCode {
   id         String    @id @default(cuid())
   userId     String
