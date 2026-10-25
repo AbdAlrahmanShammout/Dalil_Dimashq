@@ -80,6 +80,18 @@ export class PaymentPrismaRepository extends PaymentRepository {
       voidReason: row.void?.reason ?? null,
     }));
   }
+
+  override async findById(id: string): Promise<PaymentHistoryItem | null> {
+    const row = await this.prisma.payment.findUnique({ where: { id }, include: { void: true } });
+    if (!row) {
+      return null;
+    }
+    return {
+      ...toRecord(row),
+      voidedAt: row.void?.voidedAt ?? null,
+      voidReason: row.void?.reason ?? null,
+    };
+  }
 }
 
 function toRecord(row: {

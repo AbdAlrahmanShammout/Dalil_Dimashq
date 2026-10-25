@@ -11,6 +11,7 @@ import { OwnerBookingDashboardController } from '@/modules/booking/owner-booking
 import { OfferDashboardOwnerController } from '@/modules/offer/offer.dashboard-owner.controller';
 import { PlacePhotoDashboardOwnerController } from '@/modules/place-photo/place-photo.dashboard-owner.controller';
 import { NotificationDashboardOwnerController } from '@/modules/notification/notification.dashboard-owner.controller';
+import { PaymentReceiptDashboardOwnerController } from '@/modules/payment/payment-receipt.dashboard-owner.controller';
 import { PlacePaymentDashboardOwnerController } from '@/modules/payment/place-payment.dashboard-owner.controller';
 import { PaymentModule } from '@/modules/payment/payment.module';
 import { NotificationModule } from '@/modules/notification/notification.module';
@@ -37,6 +38,7 @@ import { UserModule } from '@/modules/user/user.module';
     OwnerBookingDashboardController,
     NotificationDashboardOwnerController,
     PlacePaymentDashboardOwnerController,
+    PaymentReceiptDashboardOwnerController,
   ],
 })
 export class DashboardOwnerApiModule {}

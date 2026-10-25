@@ -91,6 +91,17 @@ export class PaymentService {
   async listForPlace(placeId: string): Promise<PaymentHistoryItem[]> {
     return this.paymentRepository.listByPlace(placeId);
   }
+
+  /**
+   * Receipt fields for one payment, including a void when one was recorded.
+   */
+  async readReceipt(id: string): Promise<PaymentHistoryItem> {
+    const payment = await this.paymentRepository.findById(id);
+    if (!payment) {
+      throw new ResourceNotFoundException('Payment', id);
+    }
+    return payment;
+  }
 }
 
 function receiptPrefix(now: Date): string {

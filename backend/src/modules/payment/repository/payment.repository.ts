@@ -61,4 +61,8 @@ export abstract class PaymentRepository {
   listByPlace(_placeId: string): Promise<PaymentHistoryItem[]> {
     return Promise.resolve([]);
   }
+
+  findById(_id: string): Promise<PaymentHistoryItem | null> {
+    return Promise.resolve(null);
+  }
 }
