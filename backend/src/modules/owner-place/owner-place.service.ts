@@ -7,6 +7,7 @@ import { DEFAULT_PAGE_LIMIT, DEFAULT_PAGE_OFFSET } from '@/modules/place/enum/ge
 import {
   ImmediatePlaceFields,
   OwnedPlaceSummary,
+  OwnerLinkRow,
   OwnerPlaceDetail,
   PlaceNamePage,
   PlaceOwnerRepository,
@@ -119,6 +120,41 @@ export class OwnerPlaceService {
       throw new AccessDeniedException({ message: 'Premium required', code: 'premium_required' });
     }
     return this.placeOwnerRepository.updateImmediate(input.placeId, fields);
+  }
+
+  /**
+   * Links an owner account to a place. A visitor-only account is refused.
+   */
+  async linkForStaff(placeId: string, userId: string): Promise<void> {
+    const place = await this.placeOwnerRepository.findDetail(placeId);
+    if (!place) {
+      throw new ResourceNotFoundException('Place', placeId);
+    }
+    const account = await this.placeOwnerRepository.findAccount(userId);
+    if (!account) {
+      throw new ResourceNotFoundException('User', userId);
+    }
+    if (!account.isOwner) {
+      throw new AccessDeniedException({ message: 'Not an owner account', code: 'not_allowed' });
+    }
+    await this.placeOwnerRepository.linkOwner(userId, placeId);
+  }
+
+  /**
+   * Removes one owner link.
+   */
+  async unlinkForStaff(placeId: string, userId: string): Promise<void> {
+    const removed = await this.placeOwnerRepository.unlinkOwner(placeId, userId);
+    if (!removed) {
+      throw new ResourceNotFoundException('PlaceOwner', userId);
+    }
+  }
+
+  /**
+   * Every place-owner link for staff.
+   */
+  async listLinks(): Promise<OwnerLinkRow[]> {
+    return this.placeOwnerRepository.listLinks();
   }
 }
 

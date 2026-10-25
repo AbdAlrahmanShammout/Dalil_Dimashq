@@ -8,17 +8,20 @@ import { AreaAdminPanelController } from '@/modules/area/area.admin-panel.contro
 import { AreaModule } from '@/modules/area/area.module';
 import { PlaceAdminPanelController } from '@/modules/place/place.admin-panel.controller';
 import { PlaceModule } from '@/modules/place/place.module';
+import { OwnerLinkAdminPanelController } from '@/modules/owner-place/owner-link.admin-panel.controller';
+import { OwnerPlaceModule } from '@/modules/owner-place/owner-place.module';
 import { StaffAdminPanelController } from '@/modules/user/staff.admin-panel.controller';
 import { UserModule } from '@/modules/user/user.module';
 
 @Module({
-  imports: [AuthModule, UserModule, AreaModule, AmenityModule, PlaceModule],
+  imports: [AuthModule, UserModule, AreaModule, AmenityModule, PlaceModule, OwnerPlaceModule],
   controllers: [
     AuthAdminPanelController,
     StaffAdminPanelController,
     AreaAdminPanelController,
     AmenityAdminPanelController,
     PlaceAdminPanelController,
+    OwnerLinkAdminPanelController,
   ],
 })
 export class AdminPanelApiModule {}

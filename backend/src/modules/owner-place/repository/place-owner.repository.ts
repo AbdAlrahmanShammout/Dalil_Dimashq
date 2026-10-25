@@ -70,4 +70,23 @@ export abstract class PlaceOwnerRepository {
   isLinked(_userId: string, _placeId: string): Promise<boolean> {
     return Promise.resolve(false);
   }
+
+  findAccount(_userId: string): Promise<{ isOwner: boolean } | null> {
+    return Promise.resolve(null);
+  }
+
+  unlinkOwner(_placeId: string, _userId: string): Promise<boolean> {
+    return Promise.resolve(false);
+  }
+
+  listLinks(): Promise<OwnerLinkRow[]> {
+    return Promise.resolve([]);
+  }
+}
+
+export interface OwnerLinkRow {
+  readonly placeId: string;
+  readonly placeNameEn: string;
+  readonly userId: string;
+  readonly email: string;
 }

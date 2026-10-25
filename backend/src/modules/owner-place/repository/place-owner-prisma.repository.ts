@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import {
   ClaimTarget,
   ImmediatePlaceFields,
+  OwnerLinkRow,
   OwnedPlaceSummary,
   OwnerPlaceDetail,
   PlaceNamePage,
@@ -153,5 +154,31 @@ export class PlaceOwnerPrismaRepository extends PlaceOwnerRepository {
       descriptionAr: row.descriptionAr,
       descriptionEn: row.descriptionEn,
     };
+  }
+
+  override async findAccount(userId: string): Promise<{ isOwner: boolean } | null> {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: { isOwner: true },
+    });
+    return user ? { isOwner: user.isOwner } : null;
+  }
+
+  override async unlinkOwner(placeId: string, userId: string): Promise<boolean> {
+    const result = await this.prisma.placeOwner.deleteMany({ where: { placeId, userId } });
+    return result.count > 0;
+  }
+
+  override async listLinks(): Promise<OwnerLinkRow[]> {
+    const rows = await this.prisma.placeOwner.findMany({
+      include: { place: true, user: true },
+      orderBy: { createdAt: 'desc' },
+    });
+    return rows.map((row) => ({
+      placeId: row.placeId,
+      placeNameEn: row.place.nameEn,
+      userId: row.userId,
+      email: row.user.email,
+    }));
   }
 }
