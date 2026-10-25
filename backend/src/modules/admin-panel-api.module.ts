@@ -35,6 +35,8 @@ import { EventModule } from '@/modules/event/event.module';
 import { ContactModule } from '@/modules/contact/contact.module';
 import { LegalAdminPanelController } from '@/modules/legal/legal.admin-panel.controller';
 import { LegalModule } from '@/modules/legal/legal.module';
+import { PanelSummaryAdminPanelController } from '@/modules/panel-summary/panel-summary.admin-panel.controller';
+import { PanelSummaryModule } from '@/modules/panel-summary/panel-summary.module';
 import { OwnerLinkAdminPanelController } from '@/modules/owner-place/owner-link.admin-panel.controller';
 import { OwnerPlaceModule } from '@/modules/owner-place/owner-place.module';
 import { ProfileChangeAdminPanelController } from '@/modules/user/profile-change.admin-panel.controller';
@@ -55,6 +57,7 @@ import { UserModule } from '@/modules/user/user.module';
     UserModule,
     AuditLogModule,
     AdminAlertModule,
+    PanelSummaryModule,
     AreaModule,
     AmenityModule,
     PlaceModule,
@@ -77,6 +80,7 @@ import { UserModule } from '@/modules/user/user.module';
     UserContactAdminPanelController,
     AuditLogAdminPanelController,
     AdminAlertAdminPanelController,
+    PanelSummaryAdminPanelController,
     ProfileChangeAdminPanelController,
     LegalAdminPanelController,
     SiteContactAdminPanelController,

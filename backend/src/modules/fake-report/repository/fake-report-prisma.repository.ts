@@ -68,6 +68,10 @@ export class FakeReportPrismaRepository extends FakeReportRepository {
     }
   }
 
+  override async countOpen(): Promise<number> {
+    return this.prisma.fakeReport.count({ where: { status: 'open' } });
+  }
+
   override async decide(input: DecideFakeReportInput): Promise<'missing' | 'closed' | 'saved'> {
     return this.prisma.$transaction(async (tx) => {
       const report = await tx.fakeReport.findUnique({

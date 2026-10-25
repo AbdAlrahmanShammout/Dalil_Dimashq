@@ -273,6 +273,13 @@ export class UserService {
   }
 
   /**
+   * Profile name and birth-year requests that are still pending.
+   */
+  async countPendingProfileChanges(): Promise<number> {
+    return this.userRepository.countPendingProfileChanges();
+  }
+
+  /**
    * Phone and email for staff. The password hash is never included.
    */
   async readContacts(id: string): Promise<UserContacts> {

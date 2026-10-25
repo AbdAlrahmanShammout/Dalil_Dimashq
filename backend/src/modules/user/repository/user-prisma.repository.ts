@@ -266,6 +266,10 @@ export class UserPrismaRepository extends UserRepository {
     };
   }
 
+  override async countPendingProfileChanges(): Promise<number> {
+    return this.prisma.profileChangeRequest.count({ where: { status: 'pending' } });
+  }
+
   override async findProfileChange(id: string): Promise<ProfileChangeRow | null> {
     const row = await this.prisma.profileChangeRequest.findUnique({ where: { id } });
     return row ? { id: row.id, status: row.status } : null;

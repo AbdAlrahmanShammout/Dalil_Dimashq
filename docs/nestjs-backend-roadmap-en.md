@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–139 are done. Task 22 is skipped. Next is task 140.
+Status: tasks 1–21 and 23–140 are done. Task 22 is skipped. Next is task 141.
 
 ### 1. Foundation
 
@@ -341,7 +341,7 @@ Status: tasks 1–21 and 23–139 are done. Task 22 is skipped. Next is task 140
 | ✅ 137 | Admin alerts | `GET /admin-panel/alerts` lists unread operational alerts. `POST .../read` marks one |
 | ✅ 138 | Staff hours override | `PUT /admin-panel/places/:id/hours` always saves, including Ramadan periods, and does not create a review request. `POST` and `DELETE` on `/admin-panel/places/:id/response-hours` and `/admin-panel/places/:id/blackouts` are the same direct write for an editor |
 | ✅ 139 | Moderate photos and offers | `DELETE /admin-panel/photos/:id` and `DELETE /admin-panel/offers/:id` remove a row that breaks the rules, Premium or not |
-| 140 | Panel home counts | `GET /admin-panel/summary` returns pending change requests, pending profile changes, open fake reports, and unread alerts |
+| ✅ 140 | Panel home counts | `GET /admin-panel/summary` returns pending change requests, pending profile changes, open fake reports, and unread alerts |
 
 ### 10. Empty database and handoff
 

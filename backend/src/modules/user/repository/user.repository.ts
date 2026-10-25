@@ -94,6 +94,10 @@ export abstract class UserRepository {
     return Promise.resolve(null);
   }
 
+  countPendingProfileChanges(): Promise<number> {
+    return Promise.resolve(0);
+  }
+
   findProfileChange(_id: string): Promise<ProfileChangeRow | null> {
     return Promise.resolve(null);
   }

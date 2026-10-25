@@ -29,6 +29,10 @@ export abstract class FakeReportRepository {
     return Promise.resolve(null);
   }
 
+  countOpen(): Promise<number> {
+    return Promise.resolve(0);
+  }
+
   decide(_input: DecideFakeReportInput): Promise<'missing' | 'closed' | 'saved'> {
     return Promise.resolve('missing');
   }

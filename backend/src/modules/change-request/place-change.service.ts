@@ -109,6 +109,10 @@ export class PlaceChangeService {
   /**
    * Pending, approved, and rejected requests. Approved is also labeled accepted for the client.
    */
+  async countPending(): Promise<number> {
+    return this.placeChangeRepository.countPending();
+  }
+
   async listForPlace(placeId: string): Promise<PlaceChangeRecord[]> {
     return this.placeChangeRepository.listByPlace(placeId);
   }

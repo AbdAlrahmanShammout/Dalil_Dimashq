@@ -48,6 +48,10 @@ export class PlaceChangePrismaRepository extends PlaceChangeRepository {
     };
   }
 
+  override async countPending(): Promise<number> {
+    return this.prisma.placeChangeRequest.count({ where: { status: 'pending' } });
+  }
+
   override async listByPlace(placeId: string): Promise<PlaceChangeRecord[]> {
     const rows = await this.prisma.placeChangeRequest.findMany({
       where: { placeId },

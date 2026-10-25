@@ -88,6 +88,13 @@ export class FakeReportService {
   }
 
   /**
+   * Reports that are still open.
+   */
+  async countOpen(): Promise<number> {
+    return this.fakeReportRepository.countOpen();
+  }
+
+  /**
    * Confirms or rejects an open report. Confirming a booking report starts the next ban.
    */
   async decide(input: {

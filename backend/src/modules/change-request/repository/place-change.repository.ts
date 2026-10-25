@@ -63,4 +63,8 @@ export abstract class PlaceChangeRepository {
   applyDecision(_input: ApplyChangeDecisionInput): Promise<PlaceChangeRecord | null> {
     return Promise.resolve(null);
   }
+
+  countPending(): Promise<number> {
+    return Promise.resolve(0);
+  }
 }
