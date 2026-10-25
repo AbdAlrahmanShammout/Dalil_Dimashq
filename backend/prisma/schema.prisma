@@ -43,6 +43,7 @@ model User {
   favorites        Favorite[]
   recentPlaces     RecentPlace[]
   ratings          Rating[]
+  placeChangeRequests PlaceChangeRequest[]
 }
 
 model Profile {
@@ -220,6 +221,7 @@ model Place {
   favorites            Favorite[]
   recentPlaces         RecentPlace[]
   ratings              Rating[]
+  changeRequests       PlaceChangeRequest[]
 
   @@index([areaId])
   @@index([status, type])
@@ -427,6 +429,38 @@ model Rating {
 
   @@unique([userId, placeId])
   @@index([placeId, status])
+}
+
+enum PlaceChangeKind {
+  claim
+  edit
+  remove
+  report
+  unlink
+}
+
+enum PlaceChangeStatus {
+  pending
+  approved
+  rejected
+}
+
+model PlaceChangeRequest {
+  id           String            @id @default(cuid())
+  placeId      String
+  place        Place             @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind         PlaceChangeKind
+  status       PlaceChangeStatus @default(pending)
+  reason       String?
+  payload      Json?
+  decisionNote String?
+  createdAt    DateTime          @default(now())
+  decidedAt    DateTime?
+
+  @@index([placeId, status])
+  @@index([userId])
 }
 
 model Amenity {

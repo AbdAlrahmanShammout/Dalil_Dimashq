@@ -198,6 +198,10 @@ export const ERROR_TEXT: Readonly<Record<string, ErrorText>> = {
     ar: 'يرجى توثيق رقم الهاتف قبل التقييم.',
     en: 'Verify your phone before rating a place.',
   },
+  reason: {
+    ar: 'يرجى كتابة السبب.',
+    en: 'Please write the reason.',
+  },
   password_invalid: {
     ar: 'يجب أن تتكون كلمة المرور من 10 أحرف على الأقل وتتضمن حروفاً وأرقاماً.',
     en: 'Password must be at least 10 characters and include letters and digits.',

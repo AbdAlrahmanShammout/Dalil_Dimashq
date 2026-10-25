@@ -21,6 +21,8 @@ import { RecentPlaceClientAppController } from '@/modules/recent-view/recent-pla
 import { RecentViewModule } from '@/modules/recent-view/recent-view.module';
 import { RatingClientAppController } from '@/modules/rating/rating.client-app.controller';
 import { RatingModule } from '@/modules/rating/rating.module';
+import { PlaceReportClientAppController } from '@/modules/change-request/place-report.client-app.controller';
+import { ChangeRequestModule } from '@/modules/change-request/change-request.module';
 import { NotificationClientAppController } from '@/modules/notification/notification.client-app.controller';
 import { NotificationModule } from '@/modules/notification/notification.module';
 import { ContactClientAppController } from '@/modules/contact/contact.client-app.controller';
@@ -66,6 +68,7 @@ import { UserModule } from '@/modules/user/user.module';
     FavoriteModule,
     RecentViewModule,
     RatingModule,
+    ChangeRequestModule,
   ],
   controllers: [
     AuthClientAppController,
@@ -93,6 +96,7 @@ import { UserModule } from '@/modules/user/user.module';
     FavoriteClientAppController,
     RecentPlaceClientAppController,
     RatingClientAppController,
+    PlaceReportClientAppController,
   ],
 })
 export class ClientAppApiModule {}
