@@ -112,6 +112,7 @@ model Place {
   amenities   PlaceAmenity[]
   photos      PlacePhoto[]
   offers      Offer[]
+  events      Event[]
 
   @@index([areaId])
   @@index([status, type])
@@ -182,6 +183,25 @@ model Offer {
 
   @@index([placeId, endsAt])
   @@index([published, startsAt, endsAt])
+}
+
+model Event {
+  id            String   @id @default(cuid())
+  placeId       String?
+  place         Place?   @relation(fields: [placeId], references: [id], onDelete: SetNull)
+  titleAr       String
+  titleEn       String
+  descriptionAr String
+  descriptionEn String
+  addressAr     String?
+  addressEn     String?
+  phone         String?
+  posterKey     String?
+  published     Boolean  @default(false)
+  startsAt      DateTime
+  createdAt     DateTime @default(now())
+
+  @@index([published, startsAt])
 }
 
 model RefreshToken {
