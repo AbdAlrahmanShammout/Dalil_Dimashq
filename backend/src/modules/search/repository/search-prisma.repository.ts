@@ -4,7 +4,12 @@ import { Prisma } from '@prisma/client';
 import { PlaceMapper } from '@/modules/place/mapper/place.mapper';
 import { placeDetailsInclude } from '@/modules/place/types/place-details.include';
 import { PlaceSearchQuery } from '@/modules/search/defs/place-search-query';
-import { PlaceSearchPage, SearchRepository } from '@/modules/search/repository/search.repository';
+import {
+  MapPoint,
+  PlaceMapQuery,
+  PlaceSearchPage,
+  SearchRepository,
+} from '@/modules/search/repository/search.repository';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
 
 @Injectable()
@@ -57,7 +62,33 @@ export class SearchPrismaRepository extends SearchRepository {
     };
   }
 
-  private where(query: PlaceSearchQuery): Prisma.Sql {
+  async listMap(query: PlaceMapQuery): Promise<MapPoint[]> {
+    const located = Prisma.sql`${this.where(query)} AND p.latitude IS NOT NULL AND p.longitude IS NOT NULL`;
+    const order =
+      query.sort === 'near' && query.latitude !== undefined && query.longitude !== undefined
+        ? Prisma.sql`(
+            6371 * acos(LEAST(1::float8, GREATEST(-1::float8,
+              cos(radians(${query.latitude})) * cos(radians(p.latitude))
+              * cos(radians(p.longitude) - radians(${query.longitude}))
+              + sin(radians(${query.latitude})) * sin(radians(p.latitude))
+            )))
+          ) ASC`
+        : Prisma.sql`p."nameEn" ASC`;
+    return this.prisma.$queryRaw<MapPoint[]>(Prisma.sql`
+      SELECT p.id, p.latitude, p.longitude, p.type::text AS type
+      FROM "Place" p
+      WHERE ${located}
+      ORDER BY ${order}
+    `);
+  }
+
+  private where(query: {
+    text?: string;
+    type?: PlaceSearchQuery['type'];
+    areaId?: string;
+    minimumStars?: number;
+    hasPhone?: boolean;
+  }): Prisma.Sql {
     const filters: Prisma.Sql[] = [Prisma.sql`p.status <> 'hidden'`];
     if (query.text) {
       const pattern = `%${query.text}%`;

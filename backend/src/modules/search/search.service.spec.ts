@@ -10,6 +10,10 @@ class MemorySearchRepository extends SearchRepository {
     this.lastQuery = query;
     return { items: [] as PlaceEntity[], total: 0, limit: query.limit, offset: query.offset };
   }
+
+  async listMap(): Promise<never[]> {
+    return [];
+  }
 }
 
 describe('SearchService', () => {
@@ -20,6 +24,15 @@ describe('SearchService', () => {
       sort: 'completeness',
       limit: 20,
       offset: 0,
+    });
+  });
+
+  it('refuses a near sort that has no coordinate', async () => {
+    const repository = new MemorySearchRepository();
+    await expect(
+      new SearchService(repository).listMapPoints({ sort: 'near' }),
+    ).rejects.toMatchObject({
+      code: 'near_coordinate_required',
     });
   });
 });

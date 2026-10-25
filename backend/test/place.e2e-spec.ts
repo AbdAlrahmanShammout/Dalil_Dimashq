@@ -135,6 +135,43 @@ describe('place summary', () => {
     ]);
   });
 
+  it('orders map points by stored distance and does not call Google', async () => {
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const near = await prisma.place.create({
+      data: {
+        nameAr: 'قريب',
+        nameEn: 'Near',
+        type: 'cafe',
+        status: 'active',
+        areaId: area.id,
+        latitude: 33.51,
+        longitude: 36.27,
+      },
+    });
+    await prisma.place.create({
+      data: {
+        nameAr: 'بعيد',
+        nameEn: 'Far',
+        type: 'cafe',
+        status: 'active',
+        areaId: area.id,
+        latitude: 33.7,
+        longitude: 36.5,
+      },
+    });
+    const missing = await request(app.getHttpServer())
+      .get('/client-app/places/map')
+      .query({ sort: 'near' })
+      .expect(400);
+    expect(missing.body.code).toBe('near_coordinate_required');
+    const response = await request(app.getHttpServer())
+      .get('/client-app/places/map')
+      .query({ sort: 'near', latitude: 33.51, longitude: 36.27, type: 'cafe' })
+      .expect(200);
+    expect(response.body[0].id).toBe(near.id);
+    expect(response.body).toHaveLength(2);
+  });
+
   it('returns featured places as summaries', async () => {
     const area = await prisma.area.create({ data: { nameAr: 'الشعلان', nameEn: 'Shaalan' } });
     const featured = await prisma.place.create({

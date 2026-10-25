@@ -1,8 +1,17 @@
 import { Injectable } from '@nestjs/common';
 
+import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
 import { DEFAULT_PAGE_LIMIT, DEFAULT_PAGE_OFFSET } from '@/modules/place/enum/general.enum';
-import { PlaceSearchQuery, PlaceSearchSort } from '@/modules/search/defs/place-search-query';
-import { PlaceSearchPage, SearchRepository } from '@/modules/search/repository/search.repository';
+import {
+  PlaceMapSort,
+  PlaceSearchQuery,
+  PlaceSearchSort,
+} from '@/modules/search/defs/place-search-query';
+import {
+  MapPoint,
+  PlaceSearchPage,
+  SearchRepository,
+} from '@/modules/search/repository/search.repository';
 
 export interface SearchPlacesServiceInput {
   readonly text?: string;
@@ -35,6 +44,38 @@ export class SearchService {
       sort,
       limit,
       offset,
+    });
+  }
+
+  /**
+   * Map points for the same filters as search. Near-me uses stored coordinates only.
+   */
+  async listMapPoints(input: {
+    text?: string;
+    type?: PlaceSearchQuery['type'];
+    areaId?: string;
+    minimumStars?: number;
+    hasPhone?: boolean;
+    sort?: PlaceMapSort;
+    latitude?: number;
+    longitude?: number;
+  }): Promise<MapPoint[]> {
+    const sort = input.sort ?? 'name';
+    if (sort === 'near' && (input.latitude === undefined || input.longitude === undefined)) {
+      throw new InvalidStateException({
+        message: 'A coordinate is required to sort by distance',
+        code: 'near_coordinate_required',
+      });
+    }
+    return this.searchRepository.listMap({
+      text: input.text,
+      type: input.type,
+      areaId: input.areaId,
+      minimumStars: input.minimumStars,
+      hasPhone: input.hasPhone,
+      sort,
+      latitude: input.latitude,
+      longitude: input.longitude,
     });
   }
 }

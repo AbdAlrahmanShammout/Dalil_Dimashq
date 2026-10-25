@@ -1,6 +1,7 @@
 import { PlaceType } from '@/modules/place/enum/general.enum';
 
 export type PlaceSearchSort = 'completeness' | 'name';
+export type PlaceMapSort = 'name' | 'near';
 
 export interface PlaceSearchQuery {
   readonly text?: string;

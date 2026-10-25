@@ -8,7 +8,9 @@ import { PlaceCountsResponseDto } from '@/modules/place/dto/response/place-count
 import { PlaceSummaryResponseDto } from '@/modules/place/dto/response/place-summary-response.dto';
 import { PlaceService } from '@/modules/place/place.service';
 import { SearchPlacesQueryDto } from '@/modules/search/dto/request/search-places-query.dto';
+import { MapPlacesQueryDto } from '@/modules/search/dto/request/map-places-query.dto';
 import { PlaceSearchResponseDto } from '@/modules/search/dto/response/place-search-response.dto';
+import { MapPointResponseDto } from '@/modules/search/dto/response/map-point-response.dto';
 import { SearchService } from '@/modules/search/search.service';
 
 @ApiTags('places')
@@ -32,6 +34,23 @@ export class PlaceClientAppController {
   async listFeatured(): Promise<PlaceSummaryResponseDto[]> {
     const places = await this.placeService.listFeaturedPlaces();
     return places.map((place) => new PlaceSummaryResponseDto(place));
+  }
+
+  @PublicRoute()
+  @Get('map')
+  async listMap(@Query() query: MapPlacesQueryDto): Promise<MapPointResponseDto[]> {
+    const { text, type, areaId, minimumStars, hasPhone, sort, latitude, longitude } = query;
+    const points = await this.searchService.listMapPoints({
+      text,
+      type,
+      areaId,
+      minimumStars,
+      hasPhone,
+      sort,
+      latitude,
+      longitude,
+    });
+    return points.map((point) => new MapPointResponseDto(point));
   }
 
   @PublicRoute()
