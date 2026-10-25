@@ -26,7 +26,9 @@ import {
   EMAIL_CODE_TTL_MS,
   EmailCodePurpose,
   ProfileLanguage,
+  StaffRole,
 } from '@/modules/user/enum/general.enum';
+import { StaffAccountRow } from '@/modules/user/repository/user.repository';
 import {
   isBirthYearInRange,
   isOldEnough,
@@ -218,6 +220,44 @@ export class UserService {
       });
     }
     return user;
+  }
+
+  /**
+   * Creates an editor, moderator, or sales account. Both public doors stay closed.
+   */
+  async createStaff(input: {
+    readonly email: string;
+    readonly password: string;
+    readonly staffRole: StaffRole;
+  }): Promise<UserEntity> {
+    if (input.staffRole === StaffRole.Admin) {
+      throw new AccessDeniedException({
+        message: 'Admin is not created here',
+        code: 'not_allowed',
+      });
+    }
+    this.assertPassword(input.password);
+    const email = normalizeEmail(input.email);
+    const existing = await this.userRepository.findByEmail(email);
+    if (existing) {
+      throw new ConflictException({ message: 'Email taken', code: 'email_taken' });
+    }
+    const passwordHash = await bcrypt.hash(input.password, BCRYPT_ROUNDS);
+    return this.userRepository.create({
+      email,
+      passwordHash,
+      isVisitor: false,
+      isOwner: false,
+      staffRole: input.staffRole,
+      emailVerifiedAt: new Date(),
+    });
+  }
+
+  /**
+   * Every account that has a staff role.
+   */
+  async listStaff(): Promise<StaffAccountRow[]> {
+    return this.userRepository.listStaff();
   }
 
   async findById(id: string): Promise<UserEntity | null> {

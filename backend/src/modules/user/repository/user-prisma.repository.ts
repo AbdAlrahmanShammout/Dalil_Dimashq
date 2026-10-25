@@ -18,6 +18,7 @@ import { UserMapper } from '@/modules/user/mapper/user.mapper';
 import {
   CompleteProfileRepoInput,
   CreateProfileChangeRepoInput,
+  StaffAccountRow,
   UpdateProfileContactRepoInput,
   UserRepository,
 } from '@/modules/user/repository/user.repository';
@@ -230,6 +231,16 @@ export class UserPrismaRepository extends UserRepository {
       },
     });
     return { id: row.id };
+  }
+
+  override async listStaff(): Promise<StaffAccountRow[]> {
+    const rows = await this.prisma.user.findMany({
+      where: { staffRole: { not: null } },
+      orderBy: { email: 'asc' },
+    });
+    return rows.flatMap((row) =>
+      row.staffRole === null ? [] : [{ id: row.id, email: row.email, staffRole: row.staffRole }],
+    );
   }
 
   override async markPhoneVerified(userId: string, verifiedAt: Date): Promise<void> {

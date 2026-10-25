@@ -85,4 +85,14 @@ export abstract class UserRepository {
   markPhoneVerified(_userId: string, _verifiedAt: Date): Promise<void> {
     return Promise.reject(new Error('markPhoneVerified is not implemented'));
   }
+
+  listStaff(): Promise<StaffAccountRow[]> {
+    return Promise.resolve([]);
+  }
+}
+
+export interface StaffAccountRow {
+  readonly id: string;
+  readonly email: string;
+  readonly staffRole: string;
 }
