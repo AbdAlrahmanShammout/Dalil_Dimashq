@@ -163,6 +163,18 @@ export const ERROR_TEXT: Readonly<Record<string, ErrorText>> = {
     ar: 'جدول الدوام غير صحيح: تحقّق من الأوقات وألّا تتداخل الفترات، وبحدّ أقصى ثلاث فترات في اليوم.',
     en: 'The opening hours are not valid: check the times, that periods do not overlap, and at most 3 periods a day.',
   },
+  photo_invalid: {
+    ar: 'يُقبل فقط jpeg أو png أو webp.',
+    en: 'Only jpeg, png, or webp photos are accepted.',
+  },
+  photo_too_large: {
+    ar: 'حجم الصورة أكبر من ٢ ميغابايت.',
+    en: 'The photo is larger than 2 MB.',
+  },
+  photo_limit: {
+    ar: 'بلغت المنشأة حدّ ٣٠ صورة.',
+    en: 'This place already has 30 photos.',
+  },
   legal_not_found: { ar: 'تعذّر العثور على هذه النسخة.', en: 'This version was not found.' },
   legal_kind_invalid: { ar: 'نوع المستند غير صحيح.', en: 'Unknown document type.' },
   legal_text_missing: {

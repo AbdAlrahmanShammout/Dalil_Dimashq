@@ -65,8 +65,14 @@ class MemoryPhotoRepository extends PlacePhotoRepository {
 }
 
 class MemoryStorage extends PhotoStorage {
+  readonly uploads: string[] = [];
+
   async createReadUrl(key: string): Promise<string> {
     return `https://files.test/${key}`;
+  }
+
+  override async uploadObject(input: { key: string }): Promise<void> {
+    this.uploads.push(input.key);
   }
 }
 
@@ -80,5 +86,31 @@ describe('PlacePhotoService', () => {
     expect(actual.coverUrl).toBe('https://files.test/cover.jpg');
     expect(actual.logoUrl).toBe('https://files.test/logo.jpg');
     expect(actual.photos).toHaveLength(2);
+  });
+
+  it('refuses a bad photo before storage and stores a valid one at place/file', async () => {
+    const storage = new MemoryStorage();
+    const service = new PlacePhotoService(
+      new PlaceService(new MemoryPlaceRepository()),
+      new MemoryPhotoRepository(),
+      storage,
+    );
+    await expect(
+      service.storeOwnerPhoto({
+        placeId: 'place-1',
+        fileName: 'front.gif',
+        mimeType: 'image/gif',
+        bytes: Uint8Array.from([1, 2, 3]),
+      }),
+    ).rejects.toMatchObject({ code: 'photo_invalid' });
+    expect(storage.uploads).toEqual([]);
+    const stored = await service.storeOwnerPhoto({
+      placeId: 'place-1',
+      fileName: 'front.jpg',
+      mimeType: 'image/jpeg',
+      bytes: Uint8Array.from([1, 2, 3]),
+    });
+    expect(stored.key).toBe('place-1/front.jpg');
+    expect(storage.uploads).toEqual(['place-1/front.jpg']);
   });
 });

@@ -1,4 +1,9 @@
-import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import {
+  DeleteObjectCommand,
+  GetObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { Injectable } from '@nestjs/common';
 
@@ -31,6 +36,21 @@ export class AwsS3ManagerService {
     );
     const readUrl = await this.createReadUrl(input.key);
     return { key: input.key, readUrl };
+  }
+
+  /**
+   * Removes an object the API stored. Never a presigned upload.
+   */
+  async deleteObject(key: string): Promise<void> {
+    if (!this.awsS3ConfigService.isConfigured) {
+      throw new AwsS3NotConfiguredException();
+    }
+    await this.getClient().send(
+      new DeleteObjectCommand({
+        Bucket: this.awsS3ConfigService.bucket,
+        Key: key,
+      }),
+    );
   }
 
   /**

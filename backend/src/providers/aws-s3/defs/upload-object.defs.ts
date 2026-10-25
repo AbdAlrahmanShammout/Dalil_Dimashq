@@ -1,6 +1,6 @@
 export interface UploadObjectInput {
   readonly key: string;
-  readonly body: Buffer;
+  readonly body: Uint8Array;
   readonly contentType: string;
 }
 

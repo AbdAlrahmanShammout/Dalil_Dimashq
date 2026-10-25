@@ -26,4 +26,8 @@ export class PlacePhotoPrismaRepository extends PlacePhotoRepository {
         }),
     );
   }
+
+  override async countByPlace(placeId: string): Promise<number> {
+    return this.prisma.placePhoto.count({ where: { placeId } });
+  }
 }
