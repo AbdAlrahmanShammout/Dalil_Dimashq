@@ -133,17 +133,25 @@ model ContactMessage {
   @@index([visitorKey, createdAt])
 }
 
+enum SuggestionStatus {
+  open
+  done
+  dismissed
+}
+
 model Suggestion {
-  id         String   @id @default(cuid())
+  id         String           @id @default(cuid())
   name       String
   contact    String
   kind       String
   message    String
   placeId    String?
   visitorKey String
-  createdAt  DateTime @default(now())
+  status     SuggestionStatus @default(open)
+  createdAt  DateTime         @default(now())
 
   @@index([visitorKey, createdAt])
+  @@index([status, createdAt])
 }
 
 model EmailCode {
