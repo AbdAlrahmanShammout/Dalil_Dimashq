@@ -9,6 +9,9 @@ class NotificationItemResponseDto {
   @ApiProperty()
   readonly kind: string;
 
+  @ApiProperty({ nullable: true })
+  readonly bookingId: string | null;
+
   @ApiProperty()
   readonly read: boolean;
 
@@ -18,6 +21,7 @@ class NotificationItemResponseDto {
   constructor(row: NotificationRow) {
     this.id = row.id;
     this.kind = row.kind;
+    this.bookingId = row.bookingId;
     this.read = row.readAt !== null;
     this.createdAt = row.createdAt.toISOString();
   }

@@ -22,6 +22,9 @@ describe('notification inbox', () => {
 
   afterAll(async () => {
     await prisma.notification.deleteMany();
+    await prisma.booking.deleteMany();
+    await prisma.place.deleteMany();
+    await prisma.area.deleteMany();
     await prisma.user.deleteMany();
     await app.close();
   });
@@ -29,6 +32,9 @@ describe('notification inbox', () => {
   beforeEach(async () => {
     clearCapturedMail();
     await prisma.notification.deleteMany();
+    await prisma.booking.deleteMany();
+    await prisma.place.deleteMany();
+    await prisma.area.deleteMany();
     await prisma.user.deleteMany();
   });
 
@@ -48,6 +54,19 @@ describe('notification inbox', () => {
       .send({ email, password: 'Password123' })
       .expect(200);
     const user = await prisma.user.findUniqueOrThrow({ where: { email } });
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: { nameAr: 'مقهى', nameEn: 'Cafe', type: 'cafe', status: 'active', areaId: area.id },
+    });
+    const booking = await prisma.booking.create({
+      data: {
+        clientKey: 'note',
+        userId: user.id,
+        placeId: place.id,
+        startsAt: new Date('2026-11-01T12:00:00Z'),
+        partySize: 2,
+      },
+    });
     await prisma.notification.create({
       data: {
         userId: user.id,
@@ -60,6 +79,7 @@ describe('notification inbox', () => {
       data: {
         userId: user.id,
         kind: 'booking_expired',
+        bookingId: booking.id,
         createdAt: new Date('2026-10-25T12:00:00Z'),
       },
     });
@@ -82,6 +102,8 @@ describe('notification inbox', () => {
       .set('Authorization', `Bearer ${session.body.accessToken}`)
       .expect(201);
     expect(marked.body.readAt).toEqual(expect.any(String));
+    expect(response.body.notifications[0].bookingId).toBe(booking.id);
+    expect(response.body.notifications[1].bookingId).toBeNull();
     const other = await prisma.user.create({
       data: { email: 'other-inbox@example.com', isVisitor: true },
     });
