@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+import { nextPageOffset } from '@/common/pagination';
 import { EventView } from '@/modules/event/event.service';
 
 export class EventResponseDto {
@@ -64,10 +65,14 @@ export class EventListResponseDto {
   @ApiProperty()
   readonly offset: number;
 
+  @ApiProperty({ nullable: true })
+  readonly nextOffset: number | null;
+
   constructor(page: { items: EventView[]; total: number; limit: number; offset: number }) {
     this.items = page.items.map((event) => new EventResponseDto(event));
     this.total = page.total;
     this.limit = page.limit;
     this.offset = page.offset;
+    this.nextOffset = nextPageOffset(page.offset, page.limit, page.total);
   }
 }

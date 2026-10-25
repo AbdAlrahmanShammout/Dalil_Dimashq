@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+import { nextPageOffset } from '@/common/pagination';
 import { OfferView, OfferViewPage } from '@/modules/offer/offer.service';
 
 class OfferResponseDto {
@@ -52,10 +53,14 @@ export class OfferListResponseDto {
   @ApiProperty()
   readonly offset: number;
 
+  @ApiProperty({ nullable: true })
+  readonly nextOffset: number | null;
+
   constructor(page: OfferViewPage) {
     this.items = page.items.map((offer) => new OfferResponseDto(offer));
     this.total = page.total;
     this.limit = page.limit;
     this.offset = page.offset;
+    this.nextOffset = nextPageOffset(page.offset, page.limit, page.total);
   }
 }

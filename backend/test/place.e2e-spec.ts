@@ -120,6 +120,15 @@ describe('place summary', () => {
       .query({ sort: 'name' })
       .expect(200);
     expect(byName.body.total).toBe(2);
+    expect(byName.body.limit).toBe(20);
+    expect(byName.body.offset).toBe(0);
+    expect(byName.body.nextOffset).toBeNull();
+    const page = await request(app.getHttpServer())
+      .get('/client-app/places')
+      .query({ sort: 'name', limit: 1 })
+      .expect(200);
+    expect(page.body.nextOffset).toBe(1);
+    expect(page.body.items).toHaveLength(1);
     expect(byName.body.items.map((item: { nameEn: string }) => item.nameEn)).toEqual([
       'Light Cafe',
       'Table',
