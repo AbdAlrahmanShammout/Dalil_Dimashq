@@ -12,8 +12,17 @@ import {
   UpdatePasswordRepoInput,
 } from '@/modules/user/defs/user.defs';
 import { UserEntity } from '@/modules/user/entity/user.entity';
-import { AuthDoor, EmailCodePurpose, StaffRole } from '@/modules/user/enum/general.enum';
-import { UserRepository } from '@/modules/user/repository/user.repository';
+import { ProfileEntity } from '@/modules/user/entity/profile.entity';
+import {
+  AuthDoor,
+  EmailCodePurpose,
+  ProfileLanguage,
+  StaffRole,
+} from '@/modules/user/enum/general.enum';
+import {
+  CompleteProfileRepoInput,
+  UserRepository,
+} from '@/modules/user/repository/user.repository';
 import { hashSecret } from '@/modules/user/secret';
 import { UserService } from '@/modules/user/user.service';
 
@@ -145,6 +154,24 @@ class MemoryUserRepository extends UserRepository {
     if (index >= 0) {
       this.users.splice(index, 1);
     }
+  }
+
+  override async findByPhone(phone: string): Promise<UserEntity | null> {
+    return this.users.find((user) => user.profile?.phone === phone) ?? null;
+  }
+
+  override async completeProfile(input: CompleteProfileRepoInput): Promise<UserEntity> {
+    const user = await this.require(input.userId);
+    const profile = new ProfileEntity();
+    profile.userId = user.id;
+    profile.firstName = input.firstName;
+    profile.lastName = input.lastName;
+    profile.phone = input.phone;
+    profile.phoneVerifiedAt = null;
+    profile.birthYear = input.birthYear;
+    profile.language = input.language;
+    user.profile = profile;
+    return user;
   }
 
   private async require(id: string): Promise<UserEntity> {
@@ -386,6 +413,53 @@ describe('UserService', () => {
     });
     expect(actual.removed).toBe(true);
     expect(repository.users).toHaveLength(0);
+  });
+
+  it('completes a profile once and refuses a child or a taken phone', async () => {
+    const created = await service.signUp({
+      email: 'profile@example.com',
+      password: 'Password123',
+      door: AuthDoor.Visitor,
+      audience: ApiAudience.ClientApp,
+    });
+    await service.verifyEmail({
+      email: 'profile@example.com',
+      code: created.code ?? '',
+      audience: ApiAudience.ClientApp,
+      purpose: EmailCodePurpose.Signup,
+    });
+    const userId = repository.users[0].id;
+    await expect(
+      service.completeProfile({
+        userId,
+        firstName: 'Ahmad',
+        lastName: 'Ali',
+        phone: '0944000000',
+        birthYear: 2015,
+        language: ProfileLanguage.Arabic,
+        now: new Date('2026-10-25T00:00:00Z'),
+      }),
+    ).rejects.toMatchObject({ code: 'too_young' });
+    const actual = await service.completeProfile({
+      userId,
+      firstName: 'Ahmad',
+      lastName: 'Ali',
+      phone: '0944000000',
+      birthYear: 2000,
+      language: ProfileLanguage.Arabic,
+      now: new Date('2026-10-25T00:00:00Z'),
+    });
+    expect(actual.profile?.phone).toBe('+963944000000');
+    await expect(
+      service.completeProfile({
+        userId,
+        firstName: 'Ahmad',
+        lastName: 'Ali',
+        phone: '0944000001',
+        birthYear: 2000,
+        language: ProfileLanguage.Arabic,
+      }),
+    ).rejects.toMatchObject({ code: 'profile_already_complete' });
   });
 
   it('sets only the visitor flag for Google', async () => {

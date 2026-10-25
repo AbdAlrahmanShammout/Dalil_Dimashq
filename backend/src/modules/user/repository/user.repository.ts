@@ -11,6 +11,16 @@ import {
   UpdatePasswordRepoInput,
 } from '@/modules/user/defs/user.defs';
 import { UserEntity } from '@/modules/user/entity/user.entity';
+import { ProfileLanguage } from '@/modules/user/enum/general.enum';
+
+export interface CompleteProfileRepoInput {
+  readonly userId: string;
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly phone: string;
+  readonly birthYear: number;
+  readonly language: ProfileLanguage;
+}
 
 export abstract class UserRepository {
   abstract findById(id: string): Promise<UserEntity | null>;
@@ -42,4 +52,10 @@ export abstract class UserRepository {
   ): Promise<void>;
   abstract revokeAllRefreshTokens(userId: string, context?: TransactionContext): Promise<void>;
   abstract deleteById(id: string, context?: TransactionContext): Promise<void>;
+  findByPhone(_phone: string): Promise<UserEntity | null> {
+    return Promise.resolve(null);
+  }
+  completeProfile(_input: CompleteProfileRepoInput): Promise<UserEntity> {
+    return Promise.reject(new Error('completeProfile is not implemented'));
+  }
 }

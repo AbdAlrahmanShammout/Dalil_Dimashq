@@ -15,7 +15,10 @@ import {
 } from '@/modules/user/defs/user.defs';
 import { UserEntity } from '@/modules/user/entity/user.entity';
 import { UserMapper } from '@/modules/user/mapper/user.mapper';
-import { UserRepository } from '@/modules/user/repository/user.repository';
+import {
+  CompleteProfileRepoInput,
+  UserRepository,
+} from '@/modules/user/repository/user.repository';
 import { userDetailsInclude } from '@/modules/user/types/user-details.include';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
 
@@ -161,6 +164,33 @@ export class UserPrismaRepository extends UserRepository {
 
   async deleteById(id: string, context?: TransactionContext): Promise<void> {
     await this.client(context).user.delete({ where: { id } });
+  }
+
+  override async findByPhone(phone: string): Promise<UserEntity | null> {
+    const row = await this.prisma.user.findFirst({
+      where: { profile: { phone } },
+      include: userDetailsInclude,
+    });
+    return row ? UserMapper.toEntity(row) : null;
+  }
+
+  override async completeProfile(input: CompleteProfileRepoInput): Promise<UserEntity> {
+    const row = await this.prisma.user.update({
+      where: { id: input.userId },
+      data: {
+        profile: {
+          update: {
+            firstName: input.firstName,
+            lastName: input.lastName,
+            phone: input.phone,
+            birthYear: input.birthYear,
+            language: input.language,
+          },
+        },
+      },
+      include: userDetailsInclude,
+    });
+    return UserMapper.toEntity(row);
   }
 
   private client(context?: TransactionContext): DatabaseClient {

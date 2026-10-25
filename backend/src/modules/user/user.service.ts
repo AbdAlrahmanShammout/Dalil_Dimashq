@@ -25,7 +25,14 @@ import {
   BCRYPT_ROUNDS,
   EMAIL_CODE_TTL_MS,
   EmailCodePurpose,
+  ProfileLanguage,
 } from '@/modules/user/enum/general.enum';
+import {
+  isBirthYearInRange,
+  isOldEnough,
+  isPersonName,
+  normalizeSyrianPhone,
+} from '@/modules/user/profile-rules';
 import { UserRepository } from '@/modules/user/repository/user.repository';
 import {
   createNumericCode,
@@ -213,6 +220,58 @@ export class UserService {
 
   async findById(id: string): Promise<UserEntity | null> {
     return this.userRepository.findById(id);
+  }
+
+  /**
+   * Fills the empty visitor profile once. A taken phone or an under-16 birth year is refused.
+   */
+  async completeProfile(input: {
+    readonly userId: string;
+    readonly firstName: string;
+    readonly lastName: string;
+    readonly phone: string;
+    readonly birthYear: number;
+    readonly language: ProfileLanguage;
+    readonly now?: Date;
+  }): Promise<UserEntity> {
+    const now = input.now ?? new Date();
+    const user = await this.requireUser(input.userId);
+    if (user.profile?.firstName) {
+      throw new ConflictException({
+        message: 'Profile is already complete',
+        code: 'profile_already_complete',
+      });
+    }
+    const firstName = input.firstName.trim();
+    const lastName = input.lastName.trim();
+    if (!isPersonName(firstName) || !isPersonName(lastName)) {
+      throw new InvalidStateException({ message: 'Name is invalid', code: 'name_invalid' });
+    }
+    const phone = normalizeSyrianPhone(input.phone);
+    if (!phone) {
+      throw new InvalidStateException({ message: 'Phone is invalid', code: 'phone_invalid' });
+    }
+    if (!isBirthYearInRange(input.birthYear, now)) {
+      throw new InvalidStateException({
+        message: 'Birth year is invalid',
+        code: 'birth_year_invalid',
+      });
+    }
+    if (!isOldEnough(input.birthYear, now)) {
+      throw new InvalidStateException({ message: 'Too young', code: 'too_young' });
+    }
+    const taken = await this.userRepository.findByPhone(phone);
+    if (taken && taken.id !== user.id) {
+      throw new ConflictException({ message: 'Phone is taken', code: 'phone_taken' });
+    }
+    return this.userRepository.completeProfile({
+      userId: user.id,
+      firstName,
+      lastName,
+      phone,
+      birthYear: input.birthYear,
+      language: input.language,
+    });
   }
 
   /**

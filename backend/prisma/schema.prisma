@@ -40,7 +40,7 @@ model Profile {
   user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   firstName       String?
   lastName        String?
-  phone           String?
+  phone           String?         @unique
   phoneVerifiedAt DateTime?
   birthYear       Int?
   language        ProfileLanguage @default(ar)

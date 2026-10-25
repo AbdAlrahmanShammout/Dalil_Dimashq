@@ -21,6 +21,7 @@ import { PlaceClientAppController } from '@/modules/place/place.client-app.contr
 import { PlaceModule } from '@/modules/place/place.module';
 import { SearchModule } from '@/modules/search/search.module';
 import { AccountClientAppController } from '@/modules/user/account.client-app.controller';
+import { ProfileClientAppController } from '@/modules/user/profile.client-app.controller';
 import { UserModule } from '@/modules/user/user.module';
 
 @Module({
@@ -39,6 +40,7 @@ import { UserModule } from '@/modules/user/user.module';
   controllers: [
     AuthClientAppController,
     AccountClientAppController,
+    ProfileClientAppController,
     AreaClientAppController,
     PlaceClientAppController,
     PlaceShareClientAppController,
