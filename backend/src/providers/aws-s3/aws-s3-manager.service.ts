@@ -29,12 +29,21 @@ export class AwsS3ManagerService {
         ContentType: input.contentType,
       }),
     );
-    const readUrl = await getSignedUrl(
-      this.getClient(),
-      new GetObjectCommand({ Bucket: bucket, Key: input.key }),
-      { expiresIn: this.awsS3ConfigService.readTtlSeconds },
-    );
+    const readUrl = await this.createReadUrl(input.key);
     return { key: input.key, readUrl };
+  }
+
+  /**
+   * Short-lived read URL for an object key. Never a presigned upload.
+   */
+  async createReadUrl(key: string): Promise<string> {
+    if (!this.awsS3ConfigService.isConfigured) {
+      throw new AwsS3NotConfiguredException();
+    }
+    const bucket = this.awsS3ConfigService.bucket;
+    return getSignedUrl(this.getClient(), new GetObjectCommand({ Bucket: bucket, Key: key }), {
+      expiresIn: this.awsS3ConfigService.readTtlSeconds,
+    });
   }
 
   private getClient(): S3Client {

@@ -110,6 +110,7 @@ model Place {
   updatedAt   DateTime    @updatedAt
   hours       PlaceHour[]
   amenities   PlaceAmenity[]
+  photos      PlacePhoto[]
 
   @@index([areaId])
   @@index([status, type])
@@ -143,6 +144,24 @@ model PlaceAmenity {
   amenity   Amenity @relation(fields: [amenityId], references: [id], onDelete: Cascade)
 
   @@id([placeId, amenityId])
+  @@index([placeId, sortOrder])
+}
+
+enum PlacePhotoRole {
+  gallery
+  cover
+  logo
+}
+
+model PlacePhoto {
+  id        String         @id @default(cuid())
+  placeId   String
+  place     Place          @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  objectKey String
+  role      PlacePhotoRole @default(gallery)
+  hidden    Boolean        @default(false)
+  sortOrder Int            @default(0)
+
   @@index([placeId, sortOrder])
 }
 

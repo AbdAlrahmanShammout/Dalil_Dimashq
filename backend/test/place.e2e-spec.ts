@@ -233,4 +233,29 @@ describe('place summary', () => {
       .expect(200);
     expect(response.body.map((item: { code: string }) => item.code)).toEqual(['wifi', 'parking']);
   });
+
+  it('omits hidden photos and does not invent a read url when storage is unset', async () => {
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const empty = await prisma.place.create({
+      data: { nameAr: 'فاضي', nameEn: 'Empty', type: 'cafe', status: 'active', areaId: area.id },
+    });
+    const place = await prisma.place.create({
+      data: { nameAr: 'صور', nameEn: 'Photos', type: 'cafe', status: 'active', areaId: area.id },
+    });
+    await prisma.placePhoto.create({
+      data: { placeId: place.id, objectKey: 'hidden.jpg', role: 'gallery', hidden: true },
+    });
+    await prisma.placePhoto.create({
+      data: { placeId: place.id, objectKey: 'cover.jpg', role: 'cover', hidden: false },
+    });
+    const none = await request(app.getHttpServer())
+      .get(`/client-app/places/${empty.id}/photos`)
+      .expect(200);
+    expect(none.body).toEqual({ photos: [], coverUrl: null, logoUrl: null });
+    const blocked = await request(app.getHttpServer())
+      .get(`/client-app/places/${place.id}/photos`)
+      .expect(503);
+    expect(blocked.body.code).toBe('dependency_failure');
+    expect(JSON.stringify(blocked.body)).not.toContain('cover.jpg');
+  });
 });
