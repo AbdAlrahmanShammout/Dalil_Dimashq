@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–96 are done. Task 22 is skipped. Next is task 97.
+Status: tasks 1–21 and 23–97 are done. Task 22 is skipped. Next is task 98.
 
 ### 1. Foundation
 

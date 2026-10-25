@@ -76,6 +76,29 @@ export class PlaceChangeService {
   }
 
   /**
+   * Asks staff to remove or unlink the place. The live row stays.
+   */
+  async openClosure(input: {
+    readonly userId: string;
+    readonly placeId: string;
+    readonly kind: 'remove' | 'unlink';
+    readonly reason: string;
+  }): Promise<PlaceChangeRecord> {
+    await this.placeService.getPublicPlace(input.placeId);
+    const reason = input.reason.trim();
+    if (!reason) {
+      throw new InvalidStateException({ message: 'Reason is required', code: 'reason' });
+    }
+    return this.placeChangeRepository.create({
+      placeId: input.placeId,
+      userId: input.userId,
+      kind: input.kind,
+      reason,
+      payload: null,
+    });
+  }
+
+  /**
    * Pending, approved, and rejected requests. Approved is also labeled accepted for the client.
    */
   async listForPlace(placeId: string): Promise<PlaceChangeRecord[]> {

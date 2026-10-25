@@ -20,6 +20,7 @@ import { EditPlaceRequestDto } from '@/modules/owner-place/dto/request/edit-plac
 import { SaveOwnerHoursRequestDto } from '@/modules/owner-place/dto/request/save-owner-hours-request.dto';
 import { ImmediatePlaceRequestDto } from '@/modules/owner-place/dto/request/immediate-place-request.dto';
 import { OwnerPlaceSearchQueryDto } from '@/modules/owner-place/dto/request/owner-place-search-query.dto';
+import { PlaceReasonRequestDto } from '@/modules/owner-place/dto/request/place-reason-request.dto';
 import { ClaimCodeResponseDto } from '@/modules/owner-place/dto/response/claim-code-response.dto';
 import { ImmediatePlaceResponseDto } from '@/modules/owner-place/dto/response/immediate-place-response.dto';
 import { OwnedPlaceListResponseDto } from '@/modules/owner-place/dto/response/owned-place-list-response.dto';
@@ -193,5 +194,37 @@ export class OwnerPlaceDashboardController {
     await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
     const requests = await this.placeChangeService.listForPlace(placeId);
     return new PlaceChangeListResponseDto(requests);
+  }
+
+  @Post(':id/removal')
+  async requestRemoval(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+    @Body() body: PlaceReasonRequestDto,
+  ): Promise<PlaceChangeResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    const created = await this.placeChangeService.openClosure({
+      userId: currentUser.id,
+      placeId,
+      kind: 'remove',
+      reason: body.reason,
+    });
+    return new PlaceChangeResponseDto(created);
+  }
+
+  @Post(':id/unlink')
+  async requestUnlink(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+    @Body() body: PlaceReasonRequestDto,
+  ): Promise<PlaceChangeResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    const created = await this.placeChangeService.openClosure({
+      userId: currentUser.id,
+      placeId,
+      kind: 'unlink',
+      reason: body.reason,
+    });
+    return new PlaceChangeResponseDto(created);
   }
 }
