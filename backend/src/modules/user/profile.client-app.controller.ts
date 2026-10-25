@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { ApiAudience, Principal } from '@/common/auth/principal.interface';
@@ -9,6 +9,7 @@ import { ProfileChangeRequestDto } from '@/modules/user/dto/request/profile-chan
 import { UpdateProfileRequestDto } from '@/modules/user/dto/request/update-profile-request.dto';
 import { CompleteProfileResponseDto } from '@/modules/user/dto/response/complete-profile-response.dto';
 import { ProfileChangeResponseDto } from '@/modules/user/dto/response/profile-change-response.dto';
+import { VisitorProfileResponseDto } from '@/modules/user/dto/response/visitor-profile-response.dto';
 import { UserService } from '@/modules/user/user.service';
 
 @ApiTags('profile')
@@ -64,5 +65,11 @@ export class ProfileClientAppController {
       birthYear,
     });
     return new ProfileChangeResponseDto(created);
+  }
+
+  @Get()
+  async readProfile(@LoggedInUser() currentUser: Principal): Promise<VisitorProfileResponseDto> {
+    const profile = await this.userService.readProfile(currentUser.id);
+    return new VisitorProfileResponseDto(profile);
   }
 }

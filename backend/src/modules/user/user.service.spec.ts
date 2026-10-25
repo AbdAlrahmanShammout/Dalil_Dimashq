@@ -573,6 +573,10 @@ describe('UserService', () => {
     await expect(service.requestProfileChange({ userId, birthYear: 1990 })).rejects.toMatchObject({
       code: 'request_pending',
     });
+    const profile = await service.readProfile(userId);
+    expect(profile.changePending).toBe(true);
+    expect(profile.firstName).toBe('Ahmad');
+    expect(profile.language).toBe(ProfileLanguage.Arabic);
   });
 
   it('sets only the visitor flag for Google', async () => {

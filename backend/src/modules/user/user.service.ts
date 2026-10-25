@@ -374,6 +374,39 @@ export class UserService {
   }
 
   /**
+   * The caller's completed profile and whether a change request is waiting.
+   */
+  async readProfile(userId: string): Promise<{
+    readonly firstName: string;
+    readonly lastName: string;
+    readonly phone: string;
+    readonly birthYear: number;
+    readonly language: ProfileLanguage;
+    readonly changePending: boolean;
+  }> {
+    const user = await this.requireUser(userId);
+    if (
+      !user.profile?.firstName ||
+      !user.profile.lastName ||
+      !user.profile.phone ||
+      !user.profile.birthYear
+    ) {
+      throw new InvalidStateException({
+        message: 'Profile is incomplete',
+        code: 'profile_incomplete',
+      });
+    }
+    return {
+      firstName: user.profile.firstName,
+      lastName: user.profile.lastName,
+      phone: user.profile.phone,
+      birthYear: user.profile.birthYear,
+      language: user.profile.language,
+      changePending: await this.userRepository.hasPendingProfileChange(user.id),
+    };
+  }
+
+  /**
    * Closes one door. The row is removed only when both doors are closed and the user is not staff.
    * Place links and bookings stay detached from the user when those tables exist.
    */

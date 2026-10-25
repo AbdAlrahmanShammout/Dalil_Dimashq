@@ -107,6 +107,17 @@ describe('complete profile', () => {
       .send({ birthYear: 1991 })
       .expect(409);
     expect(pending.body.code).toBe('request_pending');
+    const mine = await request(app.getHttpServer())
+      .get('/client-app/profile')
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .expect(200);
+    expect(mine.body).toMatchObject({
+      firstName: 'Ahmad',
+      lastName: 'Ali',
+      phone: '+963944111111',
+      language: 'en',
+      changePending: true,
+    });
   });
 });
 
