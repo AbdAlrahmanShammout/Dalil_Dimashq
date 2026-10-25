@@ -17,6 +17,7 @@ import { UserEntity } from '@/modules/user/entity/user.entity';
 import { UserMapper } from '@/modules/user/mapper/user.mapper';
 import {
   CompleteProfileRepoInput,
+  UpdateProfileContactRepoInput,
   UserRepository,
 } from '@/modules/user/repository/user.repository';
 import { userDetailsInclude } from '@/modules/user/types/user-details.include';
@@ -185,6 +186,23 @@ export class UserPrismaRepository extends UserRepository {
             phone: input.phone,
             birthYear: input.birthYear,
             language: input.language,
+          },
+        },
+      },
+      include: userDetailsInclude,
+    });
+    return UserMapper.toEntity(row);
+  }
+
+  override async updateProfileContact(input: UpdateProfileContactRepoInput): Promise<UserEntity> {
+    const row = await this.prisma.user.update({
+      where: { id: input.userId },
+      data: {
+        profile: {
+          update: {
+            ...(input.phone !== undefined ? { phone: input.phone } : {}),
+            ...(input.clearPhoneVerified ? { phoneVerifiedAt: null } : {}),
+            ...(input.language !== undefined ? { language: input.language } : {}),
           },
         },
       },

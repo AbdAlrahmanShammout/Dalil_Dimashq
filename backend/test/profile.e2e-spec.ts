@@ -80,6 +80,19 @@ describe('complete profile', () => {
       })
       .expect(409);
     expect(again.body.code).toBe('profile_already_complete');
+    const updated = await request(app.getHttpServer())
+      .patch('/client-app/profile')
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .send({ phone: '0944111111', language: 'en' })
+      .expect(200);
+    expect(updated.body.phone).toBe('+963944111111');
+    expect(updated.body.language).toBe('en');
+    expect(updated.body.firstName).toBe('Ahmad');
+    const stored = await prisma.user.findUnique({
+      where: { email },
+      include: { profile: true },
+    });
+    expect(stored?.profile?.phoneVerifiedAt).toBeNull();
   });
 });
 

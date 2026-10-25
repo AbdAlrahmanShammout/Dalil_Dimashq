@@ -275,6 +275,46 @@ export class UserService {
   }
 
   /**
+   * Changes phone and language on a completed profile. A new phone is unverified.
+   */
+  async updateProfileContact(input: {
+    readonly userId: string;
+    readonly phone?: string;
+    readonly language?: ProfileLanguage;
+  }): Promise<UserEntity> {
+    if (input.phone === undefined && input.language === undefined) {
+      throw new InvalidStateException({ message: 'Nothing to change', code: 'nothing_to_change' });
+    }
+    const user = await this.requireUser(input.userId);
+    if (!user.profile?.firstName) {
+      throw new InvalidStateException({
+        message: 'Profile is incomplete',
+        code: 'profile_incomplete',
+      });
+    }
+    let phone = user.profile.phone ?? undefined;
+    let clearPhoneVerified = false;
+    if (input.phone !== undefined) {
+      const normalized = normalizeSyrianPhone(input.phone);
+      if (!normalized) {
+        throw new InvalidStateException({ message: 'Phone is invalid', code: 'phone_invalid' });
+      }
+      const taken = await this.userRepository.findByPhone(normalized);
+      if (taken && taken.id !== user.id) {
+        throw new ConflictException({ message: 'Phone is taken', code: 'phone_taken' });
+      }
+      clearPhoneVerified = normalized !== user.profile.phone;
+      phone = normalized;
+    }
+    return this.userRepository.updateProfileContact({
+      userId: user.id,
+      phone,
+      clearPhoneVerified,
+      language: input.language,
+    });
+  }
+
+  /**
    * Closes one door. The row is removed only when both doors are closed and the user is not staff.
    * Place links and bookings stay detached from the user when those tables exist.
    */

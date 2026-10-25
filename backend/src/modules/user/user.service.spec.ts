@@ -21,6 +21,7 @@ import {
 } from '@/modules/user/enum/general.enum';
 import {
   CompleteProfileRepoInput,
+  UpdateProfileContactRepoInput,
   UserRepository,
 } from '@/modules/user/repository/user.repository';
 import { hashSecret } from '@/modules/user/secret';
@@ -171,6 +172,23 @@ class MemoryUserRepository extends UserRepository {
     profile.birthYear = input.birthYear;
     profile.language = input.language;
     user.profile = profile;
+    return user;
+  }
+
+  override async updateProfileContact(input: UpdateProfileContactRepoInput): Promise<UserEntity> {
+    const user = await this.require(input.userId);
+    if (!user.profile) {
+      throw new Error('missing profile');
+    }
+    if (input.phone !== undefined) {
+      user.profile.phone = input.phone;
+    }
+    if (input.clearPhoneVerified) {
+      user.profile.phoneVerifiedAt = null;
+    }
+    if (input.language !== undefined) {
+      user.profile.language = input.language;
+    }
     return user;
   }
 
@@ -460,6 +478,41 @@ describe('UserService', () => {
         language: ProfileLanguage.Arabic,
       }),
     ).rejects.toMatchObject({ code: 'profile_already_complete' });
+  });
+
+  it('stores a new phone as unverified and can change language alone', async () => {
+    const created = await service.signUp({
+      email: 'edit@example.com',
+      password: 'Password123',
+      door: AuthDoor.Visitor,
+      audience: ApiAudience.ClientApp,
+    });
+    await service.verifyEmail({
+      email: 'edit@example.com',
+      code: created.code ?? '',
+      audience: ApiAudience.ClientApp,
+      purpose: EmailCodePurpose.Signup,
+    });
+    const userId = repository.users[0].id;
+    await service.completeProfile({
+      userId,
+      firstName: 'Ahmad',
+      lastName: 'Ali',
+      phone: '0944000000',
+      birthYear: 2000,
+      language: ProfileLanguage.Arabic,
+      now: new Date('2026-10-25T00:00:00Z'),
+    });
+    repository.users[0].profile!.phoneVerifiedAt = new Date();
+    const actual = await service.updateProfileContact({
+      userId,
+      phone: '0944111111',
+      language: ProfileLanguage.English,
+    });
+    expect(actual.profile?.phone).toBe('+963944111111');
+    expect(actual.profile?.phoneVerifiedAt).toBeNull();
+    expect(actual.profile?.language).toBe(ProfileLanguage.English);
+    expect(actual.profile?.firstName).toBe('Ahmad');
   });
 
   it('sets only the visitor flag for Google', async () => {

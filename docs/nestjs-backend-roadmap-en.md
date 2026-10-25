@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 42.
+Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 43.
 
 ### 1. Foundation
 
@@ -218,7 +218,7 @@ Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 42.
 | # | Task | Done when |
 |---|---|---|
 | ✅ 41 | Complete profile | `POST /client-app/profile/complete` takes first name, last name, Syrian phone, birth year, and language. Under 16 returns `too_young`. A taken phone returns `phone_taken`. It runs once |
-| 42 | Update phone and language | `PATCH /client-app/profile` updates phone and language only. A new phone is stored unverified |
+| ✅ 42 | Update phone and language | `PATCH /client-app/profile` updates phone and language only. A new phone is stored unverified |
 | 43 | Request a name or birth-year change | `POST /client-app/profile/change-requests` stores the request as pending. The profile itself does not change |
 | 44 | My profile | `GET /client-app/profile` returns the completed profile and whether a change request is pending |
 | 45 | Current legal | `GET /client-app/legal/current?kind=terms\|privacy` returns the current Arabic or English text |

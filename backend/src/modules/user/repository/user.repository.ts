@@ -22,6 +22,13 @@ export interface CompleteProfileRepoInput {
   readonly language: ProfileLanguage;
 }
 
+export interface UpdateProfileContactRepoInput {
+  readonly userId: string;
+  readonly phone?: string;
+  readonly clearPhoneVerified: boolean;
+  readonly language?: ProfileLanguage;
+}
+
 export abstract class UserRepository {
   abstract findById(id: string): Promise<UserEntity | null>;
   abstract findByEmail(email: string): Promise<UserEntity | null>;
@@ -57,5 +64,8 @@ export abstract class UserRepository {
   }
   completeProfile(_input: CompleteProfileRepoInput): Promise<UserEntity> {
     return Promise.reject(new Error('completeProfile is not implemented'));
+  }
+  updateProfileContact(_input: UpdateProfileContactRepoInput): Promise<UserEntity> {
+    return Promise.reject(new Error('updateProfileContact is not implemented'));
   }
 }
