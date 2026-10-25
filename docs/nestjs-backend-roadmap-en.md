@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–77 are done. Task 22 is skipped. Next is task 78.
+Status: tasks 1–21 and 23–78 are done. Task 22 is skipped. Next is task 79.
 
 ### 1. Foundation
 
@@ -274,7 +274,7 @@ Status: tasks 1–21 and 23–77 are done. Task 22 is skipped. Next is task 78.
 
 | # | Task | Done when |
 |---|---|---|
-| 78 | My places | `GET /dashboard-owner/places` returns linked places with name, type, and address |
+| ✅ 78 | My places | `GET /dashboard-owner/places` returns linked places with name, type, and address |
 | 79 | Premium status | Each place includes whether Premium is active, the end date, and the count of pending change requests |
 | 80 | Search to link | `GET /dashboard-owner/places/search?name=` matches `nameAr` or `nameEn` and returns a page |
 | 81 | Link with a code | `POST /dashboard-owner/places/:id/claim-code` links immediately when the code starts with `DD-` and matches. Anything else is `invalid_code` |

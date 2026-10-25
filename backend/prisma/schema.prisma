@@ -44,6 +44,7 @@ model User {
   recentPlaces     RecentPlace[]
   ratings          Rating[]
   placeChangeRequests PlaceChangeRequest[]
+  ownedPlaces         PlaceOwner[]
 }
 
 model Profile {
@@ -222,6 +223,7 @@ model Place {
   recentPlaces         RecentPlace[]
   ratings              Rating[]
   changeRequests       PlaceChangeRequest[]
+  owners               PlaceOwner[]
 
   @@index([areaId])
   @@index([status, type])
@@ -472,6 +474,17 @@ model PlaceChangeRequest {
   decidedAt    DateTime?
 
   @@index([placeId, status])
+  @@index([userId])
+}
+
+model PlaceOwner {
+  placeId   String
+  userId    String
+  place     Place    @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([placeId, userId])
   @@index([userId])
 }
 
