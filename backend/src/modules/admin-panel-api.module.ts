@@ -6,6 +6,7 @@ import { AmenityAdminPanelController } from '@/modules/amenity/amenity.admin-pan
 import { AmenityModule } from '@/modules/amenity/amenity.module';
 import { AreaAdminPanelController } from '@/modules/area/area.admin-panel.controller';
 import { AreaModule } from '@/modules/area/area.module';
+import { ChangeRequestAdminPanelController } from '@/modules/change-request/change-request.admin-panel.controller';
 import { PlaceAdminPanelController } from '@/modules/place/place.admin-panel.controller';
 import { PlaceModule } from '@/modules/place/place.module';
 import { OwnerLinkAdminPanelController } from '@/modules/owner-place/owner-link.admin-panel.controller';
@@ -22,6 +23,7 @@ import { UserModule } from '@/modules/user/user.module';
     AmenityAdminPanelController,
     PlaceAdminPanelController,
     OwnerLinkAdminPanelController,
+    ChangeRequestAdminPanelController,
   ],
 })
 export class AdminPanelApiModule {}
