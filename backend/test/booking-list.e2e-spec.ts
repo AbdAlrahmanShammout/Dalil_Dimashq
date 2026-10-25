@@ -160,4 +160,56 @@ describe('my bookings', () => {
       .set('Authorization', `Bearer ${session.body.accessToken}`)
       .expect(404);
   });
+
+  it('cancels before the appointment', async () => {
+    const email = 'cancel@example.com';
+    await request(app.getHttpServer())
+      .post('/client-app/auth/sign-up')
+      .send({ email, password: 'Password123' })
+      .expect(201);
+    const code = (capturedMail.at(-1)?.text ?? '').match(/\d{6}/)?.[0];
+    await request(app.getHttpServer())
+      .post('/client-app/auth/verify-email')
+      .send({ email, code })
+      .expect(200);
+    const session = await request(app.getHttpServer())
+      .post('/client-app/auth/sign-in')
+      .send({ email, password: 'Password123' })
+      .expect(200);
+    const user = await prisma.user.findUniqueOrThrow({ where: { email } });
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: { nameAr: 'مقهى', nameEn: 'Cafe', type: 'cafe', status: 'active', areaId: area.id },
+    });
+    const booking = await prisma.booking.create({
+      data: {
+        clientKey: 'cancel',
+        userId: user.id,
+        placeId: place.id,
+        startsAt: new Date('2027-01-01T12:00:00Z'),
+        partySize: 2,
+        status: 'confirmed',
+      },
+    });
+    const response = await request(app.getHttpServer())
+      .post(`/client-app/bookings/${booking.id}/cancel`)
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .expect(201);
+    expect(response.body.status).toBe('cancelled_by_customer');
+    const past = await prisma.booking.create({
+      data: {
+        clientKey: 'past',
+        userId: user.id,
+        placeId: place.id,
+        startsAt: new Date('2020-01-01T12:00:00Z'),
+        partySize: 2,
+        status: 'pending',
+      },
+    });
+    const late = await request(app.getHttpServer())
+      .post(`/client-app/bookings/${past.id}/cancel`)
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .expect(400);
+    expect(late.body.code).toBe('too_late');
+  });
 });

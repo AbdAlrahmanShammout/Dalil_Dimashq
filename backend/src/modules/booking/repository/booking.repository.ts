@@ -57,4 +57,8 @@ export abstract class BookingRepository {
     input: ListBookingsInput,
   ): Promise<{ rows: BookingListItem[]; total: number }>;
   abstract findOwned(userId: string, bookingId: string): Promise<BookingDetail | null>;
+  abstract markCancelledByCustomer(
+    userId: string,
+    bookingId: string,
+  ): Promise<BookingDetail | null>;
 }

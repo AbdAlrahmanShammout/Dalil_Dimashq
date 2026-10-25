@@ -70,4 +70,13 @@ export class BookingClientAppController {
     const booking = await this.bookingService.readMine(currentUser.id, bookingId);
     return new BookingDetailResponseDto(booking);
   }
+
+  @Post(':id/cancel')
+  async cancel(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') bookingId: string,
+  ): Promise<BookingDetailResponseDto> {
+    const booking = await this.bookingService.cancelMine(currentUser.id, bookingId);
+    return new BookingDetailResponseDto(booking);
+  }
 }

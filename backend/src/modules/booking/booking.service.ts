@@ -76,4 +76,26 @@ export class BookingService {
     }
     return booking;
   }
+
+  /**
+   * Cancels the caller's booking before the appointment.
+   */
+  async cancelMine(
+    userId: string,
+    bookingId: string,
+    now: Date = new Date(),
+  ): Promise<BookingDetail> {
+    const booking = await this.readMine(userId, bookingId);
+    if (booking.startsAt.getTime() <= now.getTime()) {
+      throw new InvalidStateException({ message: 'The appointment has started', code: 'too_late' });
+    }
+    const updated = await this.bookingRepository.markCancelledByCustomer(userId, bookingId);
+    if (!updated) {
+      throw new InvalidStateException({
+        message: 'This booking cannot be cancelled',
+        code: 'booking_not_cancellable',
+      });
+    }
+    return updated;
+  }
 }

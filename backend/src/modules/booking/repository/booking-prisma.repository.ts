@@ -94,6 +94,21 @@ export class BookingPrismaRepository extends BookingRepository {
     };
   }
 
+  async markCancelledByCustomer(userId: string, bookingId: string): Promise<BookingDetail | null> {
+    const updated = await this.prisma.booking.updateMany({
+      where: {
+        id: bookingId,
+        userId,
+        status: { in: ['pending', 'waiting', 'confirmed'] },
+      },
+      data: { status: 'cancelled_by_customer' },
+    });
+    if (updated.count === 0) {
+      return null;
+    }
+    return this.findOwned(userId, bookingId);
+  }
+
   private toRecord(row: {
     id: string;
     number: number;

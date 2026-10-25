@@ -41,6 +41,10 @@ class MemoryBookingRepository extends BookingRepository {
   async findOwned(): Promise<null> {
     return null;
   }
+
+  async markCancelledByCustomer(): Promise<null> {
+    return null;
+  }
 }
 
 function buildService(repository: BookingRepository): BookingService {

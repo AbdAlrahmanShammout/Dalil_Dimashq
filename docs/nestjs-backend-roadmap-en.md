@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 61.
+Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 62.
 
 ### 1. Foundation
 
@@ -242,7 +242,7 @@ Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 61.
 | ✅ 58 | Offer link | An offer id is stored only when that offer is current for that place. The booking does not change the offer |
 | ✅ 59 | My bookings | `GET /client-app/bookings` returns the caller's rows across all nine statuses, with a real `total` |
 | ✅ 60 | Booking details | `GET /client-app/bookings/:id` returns place, time, party, note, and any rejection or cancellation reason. Another user's id is not found |
-| 61 | Visitor cancel | `POST /client-app/bookings/:id/cancel` cancels before the appointment and sets `cancelled_by_customer` |
+| ✅ 61 | Visitor cancel | `POST /client-app/bookings/:id/cancel` cancels before the appointment and sets `cancelled_by_customer` |
 | 62 | Fake-report reply | `POST /client-app/fake-reports/:id/reply` stores the visitor's reply while the report is still open |
 | 63 | Bans | An active ban is 15 days, then 45, then permanent when the level is 3 or `endsAt` is null. `GET /client-app/bookings/ban` explains which, and create is refused |
 | 64 | Reply clock | The scheduler moves an unanswered pending booking to `expired` when the reply window ends, and writes the matching notification |
