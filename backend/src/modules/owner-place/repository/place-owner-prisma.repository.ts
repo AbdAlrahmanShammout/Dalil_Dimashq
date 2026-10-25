@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import {
   ClaimTarget,
+  ImmediatePlaceFields,
   OwnedPlaceSummary,
   OwnerPlaceDetail,
   PlaceNamePage,
@@ -125,6 +126,32 @@ export class PlaceOwnerPrismaRepository extends PlaceOwnerRepository {
       type: place.type,
       addressAr: place.addressAr,
       addressEn: place.addressEn,
+    };
+  }
+
+  override async isPremium(placeId: string, now: Date): Promise<boolean> {
+    const row = await this.prisma.subscription.findFirst({
+      where: { placeId, endsAt: { gt: now } },
+    });
+    return row !== null;
+  }
+
+  override async updateImmediate(
+    placeId: string,
+    fields: ImmediatePlaceFields,
+  ): Promise<ImmediatePlaceFields> {
+    const row = await this.prisma.place.update({
+      where: { id: placeId },
+      data: fields,
+    });
+    return {
+      phone: row.phone,
+      website: row.website,
+      email: row.email,
+      facebook: row.facebook,
+      instagram: row.instagram,
+      descriptionAr: row.descriptionAr,
+      descriptionEn: row.descriptionEn,
     };
   }
 }

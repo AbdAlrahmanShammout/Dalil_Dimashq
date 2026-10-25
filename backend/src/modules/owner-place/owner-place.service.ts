@@ -5,6 +5,7 @@ import { InvalidStateException } from '@/common/exceptions/invalid-state.excepti
 import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
 import { DEFAULT_PAGE_LIMIT, DEFAULT_PAGE_OFFSET } from '@/modules/place/enum/general.enum';
 import {
+  ImmediatePlaceFields,
   OwnedPlaceSummary,
   OwnerPlaceDetail,
   PlaceNamePage,
@@ -77,4 +78,38 @@ export class OwnerPlaceService {
     }
     return place;
   }
+
+  /**
+   * Writes contact and description fields immediately when Premium is active.
+   */
+  async updateImmediate(input: {
+    readonly userId: string;
+    readonly placeId: string;
+    readonly fields: ImmediatePlaceFields;
+    readonly now?: Date;
+  }): Promise<ImmediatePlaceFields> {
+    await this.assertLinked(input.userId, input.placeId);
+    const fields = normalizeImmediateFields(input.fields);
+    if (Object.keys(fields).length === 0) {
+      throw new InvalidStateException({ message: 'Nothing to change', code: 'nothing_to_change' });
+    }
+    const premium = await this.placeOwnerRepository.isPremium(
+      input.placeId,
+      input.now ?? new Date(),
+    );
+    if (!premium) {
+      throw new AccessDeniedException({ message: 'Premium required', code: 'premium_required' });
+    }
+    return this.placeOwnerRepository.updateImmediate(input.placeId, fields);
+  }
+}
+
+function normalizeImmediateFields(fields: ImmediatePlaceFields): ImmediatePlaceFields {
+  const entries = Object.entries(fields).filter((entry) => entry[1] !== undefined);
+  return Object.fromEntries(
+    entries.map(([key, value]) => [
+      key,
+      typeof value === 'string' && value.trim() === '' ? null : value,
+    ]),
+  );
 }

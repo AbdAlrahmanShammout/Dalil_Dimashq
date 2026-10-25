@@ -1,12 +1,14 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { ApiAudience, Principal } from '@/common/auth/principal.interface';
 import { LoggedInUser } from '@/common/decorators/requests/logged-in-user.decorator';
 import { Audience } from '@/common/decorators/route/audience.decorator';
 import { ClaimCodeRequestDto } from '@/modules/owner-place/dto/request/claim-code-request.dto';
+import { ImmediatePlaceRequestDto } from '@/modules/owner-place/dto/request/immediate-place-request.dto';
 import { OwnerPlaceSearchQueryDto } from '@/modules/owner-place/dto/request/owner-place-search-query.dto';
 import { ClaimCodeResponseDto } from '@/modules/owner-place/dto/response/claim-code-response.dto';
+import { ImmediatePlaceResponseDto } from '@/modules/owner-place/dto/response/immediate-place-response.dto';
 import { OwnedPlaceListResponseDto } from '@/modules/owner-place/dto/response/owned-place-list-response.dto';
 import { OwnerPlaceDetailResponseDto } from '@/modules/owner-place/dto/response/owner-place-detail-response.dto';
 import { OwnerPlaceSearchResponseDto } from '@/modules/owner-place/dto/response/owner-place-search-response.dto';
@@ -40,6 +42,21 @@ export class OwnerPlaceDashboardController {
   ): Promise<OwnerPlaceDetailResponseDto> {
     const place = await this.ownerPlaceService.readSummary(currentUser.id, placeId);
     return new OwnerPlaceDetailResponseDto(place);
+  }
+
+  @Patch(':id/immediate')
+  async updateImmediate(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+    @Body() body: ImmediatePlaceRequestDto,
+  ): Promise<ImmediatePlaceResponseDto> {
+    const { phone, website, email, facebook, instagram, descriptionAr, descriptionEn } = body;
+    const saved = await this.ownerPlaceService.updateImmediate({
+      userId: currentUser.id,
+      placeId,
+      fields: { phone, website, email, facebook, instagram, descriptionAr, descriptionEn },
+    });
+    return new ImmediatePlaceResponseDto(saved);
   }
 
   @Get()

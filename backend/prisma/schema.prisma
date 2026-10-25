@@ -206,6 +206,8 @@ model Place {
   email       String?
   facebook    String?
   instagram   String?
+  descriptionAr String?
+  descriptionEn String?
   claimCode   String?     @unique
   geocodeFailedAt DateTime?
   createdAt   DateTime    @default(now())

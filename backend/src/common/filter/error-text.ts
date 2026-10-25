@@ -194,6 +194,10 @@ export const ERROR_TEXT: Readonly<Record<string, ErrorText>> = {
     ar: 'رمز التحقق غير صحيح أو انتهت صلاحيته.',
     en: 'The code is invalid or has expired.',
   },
+  premium_required: {
+    ar: 'هذا التعديل متاح لأصحاب الاشتراك المميز فقط.',
+    en: 'This change is available to Premium places only.',
+  },
   phone_unverified: {
     ar: 'يرجى توثيق رقم الهاتف قبل التقييم.',
     en: 'Verify your phone before rating a place.',

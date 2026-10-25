@@ -1,5 +1,6 @@
 import { OwnerPlaceService } from '@/modules/owner-place/owner-place.service';
 import {
+  ImmediatePlaceFields,
   OwnedPlaceSummary,
   OwnerPlaceDetail,
   PlaceNamePage,
@@ -47,6 +48,8 @@ class MemoryPlaceOwnerRepository extends PlaceOwnerRepository {
     return Promise.resolve(this.linked.includes(`${userId}:${placeId}`));
   }
 
+  premium = false;
+
   async findDetail(placeId: string): Promise<OwnerPlaceDetail | null> {
     if (placeId === 'missing') {
       return null;
@@ -59,6 +62,17 @@ class MemoryPlaceOwnerRepository extends PlaceOwnerRepository {
       addressAr: 'المزة',
       addressEn: 'Mazzeh',
     };
+  }
+
+  async isPremium(): Promise<boolean> {
+    return this.premium;
+  }
+
+  async updateImmediate(
+    _placeId: string,
+    fields: ImmediatePlaceFields,
+  ): Promise<ImmediatePlaceFields> {
+    return fields;
   }
 }
 
@@ -122,5 +136,26 @@ describe('OwnerPlaceService', () => {
     });
     const summary = await service.readSummary('user-1', 'place-1');
     expect(summary).toMatchObject({ nameEn: 'Cafe', type: 'cafe', addressEn: 'Mazzeh' });
+  });
+
+  it('writes contact fields only while Premium is active', async () => {
+    const repository = new MemoryPlaceOwnerRepository();
+    repository.linked.push('user-1:place-1');
+    const service = new OwnerPlaceService(repository);
+    await expect(
+      service.updateImmediate({
+        userId: 'user-1',
+        placeId: 'place-1',
+        fields: { phone: '0944000000', descriptionEn: 'Quiet cafe' },
+      }),
+    ).rejects.toMatchObject({ code: 'premium_required' });
+    repository.premium = true;
+    const saved = await service.updateImmediate({
+      userId: 'user-1',
+      placeId: 'place-1',
+      fields: { phone: '0944000000', descriptionEn: 'Quiet cafe' },
+    });
+    expect(saved.phone).toBe('0944000000');
+    expect(saved.descriptionEn).toBe('Quiet cafe');
   });
 });

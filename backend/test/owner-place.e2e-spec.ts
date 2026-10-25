@@ -220,6 +220,36 @@ describe('owner places', () => {
       addressEn: null,
     });
   });
+
+  it('writes Premium contact fields and refuses them otherwise', async () => {
+    const token = await signInOwner(app, 'owner-immediate@example.com');
+    const user = await prisma.user.findUniqueOrThrow({
+      where: { email: 'owner-immediate@example.com' },
+    });
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: { nameAr: 'مقهى', nameEn: 'Cafe', type: 'cafe', areaId: area.id },
+    });
+    await prisma.placeOwner.create({ data: { placeId: place.id, userId: user.id } });
+    const blocked = await request(app.getHttpServer())
+      .patch(`/dashboard-owner/places/${place.id}/immediate`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ phone: '0944555555', descriptionAr: 'هادئ', descriptionEn: 'Quiet' })
+      .expect(403);
+    expect(blocked.body.code).toBe('premium_required');
+    await prisma.subscription.create({
+      data: { placeId: place.id, endsAt: new Date('2027-01-01T00:00:00Z') },
+    });
+    const saved = await request(app.getHttpServer())
+      .patch(`/dashboard-owner/places/${place.id}/immediate`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ phone: '0944555555', descriptionAr: 'هادئ', descriptionEn: 'Quiet' })
+      .expect(200);
+    expect(saved.body.phone).toBe('0944555555');
+    expect(saved.body.descriptionEn).toBe('Quiet');
+    const stored = await prisma.place.findUniqueOrThrow({ where: { id: place.id } });
+    expect(stored.descriptionAr).toBe('هادئ');
+  });
 });
 
 async function signInOwner(app: INestApplication, email: string): Promise<string> {

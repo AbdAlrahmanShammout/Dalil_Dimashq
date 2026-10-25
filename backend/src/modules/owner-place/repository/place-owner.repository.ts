@@ -14,6 +14,16 @@ export interface PlaceNamePage {
   readonly offset: number;
 }
 
+export interface ImmediatePlaceFields {
+  readonly phone?: string | null;
+  readonly website?: string | null;
+  readonly email?: string | null;
+  readonly facebook?: string | null;
+  readonly instagram?: string | null;
+  readonly descriptionAr?: string | null;
+  readonly descriptionEn?: string | null;
+}
+
 export interface OwnerPlaceDetail {
   readonly id: string;
   readonly nameAr: string;
@@ -51,6 +61,11 @@ export abstract class PlaceOwnerRepository {
   abstract findClaimTarget(placeId: string): Promise<ClaimTarget | null>;
   abstract linkOwner(userId: string, placeId: string): Promise<void>;
   abstract findDetail(placeId: string): Promise<OwnerPlaceDetail | null>;
+  abstract isPremium(placeId: string, now: Date): Promise<boolean>;
+  abstract updateImmediate(
+    placeId: string,
+    fields: ImmediatePlaceFields,
+  ): Promise<ImmediatePlaceFields>;
 
   isLinked(_userId: string, _placeId: string): Promise<boolean> {
     return Promise.resolve(false);
