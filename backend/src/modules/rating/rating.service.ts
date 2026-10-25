@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { ConflictException } from '@/common/exceptions/conflict.exception';
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
+import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
 import { PlaceService } from '@/modules/place/place.service';
 import { RatingRecord, RatingRepository } from '@/modules/rating/repository/rating.repository';
 import { UserService } from '@/modules/user/user.service';
@@ -37,5 +38,41 @@ export class RatingService {
       throw new ConflictException({ message: 'Rating already exists', code: 'conflict' });
     }
     return this.ratingRepository.create(input);
+  }
+
+  /**
+   * Counts a rating and refreshes the public score from counted rows only.
+   */
+  async countRating(ratingId: string): Promise<void> {
+    const rating = await this.requireRating(ratingId);
+    await this.ratingRepository.markStatus(rating.id, 'counted');
+    await this.refreshPublicScore(rating.placeId);
+  }
+
+  /**
+   * Rejects a rating. Held and rejected rows stay out of the public score.
+   */
+  async rejectRating(ratingId: string): Promise<void> {
+    const rating = await this.requireRating(ratingId);
+    await this.ratingRepository.markStatus(rating.id, 'rejected');
+  }
+
+  private async refreshPublicScore(placeId: string): Promise<void> {
+    const counted = await this.ratingRepository.listCounted(placeId);
+    if (counted.length === 0) {
+      await this.placeService.applyVisitorScore(placeId, null);
+      return;
+    }
+    const total = counted.reduce((sum, row) => sum + row.stars, 0);
+    const starValue = Math.round(total / counted.length);
+    await this.placeService.applyVisitorScore(placeId, starValue);
+  }
+
+  private async requireRating(ratingId: string): Promise<RatingRecord> {
+    const rating = await this.ratingRepository.findById(ratingId);
+    if (!rating) {
+      throw new ResourceNotFoundException('Rating', ratingId);
+    }
+    return rating;
   }
 }

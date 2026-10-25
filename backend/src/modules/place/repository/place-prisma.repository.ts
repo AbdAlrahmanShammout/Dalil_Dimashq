@@ -108,4 +108,15 @@ export class PlacePrismaRepository extends PlaceRepository {
       geocodeFailedAt: row.geocodeFailedAt,
     };
   }
+
+  override async updateVisitorScore(
+    placeId: string,
+    starValue: number | null,
+    starSource: string | null,
+  ): Promise<void> {
+    await this.prisma.place.update({
+      where: { id: placeId },
+      data: { starValue, starSource },
+    });
+  }
 }

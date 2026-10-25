@@ -55,4 +55,12 @@ export abstract class PlaceRepository {
       geocodeFailedAt: input.geocodeFailedAt,
     });
   }
+
+  updateVisitorScore(
+    _placeId: string,
+    _starValue: number | null,
+    _starSource: string | null,
+  ): Promise<void> {
+    return Promise.reject(new Error('updateVisitorScore is not implemented'));
+  }
 }

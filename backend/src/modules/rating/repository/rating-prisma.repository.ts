@@ -5,6 +5,7 @@ import {
   CreateRatingRepoInput,
   RatingRecord,
   RatingRepository,
+  RatingStatusName,
 } from '@/modules/rating/repository/rating.repository';
 
 @Injectable()
@@ -20,6 +21,11 @@ export class RatingPrismaRepository extends RatingRepository {
     return row ? toRecord(row) : null;
   }
 
+  override async findById(id: string): Promise<RatingRecord | null> {
+    const row = await this.prisma.rating.findUnique({ where: { id } });
+    return row ? toRecord(row) : null;
+  }
+
   override async create(input: CreateRatingRepoInput): Promise<RatingRecord> {
     const row = await this.prisma.rating.create({
       data: {
@@ -28,6 +34,21 @@ export class RatingPrismaRepository extends RatingRepository {
         stars: input.stars,
         status: 'held',
       },
+    });
+    return toRecord(row);
+  }
+
+  override async listCounted(placeId: string): Promise<RatingRecord[]> {
+    const rows = await this.prisma.rating.findMany({
+      where: { placeId, status: 'counted' },
+    });
+    return rows.map(toRecord);
+  }
+
+  override async markStatus(id: string, status: RatingStatusName): Promise<RatingRecord> {
+    const row = await this.prisma.rating.update({
+      where: { id },
+      data: { status },
     });
     return toRecord(row);
   }

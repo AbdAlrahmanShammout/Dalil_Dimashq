@@ -7,6 +7,7 @@ import request from 'supertest';
 import { AppModule } from '@/app.module';
 import { InputValidationPipe } from '@/common/pipes/input-validation.pipe';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
+import { RatingService } from '@/modules/rating/rating.service';
 import { capturedMail, clearCapturedMail } from '@/providers/mail/mail-capture';
 
 describe('ratings', () => {
@@ -69,6 +70,15 @@ describe('ratings', () => {
       .send({ stars: 4 })
       .expect(409);
     expect(again.body.code).toBe('conflict');
+    const storedRating = await prisma.rating.findFirstOrThrow({ where: { placeId: place.id } });
+    await app.get(RatingService).rejectRating(storedRating.id);
+    const rejectedPlace = await prisma.place.findUnique({ where: { id: place.id } });
+    expect(rejectedPlace?.starValue).toBeNull();
+    await prisma.rating.update({ where: { id: storedRating.id }, data: { status: 'held' } });
+    await app.get(RatingService).countRating(storedRating.id);
+    const scored = await prisma.place.findUnique({ where: { id: place.id } });
+    expect(scored?.starValue).toBe(5);
+    expect(scored?.starSource).toBe('visitors');
   });
 });
 

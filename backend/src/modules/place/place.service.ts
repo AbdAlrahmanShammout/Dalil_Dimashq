@@ -33,4 +33,14 @@ export class PlaceService {
   async listFeaturedPlaces(): Promise<PlaceEntity[]> {
     return this.placeRepository.listFeatured();
   }
+
+  /**
+   * Writes the public score from counted visitor ratings.
+   */
+  async applyVisitorScore(placeId: string, starValue: number | null): Promise<void> {
+    const starSource = starValue === null ? null : VISITOR_STAR_SOURCE;
+    await this.placeRepository.updateVisitorScore(placeId, starValue, starSource);
+  }
 }
+
+const VISITOR_STAR_SOURCE = 'visitors';

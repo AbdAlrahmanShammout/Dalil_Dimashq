@@ -3,6 +3,7 @@ import {
   CreateRatingRepoInput,
   RatingRecord,
   RatingRepository,
+  RatingStatusName,
 } from '@/modules/rating/repository/rating.repository';
 import { RatingService } from '@/modules/rating/rating.service';
 import { UserService } from '@/modules/user/user.service';
@@ -24,6 +25,21 @@ class MemoryRatingRepository extends RatingRepository {
     };
     this.rows.push(row);
     return row;
+  }
+
+  async findById(id: string): Promise<RatingRecord | null> {
+    return this.rows.find((row) => row.id === id) ?? null;
+  }
+
+  async listCounted(placeId: string): Promise<RatingRecord[]> {
+    return this.rows.filter((row) => row.placeId === placeId && row.status === 'counted');
+  }
+
+  async markStatus(id: string, status: RatingStatusName): Promise<RatingRecord> {
+    const index = this.rows.findIndex((row) => row.id === id);
+    const next: RatingRecord = { ...this.rows[index], status };
+    this.rows[index] = next;
+    return next;
   }
 }
 
@@ -53,5 +69,27 @@ describe('RatingService', () => {
       verified.create({ userId: 'user-1', placeId: 'place-1', stars: 3 }),
     ).rejects.toMatchObject({ code: 'conflict' });
     expect(repository.rows).toHaveLength(1);
+  });
+
+  it('changes the public score only when a rating is counted', async () => {
+    const scores: Array<number | null> = [];
+    const localRepository = new MemoryRatingRepository();
+    const scoringPlace = {
+      getPublicPlace: async (id: string) => ({ id }),
+      applyVisitorScore: async (_placeId: string, starValue: number | null) => {
+        scores.push(starValue);
+      },
+    } as unknown as PlaceService;
+    const service = new RatingService(localRepository, scoringPlace, {
+      hasVerifiedPhone: async () => true,
+    } as unknown as UserService);
+    const held = await service.create({ userId: 'user-1', placeId: 'place-1', stars: 4 });
+    await service.rejectRating(held.id);
+    expect(scores).toEqual([]);
+    const counted = await service.create({ userId: 'user-2', placeId: 'place-1', stars: 5 });
+    await service.countRating(counted.id);
+    const other = await service.create({ userId: 'user-3', placeId: 'place-1', stars: 1 });
+    await service.countRating(other.id);
+    expect(scores).toEqual([5, 3]);
   });
 });

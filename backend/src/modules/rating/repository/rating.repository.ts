@@ -19,5 +19,8 @@ export interface CreateRatingRepoInput {
 
 export abstract class RatingRepository {
   abstract findByVisitor(userId: string, placeId: string): Promise<RatingRecord | null>;
+  abstract findById(id: string): Promise<RatingRecord | null>;
   abstract create(input: CreateRatingRepoInput): Promise<RatingRecord>;
+  abstract listCounted(placeId: string): Promise<RatingRecord[]>;
+  abstract markStatus(id: string, status: RatingStatusName): Promise<RatingRecord>;
 }
