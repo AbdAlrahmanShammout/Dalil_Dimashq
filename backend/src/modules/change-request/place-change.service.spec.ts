@@ -43,5 +43,8 @@ describe('PlaceChangeService', () => {
     });
     expect(created.kind).toBe('report');
     expect(created.status).toBe('pending');
+    const claim = await service.openClaim({ userId: 'user-1', placeId: 'place-1' });
+    expect(claim.kind).toBe('claim');
+    expect(repository.rows[1].reason).toBeNull();
   });
 });

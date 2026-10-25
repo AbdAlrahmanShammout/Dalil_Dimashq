@@ -37,4 +37,21 @@ export class PlaceChangeService {
       payload: null,
     });
   }
+
+  /**
+   * Opens a claim with an empty change set. The place is not linked yet.
+   */
+  async openClaim(input: {
+    readonly userId: string;
+    readonly placeId: string;
+  }): Promise<PlaceChangeRecord> {
+    await this.placeService.getPublicPlace(input.placeId);
+    return this.placeChangeRepository.create({
+      placeId: input.placeId,
+      userId: input.userId,
+      kind: 'claim',
+      reason: null,
+      payload: null,
+    });
+  }
 }

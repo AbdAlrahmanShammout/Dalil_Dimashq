@@ -161,6 +161,27 @@ describe('owner places', () => {
     });
     expect(link).not.toBeNull();
   });
+
+  it('opens a claim without linking the place', async () => {
+    const token = await signInOwner(app, 'owner-open-claim@example.com');
+    const user = await prisma.user.findUniqueOrThrow({
+      where: { email: 'owner-open-claim@example.com' },
+    });
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: { nameAr: 'مقهى', nameEn: 'Cafe', type: 'cafe', areaId: area.id },
+    });
+    const created = await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/claims`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(201);
+    expect(created.body).toMatchObject({ kind: 'claim', status: 'pending' });
+    const stored = await prisma.placeChangeRequest.findFirst({ where: { placeId: place.id } });
+    expect(stored?.userId).toBe(user.id);
+    expect(stored?.payload).toBeNull();
+    const link = await prisma.placeOwner.findFirst({ where: { placeId: place.id } });
+    expect(link).toBeNull();
+  });
 });
 
 async function signInOwner(app: INestApplication, email: string): Promise<string> {

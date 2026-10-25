@@ -10,12 +10,17 @@ import { ClaimCodeResponseDto } from '@/modules/owner-place/dto/response/claim-c
 import { OwnedPlaceListResponseDto } from '@/modules/owner-place/dto/response/owned-place-list-response.dto';
 import { OwnerPlaceSearchResponseDto } from '@/modules/owner-place/dto/response/owner-place-search-response.dto';
 import { OwnerPlaceService } from '@/modules/owner-place/owner-place.service';
+import { PlaceChangeService } from '@/modules/change-request/place-change.service';
+import { PlaceChangeResponseDto } from '@/modules/change-request/dto/response/place-change-response.dto';
 
 @ApiTags('owner-places')
 @Audience(ApiAudience.DashboardOwner)
 @Controller('dashboard-owner/places')
 export class OwnerPlaceDashboardController {
-  constructor(private readonly ownerPlaceService: OwnerPlaceService) {}
+  constructor(
+    private readonly ownerPlaceService: OwnerPlaceService,
+    private readonly placeChangeService: PlaceChangeService,
+  ) {}
 
   @Get('search')
   async search(
@@ -43,5 +48,17 @@ export class OwnerPlaceDashboardController {
     const { code } = body;
     await this.ownerPlaceService.claimWithCode({ userId: currentUser.id, placeId, code });
     return new ClaimCodeResponseDto();
+  }
+
+  @Post(':id/claims')
+  async openClaim(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+  ): Promise<PlaceChangeResponseDto> {
+    const created = await this.placeChangeService.openClaim({
+      userId: currentUser.id,
+      placeId,
+    });
+    return new PlaceChangeResponseDto(created);
   }
 }
