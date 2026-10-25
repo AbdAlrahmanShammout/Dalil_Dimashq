@@ -26,7 +26,16 @@ export class BookingSettingsPrismaRepository extends BookingSettingsRepository {
       where: { placeId },
       orderBy: { dayOfWeek: 'asc' },
     });
-    if (!settings && blackouts.length === 0 && responseHours.length === 0) {
+    const openingHours = await this.prisma.placeHour.findMany({
+      where: { placeId },
+      orderBy: { dayOfWeek: 'asc' },
+    });
+    if (
+      !settings &&
+      blackouts.length === 0 &&
+      responseHours.length === 0 &&
+      openingHours.length === 0
+    ) {
       return null;
     }
     return {
@@ -37,6 +46,11 @@ export class BookingSettingsPrismaRepository extends BookingSettingsRepository {
       replyWindowMinutes: settings?.replyWindowMinutes ?? DEFAULT_BOOKING_REPLY_MINUTES,
       closedPeriods: blackouts.map((row) => ({ startsAt: row.startsAt, endsAt: row.endsAt })),
       responseHours: responseHours.map((row) => ({
+        dayOfWeek: row.dayOfWeek,
+        opensAt: row.opensAt,
+        closesAt: row.closesAt,
+      })),
+      openingHours: openingHours.map((row) => ({
         dayOfWeek: row.dayOfWeek,
         opensAt: row.opensAt,
         closesAt: row.closesAt,

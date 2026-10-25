@@ -34,6 +34,7 @@ export class BookingAvailabilityService {
         replyWindowMinutes: DEFAULT_BOOKING_REPLY_MINUTES,
         closedPeriods: [],
         responseHours: [],
+        openingHours: [],
       }
     );
   }

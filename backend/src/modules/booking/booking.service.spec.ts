@@ -46,6 +46,7 @@ function buildService(repository: BookingRepository): BookingService {
         replyWindowMinutes: 60,
         closedPeriods: [],
         responseHours: [],
+        openingHours: [{ dayOfWeek: 0, opensAt: 9 * 60, closesAt: 22 * 60 }],
       };
     }
   })();
@@ -69,6 +70,7 @@ describe('BookingService', () => {
       startsAt: new Date('2026-11-01T18:00:00Z'),
       partySize: 2,
       note: null,
+      now: new Date('2026-10-25T12:00:00Z'),
     };
     const first = await service.create(input);
     const second = await service.create({ ...input, partySize: 3 });

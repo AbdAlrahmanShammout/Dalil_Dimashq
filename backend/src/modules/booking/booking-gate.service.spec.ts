@@ -17,6 +17,7 @@ class OpenSettingsRepository extends BookingSettingsRepository {
     replyWindowMinutes: number;
     closedPeriods: [];
     responseHours: [];
+    openingHours: [];
   }> {
     return {
       acceptsBookings: this.acceptsBookings,
@@ -26,6 +27,7 @@ class OpenSettingsRepository extends BookingSettingsRepository {
       replyWindowMinutes: 60,
       closedPeriods: [],
       responseHours: [],
+      openingHours: [],
     };
   }
 }

@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 57.
+Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 58.
 
 ### 1. Foundation
 
@@ -238,7 +238,7 @@ Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 57.
 | ✅ 54 | Gate | `POST /client-app/bookings` requires a user, a place that accepts bookings, and no active ban. Otherwise the code is `booking_closed` or `booking_banned` |
 | ✅ 55 | Create | The body has a client key, place, time, party size, note (max 300), and an optional offer id. There is no payment field. The same client key returns the same booking |
 | ✅ 56 | Result | The create response includes the booking number and status `pending` |
-| 57 | Slots | Offered times respect notice, weekly hours, response hours, and blackouts, in Damascus time |
+| ✅ 57 | Slots | Offered times respect notice, weekly hours, response hours, and blackouts, in Damascus time |
 | 58 | Offer link | An offer id is stored only when that offer is current for that place. The booking does not change the offer |
 | 59 | My bookings | `GET /client-app/bookings` returns the caller's rows across all nine statuses, with a real `total` |
 | 60 | Booking details | `GET /client-app/bookings/:id` returns place, time, party, note, and any rejection or cancellation reason. Another user's id is not found |

@@ -22,6 +22,7 @@ export interface BookingAvailability {
   readonly replyWindowMinutes: number;
   readonly closedPeriods: readonly ClosedPeriod[];
   readonly responseHours: readonly ResponseHour[];
+  readonly openingHours: readonly ResponseHour[];
 }
 
 export abstract class BookingSettingsRepository {

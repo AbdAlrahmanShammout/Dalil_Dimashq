@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
 import { BookingAvailabilityService } from '@/modules/booking/booking-availability.service';
+import { assertBookableSlot } from '@/modules/booking/booking-slot';
 import { BookingGateService } from '@/modules/booking/booking-gate.service';
 import {
   BookingRecord,
@@ -25,15 +26,17 @@ export class BookingService {
     if (existing) {
       return existing;
     }
+    const now = input.now ?? new Date();
     await this.bookingGateService.assertOpen({
       userId: input.userId,
       placeId: input.placeId,
-      now: input.now,
+      now,
     });
     const availability = await this.bookingAvailabilityService.read(input.placeId);
     if (input.partySize > availability.maxParty) {
       throw new InvalidStateException({ message: 'Party is too large', code: 'party_too_large' });
     }
+    assertBookableSlot({ startsAt: input.startsAt, now, availability });
     return this.bookingRepository.create(input);
   }
 }

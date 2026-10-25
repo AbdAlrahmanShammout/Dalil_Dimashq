@@ -74,6 +74,7 @@ describe('booking gate', () => {
         status: 'active',
         areaId: area.id,
         bookingSettings: { create: { acceptsBookings: true } },
+        hours: { create: { dayOfWeek: 0, opensAt: 0, closesAt: 24 * 60 } },
       },
     });
     const allowed = await request(app.getHttpServer())
