@@ -28,6 +28,7 @@ describe('owner offers', () => {
   });
 
   afterAll(async () => {
+    await prisma.subscription.deleteMany();
     await prisma.offer.deleteMany();
     await prisma.placeOwner.deleteMany();
     await prisma.place.deleteMany();
@@ -39,6 +40,7 @@ describe('owner offers', () => {
   beforeEach(async () => {
     clearCapturedMail();
     deleted.length = 0;
+    await prisma.subscription.deleteMany();
     await prisma.offer.deleteMany();
     await prisma.placeOwner.deleteMany();
     await prisma.place.deleteMany();
@@ -56,6 +58,20 @@ describe('owner offers', () => {
       data: { nameAr: 'مقهى', nameEn: 'Cafe', type: 'cafe', areaId: area.id },
     });
     await prisma.placeOwner.create({ data: { placeId: place.id, userId: user.id } });
+    const blocked = await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/offers`)
+      .set('Authorization', `Bearer ${token}`)
+      .field('titleAr', 'عرض')
+      .field('titleEn', 'Deal')
+      .field('detailsAr', 'تفاصيل')
+      .field('detailsEn', 'Details')
+      .field('startsAt', '2026-10-01T00:00:00.000Z')
+      .field('endsAt', '2026-11-30T00:00:00.000Z')
+      .expect(403);
+    expect(blocked.body.code).toBe('premium_required');
+    await prisma.subscription.create({
+      data: { placeId: place.id, endsAt: new Date('2027-01-01T00:00:00Z') },
+    });
     const tooLong = await request(app.getHttpServer())
       .post(`/dashboard-owner/places/${place.id}/offers`)
       .set('Authorization', `Bearer ${token}`)

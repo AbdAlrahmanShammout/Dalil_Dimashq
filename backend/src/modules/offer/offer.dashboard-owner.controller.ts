@@ -43,6 +43,7 @@ export class OfferDashboardOwnerController {
     @UploadedFile() file?: UploadedOfferImage,
   ): Promise<OwnerOfferCreatedResponseDto> {
     await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    await this.ownerPlaceService.assertPremium(placeId);
     const { titleAr, titleEn, detailsAr, detailsEn, startsAt, endsAt } = body;
     const created = await this.offerService.createOwnerOffer({
       placeId,
@@ -66,6 +67,7 @@ export class OfferDashboardOwnerController {
     @Param('offerId') offerId: string,
   ): Promise<PlaceAmenityChangedResponseDto> {
     await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    await this.ownerPlaceService.assertPremium(placeId);
     await this.offerService.stopOwnerOffer(placeId, offerId);
     return new PlaceAmenityChangedResponseDto();
   }
@@ -77,6 +79,7 @@ export class OfferDashboardOwnerController {
     @Param('offerId') offerId: string,
   ): Promise<PlaceAmenityChangedResponseDto> {
     await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    await this.ownerPlaceService.assertPremium(placeId);
     await this.offerService.deleteOwnerOffer(placeId, offerId);
     return new PlaceAmenityChangedResponseDto();
   }

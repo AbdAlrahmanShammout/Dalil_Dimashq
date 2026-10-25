@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–95 are done. Task 22 is skipped. Next is task 96.
+Status: tasks 1–21 and 23–96 are done. Task 22 is skipped. Next is task 97.
 
 ### 1. Foundation
 
@@ -292,7 +292,7 @@ Status: tasks 1–21 and 23–95 are done. Task 22 is skipped. Next is task 96.
 | ✅ 93 | Upload, cover, logo, delete | `POST /dashboard-owner/places/:id/photos` receives the file, uploads it to S3, and stores the key. `POST .../cover` and `.../logo` assign. `DELETE .../photos/:photoId` removes the owner's photo and the object. There is no presigned upload URL |
 | ✅ 94 | Photo Premium lock | Tasks 91–93 return `premium_required` when the place is not Premium. The client shows the contact card |
 | ✅ 95 | Offers | `POST /dashboard-owner/places/:id/offers` creates an offer with title, details, an optional image file, and dates. The API uploads that file to S3. The window must be at most 60 days. `POST .../stop` sets the end to now. `DELETE` removes it |
-| 96 | Offer Premium lock | The same `premium_required` rule as photos |
+| ✅ 96 | Offer Premium lock | The same `premium_required` rule as photos |
 | 97 | Removal and unlink | `POST /dashboard-owner/places/:id/removal` creates kind `remove` with a reason. `POST /dashboard-owner/places/:id/unlink` creates the unlink request with a reason. An empty reason is `reason` |
 | 98 | Place bookings | `GET /dashboard-owner/places/:id/bookings` returns name, phone, party, time, note, status, and the report flag |
 | 99 | Confirm and reject | `POST .../bookings/:bookingId/confirm` and `.../reject`. Reject takes an optional reason |
