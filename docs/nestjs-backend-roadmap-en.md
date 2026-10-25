@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 68.
+Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 69.
 
 ### 1. Foundation
 
@@ -254,7 +254,7 @@ Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 68.
 | ✅ 65 | Inbox | `GET /client-app/notifications` lists booking and report rows for the caller, newest first, with read state |
 | ✅ 66 | Mark read | `POST /client-app/notifications/:id/read` sets `readAt` only on the caller's row |
 | ✅ 67 | Open booking | The notification payload includes `bookingId` when it has one, so the client can open that booking |
-| 68 | Register device | `POST /client-app/devices` stores a Firebase token for `android`, `ios`, or `web`. The owner app uses `POST /dashboard-owner/devices` the same way. Neither route sends a push |
+| ✅ 68 | Register device | `POST /client-app/devices` stores a Firebase token for `android`, `ios`, or `web`. The owner app uses `POST /dashboard-owner/devices` the same way. Neither route sends a push |
 | 69 | Send push | `providers/firebase/` sends through Firebase Cloud Messaging when a booking or report notification is created. A missing token is not an error. The in-app row still exists. Tests use a double, not Firebase |
 | 70 | Visitor notification kinds | The inbox creates rows for confirmed, rejected, expired, cancelled by the place, fake reported, report decided, ban started, and ban lifted |
 

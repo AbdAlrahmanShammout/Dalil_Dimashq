@@ -39,6 +39,7 @@ model User {
   bookings         Booking[]
   fakeReports      FakeReport[]
   notifications    Notification[]
+  devices          Device[]
 }
 
 model Profile {
@@ -331,6 +332,24 @@ model Notification {
   createdAt DateTime         @default(now())
 
   @@index([userId, createdAt])
+}
+
+enum DevicePlatform {
+  android
+  ios
+  web
+}
+
+model Device {
+  id        String         @id @default(cuid())
+  userId    String
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  audience  String
+  platform  DevicePlatform
+  token     String
+  createdAt DateTime       @default(now())
+
+  @@unique([userId, audience, token])
 }
 
 enum FakeReportStatus {

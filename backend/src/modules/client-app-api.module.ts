@@ -13,6 +13,8 @@ import { BookingClientAppController } from '@/modules/booking/booking.client-app
 import { BookingModule } from '@/modules/booking/booking.module';
 import { FakeReportClientAppController } from '@/modules/fake-report/fake-report.client-app.controller';
 import { FakeReportModule } from '@/modules/fake-report/fake-report.module';
+import { DeviceClientAppController } from '@/modules/device/device.client-app.controller';
+import { DeviceModule } from '@/modules/device/device.module';
 import { NotificationClientAppController } from '@/modules/notification/notification.client-app.controller';
 import { NotificationModule } from '@/modules/notification/notification.module';
 import { ContactClientAppController } from '@/modules/contact/contact.client-app.controller';
@@ -54,6 +56,7 @@ import { UserModule } from '@/modules/user/user.module';
     BookingModule,
     FakeReportModule,
     NotificationModule,
+    DeviceModule,
   ],
   controllers: [
     AuthClientAppController,
@@ -77,6 +80,7 @@ import { UserModule } from '@/modules/user/user.module';
     BookingClientAppController,
     FakeReportClientAppController,
     NotificationClientAppController,
+    DeviceClientAppController,
   ],
 })
 export class ClientAppApiModule {}
