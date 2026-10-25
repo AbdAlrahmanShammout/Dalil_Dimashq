@@ -28,6 +28,10 @@ export abstract class OfferRepository {
   deleteOwned(_placeId: string, _offerId: string): Promise<{ imageKey: string | null } | null> {
     return Promise.resolve(null);
   }
+
+  deleteById(_offerId: string): Promise<{ imageKey: string | null } | null> {
+    return Promise.resolve(null);
+  }
 }
 
 export interface CreateOwnerOfferRepoInput {

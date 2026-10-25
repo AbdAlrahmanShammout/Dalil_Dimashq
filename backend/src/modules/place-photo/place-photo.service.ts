@@ -107,6 +107,17 @@ export class PlacePhotoService {
   }
 
   /**
+   * Staff removal. Premium is not required.
+   */
+  async removeForStaff(photoId: string): Promise<void> {
+    const removed = await this.placePhotoRepository.deleteById(photoId);
+    if (!removed) {
+      throw new ResourceNotFoundException('Photo', photoId);
+    }
+    await this.photoStorage.deleteObject(removed.objectKey);
+  }
+
+  /**
    * A missing file is refused before storage.
    */
   requirePhotoFile(file: { buffer?: Uint8Array } | undefined): Uint8Array {

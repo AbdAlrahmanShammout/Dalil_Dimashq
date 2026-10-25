@@ -21,4 +21,8 @@ export abstract class PlacePhotoRepository {
   deleteOwned(_placeId: string, _photoId: string): Promise<{ objectKey: string } | null> {
     return Promise.resolve(null);
   }
+
+  deleteById(_photoId: string): Promise<{ objectKey: string } | null> {
+    return Promise.resolve(null);
+  }
 }

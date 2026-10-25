@@ -122,6 +122,19 @@ export class OfferService {
     }
   }
 
+  /**
+   * Staff removal. Premium is not required.
+   */
+  async deleteForStaff(offerId: string): Promise<void> {
+    const removed = await this.offerRepository.deleteById(offerId);
+    if (!removed) {
+      throw new ResourceNotFoundException('Offer', offerId);
+    }
+    if (removed.imageKey) {
+      await this.photoStorage.deleteObject(removed.imageKey);
+    }
+  }
+
   private query(input: { limit?: number; offset?: number; now?: Date }) {
     return {
       limit: input.limit ?? DEFAULT_PAGE_LIMIT,

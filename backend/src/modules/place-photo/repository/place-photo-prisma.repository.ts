@@ -68,4 +68,13 @@ export class PlacePhotoPrismaRepository extends PlacePhotoRepository {
     await this.prisma.placePhoto.delete({ where: { id: photo.id } });
     return { objectKey: photo.objectKey };
   }
+
+  override async deleteById(photoId: string): Promise<{ objectKey: string } | null> {
+    const photo = await this.prisma.placePhoto.findUnique({ where: { id: photoId } });
+    if (!photo) {
+      return null;
+    }
+    await this.prisma.placePhoto.delete({ where: { id: photo.id } });
+    return { objectKey: photo.objectKey };
+  }
 }

@@ -17,6 +17,10 @@ import { BookingHoursAdminPanelController } from '@/modules/booking/booking-hour
 import { BookingModule } from '@/modules/booking/booking.module';
 import { PlaceHourAdminPanelController } from '@/modules/place-hour/place-hour.admin-panel.controller';
 import { PlaceHourModule } from '@/modules/place-hour/place-hour.module';
+import { PlacePhotoAdminPanelController } from '@/modules/place-photo/place-photo.admin-panel.controller';
+import { PlacePhotoModule } from '@/modules/place-photo/place-photo.module';
+import { OfferAdminPanelController } from '@/modules/offer/offer.admin-panel.controller';
+import { OfferModule } from '@/modules/offer/offer.module';
 import { ChangeRequestAdminPanelController } from '@/modules/change-request/change-request.admin-panel.controller';
 import { FeaturedAdminPanelController } from '@/modules/place/featured.admin-panel.controller';
 import { PlaceAdminPanelController } from '@/modules/place/place.admin-panel.controller';
@@ -63,6 +67,8 @@ import { UserModule } from '@/modules/user/user.module';
     RatingModule,
     BookingModule,
     PlaceHourModule,
+    PlacePhotoModule,
+    OfferModule,
     FakeReportModule,
   ],
   controllers: [
@@ -87,6 +93,8 @@ import { UserModule } from '@/modules/user/user.module';
     BookingEnabledAdminPanelController,
     BookingHoursAdminPanelController,
     PlaceHourAdminPanelController,
+    PlacePhotoAdminPanelController,
+    OfferAdminPanelController,
     BookingBanAdminPanelController,
     NoShowWatchAdminPanelController,
     FakeReportAdminPanelController,

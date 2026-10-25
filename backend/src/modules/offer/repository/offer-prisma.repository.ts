@@ -98,4 +98,13 @@ export class OfferPrismaRepository extends OfferRepository {
     await this.prisma.offer.delete({ where: { id: offer.id } });
     return { imageKey: offer.imageKey };
   }
+
+  override async deleteById(offerId: string): Promise<{ imageKey: string | null } | null> {
+    const offer = await this.prisma.offer.findUnique({ where: { id: offerId } });
+    if (!offer) {
+      return null;
+    }
+    await this.prisma.offer.delete({ where: { id: offer.id } });
+    return { imageKey: offer.imageKey };
+  }
 }
