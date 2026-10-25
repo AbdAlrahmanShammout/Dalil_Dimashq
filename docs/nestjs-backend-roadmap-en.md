@@ -27,7 +27,7 @@ Work goes in number order, one task at a time. A later task may import an earlie
 | Website | JSON only. The website renders its own pages. No HTML, sitemap, or share image from this API |
 | Sign-in | Three endpoints. Each issues a token for one audience. The audiences are `client-app`, `dashboard-owner`, and `admin-panel`. A token from one door does not open another |
 | Accounts | One `User` row per email. `isVisitor` and `isOwner` can both be true. Staff is exclusive: `staffRole` is set, and both flags are false. A place link is not an account kind. Premium is a subscription on the place. `admin` satisfies every staff role. There is no permission table |
-| Deploy | Host and S3 region stay unset until deployment is planned. Config reads them. This roadmap does not choose them |
+| Deploy | S3 region is `us-east-1`. Bucket, access key, and secret are read from env. No server host is selected |
 | Errors | `message` follows `Accept-Language` (`ar` or `en`). Clients branch on `code` |
 
 ## Later, not in this version
@@ -36,7 +36,7 @@ Work goes in number order, one task at a time. A later task may import an earlie
 |---|---|
 | Sign in with Apple | After this version ships. Task 22 stays as the placeholder and is not started with the rest |
 | A real SMS provider | After this version. It replaces the fixed code `000000` behind `providers/sms/` without changing the verify route |
-| Host and S3 region | When deployment is planned. Task 147 stays closed until then |
+| Server host | Still not selected. Task 147 records the S3 region only |
 
 ## Audiences
 
@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–142, 146, and 148 are done. Tasks 143–145 are withdrawn. Tasks 22 and 147 are skipped.
+Status: tasks 1–21 and 23–142 and 146–148 are done. Tasks 143–145 are withdrawn. Task 22 is skipped.
 
 ### 1. Foundation
 
@@ -355,7 +355,7 @@ Old Supabase rows are not copied. The schema is not required to match the old ta
 | ⏭ 144 | No password import | Withdrawn. Accounts are created through the three sign-up doors. Old password hashes are not read |
 | ⏭ 145 | No photo copy | Withdrawn. Photos enter only through the upload routes, which write to S3 |
 | ✅ 146 | Fresh start check | A clean migration plus seed boots, and `GET /health/ready` passes against that empty database |
-| ⏭ 147 | Deploy | Not started here. Host and S3 region are chosen when deployment is planned |
+| ✅ 147 | Deploy | S3 region is `us-east-1`. Bucket, access key, and secret are read from env. No server host is selected |
 | ✅ 148 | Client switch | A short note lists every old Supabase path and its new audience path, so the mobile app can be pointed at this API in a later change. This roadmap does not edit the Flutter client |
 
 ## Route index
@@ -534,7 +534,7 @@ Place routes require an owner token and a place link, except search and claim.
 - A presigned S3 upload. Files go through the API.
 - Sign in with Apple, until this version has shipped.
 - A live SMS network. The phone code is `000000`.
-- A chosen host or S3 region.
+- A chosen server host. The S3 region is `us-east-1`.
 - The Flutter client. Task 148 only writes the path map.
 - Figma restyling.
 - A permission matrix. Access is the account kind, the place link, and Premium.
