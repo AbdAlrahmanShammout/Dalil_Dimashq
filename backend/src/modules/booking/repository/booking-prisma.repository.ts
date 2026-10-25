@@ -2,9 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
 import {
+  BookingListItem,
   BookingRecord,
   BookingRepository,
   CreateBookingInput,
+  ListBookingsInput,
 } from '@/modules/booking/repository/booking.repository';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
 
@@ -44,6 +46,30 @@ export class BookingPrismaRepository extends BookingRepository {
       }
       throw error;
     }
+  }
+
+  async listForUser(input: ListBookingsInput): Promise<{ rows: BookingListItem[]; total: number }> {
+    const where = { userId: input.userId };
+    const [rows, total] = await Promise.all([
+      this.prisma.booking.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        skip: input.offset,
+        take: input.limit,
+      }),
+      this.prisma.booking.count({ where }),
+    ]);
+    return {
+      total,
+      rows: rows.map((row) => ({
+        id: row.id,
+        number: row.number,
+        placeId: row.placeId,
+        startsAt: row.startsAt,
+        partySize: row.partySize,
+        status: row.status,
+      })),
+    };
   }
 
   private toRecord(row: {

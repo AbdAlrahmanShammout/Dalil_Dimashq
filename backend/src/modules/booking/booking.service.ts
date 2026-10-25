@@ -5,9 +5,12 @@ import { BookingAvailabilityService } from '@/modules/booking/booking-availabili
 import { assertBookableSlot } from '@/modules/booking/booking-slot';
 import { BookingGateService } from '@/modules/booking/booking-gate.service';
 import {
+  BookingListItem,
   BookingRecord,
   BookingRepository,
+  BOOKING_PAGE_LIMIT,
   CreateBookingInput,
+  ListBookingsInput,
 } from '@/modules/booking/repository/booking.repository';
 import { CurrentOfferRepository } from '@/modules/booking/repository/current-offer.repository';
 
@@ -48,5 +51,16 @@ export class BookingService {
       ? await this.currentOfferRepository.findCurrentId(input.placeId, input.requestedOfferId, now)
       : null;
     return this.bookingRepository.create({ ...input, offerId });
+  }
+
+  /**
+   * Every status belonging to the caller, with the unfiltered total.
+   */
+  async listMine(input: ListBookingsInput): Promise<{ rows: BookingListItem[]; total: number }> {
+    return this.bookingRepository.listForUser({
+      userId: input.userId,
+      limit: input.limit || BOOKING_PAGE_LIMIT,
+      offset: input.offset,
+    });
   }
 }

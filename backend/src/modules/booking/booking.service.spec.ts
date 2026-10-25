@@ -33,6 +33,10 @@ class MemoryBookingRepository extends BookingRepository {
     this.rows.push(row);
     return row;
   }
+
+  async listForUser(): Promise<{ rows: []; total: number }> {
+    return { rows: [], total: 0 };
+  }
 }
 
 function buildService(repository: BookingRepository): BookingService {
