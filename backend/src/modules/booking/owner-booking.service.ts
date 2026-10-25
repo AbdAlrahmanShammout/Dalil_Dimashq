@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
+import { TransactionRunner } from '@/common/base/transaction-runner';
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
 import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
 import { FakeReportService } from '@/modules/fake-report/fake-report.service';
+import { StoredNotificationKind } from '@/modules/notification/repository/notification.repository';
+import { NotificationService } from '@/modules/notification/notification.service';
 import {
   BookingRepository,
   DecideBookingInput,
@@ -18,6 +21,8 @@ export class OwnerBookingService {
   constructor(
     private readonly bookingRepository: BookingRepository,
     private readonly fakeReportService: FakeReportService,
+    private readonly notificationService: NotificationService,
+    private readonly transactionRunner: TransactionRunner,
   ) {}
 
   /**
@@ -31,28 +36,29 @@ export class OwnerBookingService {
    * Confirms a pending booking.
    */
   async confirm(placeId: string, bookingId: string): Promise<void> {
-    await this.requirePending(placeId, bookingId);
-    await this.applyDecision({
-      placeId,
-      bookingId,
-      status: 'confirmed',
-      fromStatuses: ['pending'],
-    });
+    const booking = await this.requirePending(placeId, bookingId);
+    await this.applyDecision(
+      { placeId, bookingId, status: 'confirmed', fromStatuses: ['pending'] },
+      { userId: booking.userId, kind: 'booking_confirmed' },
+    );
   }
 
   /**
    * Rejects a pending booking. The reason is optional.
    */
   async reject(placeId: string, bookingId: string, reason: string | null): Promise<void> {
-    await this.requirePending(placeId, bookingId);
+    const booking = await this.requirePending(placeId, bookingId);
     const trimmed = reason?.trim() ?? '';
-    await this.applyDecision({
-      placeId,
-      bookingId,
-      status: 'rejected',
-      fromStatuses: ['pending'],
-      rejectionReason: trimmed.length > 0 ? trimmed : null,
-    });
+    await this.applyDecision(
+      {
+        placeId,
+        bookingId,
+        status: 'rejected',
+        fromStatuses: ['pending'],
+        rejectionReason: trimmed.length > 0 ? trimmed : null,
+      },
+      { userId: booking.userId, kind: 'booking_rejected' },
+    );
   }
 
   /**
@@ -84,13 +90,16 @@ export class OwnerBookingService {
         code: 'booking_cancel_late',
       });
     }
-    await this.applyDecision({
-      placeId,
-      bookingId,
-      status: 'cancelled_by_owner',
-      fromStatuses: ['confirmed'],
-      cancellationReason: trimmed,
-    });
+    await this.applyDecision(
+      {
+        placeId,
+        bookingId,
+        status: 'cancelled_by_owner',
+        fromStatuses: ['confirmed'],
+        cancellationReason: trimmed,
+      },
+      { userId: booking.userId, kind: 'booking_cancelled_by_owner' },
+    );
   }
 
   /**
@@ -142,12 +151,28 @@ export class OwnerBookingService {
     readonly reason: string;
   }): Promise<{ id: string }> {
     const booking = await this.loadPlaceBooking(input.placeId, input.bookingId);
-    return this.fakeReportService.reportBooking({
-      userId: input.userId,
-      placeId: input.placeId,
-      bookingId: booking.id,
-      status: booking.status,
-      reason: input.reason,
+    return this.transactionRunner.run(async (context) => {
+      const created = await this.fakeReportService.reportBooking({
+        userId: input.userId,
+        placeId: input.placeId,
+        bookingId: booking.id,
+        status: booking.status,
+        reason: input.reason,
+        context,
+      });
+      await this.notificationService.recordNotice({
+        userId: booking.userId,
+        kind: 'fake_reported',
+        bookingId: booking.id,
+        context,
+      });
+      await this.notificationService.recordNotice({
+        userId: input.userId,
+        kind: 'fake_report_new',
+        bookingId: booking.id,
+        context,
+      });
+      return created;
     });
   }
 
@@ -167,10 +192,24 @@ export class OwnerBookingService {
     return booking;
   }
 
-  private async applyDecision(input: DecideBookingInput): Promise<void> {
-    const updated = await this.bookingRepository.decide(input);
-    if (!updated) {
-      throw new InvalidStateException({ message: 'Already answered', code: 'booking_answered' });
-    }
+  private async applyDecision(
+    input: DecideBookingInput,
+    notice?: { readonly userId: string; readonly kind: StoredNotificationKind },
+  ): Promise<void> {
+    await this.transactionRunner.run(async (context) => {
+      const updated = await this.bookingRepository.decide(input, context);
+      if (!updated) {
+        throw new InvalidStateException({ message: 'Already answered', code: 'booking_answered' });
+      }
+      if (!notice) {
+        return;
+      }
+      await this.notificationService.recordNotice({
+        userId: notice.userId,
+        kind: notice.kind,
+        bookingId: input.bookingId,
+        context,
+      });
+    });
   }
 }

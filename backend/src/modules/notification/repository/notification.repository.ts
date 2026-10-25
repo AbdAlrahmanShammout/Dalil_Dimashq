@@ -1,3 +1,5 @@
+import { TransactionContext } from '@/common/base/transaction-runner';
+
 export const VISITOR_NOTIFICATION_KINDS = [
   'booking_confirmed',
   'booking_rejected',
@@ -18,12 +20,14 @@ export const OWNER_NOTIFICATION_KINDS = [
 
 export type VisitorNotificationKind = (typeof VISITOR_NOTIFICATION_KINDS)[number];
 export type OwnerNotificationKind = (typeof OWNER_NOTIFICATION_KINDS)[number];
+export type StoredNotificationKind = VisitorNotificationKind | OwnerNotificationKind;
 
 export interface RecordNotificationInput {
   readonly userId: string;
-  readonly kind: VisitorNotificationKind;
+  readonly kind: StoredNotificationKind;
   readonly bookingId: string | null;
   readonly createdAt: Date;
+  readonly context?: TransactionContext;
 }
 
 export interface NotificationRow {

@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { BookingStatus, Prisma } from '@prisma/client';
 
+import { TransactionContext } from '@/common/base/transaction-runner';
+
 import {
   BookingDetail,
   BookingListItem,
@@ -138,8 +140,8 @@ export class BookingPrismaRepository extends BookingRepository {
     return { id: row.id, userId: row.userId, status: row.status, startsAt: row.startsAt };
   }
 
-  override async decide(input: DecideBookingInput): Promise<boolean> {
-    const result = await this.prisma.booking.updateMany({
+  override async decide(input: DecideBookingInput, context?: TransactionContext): Promise<boolean> {
+    const result = await this.client(context).booking.updateMany({
       where: {
         id: input.bookingId,
         placeId: input.placeId,
@@ -176,5 +178,9 @@ export class BookingPrismaRepository extends BookingRepository {
       offerId: row.offerId,
       status: row.status,
     };
+  }
+
+  private client(context?: TransactionContext): Prisma.TransactionClient | PrismaProviderService {
+    return (context as Prisma.TransactionClient | undefined) ?? this.prisma;
   }
 }

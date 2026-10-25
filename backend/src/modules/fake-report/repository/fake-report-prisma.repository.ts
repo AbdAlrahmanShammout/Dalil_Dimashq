@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 
 import { Prisma } from '@prisma/client';
 
+import { TransactionContext } from '@/common/base/transaction-runner';
+
 import {
   CreateBookingReportInput,
   FakeReportRepository,
@@ -40,7 +42,7 @@ export class FakeReportPrismaRepository extends FakeReportRepository {
     input: CreateBookingReportInput,
   ): Promise<{ id: string } | null> {
     try {
-      const row = await this.prisma.fakeReport.create({
+      const row = await this.client(input.context).fakeReport.create({
         data: {
           userId: input.userId,
           placeId: input.placeId,
@@ -55,5 +57,9 @@ export class FakeReportPrismaRepository extends FakeReportRepository {
       }
       throw error;
     }
+  }
+
+  private client(context?: TransactionContext): Prisma.TransactionClient | PrismaProviderService {
+    return (context as Prisma.TransactionClient | undefined) ?? this.prisma;
   }
 }

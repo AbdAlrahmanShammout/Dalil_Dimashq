@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
+import { TransactionContext } from '@/common/base/transaction-runner';
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
 import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
 import { FakeReportRepository } from '@/modules/fake-report/repository/fake-report.repository';
@@ -39,6 +40,7 @@ export class FakeReportService {
     readonly status: string;
     readonly reason: string;
     readonly now?: Date;
+    readonly context?: TransactionContext;
   }): Promise<{ id: string }> {
     const reason = input.reason.trim();
     if (!reason) {
@@ -72,6 +74,7 @@ export class FakeReportService {
       placeId: input.placeId,
       bookingId: input.bookingId,
       message: reason,
+      context: input.context,
     });
     if (!created) {
       throw new InvalidStateException({ message: 'Already reported', code: 'fake_duplicate' });

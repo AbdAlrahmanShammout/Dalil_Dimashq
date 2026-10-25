@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { NotificationKind } from '@prisma/client';
+import { NotificationKind, Prisma } from '@prisma/client';
+
+import { TransactionContext } from '@/common/base/transaction-runner';
 
 import {
   NotificationRepository,
@@ -46,10 +48,10 @@ export class NotificationPrismaRepository extends NotificationRepository {
   }
 
   async record(input: RecordNotificationInput): Promise<NotificationRow> {
-    const row = await this.prisma.notification.create({
+    const row = await this.client(input.context).notification.create({
       data: {
         userId: input.userId,
-        kind: input.kind,
+        kind: input.kind as NotificationKind,
         bookingId: input.bookingId,
         createdAt: input.createdAt,
       },
@@ -79,5 +81,9 @@ export class NotificationPrismaRepository extends NotificationRepository {
       readAt: row.readAt,
       createdAt: row.createdAt,
     };
+  }
+
+  private client(context?: TransactionContext): Prisma.TransactionClient | PrismaProviderService {
+    return (context as Prisma.TransactionClient | undefined) ?? this.prisma;
   }
 }

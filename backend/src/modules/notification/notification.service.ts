@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 
+import { TransactionContext } from '@/common/base/transaction-runner';
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
 import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
 import {
   NotificationRepository,
   NotificationRow,
+  OWNER_NOTIFICATION_KINDS,
+  StoredNotificationKind,
   VISITOR_NOTIFICATION_KINDS,
-  VisitorNotificationKind,
 } from '@/modules/notification/repository/notification.repository';
 
 @Injectable()
@@ -51,7 +53,26 @@ export class NotificationService {
     readonly bookingId?: string | null;
     readonly now?: Date;
   }): Promise<NotificationRow> {
-    if (!VISITOR_NOTIFICATION_KINDS.includes(input.kind as VisitorNotificationKind)) {
+    if (!(VISITOR_NOTIFICATION_KINDS as readonly string[]).includes(input.kind)) {
+      throw new InvalidStateException({
+        message: 'Unknown notification kind',
+        code: 'kind_invalid',
+      });
+    }
+    return this.recordNotice(input);
+  }
+
+  /**
+   * Stores one visitor or owner notice. Pass the caller's transaction so the row commits with it.
+   */
+  async recordNotice(input: {
+    readonly userId: string;
+    readonly kind: string;
+    readonly bookingId?: string | null;
+    readonly now?: Date;
+    readonly context?: TransactionContext;
+  }): Promise<NotificationRow> {
+    if (!this.isStoredKind(input.kind)) {
       throw new InvalidStateException({
         message: 'Unknown notification kind',
         code: 'kind_invalid',
@@ -59,9 +80,16 @@ export class NotificationService {
     }
     return this.notificationRepository.record({
       userId: input.userId,
-      kind: input.kind as VisitorNotificationKind,
+      kind: input.kind,
       bookingId: input.bookingId ?? null,
       createdAt: input.now ?? new Date(),
+      context: input.context,
     });
+  }
+
+  private isStoredKind(kind: string): kind is StoredNotificationKind {
+    const visitor = (VISITOR_NOTIFICATION_KINDS as readonly string[]).includes(kind);
+    const owner = (OWNER_NOTIFICATION_KINDS as readonly string[]).includes(kind);
+    return visitor || owner;
   }
 }

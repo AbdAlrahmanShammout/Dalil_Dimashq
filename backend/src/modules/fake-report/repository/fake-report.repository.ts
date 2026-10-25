@@ -1,3 +1,5 @@
+import { TransactionContext } from '@/common/base/transaction-runner';
+
 export interface OwnedFakeReport {
   readonly id: string;
   readonly status: string;
@@ -8,6 +10,7 @@ export interface CreateBookingReportInput {
   readonly placeId: string;
   readonly bookingId: string;
   readonly message: string;
+  readonly context?: TransactionContext;
 }
 
 export abstract class FakeReportRepository {

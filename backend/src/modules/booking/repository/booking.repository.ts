@@ -1,3 +1,5 @@
+import { TransactionContext } from '@/common/base/transaction-runner';
+
 export interface BookingDetail {
   readonly id: string;
   readonly number: number;
@@ -97,7 +99,7 @@ export abstract class BookingRepository {
     return Promise.resolve(null);
   }
 
-  decide(_input: DecideBookingInput): Promise<boolean> {
+  decide(_input: DecideBookingInput, _context?: TransactionContext): Promise<boolean> {
     return Promise.resolve(false);
   }
 }

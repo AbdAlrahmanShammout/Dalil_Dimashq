@@ -11,6 +11,6 @@ import { DatabaseProviderModule } from '@/providers/database/database-provider.m
     NotificationService,
     { provide: NotificationRepository, useClass: NotificationPrismaRepository },
   ],
-  exports: [NotificationService],
+  exports: [NotificationService, NotificationRepository],
 })
 export class NotificationModule {}
