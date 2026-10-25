@@ -26,6 +26,7 @@ import {
 } from '@/modules/user/repository/user.repository';
 import { hashSecret } from '@/modules/user/secret';
 import { UserService } from '@/modules/user/user.service';
+import { FixedCodeSmsSender } from '@/providers/sms/fixed-code-sms.sender';
 
 interface StoredCode {
   id: string;
@@ -200,6 +201,14 @@ class MemoryUserRepository extends UserRepository {
     return user;
   }
 
+  override async markPhoneVerified(userId: string, verifiedAt: Date): Promise<void> {
+    const user = await this.require(userId);
+    if (!user.profile) {
+      throw new Error('missing profile');
+    }
+    user.profile.phoneVerifiedAt = verifiedAt;
+  }
+
   override async hasPendingProfileChange(userId: string): Promise<boolean> {
     return this.pendingUserIds.has(userId);
   }
@@ -237,7 +246,11 @@ describe('UserService', () => {
 
   beforeEach(() => {
     repository = new MemoryUserRepository();
-    service = new UserService(repository, new ImmediateTransactionRunner());
+    service = new UserService(
+      repository,
+      new ImmediateTransactionRunner(),
+      new FixedCodeSmsSender(),
+    );
   });
 
   it('rejects a password without letters and digits', async () => {
@@ -577,6 +590,37 @@ describe('UserService', () => {
     expect(profile.changePending).toBe(true);
     expect(profile.firstName).toBe('Ahmad');
     expect(profile.language).toBe(ProfileLanguage.Arabic);
+  });
+
+  it('verifies a phone only with the fixed code', async () => {
+    const created = await service.signUp({
+      email: 'phone@example.com',
+      password: 'Password123',
+      door: AuthDoor.Visitor,
+      audience: ApiAudience.ClientApp,
+    });
+    await service.verifyEmail({
+      email: 'phone@example.com',
+      code: created.code ?? '',
+      audience: ApiAudience.ClientApp,
+      purpose: EmailCodePurpose.Signup,
+    });
+    const userId = repository.users[0].id;
+    await service.completeProfile({
+      userId,
+      firstName: 'Ahmad',
+      lastName: 'Ali',
+      phone: '0944000000',
+      birthYear: 2000,
+      language: ProfileLanguage.Arabic,
+      now: new Date('2026-10-25T00:00:00Z'),
+    });
+    await service.requestPhoneCode(userId);
+    await expect(service.verifyPhone(userId, '123456')).rejects.toMatchObject({
+      code: 'invalid_code',
+    });
+    await service.verifyPhone(userId, '000000', new Date('2026-10-25T12:00:00Z'));
+    expect(repository.users[0].profile?.phoneVerifiedAt).toEqual(new Date('2026-10-25T12:00:00Z'));
   });
 
   it('sets only the visitor flag for Google', async () => {

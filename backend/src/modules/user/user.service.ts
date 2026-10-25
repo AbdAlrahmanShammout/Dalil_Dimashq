@@ -34,6 +34,7 @@ import {
   normalizeSyrianPhone,
 } from '@/modules/user/profile-rules';
 import { UserRepository } from '@/modules/user/repository/user.repository';
+import { SmsSender } from '@/providers/sms/sms-sender';
 import {
   createNumericCode,
   doesHashMatch,
@@ -46,6 +47,7 @@ export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly transactionRunner: TransactionRunner,
+    private readonly smsSender: SmsSender,
   ) {}
 
   /**
@@ -444,6 +446,37 @@ export class UserService {
       }
     });
     return { removed };
+  }
+
+  /**
+   * Asks the SMS seam for a code. This version does not transmit a message.
+   */
+  async requestPhoneCode(userId: string): Promise<void> {
+    const phone = await this.requireProfilePhone(userId);
+    await this.smsSender.sendVerificationCode(phone);
+  }
+
+  /**
+   * Marks the phone verified only when the fixed code matches.
+   */
+  async verifyPhone(userId: string, code: string, verifiedAt: Date = new Date()): Promise<void> {
+    await this.requireProfilePhone(userId);
+    if (!this.smsSender.accepts(code)) {
+      throw new InvalidStateException({ message: 'Invalid code', code: 'invalid_code' });
+    }
+    await this.userRepository.markPhoneVerified(userId, verifiedAt);
+  }
+
+  private async requireProfilePhone(userId: string): Promise<string> {
+    const user = await this.requireUser(userId);
+    const phone = user.profile?.phone;
+    if (!phone) {
+      throw new InvalidStateException({
+        message: 'Profile is incomplete',
+        code: 'profile_incomplete',
+      });
+    }
+    return phone;
   }
 
   async saveRefreshToken(input: CreateRefreshTokenRepoInput): Promise<void> {

@@ -232,6 +232,13 @@ export class UserPrismaRepository extends UserRepository {
     return { id: row.id };
   }
 
+  override async markPhoneVerified(userId: string, verifiedAt: Date): Promise<void> {
+    await this.prisma.profile.update({
+      where: { userId },
+      data: { phoneVerifiedAt: verifiedAt },
+    });
+  }
+
   private client(context?: TransactionContext): DatabaseClient {
     return (context as Prisma.TransactionClient | undefined) ?? this.prisma;
   }

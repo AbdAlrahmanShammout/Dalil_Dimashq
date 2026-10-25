@@ -82,4 +82,7 @@ export abstract class UserRepository {
   createProfileChange(_input: CreateProfileChangeRepoInput): Promise<{ id: string }> {
     return Promise.resolve({ id: 'change-1' });
   }
+  markPhoneVerified(_userId: string, _verifiedAt: Date): Promise<void> {
+    return Promise.reject(new Error('markPhoneVerified is not implemented'));
+  }
 }
