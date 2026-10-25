@@ -76,5 +76,23 @@ describe('notification inbox', () => {
       ['booking_expired', false],
       ['booking_confirmed', true],
     ]);
+    const unread = response.body.notifications[0].id as string;
+    const marked = await request(app.getHttpServer())
+      .post(`/client-app/notifications/${unread}/read`)
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .expect(201);
+    expect(marked.body.readAt).toEqual(expect.any(String));
+    const other = await prisma.user.create({
+      data: { email: 'other-inbox@example.com', isVisitor: true },
+    });
+    const foreign = await prisma.notification.create({
+      data: { userId: other.id, kind: 'booking_rejected' },
+    });
+    await request(app.getHttpServer())
+      .post(`/client-app/notifications/${foreign.id}/read`)
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .expect(404);
+    const still = await prisma.notification.findUniqueOrThrow({ where: { id: foreign.id } });
+    expect(still.readAt).toBeNull();
   });
 });
