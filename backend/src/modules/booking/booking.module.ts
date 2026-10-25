@@ -19,11 +19,20 @@ import { BookingSettingsPrismaRepository } from '@/modules/booking/repository/bo
 import { BookingSettingsRepository } from '@/modules/booking/repository/booking-settings.repository';
 import { PlaceModule } from '@/modules/place/place.module';
 import { DatabaseProviderModule } from '@/providers/database/database-provider.module';
-import { SchedulerProviderModule } from '@/providers/scheduler/scheduler-provider.module';
+import { BookingPushNotifier, FirebaseBookingPushNotifier } from '@/modules/booking/booking-push';
+import { DeviceModule } from '@/modules/device/device.module';
 import { SchedulerManagerService } from '@/providers/scheduler/scheduler-manager.service';
+import { SchedulerProviderModule } from '@/providers/scheduler/scheduler-provider.module';
+import { FirebaseProviderModule } from '@/providers/firebase/firebase-provider.module';
 
 @Module({
-  imports: [DatabaseProviderModule, PlaceModule, SchedulerProviderModule],
+  imports: [
+    DatabaseProviderModule,
+    PlaceModule,
+    SchedulerProviderModule,
+    DeviceModule,
+    FirebaseProviderModule,
+  ],
   providers: [
     BookingAvailabilityService,
     BookingGateService,
@@ -34,6 +43,7 @@ import { SchedulerManagerService } from '@/providers/scheduler/scheduler-manager
     { provide: BookingRepository, useClass: BookingPrismaRepository },
     { provide: CurrentOfferRepository, useClass: CurrentOfferPrismaRepository },
     { provide: BookingClockRepository, useClass: BookingClockPrismaRepository },
+    { provide: BookingPushNotifier, useClass: FirebaseBookingPushNotifier },
   ],
   exports: [BookingAvailabilityService, BookingGateService, BookingService, BookingClockService],
 })

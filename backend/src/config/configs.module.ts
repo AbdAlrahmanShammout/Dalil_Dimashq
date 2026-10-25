@@ -14,6 +14,8 @@ import { GoogleAuthConfigService } from '@/config/google-auth/google-auth-config
 import googleMapsConfigs from '@/config/google-maps/google-maps-configs';
 import mailConfigs from '@/config/mail/mail-configs';
 import { MailConfigService } from '@/config/mail/mail-config.service';
+import firebaseConfigs from '@/config/firebase/firebase-configs';
+import { FirebaseConfigService } from '@/config/firebase/firebase-config.service';
 import { GoogleMapsConfigService } from '@/config/google-maps/google-maps-config.service';
 import jwtConfigs from '@/config/jwt/jwt-configs';
 import { JwtConfigService } from '@/config/jwt/jwt-config.service';
@@ -37,6 +39,7 @@ import { validateEnvironment } from '@/config/validate-environment';
         ...googleMapsConfigs,
         ...googleAuthConfigs,
         ...mailConfigs,
+        ...firebaseConfigs,
       ],
       validate: validateEnvironment,
     }),
@@ -51,6 +54,7 @@ import { validateEnvironment } from '@/config/validate-environment';
     GoogleMapsConfigService,
     GoogleAuthConfigService,
     MailConfigService,
+    FirebaseConfigService,
   ],
   exports: [
     AppConfigService,
@@ -62,6 +66,7 @@ import { validateEnvironment } from '@/config/validate-environment';
     GoogleMapsConfigService,
     GoogleAuthConfigService,
     MailConfigService,
+    FirebaseConfigService,
   ],
 })
 export class ConfigsModule {}

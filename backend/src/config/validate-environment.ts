@@ -10,6 +10,7 @@ import { databaseConfigSchema } from '@/config/database/database-config.schema';
 import { googleAuthConfigSchema } from '@/config/google-auth/google-auth-config.schema';
 import { googleMapsConfigSchema } from '@/config/google-maps/google-maps-config.schema';
 import { mailConfigSchema } from '@/config/mail/mail-config.schema';
+import { firebaseConfigSchema } from '@/config/firebase/firebase-config.schema';
 import { jwtConfigSchema } from '@/config/jwt/jwt-config.schema';
 import { swaggerConfigSchema } from '@/config/swagger/swagger-config.schema';
 
@@ -23,6 +24,7 @@ const validationSchema = Joi.object({
   ...googleMapsConfigSchema,
   ...googleAuthConfigSchema,
   ...mailConfigSchema,
+  ...firebaseConfigSchema,
 });
 
 function readDotenvKeys(): Record<string, string> {

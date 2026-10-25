@@ -4,13 +4,17 @@ import {
   BookingClockRepository,
   PendingBookingClockRow,
 } from '@/modules/booking/repository/booking-clock.repository';
+import { BookingPushNotifier } from '@/modules/booking/booking-push';
 
 export const BOOKING_REPLY_CLOCK_MS = 60_000;
 const MINUTE_MS = 60_000;
 
 @Injectable()
 export class BookingClockService {
-  constructor(private readonly bookingClockRepository: BookingClockRepository) {}
+  constructor(
+    private readonly bookingClockRepository: BookingClockRepository,
+    private readonly bookingPushNotifier: BookingPushNotifier,
+  ) {}
 
   /**
    * Moves unanswered pending bookings to expired and records the notification.
@@ -22,6 +26,9 @@ export class BookingClockService {
       return 0;
     }
     await this.bookingClockRepository.expire(due, now);
+    await this.bookingPushNotifier.notify(
+      due.map((row) => ({ userId: row.userId, bookingId: row.id })),
+    );
     return due.length;
   }
 
