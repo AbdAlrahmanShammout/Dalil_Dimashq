@@ -37,6 +37,7 @@ model User {
   legalAcceptances LegalAcceptance[]
   bookingBans      BookingBan[]
   bookings         Booking[]
+  fakeReports      FakeReport[]
 }
 
 model Profile {
@@ -210,6 +211,7 @@ model Place {
   bookingBlackouts BookingBlackout[]
   bookingResponseHours BookingResponseHour[]
   bookings             Booking[]
+  fakeReports          FakeReport[]
 
   @@index([areaId])
   @@index([status, type])
@@ -299,6 +301,36 @@ model Booking {
 
   @@unique([userId, clientKey])
   @@index([userId, createdAt])
+}
+
+enum FakeReportStatus {
+  open
+  confirmed
+  rejected
+}
+
+model FakeReport {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  placeId   String
+  place     Place            @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  status    FakeReportStatus @default(open)
+  message   String
+  replies   FakeReportReply[]
+  createdAt DateTime         @default(now())
+
+  @@index([userId, status])
+}
+
+model FakeReportReply {
+  id        String     @id @default(cuid())
+  reportId  String
+  report    FakeReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  body      String
+  createdAt DateTime   @default(now())
+
+  @@index([reportId])
 }
 
 model Amenity {
