@@ -48,6 +48,44 @@ export class OwnerBookingService {
     });
   }
 
+  /**
+   * Cancels a confirmed booking that has not started. A reason is required.
+   */
+  async cancel(
+    placeId: string,
+    bookingId: string,
+    reason: string,
+    now: Date = new Date(),
+  ): Promise<void> {
+    const trimmed = reason.trim();
+    if (!trimmed) {
+      throw new InvalidStateException({
+        message: 'Reason is required',
+        code: 'booking_cancel_reason',
+      });
+    }
+    const booking = await this.loadPlaceBooking(placeId, bookingId);
+    if (booking.status !== 'confirmed') {
+      throw new InvalidStateException({
+        message: 'Only a confirmed booking can be cancelled',
+        code: 'booking_cancel_confirmed',
+      });
+    }
+    if (booking.startsAt.getTime() <= now.getTime()) {
+      throw new InvalidStateException({
+        message: 'Too late to cancel',
+        code: 'booking_cancel_late',
+      });
+    }
+    await this.applyDecision({
+      placeId,
+      bookingId,
+      status: 'cancelled_by_owner',
+      fromStatuses: ['confirmed'],
+      cancellationReason: trimmed,
+    });
+  }
+
   private async requirePending(placeId: string, bookingId: string): Promise<PlaceBooking> {
     const booking = await this.loadPlaceBooking(placeId, bookingId);
     if (booking.status !== 'pending') {

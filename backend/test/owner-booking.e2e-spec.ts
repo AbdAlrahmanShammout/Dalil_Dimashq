@@ -140,6 +140,45 @@ describe('owner place bookings', () => {
     expect(rejected.status).toBe('rejected');
     expect(rejected.rejectionReason).toBe('Full');
   });
+
+  it('cancels a future confirmed booking when a reason is given', async () => {
+    const token = await signInOwner(app, 'owner-cancel@example.com');
+    const owner = await prisma.user.findUniqueOrThrow({
+      where: { email: 'owner-cancel@example.com' },
+    });
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: { nameAr: 'مقهى', nameEn: 'Cafe', type: 'cafe', areaId: area.id },
+    });
+    await prisma.placeOwner.create({ data: { placeId: place.id, userId: owner.id } });
+    const visitor = await prisma.user.create({
+      data: { email: 'guest-cancel@example.com', passwordHash: 'hash', isVisitor: true },
+    });
+    const booking = await prisma.booking.create({
+      data: {
+        clientKey: 'cancel',
+        userId: visitor.id,
+        placeId: place.id,
+        startsAt: new Date('2026-12-20T18:00:00Z'),
+        partySize: 2,
+        status: 'confirmed',
+      },
+    });
+    const empty = await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/bookings/${booking.id}/cancel`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ reason: ' ' })
+      .expect(400);
+    expect(empty.body.code).toBe('booking_cancel_reason');
+    await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/bookings/${booking.id}/cancel`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ reason: 'Kitchen closed' })
+      .expect(201);
+    const stored = await prisma.booking.findUniqueOrThrow({ where: { id: booking.id } });
+    expect(stored.status).toBe('cancelled_by_owner');
+    expect(stored.cancellationReason).toBe('Kitchen closed');
+  });
 });
 
 async function clearBookings(prisma: PrismaProviderService): Promise<void> {
