@@ -479,6 +479,14 @@ export class UserService {
     return phone;
   }
 
+  /**
+   * A rating is allowed only after the fixed phone code has been accepted.
+   */
+  async hasVerifiedPhone(userId: string): Promise<boolean> {
+    const user = await this.requireUser(userId);
+    return user.profile?.phoneVerifiedAt != null;
+  }
+
   async saveRefreshToken(input: CreateRefreshTokenRepoInput): Promise<void> {
     await this.userRepository.createRefreshToken(input);
   }

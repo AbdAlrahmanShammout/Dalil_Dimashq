@@ -42,6 +42,7 @@ model User {
   devices          Device[]
   favorites        Favorite[]
   recentPlaces     RecentPlace[]
+  ratings          Rating[]
 }
 
 model Profile {
@@ -218,6 +219,7 @@ model Place {
   fakeReports          FakeReport[]
   favorites            Favorite[]
   recentPlaces         RecentPlace[]
+  ratings              Rating[]
 
   @@index([areaId])
   @@index([status, type])
@@ -405,6 +407,26 @@ model RecentPlace {
 
   @@id([userId, placeId])
   @@index([userId, viewedAt])
+}
+
+enum RatingStatus {
+  held
+  counted
+  rejected
+}
+
+model Rating {
+  id        String       @id @default(cuid())
+  userId    String
+  placeId   String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  place     Place        @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  stars     Int
+  status    RatingStatus @default(held)
+  createdAt DateTime     @default(now())
+
+  @@unique([userId, placeId])
+  @@index([placeId, status])
 }
 
 model Amenity {
