@@ -50,6 +50,17 @@ export interface CreateBookingInput {
   readonly offerId: string | null;
 }
 
+export interface OwnerBookingRow {
+  readonly id: string;
+  readonly name: string;
+  readonly phone: string | null;
+  readonly partySize: number;
+  readonly startsAt: Date;
+  readonly note: string | null;
+  readonly status: string;
+  readonly reported: boolean;
+}
+
 export abstract class BookingRepository {
   abstract findByClientKey(userId: string, clientKey: string): Promise<BookingRecord | null>;
   abstract create(input: CreateBookingInput): Promise<BookingRecord>;
@@ -61,4 +72,8 @@ export abstract class BookingRepository {
     userId: string,
     bookingId: string,
   ): Promise<BookingDetail | null>;
+
+  listForPlace(_placeId: string): Promise<OwnerBookingRow[]> {
+    return Promise.resolve([]);
+  }
 }

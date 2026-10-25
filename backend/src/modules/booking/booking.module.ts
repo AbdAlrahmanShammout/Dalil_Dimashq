@@ -7,6 +7,7 @@ import {
 } from '@/modules/booking/booking-clock.service';
 import { BookingGateService } from '@/modules/booking/booking-gate.service';
 import { BookingService } from '@/modules/booking/booking.service';
+import { OwnerBookingService } from '@/modules/booking/owner-booking.service';
 import { BookingClockPrismaRepository } from '@/modules/booking/repository/booking-clock-prisma.repository';
 import { BookingClockRepository } from '@/modules/booking/repository/booking-clock.repository';
 import { BookingPrismaRepository } from '@/modules/booking/repository/booking-prisma.repository';
@@ -39,6 +40,7 @@ import { FirebaseProviderModule } from '@/providers/firebase/firebase-provider.m
     BookingAvailabilityService,
     BookingGateService,
     BookingService,
+    OwnerBookingService,
     BookingClockService,
     { provide: BookingSettingsRepository, useClass: BookingSettingsPrismaRepository },
     { provide: BookingBanRepository, useClass: BookingBanPrismaRepository },
@@ -47,7 +49,13 @@ import { FirebaseProviderModule } from '@/providers/firebase/firebase-provider.m
     { provide: BookingClockRepository, useClass: BookingClockPrismaRepository },
     { provide: BookingPushNotifier, useClass: FirebaseBookingPushNotifier },
   ],
-  exports: [BookingAvailabilityService, BookingGateService, BookingService, BookingClockService],
+  exports: [
+    BookingAvailabilityService,
+    BookingGateService,
+    BookingService,
+    OwnerBookingService,
+    BookingClockService,
+  ],
 })
 export class BookingModule implements OnModuleInit {
   constructor(

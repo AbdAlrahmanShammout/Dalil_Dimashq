@@ -327,6 +327,7 @@ model Booking {
   cancellationReason String?
   createdAt          DateTime      @default(now())
   notifications      Notification[]
+  fakeReport         FakeReport?
 
   @@unique([userId, clientKey])
   @@index([userId, createdAt])
@@ -390,12 +391,15 @@ model FakeReport {
   user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   placeId   String
   place     Place            @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  bookingId String?          @unique
+  booking   Booking?         @relation(fields: [bookingId], references: [id], onDelete: SetNull)
   status    FakeReportStatus @default(open)
   message   String
   replies   FakeReportReply[]
   createdAt DateTime         @default(now())
 
   @@index([userId, status])
+  @@index([placeId, createdAt])
 }
 
 model FakeReportReply {

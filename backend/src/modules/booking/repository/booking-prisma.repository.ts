@@ -8,6 +8,7 @@ import {
   BookingRepository,
   CreateBookingInput,
   ListBookingsInput,
+  OwnerBookingRow,
 } from '@/modules/booking/repository/booking.repository';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
 
@@ -107,6 +108,24 @@ export class BookingPrismaRepository extends BookingRepository {
       return null;
     }
     return this.findOwned(userId, bookingId);
+  }
+
+  override async listForPlace(placeId: string): Promise<OwnerBookingRow[]> {
+    const rows = await this.prisma.booking.findMany({
+      where: { placeId },
+      orderBy: { startsAt: 'asc' },
+      include: { user: { include: { profile: true } }, fakeReport: true },
+    });
+    return rows.map((row) => ({
+      id: row.id,
+      name: [row.user.profile?.firstName, row.user.profile?.lastName].filter(Boolean).join(' '),
+      phone: row.user.profile?.phone ?? null,
+      partySize: row.partySize,
+      startsAt: row.startsAt,
+      note: row.note,
+      status: row.status,
+      reported: row.fakeReport !== null,
+    }));
   }
 
   private toRecord(row: {
