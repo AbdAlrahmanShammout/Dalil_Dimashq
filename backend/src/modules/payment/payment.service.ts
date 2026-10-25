@@ -65,6 +65,24 @@ export class PaymentService {
     }
     throw new ConflictException({ message: 'Receipt number collided', code: 'conflict' });
   }
+
+  /**
+   * Records a void beside the payment. The payment row itself stays unchanged.
+   */
+  async voidPayment(id: string, reason: string, now: Date = new Date()): Promise<PaymentRecord> {
+    const trimmed = reason.trim();
+    if (!trimmed) {
+      throw new InvalidStateException({ message: 'Reason is required', code: 'reason' });
+    }
+    const saved = await this.paymentRepository.voidPayment(id, trimmed, now);
+    if (saved === 'missing') {
+      throw new ResourceNotFoundException('Payment', id);
+    }
+    if (saved === 'already_void') {
+      throw new InvalidStateException({ message: 'Already voided', code: 'invalid_state' });
+    }
+    return saved;
+  }
 }
 
 function receiptPrefix(now: Date): string {

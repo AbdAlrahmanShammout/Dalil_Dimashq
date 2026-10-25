@@ -44,4 +44,12 @@ export abstract class PaymentRepository {
   ): Promise<PaymentRecord | 'missing_place' | 'duplicate_receipt'> {
     return Promise.resolve('missing_place');
   }
+
+  voidPayment(
+    _id: string,
+    _reason: string,
+    _voidedAt: Date,
+  ): Promise<PaymentRecord | 'missing' | 'already_void'> {
+    return Promise.resolve('missing');
+  }
 }

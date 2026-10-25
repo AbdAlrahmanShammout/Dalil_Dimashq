@@ -536,8 +536,16 @@ model Payment {
   periodEnd     DateTime?
   receiptNumber String        @unique
   createdAt     DateTime      @default(now())
+  void          PaymentVoid?
 
   @@index([placeId, createdAt])
+}
+
+model PaymentVoid {
+  paymentId String   @id
+  payment   Payment  @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  reason    String
+  voidedAt  DateTime @default(now())
 }
 
 model Amenity {

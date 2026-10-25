@@ -46,6 +46,26 @@ export class PaymentPrismaRepository extends PaymentRepository {
       throw error;
     }
   }
+
+  override async voidPayment(
+    id: string,
+    reason: string,
+    voidedAt: Date,
+  ): Promise<PaymentRecord | 'missing' | 'already_void'> {
+    const existing = await this.prisma.payment.findUnique({ where: { id } });
+    if (!existing) {
+      return 'missing';
+    }
+    try {
+      await this.prisma.paymentVoid.create({ data: { paymentId: id, reason, voidedAt } });
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+        return 'already_void';
+      }
+      throw error;
+    }
+    return toRecord(existing);
+  }
 }
 
 function toRecord(row: {
