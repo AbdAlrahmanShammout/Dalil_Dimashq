@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 71.
+Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 72.
 
 ### 1. Foundation
 
@@ -262,7 +262,7 @@ Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 71.
 
 | # | Task | Done when |
 |---|---|---|
-| 71 | Favorites | `POST` and `DELETE /client-app/favorites/:placeId`, and `GET /client-app/favorites` as place summaries |
+| ✅ 71 | Favorites | `POST` and `DELETE /client-app/favorites/:placeId`, and `GET /client-app/favorites` as place summaries |
 | 72 | Recently viewed | `POST /client-app/recent-places/:placeId` records an open. `GET /client-app/recent-places` returns the latest distinct places |
 | 73 | Phone verification | `POST /client-app/profile/phone/code` does not send SMS. `POST /client-app/profile/phone/verify` accepts only `000000` and marks the phone verified. Any other code is rejected. `providers/sms/` is the seam a later provider replaces |
 | 74 | Ratings | `POST /client-app/places/:id/ratings` requires a phone verified with `000000`. Otherwise the code is `phone_unverified` and nothing is stored. One rating per visitor per place |

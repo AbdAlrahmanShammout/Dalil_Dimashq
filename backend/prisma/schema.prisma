@@ -40,6 +40,7 @@ model User {
   fakeReports      FakeReport[]
   notifications    Notification[]
   devices          Device[]
+  favorites        Favorite[]
 }
 
 model Profile {
@@ -214,6 +215,7 @@ model Place {
   bookingResponseHours BookingResponseHour[]
   bookings             Booking[]
   fakeReports          FakeReport[]
+  favorites            Favorite[]
 
   @@index([areaId])
   @@index([status, type])
@@ -380,6 +382,16 @@ model FakeReportReply {
   createdAt DateTime   @default(now())
 
   @@index([reportId])
+}
+
+model Favorite {
+  userId    String
+  placeId   String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  place     Place    @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, placeId])
 }
 
 model Amenity {

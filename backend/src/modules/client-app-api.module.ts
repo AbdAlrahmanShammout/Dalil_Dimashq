@@ -15,6 +15,8 @@ import { FakeReportClientAppController } from '@/modules/fake-report/fake-report
 import { FakeReportModule } from '@/modules/fake-report/fake-report.module';
 import { DeviceClientAppController } from '@/modules/device/device.client-app.controller';
 import { DeviceModule } from '@/modules/device/device.module';
+import { FavoriteClientAppController } from '@/modules/favorite/favorite.client-app.controller';
+import { FavoriteModule } from '@/modules/favorite/favorite.module';
 import { NotificationClientAppController } from '@/modules/notification/notification.client-app.controller';
 import { NotificationModule } from '@/modules/notification/notification.module';
 import { ContactClientAppController } from '@/modules/contact/contact.client-app.controller';
@@ -57,6 +59,7 @@ import { UserModule } from '@/modules/user/user.module';
     FakeReportModule,
     NotificationModule,
     DeviceModule,
+    FavoriteModule,
   ],
   controllers: [
     AuthClientAppController,
@@ -81,6 +84,7 @@ import { UserModule } from '@/modules/user/user.module';
     FakeReportClientAppController,
     NotificationClientAppController,
     DeviceClientAppController,
+    FavoriteClientAppController,
   ],
 })
 export class ClientAppApiModule {}
