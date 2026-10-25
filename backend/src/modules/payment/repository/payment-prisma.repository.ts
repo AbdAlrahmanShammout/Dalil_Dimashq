@@ -1,0 +1,77 @@
+import { Injectable } from '@nestjs/common';
+import { PaymentMethod, Prisma } from '@prisma/client';
+
+import {
+  CreatePaymentInput,
+  PaymentRecord,
+  PaymentRepository,
+} from '@/modules/payment/repository/payment.repository';
+import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
+
+@Injectable()
+export class PaymentPrismaRepository extends PaymentRepository {
+  constructor(private readonly prisma: PrismaProviderService) {
+    super();
+  }
+
+  override async countReceiptPrefix(prefix: string): Promise<number> {
+    return this.prisma.payment.count({ where: { receiptNumber: { startsWith: prefix } } });
+  }
+
+  override async create(
+    input: CreatePaymentInput,
+  ): Promise<PaymentRecord | 'missing_place' | 'duplicate_receipt'> {
+    try {
+      const row = await this.prisma.payment.create({
+        data: {
+          placeId: input.placeId,
+          amount: input.amount,
+          currency: input.currency,
+          method: input.method as PaymentMethod,
+          item: input.item,
+          payer: input.payer,
+          periodStart: input.periodStart,
+          periodEnd: input.periodEnd,
+          receiptNumber: input.receiptNumber,
+        },
+      });
+      return toRecord(row);
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2003') {
+        return 'missing_place';
+      }
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+        return 'duplicate_receipt';
+      }
+      throw error;
+    }
+  }
+}
+
+function toRecord(row: {
+  id: string;
+  placeId: string;
+  amount: number;
+  currency: string;
+  method: PaymentMethod;
+  item: string;
+  payer: string;
+  periodStart: Date | null;
+  periodEnd: Date | null;
+  receiptNumber: string;
+  createdAt: Date;
+}): PaymentRecord {
+  return {
+    id: row.id,
+    placeId: row.placeId,
+    amount: row.amount,
+    currency: row.currency,
+    method: row.method,
+    item: row.item,
+    payer: row.payer,
+    periodStart: row.periodStart,
+    periodEnd: row.periodEnd,
+    receiptNumber: row.receiptNumber,
+    createdAt: row.createdAt,
+  };
+}

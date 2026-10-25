@@ -236,6 +236,7 @@ model Place {
   changeRequests       PlaceChangeRequest[]
   owners               PlaceOwner[]
   subscriptions        Subscription[]
+  payments             Payment[]
 
   @@index([areaId])
   @@index([status, type])
@@ -512,6 +513,31 @@ model Subscription {
   createdAt DateTime @default(now())
 
   @@index([placeId, endsAt])
+}
+
+enum PaymentMethod {
+  cash
+  syriatel_cash
+  mtn_cash
+  bank_transfer
+  other
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  placeId       String
+  place         Place         @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  amount        Int
+  currency      String
+  method        PaymentMethod
+  item          String
+  payer         String
+  periodStart   DateTime?
+  periodEnd     DateTime?
+  receiptNumber String        @unique
+  createdAt     DateTime      @default(now())
+
+  @@index([placeId, createdAt])
 }
 
 model Amenity {
