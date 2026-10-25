@@ -54,4 +54,24 @@ export class PlaceChangeService {
       payload: null,
     });
   }
+
+  /**
+   * Stores an edit for review. The live place is left unchanged.
+   */
+  async openEdit(input: {
+    readonly userId: string;
+    readonly placeId: string;
+    readonly payload: Record<string, unknown>;
+  }): Promise<PlaceChangeRecord> {
+    if (Object.keys(input.payload).length === 0) {
+      throw new InvalidStateException({ message: 'Nothing to change', code: 'nothing_to_change' });
+    }
+    return this.placeChangeRepository.create({
+      placeId: input.placeId,
+      userId: input.userId,
+      kind: 'edit',
+      reason: null,
+      payload: input.payload,
+    });
+  }
 }

@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–85 are done. Task 22 is skipped. Next is task 86.
+Status: tasks 1–21 and 23–86 are done. Task 22 is skipped. Next is task 87.
 
 ### 1. Foundation
 
@@ -282,7 +282,7 @@ Status: tasks 1–21 and 23–85 are done. Task 22 is skipped. Next is task 86.
 | ✅ 83 | Ownership policy | Every `:id` route under `dashboard-owner/places/:id` rejects a user who is not linked, except claim and search |
 | ✅ 84 | Place summary | `GET /dashboard-owner/places/:id` returns the owner summary: both names, type, address |
 | ✅ 85 | Immediate Premium fields | `PATCH /dashboard-owner/places/:id/immediate` writes phones, website, email, Facebook, Instagram, and both descriptions only when Premium is active. Otherwise `premium_required` |
-| 86 | Reviewed edits | `POST /dashboard-owner/places/:id/change-requests` kind `edit` accepts name, type, address, and tourism class. Type is one of the seven place types. The live place does not change |
+| ✅ 86 | Reviewed edits | `POST /dashboard-owner/places/:id/change-requests` kind `edit` accepts name, type, address, and tourism class. Type is one of the seven place types. The live place does not change |
 | 87 | My requests | `GET /dashboard-owner/places/:id/change-requests` lists pending, approved, and rejected rows with the decision note. The client shows approved as accepted |
 | 88 | Hours editor load | `GET /dashboard-owner/places/:id/hours` returns the regular week, weekday 0 = Sunday, at most 3 periods a day. Ramadan rows are not in this payload |
 | 89 | Save hours | `PUT /dashboard-owner/places/:id/hours` returns `saved` for a Premium owner. A non-premium owner gets a review request and the response `requested`. Staff do not use this route |

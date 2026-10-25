@@ -5,6 +5,7 @@ import { ApiAudience, Principal } from '@/common/auth/principal.interface';
 import { LoggedInUser } from '@/common/decorators/requests/logged-in-user.decorator';
 import { Audience } from '@/common/decorators/route/audience.decorator';
 import { ClaimCodeRequestDto } from '@/modules/owner-place/dto/request/claim-code-request.dto';
+import { EditPlaceRequestDto } from '@/modules/owner-place/dto/request/edit-place-request.dto';
 import { ImmediatePlaceRequestDto } from '@/modules/owner-place/dto/request/immediate-place-request.dto';
 import { OwnerPlaceSearchQueryDto } from '@/modules/owner-place/dto/request/owner-place-search-query.dto';
 import { ClaimCodeResponseDto } from '@/modules/owner-place/dto/response/claim-code-response.dto';
@@ -85,6 +86,27 @@ export class OwnerPlaceDashboardController {
     const created = await this.placeChangeService.openClaim({
       userId: currentUser.id,
       placeId,
+    });
+    return new PlaceChangeResponseDto(created);
+  }
+
+  @Post(':id/change-requests')
+  async requestEdit(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+    @Body() body: EditPlaceRequestDto,
+  ): Promise<PlaceChangeResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    const { nameAr, nameEn, type, addressAr, addressEn, tourismClass } = body;
+    const payload = Object.fromEntries(
+      Object.entries({ nameAr, nameEn, type, addressAr, addressEn, tourismClass }).filter(
+        (entry) => entry[1] !== undefined,
+      ),
+    );
+    const created = await this.placeChangeService.openEdit({
+      userId: currentUser.id,
+      placeId,
+      payload,
     });
     return new PlaceChangeResponseDto(created);
   }

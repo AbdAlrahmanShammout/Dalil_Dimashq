@@ -46,5 +46,12 @@ describe('PlaceChangeService', () => {
     const claim = await service.openClaim({ userId: 'user-1', placeId: 'place-1' });
     expect(claim.kind).toBe('claim');
     expect(repository.rows[1].reason).toBeNull();
+    const edit = await service.openEdit({
+      userId: 'user-1',
+      placeId: 'place-1',
+      payload: { type: 'motel', tourismClass: '4' },
+    });
+    expect(edit.kind).toBe('edit');
+    expect(edit.status).toBe('pending');
   });
 });

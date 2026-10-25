@@ -250,6 +250,36 @@ describe('owner places', () => {
     const stored = await prisma.place.findUniqueOrThrow({ where: { id: place.id } });
     expect(stored.descriptionAr).toBe('هادئ');
   });
+
+  it('stores a reviewed edit and leaves the live place unchanged', async () => {
+    const token = await signInOwner(app, 'owner-edit@example.com');
+    const user = await prisma.user.findUniqueOrThrow({
+      where: { email: 'owner-edit@example.com' },
+    });
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: { nameAr: 'مقهى', nameEn: 'Cafe', type: 'cafe', areaId: area.id },
+    });
+    await prisma.placeOwner.create({ data: { placeId: place.id, userId: user.id } });
+    const created = await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/change-requests`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ nameEn: 'New Cafe', type: 'motel', addressEn: 'Mazzeh', tourismClass: '4' })
+      .expect(201);
+    expect(created.body).toMatchObject({ kind: 'edit', status: 'pending' });
+    const stored = await prisma.placeChangeRequest.findFirstOrThrow({
+      where: { placeId: place.id },
+    });
+    expect(stored.payload).toMatchObject({
+      nameEn: 'New Cafe',
+      type: 'motel',
+      addressEn: 'Mazzeh',
+      tourismClass: '4',
+    });
+    const live = await prisma.place.findUniqueOrThrow({ where: { id: place.id } });
+    expect(live.nameEn).toBe('Cafe');
+    expect(live.type).toBe('cafe');
+  });
 });
 
 async function signInOwner(app: INestApplication, email: string): Promise<string> {
