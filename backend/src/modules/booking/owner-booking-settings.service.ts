@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
 
+import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
+import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
 import {
   BookingSettingsRepository,
   OwnerBookingSettings,
 } from '@/modules/booking/repository/booking-settings.repository';
+
+const MINUTES_IN_DAY = 24 * 60;
 
 @Injectable()
 export class OwnerBookingSettingsService {
@@ -26,5 +30,36 @@ export class OwnerBookingSettingsService {
     readonly noticeMinutes: number | null;
   }): Promise<OwnerBookingSettings> {
     return this.bookingSettingsRepository.saveOwner(input);
+  }
+
+  /**
+   * Adds a weekday reply window. The row is live; it is not a review request.
+   */
+  async addResponseHour(input: {
+    readonly placeId: string;
+    readonly dayOfWeek: number;
+    readonly opensAt: number;
+    readonly closesAt: number;
+  }): Promise<{ id: string }> {
+    const validDay = input.dayOfWeek >= 0 && input.dayOfWeek <= 6;
+    const validWindow =
+      input.opensAt >= 0 && input.closesAt <= MINUTES_IN_DAY && input.opensAt < input.closesAt;
+    if (!validDay || !validWindow) {
+      throw new InvalidStateException({
+        message: 'Reply hours are invalid',
+        code: 'hours_invalid',
+      });
+    }
+    return this.bookingSettingsRepository.addResponseHour(input);
+  }
+
+  /**
+   * Removes one reply window that belongs to the place.
+   */
+  async removeResponseHour(placeId: string, hourId: string): Promise<void> {
+    const removed = await this.bookingSettingsRepository.deleteResponseHour(placeId, hourId);
+    if (!removed) {
+      throw new ResourceNotFoundException('BookingResponseHour', hourId);
+    }
   }
 }

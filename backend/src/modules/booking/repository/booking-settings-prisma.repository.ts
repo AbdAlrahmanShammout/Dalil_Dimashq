@@ -9,6 +9,7 @@ import {
   DEFAULT_BOOKING_REPLY_MINUTES,
   OwnerBookingSettings,
   SaveOwnerBookingSettingsInput,
+  SaveResponseHourInput,
 } from '@/modules/booking/repository/booking-settings.repository';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
 
@@ -86,6 +87,25 @@ export class BookingSettingsPrismaRepository extends BookingSettingsRepository {
       },
     });
     return this.toOwnerSettings(row);
+  }
+
+  override async addResponseHour(input: SaveResponseHourInput): Promise<{ id: string }> {
+    const row = await this.prisma.bookingResponseHour.create({
+      data: {
+        placeId: input.placeId,
+        dayOfWeek: input.dayOfWeek,
+        opensAt: input.opensAt,
+        closesAt: input.closesAt,
+      },
+    });
+    return { id: row.id };
+  }
+
+  override async deleteResponseHour(placeId: string, hourId: string): Promise<boolean> {
+    const result = await this.prisma.bookingResponseHour.deleteMany({
+      where: { id: hourId, placeId },
+    });
+    return result.count > 0;
   }
 
   private toOwnerSettings(

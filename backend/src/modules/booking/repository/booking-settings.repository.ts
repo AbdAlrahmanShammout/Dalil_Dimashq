@@ -38,6 +38,13 @@ export interface SaveOwnerBookingSettingsInput {
   readonly noticeMinutes: number | null;
 }
 
+export interface SaveResponseHourInput {
+  readonly placeId: string;
+  readonly dayOfWeek: number;
+  readonly opensAt: number;
+  readonly closesAt: number;
+}
+
 export abstract class BookingSettingsRepository {
   abstract read(placeId: string): Promise<BookingAvailability | null>;
 
@@ -55,5 +62,13 @@ export abstract class BookingSettingsRepository {
       maxParty: input.maxParty,
       noticeMinutes: input.noticeMinutes ?? DEFAULT_BOOKING_NOTICE_MINUTES,
     });
+  }
+
+  addResponseHour(_input: SaveResponseHourInput): Promise<{ id: string }> {
+    return Promise.reject(new Error('addResponseHour is not implemented'));
+  }
+
+  deleteResponseHour(_placeId: string, _hourId: string): Promise<boolean> {
+    return Promise.resolve(false);
   }
 }

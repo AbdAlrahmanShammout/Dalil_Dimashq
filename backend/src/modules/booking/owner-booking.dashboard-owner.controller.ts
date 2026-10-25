@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { ApiAudience, Principal } from '@/common/auth/principal.interface';
@@ -12,6 +12,7 @@ import { FakeBookingReportRequestDto } from '@/modules/booking/dto/request/fake-
 import { FakeBookingReportResponseDto } from '@/modules/booking/dto/response/fake-booking-report-response.dto';
 import { PlaceAmenityChangedResponseDto } from '@/modules/amenity/dto/response/place-amenity-changed-response.dto';
 import { SaveBookingSettingsRequestDto } from '@/modules/booking/dto/request/save-booking-settings-request.dto';
+import { SaveResponseHourRequestDto } from '@/modules/booking/dto/request/save-response-hour-request.dto';
 import { OwnerBookingSettingsResponseDto } from '@/modules/booking/dto/response/owner-booking-settings-response.dto';
 import { OwnerBookingSettingsService } from '@/modules/booking/owner-booking-settings.service';
 import { OwnerBookingService } from '@/modules/booking/owner-booking.service';
@@ -126,5 +127,35 @@ export class OwnerBookingDashboardController {
       noticeMinutes: noticeMinutes ?? null,
     });
     return new OwnerBookingSettingsResponseDto(settings);
+  }
+
+  @Post(':id/response-hours')
+  async addResponseHour(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+    @Body() body: SaveResponseHourRequestDto,
+  ): Promise<FakeBookingReportResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    await this.ownerPlaceService.assertPremium(placeId);
+    const { dayOfWeek, opensAt, closesAt } = body;
+    const created = await this.ownerBookingSettingsService.addResponseHour({
+      placeId,
+      dayOfWeek,
+      opensAt,
+      closesAt,
+    });
+    return new FakeBookingReportResponseDto(created.id);
+  }
+
+  @Delete(':id/response-hours/:hourId')
+  async removeResponseHour(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+    @Param('hourId') hourId: string,
+  ): Promise<PlaceAmenityChangedResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    await this.ownerPlaceService.assertPremium(placeId);
+    await this.ownerBookingSettingsService.removeResponseHour(placeId, hourId);
+    return new PlaceAmenityChangedResponseDto();
   }
 }
