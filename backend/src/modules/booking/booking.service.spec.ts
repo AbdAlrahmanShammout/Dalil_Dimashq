@@ -37,6 +37,10 @@ class MemoryBookingRepository extends BookingRepository {
   async listForUser(): Promise<{ rows: []; total: number }> {
     return { rows: [], total: 0 };
   }
+
+  async findOwned(): Promise<null> {
+    return null;
+  }
 }
 
 function buildService(repository: BookingRepository): BookingService {

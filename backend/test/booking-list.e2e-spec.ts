@@ -100,4 +100,64 @@ describe('my bookings', () => {
       'pending',
     ]);
   });
+
+  it('returns the owner detail and hides another visitor', async () => {
+    const email = 'detail@example.com';
+    await request(app.getHttpServer())
+      .post('/client-app/auth/sign-up')
+      .send({ email, password: 'Password123' })
+      .expect(201);
+    const code = (capturedMail.at(-1)?.text ?? '').match(/\d{6}/)?.[0];
+    await request(app.getHttpServer())
+      .post('/client-app/auth/verify-email')
+      .send({ email, code })
+      .expect(200);
+    const session = await request(app.getHttpServer())
+      .post('/client-app/auth/sign-in')
+      .send({ email, password: 'Password123' })
+      .expect(200);
+    const user = await prisma.user.findUniqueOrThrow({ where: { email } });
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: { nameAr: 'مقهى', nameEn: 'Cafe', type: 'cafe', status: 'active', areaId: area.id },
+    });
+    const booking = await prisma.booking.create({
+      data: {
+        clientKey: 'detail',
+        userId: user.id,
+        placeId: place.id,
+        startsAt: new Date('2026-11-01T12:00:00Z'),
+        partySize: 3,
+        note: 'Window',
+        rejectionReason: 'Full',
+        status: 'rejected',
+      },
+    });
+    const other = await prisma.user.create({
+      data: { email: 'detail-other@example.com', isVisitor: true },
+    });
+    const foreign = await prisma.booking.create({
+      data: {
+        clientKey: 'foreign',
+        userId: other.id,
+        placeId: place.id,
+        startsAt: new Date('2026-11-01T12:00:00Z'),
+        partySize: 1,
+      },
+    });
+    const response = await request(app.getHttpServer())
+      .get(`/client-app/bookings/${booking.id}`)
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .expect(200);
+    expect(response.body).toMatchObject({
+      partySize: 3,
+      note: 'Window',
+      rejectionReason: 'Full',
+      place: { id: place.id, nameAr: 'مقهى', nameEn: 'Cafe' },
+    });
+    await request(app.getHttpServer())
+      .get(`/client-app/bookings/${foreign.id}`)
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .expect(404);
+  });
 });

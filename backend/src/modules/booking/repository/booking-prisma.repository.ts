@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
 import {
+  BookingDetail,
   BookingListItem,
   BookingRecord,
   BookingRepository,
@@ -69,6 +70,27 @@ export class BookingPrismaRepository extends BookingRepository {
         partySize: row.partySize,
         status: row.status,
       })),
+    };
+  }
+
+  async findOwned(userId: string, bookingId: string): Promise<BookingDetail | null> {
+    const row = await this.prisma.booking.findFirst({
+      where: { id: bookingId, userId },
+      include: { place: true },
+    });
+    if (!row) {
+      return null;
+    }
+    return {
+      id: row.id,
+      number: row.number,
+      status: row.status,
+      place: { id: row.place.id, nameAr: row.place.nameAr, nameEn: row.place.nameEn },
+      startsAt: row.startsAt,
+      partySize: row.partySize,
+      note: row.note,
+      rejectionReason: row.rejectionReason,
+      cancellationReason: row.cancellationReason,
     };
   }
 

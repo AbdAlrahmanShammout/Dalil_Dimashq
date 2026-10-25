@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsInt, IsOptional, Min } from 'class-validator';
@@ -8,6 +8,7 @@ import { LoggedInUser } from '@/common/decorators/requests/logged-in-user.decora
 import { Audience } from '@/common/decorators/route/audience.decorator';
 import { BookingService } from '@/modules/booking/booking.service';
 import { CreateBookingRequestDto } from '@/modules/booking/dto/request/create-booking-request.dto';
+import { BookingDetailResponseDto } from '@/modules/booking/dto/response/booking-detail-response.dto';
 import { BookingListResponseDto } from '@/modules/booking/dto/response/booking-list-response.dto';
 import { CreateBookingResponseDto } from '@/modules/booking/dto/response/create-booking-response.dto';
 import { BOOKING_PAGE_LIMIT } from '@/modules/booking/repository/booking.repository';
@@ -59,5 +60,14 @@ export class BookingClientAppController {
     const offset = query.offset ?? 0;
     const page = await this.bookingService.listMine({ userId: currentUser.id, limit, offset });
     return new BookingListResponseDto({ ...page, limit, offset });
+  }
+
+  @Get(':id')
+  async read(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') bookingId: string,
+  ): Promise<BookingDetailResponseDto> {
+    const booking = await this.bookingService.readMine(currentUser.id, bookingId);
+    return new BookingDetailResponseDto(booking);
   }
 }

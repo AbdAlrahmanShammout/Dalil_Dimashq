@@ -1,3 +1,15 @@
+export interface BookingDetail {
+  readonly id: string;
+  readonly number: number;
+  readonly status: string;
+  readonly place: { readonly id: string; readonly nameAr: string; readonly nameEn: string };
+  readonly startsAt: Date;
+  readonly partySize: number;
+  readonly note: string | null;
+  readonly rejectionReason: string | null;
+  readonly cancellationReason: string | null;
+}
+
 export interface BookingListItem {
   readonly id: string;
   readonly number: number;
@@ -44,4 +56,5 @@ export abstract class BookingRepository {
   abstract listForUser(
     input: ListBookingsInput,
   ): Promise<{ rows: BookingListItem[]; total: number }>;
+  abstract findOwned(userId: string, bookingId: string): Promise<BookingDetail | null>;
 }

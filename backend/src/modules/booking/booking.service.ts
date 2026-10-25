@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 
+import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
 import { BookingAvailabilityService } from '@/modules/booking/booking-availability.service';
 import { assertBookableSlot } from '@/modules/booking/booking-slot';
 import { BookingGateService } from '@/modules/booking/booking-gate.service';
 import {
+  BookingDetail,
   BookingListItem,
   BookingRecord,
   BookingRepository,
@@ -62,5 +64,16 @@ export class BookingService {
       limit: input.limit || BOOKING_PAGE_LIMIT,
       offset: input.offset,
     });
+  }
+
+  /**
+   * One booking for its owner. Another visitor's id is not found.
+   */
+  async readMine(userId: string, bookingId: string): Promise<BookingDetail> {
+    const booking = await this.bookingRepository.findOwned(userId, bookingId);
+    if (!booking) {
+      throw new ResourceNotFoundException('Booking', bookingId);
+    }
+    return booking;
   }
 }
