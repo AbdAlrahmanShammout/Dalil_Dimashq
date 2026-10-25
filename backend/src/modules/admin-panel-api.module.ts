@@ -7,6 +7,7 @@ import { AmenityModule } from '@/modules/amenity/amenity.module';
 import { AreaAdminPanelController } from '@/modules/area/area.admin-panel.controller';
 import { AreaModule } from '@/modules/area/area.module';
 import { ChangeRequestAdminPanelController } from '@/modules/change-request/change-request.admin-panel.controller';
+import { FeaturedAdminPanelController } from '@/modules/place/featured.admin-panel.controller';
 import { PlaceAdminPanelController } from '@/modules/place/place.admin-panel.controller';
 import { PlaceModule } from '@/modules/place/place.module';
 import { SiteContactAdminPanelController } from '@/modules/contact/site-contact.admin-panel.controller';
@@ -47,6 +48,7 @@ import { UserModule } from '@/modules/user/user.module';
     AreaAdminPanelController,
     AmenityAdminPanelController,
     PlaceAdminPanelController,
+    FeaturedAdminPanelController,
     OwnerLinkAdminPanelController,
     ChangeRequestAdminPanelController,
   ],

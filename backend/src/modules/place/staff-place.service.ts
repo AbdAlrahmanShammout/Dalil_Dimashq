@@ -53,6 +53,16 @@ export class StaffPlaceService {
     return code;
   }
 
+  /**
+   * Marks or clears the featured flag. Hidden places can still carry the flag.
+   */
+  async setFeatured(id: string, featured: boolean): Promise<void> {
+    const updated = await this.placeRepository.setFeatured(id, featured);
+    if (!updated) {
+      throw new ResourceNotFoundException('Place', id);
+    }
+  }
+
   private async geocode(placeId: string, input: StaffPlaceWrite): Promise<void> {
     const address = input.addressEn ?? input.addressAr;
     if (!address) {

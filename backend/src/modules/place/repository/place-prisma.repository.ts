@@ -180,6 +180,14 @@ export class PlacePrismaRepository extends PlaceRepository {
     return null;
   }
 
+  override async setFeatured(id: string, featured: boolean): Promise<boolean> {
+    const result = await this.prisma.place.updateMany({
+      where: { id },
+      data: { isFeatured: featured },
+    });
+    return result.count > 0;
+  }
+
   private toPlaceData(input: StaffPlaceWrite): Prisma.PlaceUncheckedUpdateInput {
     return {
       nameAr: input.nameAr,

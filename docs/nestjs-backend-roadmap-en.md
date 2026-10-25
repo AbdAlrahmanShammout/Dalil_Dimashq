@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–123 are done. Task 22 is skipped. Next is task 124.
+Status: tasks 1–21 and 23–124 are done. Task 22 is skipped. Next is task 125.
 
 ### 1. Foundation
 
@@ -325,7 +325,7 @@ Status: tasks 1–21 and 23–123 are done. Task 22 is skipped. Next is task 124
 | ✅ 121 | Suggestions queue | `GET /admin-panel/suggestions` lists them. `PATCH` sets the status. `DELETE` removes one. `editor` only |
 | ✅ 122 | Contact queue | `GET /admin-panel/contact-messages` lists contact-form rows for `editor` |
 | ✅ 123 | Events CRUD | `editor` creates, updates, publishes, and deletes events. A poster is a file the API uploads to S3 |
-| 124 | Featured | `editor` adds, updates, and removes a featured place |
+| ✅ 124 | Featured | `editor` adds, updates, and removes a featured place |
 | 125 | Subscriptions | `sales` creates and updates a Premium window. Owners can read it from task 79 |
 | 126 | Record a payment | `POST /admin-panel/payments` records amount, currency, method, item, payer, period, and place. The receipt number is `DD-YY-MM-####`, issued by the service, never by the client |
 | 127 | Void a payment | `POST /admin-panel/payments/:id/void` requires a reason. The row is not deleted and is not edited in place |

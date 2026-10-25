@@ -79,6 +79,10 @@ export abstract class PlaceRepository {
   renewClaimCode(_id: string): Promise<string | null> {
     return Promise.resolve(null);
   }
+
+  setFeatured(_id: string, _featured: boolean): Promise<boolean> {
+    return Promise.resolve(false);
+  }
 }
 
 export interface StaffPlaceWrite {
