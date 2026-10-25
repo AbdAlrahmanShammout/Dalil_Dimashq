@@ -13,6 +13,7 @@ import { FakeBookingReportResponseDto } from '@/modules/booking/dto/response/fak
 import { PlaceAmenityChangedResponseDto } from '@/modules/amenity/dto/response/place-amenity-changed-response.dto';
 import { SaveBookingSettingsRequestDto } from '@/modules/booking/dto/request/save-booking-settings-request.dto';
 import { SaveResponseHourRequestDto } from '@/modules/booking/dto/request/save-response-hour-request.dto';
+import { SaveBlackoutRequestDto } from '@/modules/booking/dto/request/save-blackout-request.dto';
 import { OwnerBookingSettingsResponseDto } from '@/modules/booking/dto/response/owner-booking-settings-response.dto';
 import { OwnerBookingSettingsService } from '@/modules/booking/owner-booking-settings.service';
 import { OwnerBookingService } from '@/modules/booking/owner-booking.service';
@@ -156,6 +157,34 @@ export class OwnerBookingDashboardController {
     await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
     await this.ownerPlaceService.assertPremium(placeId);
     await this.ownerBookingSettingsService.removeResponseHour(placeId, hourId);
+    return new PlaceAmenityChangedResponseDto();
+  }
+
+  @Post(':id/blackouts')
+  async addBlackout(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+    @Body() body: SaveBlackoutRequestDto,
+  ): Promise<FakeBookingReportResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    await this.ownerPlaceService.assertPremium(placeId);
+    const created = await this.ownerBookingSettingsService.addBlackout({
+      placeId,
+      startsAt: new Date(body.startsAt),
+      endsAt: new Date(body.endsAt),
+    });
+    return new FakeBookingReportResponseDto(created.id);
+  }
+
+  @Delete(':id/blackouts/:blackoutId')
+  async removeBlackout(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+    @Param('blackoutId') blackoutId: string,
+  ): Promise<PlaceAmenityChangedResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    await this.ownerPlaceService.assertPremium(placeId);
+    await this.ownerBookingSettingsService.removeBlackout(placeId, blackoutId);
     return new PlaceAmenityChangedResponseDto();
   }
 }

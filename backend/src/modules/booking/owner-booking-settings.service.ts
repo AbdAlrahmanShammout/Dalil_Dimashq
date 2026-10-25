@@ -62,4 +62,31 @@ export class OwnerBookingSettingsService {
       throw new ResourceNotFoundException('BookingResponseHour', hourId);
     }
   }
+
+  /**
+   * Adds a closed range. The row is live; it is not a review request.
+   */
+  async addBlackout(input: {
+    readonly placeId: string;
+    readonly startsAt: Date;
+    readonly endsAt: Date;
+  }): Promise<{ id: string }> {
+    if (input.endsAt.getTime() <= input.startsAt.getTime()) {
+      throw new InvalidStateException({
+        message: 'Closed range is invalid',
+        code: 'invalid_state',
+      });
+    }
+    return this.bookingSettingsRepository.addBlackout(input);
+  }
+
+  /**
+   * Removes one closed range that belongs to the place.
+   */
+  async removeBlackout(placeId: string, blackoutId: string): Promise<void> {
+    const removed = await this.bookingSettingsRepository.deleteBlackout(placeId, blackoutId);
+    if (!removed) {
+      throw new ResourceNotFoundException('BookingBlackout', blackoutId);
+    }
+  }
 }

@@ -10,6 +10,7 @@ import {
   OwnerBookingSettings,
   SaveOwnerBookingSettingsInput,
   SaveResponseHourInput,
+  SaveBlackoutInput,
 } from '@/modules/booking/repository/booking-settings.repository';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
 
@@ -104,6 +105,20 @@ export class BookingSettingsPrismaRepository extends BookingSettingsRepository {
   override async deleteResponseHour(placeId: string, hourId: string): Promise<boolean> {
     const result = await this.prisma.bookingResponseHour.deleteMany({
       where: { id: hourId, placeId },
+    });
+    return result.count > 0;
+  }
+
+  override async addBlackout(input: SaveBlackoutInput): Promise<{ id: string }> {
+    const row = await this.prisma.bookingBlackout.create({
+      data: { placeId: input.placeId, startsAt: input.startsAt, endsAt: input.endsAt },
+    });
+    return { id: row.id };
+  }
+
+  override async deleteBlackout(placeId: string, blackoutId: string): Promise<boolean> {
+    const result = await this.prisma.bookingBlackout.deleteMany({
+      where: { id: blackoutId, placeId },
     });
     return result.count > 0;
   }

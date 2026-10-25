@@ -45,6 +45,12 @@ export interface SaveResponseHourInput {
   readonly closesAt: number;
 }
 
+export interface SaveBlackoutInput {
+  readonly placeId: string;
+  readonly startsAt: Date;
+  readonly endsAt: Date;
+}
+
 export abstract class BookingSettingsRepository {
   abstract read(placeId: string): Promise<BookingAvailability | null>;
 
@@ -69,6 +75,14 @@ export abstract class BookingSettingsRepository {
   }
 
   deleteResponseHour(_placeId: string, _hourId: string): Promise<boolean> {
+    return Promise.resolve(false);
+  }
+
+  addBlackout(_input: SaveBlackoutInput): Promise<{ id: string }> {
+    return Promise.reject(new Error('addBlackout is not implemented'));
+  }
+
+  deleteBlackout(_placeId: string, _blackoutId: string): Promise<boolean> {
     return Promise.resolve(false);
   }
 }

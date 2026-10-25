@@ -90,11 +90,45 @@ describe('owner booking settings', () => {
       .expect(200);
     expect(await prisma.bookingResponseHour.count()).toBe(0);
   });
+
+  it('writes a closed range only for Premium and does not open a review', async () => {
+    const token = await signInOwner(app, 'owner-blackout@example.com');
+    const owner = await prisma.user.findUniqueOrThrow({
+      where: { email: 'owner-blackout@example.com' },
+    });
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: { nameAr: 'مقهى', nameEn: 'Cafe', type: 'cafe', areaId: area.id },
+    });
+    await prisma.placeOwner.create({ data: { placeId: place.id, userId: owner.id } });
+    const blocked = await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/blackouts`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ startsAt: '2026-12-01T00:00:00.000Z', endsAt: '2026-12-03T00:00:00.000Z' })
+      .expect(403);
+    expect(blocked.body.code).toBe('premium_required');
+    await prisma.subscription.create({
+      data: { placeId: place.id, endsAt: new Date('2027-01-01T00:00:00Z') },
+    });
+    const created = await request(app.getHttpServer())
+      .post(`/dashboard-owner/places/${place.id}/blackouts`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ startsAt: '2026-12-01T00:00:00.000Z', endsAt: '2026-12-03T00:00:00.000Z' })
+      .expect(201);
+    expect(await prisma.bookingBlackout.count()).toBe(1);
+    expect(await prisma.placeChangeRequest.count()).toBe(0);
+    await request(app.getHttpServer())
+      .delete(`/dashboard-owner/places/${place.id}/blackouts/${created.body.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+    expect(await prisma.bookingBlackout.count()).toBe(0);
+  });
 });
 
 async function clearSettings(prisma: PrismaProviderService): Promise<void> {
   await prisma.subscription.deleteMany();
   await prisma.bookingResponseHour.deleteMany();
+  await prisma.bookingBlackout.deleteMany();
   await prisma.placeBookingSettings.deleteMany();
   await prisma.placeOwner.deleteMany();
   await prisma.place.deleteMany();
