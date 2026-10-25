@@ -17,6 +17,8 @@ import { DeviceClientAppController } from '@/modules/device/device.client-app.co
 import { DeviceModule } from '@/modules/device/device.module';
 import { FavoriteClientAppController } from '@/modules/favorite/favorite.client-app.controller';
 import { FavoriteModule } from '@/modules/favorite/favorite.module';
+import { RecentPlaceClientAppController } from '@/modules/recent-view/recent-place.client-app.controller';
+import { RecentViewModule } from '@/modules/recent-view/recent-view.module';
 import { NotificationClientAppController } from '@/modules/notification/notification.client-app.controller';
 import { NotificationModule } from '@/modules/notification/notification.module';
 import { ContactClientAppController } from '@/modules/contact/contact.client-app.controller';
@@ -60,6 +62,7 @@ import { UserModule } from '@/modules/user/user.module';
     NotificationModule,
     DeviceModule,
     FavoriteModule,
+    RecentViewModule,
   ],
   controllers: [
     AuthClientAppController,
@@ -85,6 +88,7 @@ import { UserModule } from '@/modules/user/user.module';
     NotificationClientAppController,
     DeviceClientAppController,
     FavoriteClientAppController,
+    RecentPlaceClientAppController,
   ],
 })
 export class ClientAppApiModule {}
