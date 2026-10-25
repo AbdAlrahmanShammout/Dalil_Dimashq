@@ -38,6 +38,7 @@ model User {
   bookingBans      BookingBan[]
   bookings         Booking[]
   fakeReports      FakeReport[]
+  notifications    Notification[]
 }
 
 model Profile {
@@ -298,8 +299,37 @@ model Booking {
   rejectionReason    String?
   cancellationReason String?
   createdAt          DateTime      @default(now())
+  notifications      Notification[]
 
   @@unique([userId, clientKey])
+  @@index([userId, createdAt])
+}
+
+enum NotificationKind {
+  booking_new
+  booking_clock_started
+  booking_confirmed
+  booking_rejected
+  booking_expired
+  booking_cancelled_by_customer
+  booking_cancelled_by_owner
+  fake_reported
+  fake_report_new
+  fake_report_decided
+  booking_ban_started
+  booking_ban_lifted
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind      NotificationKind
+  bookingId String?
+  booking   Booking?         @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  readAt    DateTime?
+  createdAt DateTime         @default(now())
+
   @@index([userId, createdAt])
 }
 
