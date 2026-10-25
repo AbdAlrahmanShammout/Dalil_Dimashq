@@ -3,7 +3,11 @@ import { Injectable } from '@nestjs/common';
 import { AccessDeniedException } from '@/common/exceptions/access-denied.exception';
 import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
 import { CONTACT_BODY_MAX_BYTES, assertMessageQuota } from '@/modules/contact/contact-limits';
-import { ContactMessageRepository } from '@/modules/contact/repository/contact-message.repository';
+import {
+  ContactMessagePage,
+  ContactMessageRepository,
+} from '@/modules/contact/repository/contact-message.repository';
+import { DEFAULT_PAGE_LIMIT, DEFAULT_PAGE_OFFSET } from '@/modules/place/enum/general.enum';
 
 export interface SubmitContactInput {
   readonly name: string;
@@ -53,5 +57,18 @@ export class ContactMessageService {
       visitorKey: input.visitorKey,
       now,
     });
+  }
+
+  /**
+   * Contact-form rows for the editor queue, newest first.
+   */
+  async list(input: {
+    limit?: number;
+    offset?: number;
+  }): Promise<ContactMessagePage & { limit: number; offset: number }> {
+    const limit = input.limit ?? DEFAULT_PAGE_LIMIT;
+    const offset = input.offset ?? DEFAULT_PAGE_OFFSET;
+    const page = await this.contactMessageRepository.list(limit, offset);
+    return { ...page, limit, offset };
   }
 }

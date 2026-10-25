@@ -11,6 +11,7 @@ import { PlaceAdminPanelController } from '@/modules/place/place.admin-panel.con
 import { PlaceModule } from '@/modules/place/place.module';
 import { SiteContactAdminPanelController } from '@/modules/contact/site-contact.admin-panel.controller';
 import { SuggestionAdminPanelController } from '@/modules/contact/suggestion.admin-panel.controller';
+import { ContactMessageAdminPanelController } from '@/modules/contact/contact-message.admin-panel.controller';
 import { ContactModule } from '@/modules/contact/contact.module';
 import { LegalAdminPanelController } from '@/modules/legal/legal.admin-panel.controller';
 import { LegalModule } from '@/modules/legal/legal.module';
@@ -38,6 +39,7 @@ import { UserModule } from '@/modules/user/user.module';
     LegalAdminPanelController,
     SiteContactAdminPanelController,
     SuggestionAdminPanelController,
+    ContactMessageAdminPanelController,
     AreaAdminPanelController,
     AmenityAdminPanelController,
     PlaceAdminPanelController,

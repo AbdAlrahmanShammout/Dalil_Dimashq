@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–121 are done. Task 22 is skipped. Next is task 122.
+Status: tasks 1–21 and 23–122 are done. Task 22 is skipped. Next is task 123.
 
 ### 1. Foundation
 
@@ -323,7 +323,7 @@ Status: tasks 1–21 and 23–121 are done. Task 22 is skipped. Next is task 122
 | ✅ 119 | Publish legal | `POST /admin-panel/legal` publishes a new terms or privacy document. The previous one stops being current |
 | ✅ 120 | Site contacts | `PUT /admin-panel/site-contacts` updates the public shortcuts |
 | ✅ 121 | Suggestions queue | `GET /admin-panel/suggestions` lists them. `PATCH` sets the status. `DELETE` removes one. `editor` only |
-| 122 | Contact queue | `GET /admin-panel/contact-messages` lists contact-form rows for `editor` |
+| ✅ 122 | Contact queue | `GET /admin-panel/contact-messages` lists contact-form rows for `editor` |
 | 123 | Events CRUD | `editor` creates, updates, publishes, and deletes events. A poster is a file the API uploads to S3 |
 | 124 | Featured | `editor` adds, updates, and removes a featured place |
 | 125 | Subscriptions | `sales` creates and updates a Premium window. Owners can read it from task 79 |
