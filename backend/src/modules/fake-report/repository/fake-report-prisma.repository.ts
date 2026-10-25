@@ -43,12 +43,20 @@ export class FakeReportPrismaRepository extends FakeReportRepository {
     input: CreateBookingReportInput,
   ): Promise<{ id: string } | null> {
     try {
-      const row = await this.client(input.context).fakeReport.create({
+      const client = this.client(input.context);
+      const row = await client.fakeReport.create({
         data: {
           userId: input.userId,
           placeId: input.placeId,
           bookingId: input.bookingId,
           message: input.message,
+        },
+      });
+      await client.adminAlert.create({
+        data: {
+          kind: 'fake_report',
+          message: 'A fake report was opened',
+          targetId: row.id,
         },
       });
       return { id: row.id };

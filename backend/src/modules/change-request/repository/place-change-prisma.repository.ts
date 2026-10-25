@@ -17,14 +17,25 @@ export class PlaceChangePrismaRepository extends PlaceChangeRepository {
   }
 
   override async create(input: CreatePlaceChangeRepoInput): Promise<PlaceChangeRecord> {
-    const row = await this.prisma.placeChangeRequest.create({
-      data: {
-        placeId: input.placeId,
-        userId: input.userId,
-        kind: input.kind,
-        reason: input.reason,
-        payload: input.payload === null ? Prisma.DbNull : (input.payload as Prisma.InputJsonValue),
-      },
+    const row = await this.prisma.$transaction(async (tx) => {
+      const created = await tx.placeChangeRequest.create({
+        data: {
+          placeId: input.placeId,
+          userId: input.userId,
+          kind: input.kind,
+          reason: input.reason,
+          payload:
+            input.payload === null ? Prisma.DbNull : (input.payload as Prisma.InputJsonValue),
+        },
+      });
+      await tx.adminAlert.create({
+        data: {
+          kind: 'change_request',
+          message: 'A place change request was opened',
+          targetId: created.id,
+        },
+      });
+      return created;
     });
     return {
       id: row.id,

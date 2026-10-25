@@ -567,6 +567,17 @@ model AuditLog {
   @@index([createdAt])
 }
 
+model AdminAlert {
+  id        String    @id @default(cuid())
+  kind      String
+  message   String
+  targetId  String?
+  readAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([readAt, createdAt])
+}
+
 model Amenity {
   id        String         @id @default(cuid())
   code      String         @unique
