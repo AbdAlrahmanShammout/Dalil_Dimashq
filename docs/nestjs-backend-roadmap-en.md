@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 46.
+Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 47.
 
 ### 1. Foundation
 
@@ -222,7 +222,7 @@ Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 46.
 | ✅ 43 | Request a name or birth-year change | `POST /client-app/profile/change-requests` stores the request as pending. The profile itself does not change |
 | ✅ 44 | My profile | `GET /client-app/profile` returns the completed profile and whether a change request is pending |
 | ✅ 45 | Current legal | `GET /client-app/legal/current?kind=terms\|privacy` returns the current Arabic or English text |
-| 46 | Accept legal | `GET /client-app/legal/pending` lists documents the user has not accepted. `POST /client-app/legal/accept` records acceptance |
+| ✅ 46 | Accept legal | `GET /client-app/legal/pending` lists documents the user has not accepted. `POST /client-app/legal/accept` records acceptance |
 | 47 | Site contact shortcuts | `GET /client-app/site-contacts` returns WhatsApp, phone, email, Facebook, and Instagram. An empty value is omitted |
 | 48 | Contact form | `POST /client-app/contact` accepts name, email or phone, type, and message. Body max 16 KB. A filled honeypot `website` is refused. Five messages per visitor per hour, 40 per Damascus day |
 | 49 | Contact confirmation | The contact response is the shared message DTO. The row is stored for the panel |

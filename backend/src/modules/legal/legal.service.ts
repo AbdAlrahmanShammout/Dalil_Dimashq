@@ -17,4 +17,18 @@ export class LegalService {
     }
     return document;
   }
+
+  /**
+   * Current documents this user has not accepted.
+   */
+  async listPending(userId: string): Promise<LegalText[]> {
+    return this.legalRepository.listPending(userId);
+  }
+
+  /**
+   * Records acceptance of a current document. Accepting it again changes nothing.
+   */
+  async acceptDocument(userId: string, documentId: string): Promise<void> {
+    await this.legalRepository.accept(userId, documentId);
+  }
 }

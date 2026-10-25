@@ -7,4 +7,6 @@ export interface LegalText {
 
 export abstract class LegalRepository {
   abstract findCurrent(kind: 'terms' | 'privacy', language: 'ar' | 'en'): Promise<LegalText | null>;
+  abstract listPending(userId: string): Promise<LegalText[]>;
+  abstract accept(userId: string, documentId: string): Promise<void>;
 }

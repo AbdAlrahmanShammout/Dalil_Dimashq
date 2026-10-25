@@ -8,6 +8,14 @@ class MemoryLegalRepository extends LegalRepository {
     }
     return { id: 'doc-1', kind, language, body: 'النص' };
   }
+
+  async listPending(): Promise<LegalText[]> {
+    return [{ id: 'doc-1', kind: 'terms', language: 'ar', body: 'النص' }];
+  }
+
+  async accept(): Promise<void> {
+    return undefined;
+  }
 }
 
 describe('LegalService', () => {
