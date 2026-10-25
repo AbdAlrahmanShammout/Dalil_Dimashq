@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–112 are done. Task 22 is skipped. Next is task 113.
+Status: tasks 1–21 and 23–113 are done. Task 22 is skipped. Next is task 114.
 
 ### 1. Foundation
 
@@ -314,7 +314,7 @@ Status: tasks 1–21 and 23–112 are done. Task 22 is skipped. Next is task 113
 |---|---|---|
 | ✅ 111 | Staff accounts | `POST /admin-panel/staff` creates a row with `staffRole` of editor, moderator, or sales, and both public flags false. Only `admin` may call it. `GET /admin-panel/staff` lists them |
 | ✅ 112 | Areas CRUD | `POST`, `PATCH`, and `DELETE /admin-panel/areas` for `editor` |
-| 113 | Amenities CRUD | The same for amenities, including sort order and both names |
+| ✅ 113 | Amenities CRUD | The same for amenities, including sort order and both names |
 | 114 | Create and edit a place | `POST /admin-panel/places` and `PATCH /admin-panel/places/:id` write the directory fields, then geocode. Status is active, temporarily closed, permanently closed, or hidden |
 | 115 | Place code | `GET /admin-panel/places/:id/code` returns the `DD-` code. `POST .../renew-code` rotates it |
 | 116 | Link an owner | `POST /admin-panel/places/:id/owners` links an owner account. `DELETE` removes the link. `GET /admin-panel/owners` lists links for staff |

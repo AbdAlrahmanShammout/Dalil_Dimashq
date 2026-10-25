@@ -507,11 +507,12 @@ model Subscription {
 }
 
 model Amenity {
-  id     String         @id @default(cuid())
-  code   String         @unique
-  nameAr String
-  nameEn String
-  links  PlaceAmenity[]
+  id        String         @id @default(cuid())
+  code      String         @unique
+  nameAr    String
+  nameEn    String
+  sortOrder Int            @default(0)
+  links     PlaceAmenity[]
 }
 
 model PlaceAmenity {

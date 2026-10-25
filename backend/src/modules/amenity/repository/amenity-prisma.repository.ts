@@ -4,6 +4,7 @@ import { PlaceAmenityEntity } from '@/modules/amenity/entity/place-amenity.entit
 import {
   AmenityCatalogItem,
   AmenityRepository,
+  SaveAmenityInput,
 } from '@/modules/amenity/repository/amenity.repository';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
 
@@ -32,13 +33,15 @@ export class AmenityPrismaRepository extends AmenityRepository {
   }
 
   override async listCatalog(): Promise<AmenityCatalogItem[]> {
-    const rows = await this.prisma.amenity.findMany({ orderBy: { code: 'asc' } });
-    return rows.map((row) => ({ code: row.code, nameAr: row.nameAr, nameEn: row.nameEn }));
+    const rows = await this.prisma.amenity.findMany({
+      orderBy: [{ sortOrder: 'asc' }, { code: 'asc' }],
+    });
+    return rows.map((row) => this.toItem(row));
   }
 
   override async findCatalogItem(code: string): Promise<AmenityCatalogItem | null> {
     const row = await this.prisma.amenity.findUnique({ where: { code } });
-    return row ? { code: row.code, nameAr: row.nameAr, nameEn: row.nameEn } : null;
+    return row ? this.toItem(row) : null;
   }
 
   override async attach(placeId: string, code: string): Promise<boolean> {
@@ -62,5 +65,43 @@ export class AmenityPrismaRepository extends AmenityRepository {
     await this.prisma.placeAmenity.deleteMany({
       where: { placeId, amenityId: amenity.id },
     });
+  }
+
+  override async createAmenity(input: SaveAmenityInput): Promise<AmenityCatalogItem> {
+    const row = await this.prisma.amenity.create({ data: input });
+    return this.toItem(row);
+  }
+
+  override async updateAmenity(
+    id: string,
+    input: SaveAmenityInput,
+  ): Promise<AmenityCatalogItem | null> {
+    const existing = await this.prisma.amenity.findUnique({ where: { id } });
+    if (!existing) {
+      return null;
+    }
+    const row = await this.prisma.amenity.update({ where: { id }, data: input });
+    return this.toItem(row);
+  }
+
+  override async deleteAmenity(id: string): Promise<boolean> {
+    const result = await this.prisma.amenity.deleteMany({ where: { id } });
+    return result.count > 0;
+  }
+
+  private toItem(row: {
+    id: string;
+    code: string;
+    nameAr: string;
+    nameEn: string;
+    sortOrder: number;
+  }): AmenityCatalogItem {
+    return {
+      id: row.id,
+      code: row.code,
+      nameAr: row.nameAr,
+      nameEn: row.nameEn,
+      sortOrder: row.sortOrder,
+    };
   }
 }

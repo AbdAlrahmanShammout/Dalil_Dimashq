@@ -43,6 +43,47 @@ export class AmenityService {
   /**
    * Removes an amenity code from a place.
    */
+  /**
+   * Adds a catalog amenity with both names and a sort order.
+   */
+  async createAmenity(input: {
+    readonly code: string;
+    readonly nameAr: string;
+    readonly nameEn: string;
+    readonly sortOrder: number;
+  }): Promise<AmenityCatalogItem> {
+    return this.amenityRepository.createAmenity(input);
+  }
+
+  /**
+   * Updates names, code, and sort order.
+   */
+  async updateAmenity(
+    id: string,
+    input: {
+      readonly code: string;
+      readonly nameAr: string;
+      readonly nameEn: string;
+      readonly sortOrder: number;
+    },
+  ): Promise<AmenityCatalogItem> {
+    const item = await this.amenityRepository.updateAmenity(id, input);
+    if (!item) {
+      throw new ResourceNotFoundException('Amenity', id);
+    }
+    return item;
+  }
+
+  /**
+   * Removes a catalog amenity and its place links.
+   */
+  async deleteAmenity(id: string): Promise<void> {
+    const removed = await this.amenityRepository.deleteAmenity(id);
+    if (!removed) {
+      throw new ResourceNotFoundException('Amenity', id);
+    }
+  }
+
   async removeFromPlace(placeId: string, code: string): Promise<void> {
     const item = await this.amenityRepository.findCatalogItem(code);
     if (!item) {
