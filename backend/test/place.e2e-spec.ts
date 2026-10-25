@@ -307,4 +307,26 @@ describe('place summary', () => {
     expect(blocked.body.code).toBe('dependency_failure');
     expect(JSON.stringify(blocked.body)).not.toContain('cover.jpg');
   });
+
+  it('returns website directory json without html', async () => {
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: { nameAr: 'مقهى', nameEn: 'Cafe', type: 'cafe', status: 'active', areaId: area.id },
+    });
+    await prisma.place.create({
+      data: { nameAr: 'مخفي', nameEn: 'Hidden', type: 'hotel', status: 'hidden', areaId: area.id },
+    });
+    const response = await request(app.getHttpServer()).get('/client-app/directory').expect(200);
+    expect(response.body.items).toEqual([
+      {
+        id: place.id,
+        nameAr: 'مقهى',
+        nameEn: 'Cafe',
+        type: 'cafe',
+        area: { id: area.id, nameAr: 'المزة', nameEn: 'Mazzeh' },
+        coverUrl: null,
+      },
+    ]);
+    expect(response.headers['content-type']).toContain('application/json');
+  });
 });

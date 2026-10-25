@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { PlaceStatus, PlaceType } from '@prisma/client';
+import { PlaceStatus, PlaceType, PlacePhotoRole } from '@prisma/client';
 
+import { AreaMapper } from '@/modules/area/mapper/area.mapper';
 import { PlaceEntity } from '@/modules/place/entity/place.entity';
+import { PlaceType as DomainPlaceType } from '@/modules/place/enum/general.enum';
 import { PlaceMapper } from '@/modules/place/mapper/place.mapper';
 import {
+  DirectoryPlace,
   PlaceCounts,
   PlaceRepository,
   SaveGeocodeRepoInput,
@@ -61,6 +64,25 @@ export class PlacePrismaRepository extends PlaceRepository {
       include: placeDetailsInclude,
     });
     return row ? PlaceMapper.toEntity(row) : null;
+  }
+
+  override async listDirectory(): Promise<DirectoryPlace[]> {
+    const rows = await this.prisma.place.findMany({
+      where: { status: { not: PlaceStatus.hidden } },
+      include: {
+        area: true,
+        photos: { where: { role: PlacePhotoRole.cover, hidden: false }, take: 1 },
+      },
+      orderBy: { nameEn: 'asc' },
+    });
+    return rows.map((row) => ({
+      id: row.id,
+      nameAr: row.nameAr,
+      nameEn: row.nameEn,
+      type: row.type as DomainPlaceType,
+      area: AreaMapper.toEntity(row.area),
+      coverKey: row.photos[0]?.objectKey ?? null,
+    }));
   }
 
   override async saveGeocode(input: SaveGeocodeRepoInput): Promise<SaveGeocodeResult> {

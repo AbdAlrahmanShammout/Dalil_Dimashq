@@ -1,4 +1,15 @@
+import { AreaEntity } from '@/modules/area/entity/area.entity';
 import { PlaceEntity } from '@/modules/place/entity/place.entity';
+import { PlaceType } from '@/modules/place/enum/general.enum';
+
+export interface DirectoryPlace {
+  readonly id: string;
+  readonly nameAr: string;
+  readonly nameEn: string;
+  readonly type: PlaceType;
+  readonly area: AreaEntity;
+  readonly coverKey: string | null;
+}
 
 export interface PlaceCounts {
   readonly all: number;
@@ -24,6 +35,10 @@ export abstract class PlaceRepository {
   abstract findPublicById(id: string): Promise<PlaceEntity | null>;
   abstract countPublic(): Promise<PlaceCounts>;
   abstract listFeatured(): Promise<PlaceEntity[]>;
+
+  listDirectory(): Promise<DirectoryPlace[]> {
+    return Promise.resolve([]);
+  }
 
   findAnyById(id: string): Promise<PlaceEntity | null> {
     return this.findPublicById(id);
