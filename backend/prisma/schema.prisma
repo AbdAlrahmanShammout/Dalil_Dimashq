@@ -110,6 +110,19 @@ model SiteContact {
   instagram String?
 }
 
+model ContactMessage {
+  id         String   @id @default(cuid())
+  name       String
+  email      String?
+  phone      String?
+  type       String
+  message    String
+  visitorKey String
+  createdAt  DateTime @default(now())
+
+  @@index([visitorKey, createdAt])
+}
+
 model EmailCode {
   id         String    @id @default(cuid())
   userId     String

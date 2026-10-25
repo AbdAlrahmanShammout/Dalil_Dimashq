@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 48.
+Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 49.
 
 ### 1. Foundation
 
@@ -224,7 +224,7 @@ Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 48.
 | ✅ 45 | Current legal | `GET /client-app/legal/current?kind=terms\|privacy` returns the current Arabic or English text |
 | ✅ 46 | Accept legal | `GET /client-app/legal/pending` lists documents the user has not accepted. `POST /client-app/legal/accept` records acceptance |
 | ✅ 47 | Site contact shortcuts | `GET /client-app/site-contacts` returns WhatsApp, phone, email, Facebook, and Instagram. An empty value is omitted |
-| 48 | Contact form | `POST /client-app/contact` accepts name, email or phone, type, and message. Body max 16 KB. A filled honeypot `website` is refused. Five messages per visitor per hour, 40 per Damascus day |
+| ✅ 48 | Contact form | `POST /client-app/contact` accepts name, email or phone, type, and message. Body max 16 KB. A filled honeypot `website` is refused. Five messages per visitor per hour, 40 per Damascus day |
 | 49 | Contact confirmation | The contact response is the shared message DTO. The row is stored for the panel |
 | 50 | Suggestions | `POST /client-app/suggestions` accepts name, contact, kind, message, and an optional place. Kind is `wrong_info`, `missing_place`, `closed_place`, or `other`. The same hourly and daily limits as contact apply |
 | 51 | Language on the profile | `language` is `ar` or `en` and is returned on the profile |
