@@ -297,12 +297,14 @@ model BookingResponseHour {
 }
 
 model BookingBan {
-  id       String    @id @default(cuid())
-  userId   String
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  level    Int
-  startsAt DateTime
-  endsAt   DateTime?
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  level      Int
+  startsAt   DateTime
+  endsAt     DateTime?
+  liftedAt   DateTime?
+  liftedNote String?
 
   @@index([userId])
 }

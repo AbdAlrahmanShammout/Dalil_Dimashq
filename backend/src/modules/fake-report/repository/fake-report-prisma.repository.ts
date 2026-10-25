@@ -94,7 +94,9 @@ export class FakeReportPrismaRepository extends FakeReportRepository {
       if (!input.confirmed) {
         return 'saved';
       }
-      const existing = await tx.bookingBan.count({ where: { userId: report.booking.userId } });
+      const existing = await tx.bookingBan.count({
+        where: { userId: report.booking.userId, liftedAt: null },
+      });
       const ban = nextBan(existing, input.now);
       await tx.bookingBan.create({
         data: {

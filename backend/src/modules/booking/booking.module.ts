@@ -1,5 +1,6 @@
 import { Module, OnModuleInit } from '@nestjs/common';
 
+import { BookingBanService } from '@/modules/booking/booking-ban.service';
 import { BookingAvailabilityService } from '@/modules/booking/booking-availability.service';
 import {
   BOOKING_REPLY_CLOCK_MS,
@@ -40,6 +41,7 @@ import { FirebaseProviderModule } from '@/providers/firebase/firebase-provider.m
     FakeReportModule,
   ],
   providers: [
+    BookingBanService,
     BookingAvailabilityService,
     BookingGateService,
     BookingService,
@@ -54,6 +56,7 @@ import { FirebaseProviderModule } from '@/providers/firebase/firebase-provider.m
     { provide: BookingPushNotifier, useClass: FirebaseBookingPushNotifier },
   ],
   exports: [
+    BookingBanService,
     BookingAvailabilityService,
     BookingGateService,
     BookingService,

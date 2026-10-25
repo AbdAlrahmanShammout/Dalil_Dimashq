@@ -6,6 +6,7 @@ import { AmenityAdminPanelController } from '@/modules/amenity/amenity.admin-pan
 import { AmenityModule } from '@/modules/amenity/amenity.module';
 import { AreaAdminPanelController } from '@/modules/area/area.admin-panel.controller';
 import { AreaModule } from '@/modules/area/area.module';
+import { BookingBanAdminPanelController } from '@/modules/booking/booking-ban.admin-panel.controller';
 import { BookingEnabledAdminPanelController } from '@/modules/booking/booking-enabled.admin-panel.controller';
 import { BookingModule } from '@/modules/booking/booking.module';
 import { ChangeRequestAdminPanelController } from '@/modules/change-request/change-request.admin-panel.controller';
@@ -69,6 +70,7 @@ import { UserModule } from '@/modules/user/user.module';
     PaymentAdminPanelController,
     RatingAdminPanelController,
     BookingEnabledAdminPanelController,
+    BookingBanAdminPanelController,
     FakeReportAdminPanelController,
     PlacePaymentAdminPanelController,
     OwnerLinkAdminPanelController,
