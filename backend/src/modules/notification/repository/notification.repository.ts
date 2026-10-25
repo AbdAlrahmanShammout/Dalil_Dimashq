@@ -1,3 +1,23 @@
+export const VISITOR_NOTIFICATION_KINDS = [
+  'booking_confirmed',
+  'booking_rejected',
+  'booking_expired',
+  'booking_cancelled_by_owner',
+  'fake_reported',
+  'fake_report_decided',
+  'booking_ban_started',
+  'booking_ban_lifted',
+] as const;
+
+export type VisitorNotificationKind = (typeof VISITOR_NOTIFICATION_KINDS)[number];
+
+export interface RecordNotificationInput {
+  readonly userId: string;
+  readonly kind: VisitorNotificationKind;
+  readonly bookingId: string | null;
+  readonly createdAt: Date;
+}
+
 export interface NotificationRow {
   readonly id: string;
   readonly kind: string;
@@ -13,4 +33,5 @@ export abstract class NotificationRepository {
     notificationId: string,
     readAt: Date,
   ): Promise<NotificationRow | null>;
+  abstract record(input: RecordNotificationInput): Promise<NotificationRow>;
 }

@@ -4,6 +4,7 @@ import {
   BookingClockRepository,
   PendingBookingClockRow,
 } from '@/modules/booking/repository/booking-clock.repository';
+import { NotificationService } from '@/modules/notification/notification.service';
 import { BookingPushNotifier } from '@/modules/booking/booking-push';
 
 export const BOOKING_REPLY_CLOCK_MS = 60_000;
@@ -14,6 +15,7 @@ export class BookingClockService {
   constructor(
     private readonly bookingClockRepository: BookingClockRepository,
     private readonly bookingPushNotifier: BookingPushNotifier,
+    private readonly notificationService: NotificationService,
   ) {}
 
   /**
@@ -26,6 +28,14 @@ export class BookingClockService {
       return 0;
     }
     await this.bookingClockRepository.expire(due, now);
+    for (const row of due) {
+      await this.notificationService.recordVisitorNotice({
+        userId: row.userId,
+        kind: 'booking_expired',
+        bookingId: row.id,
+        now,
+      });
+    }
     await this.bookingPushNotifier.notify(
       due.map((row) => ({ userId: row.userId, bookingId: row.id })),
     );

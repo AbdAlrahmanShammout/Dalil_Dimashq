@@ -27,21 +27,11 @@ export class BookingClockPrismaRepository extends BookingClockRepository {
     }));
   }
 
-  async expire(rows: readonly PendingBookingClockRow[], now: Date): Promise<void> {
+  async expire(rows: readonly PendingBookingClockRow[], _now: Date): Promise<void> {
     const ids = rows.map((row) => row.id);
-    await this.prisma.$transaction([
-      this.prisma.booking.updateMany({
-        where: { id: { in: ids }, status: 'pending' },
-        data: { status: 'expired' },
-      }),
-      this.prisma.notification.createMany({
-        data: rows.map((row) => ({
-          userId: row.userId,
-          kind: 'booking_expired',
-          bookingId: row.id,
-          createdAt: now,
-        })),
-      }),
-    ]);
+    await this.prisma.booking.updateMany({
+      where: { id: { in: ids }, status: 'pending' },
+      data: { status: 'expired' },
+    });
   }
 }

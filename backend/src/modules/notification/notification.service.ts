@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 
+import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
 import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
 import {
   NotificationRepository,
   NotificationRow,
+  VISITOR_NOTIFICATION_KINDS,
+  VisitorNotificationKind,
 } from '@/modules/notification/repository/notification.repository';
 
 @Injectable()
@@ -30,5 +33,28 @@ export class NotificationService {
       throw new ResourceNotFoundException('Notification', notificationId);
     }
     return row;
+  }
+
+  /**
+   * Stores one visitor notice. Later booking and report writers call this same method.
+   */
+  async recordVisitorNotice(input: {
+    readonly userId: string;
+    readonly kind: string;
+    readonly bookingId?: string | null;
+    readonly now?: Date;
+  }): Promise<NotificationRow> {
+    if (!VISITOR_NOTIFICATION_KINDS.includes(input.kind as VisitorNotificationKind)) {
+      throw new InvalidStateException({
+        message: 'Unknown notification kind',
+        code: 'kind_invalid',
+      });
+    }
+    return this.notificationRepository.record({
+      userId: input.userId,
+      kind: input.kind as VisitorNotificationKind,
+      bookingId: input.bookingId ?? null,
+      createdAt: input.now ?? new Date(),
+    });
   }
 }

@@ -17,6 +17,7 @@ import { BookingBanPrismaRepository } from '@/modules/booking/repository/booking
 import { BookingBanRepository } from '@/modules/booking/repository/booking-ban.repository';
 import { BookingSettingsPrismaRepository } from '@/modules/booking/repository/booking-settings-prisma.repository';
 import { BookingSettingsRepository } from '@/modules/booking/repository/booking-settings.repository';
+import { NotificationModule } from '@/modules/notification/notification.module';
 import { PlaceModule } from '@/modules/place/place.module';
 import { DatabaseProviderModule } from '@/providers/database/database-provider.module';
 import { BookingPushNotifier, FirebaseBookingPushNotifier } from '@/modules/booking/booking-push';
@@ -32,6 +33,7 @@ import { FirebaseProviderModule } from '@/providers/firebase/firebase-provider.m
     SchedulerProviderModule,
     DeviceModule,
     FirebaseProviderModule,
+    NotificationModule,
   ],
   providers: [
     BookingAvailabilityService,

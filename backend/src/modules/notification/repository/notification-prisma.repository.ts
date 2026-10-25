@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import {
   NotificationRepository,
   NotificationRow,
+  RecordNotificationInput,
 } from '@/modules/notification/repository/notification.repository';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
 
@@ -37,6 +38,18 @@ export class NotificationPrismaRepository extends NotificationRepository {
     const row = await this.prisma.notification.update({
       where: { id: existing.id },
       data: { readAt },
+    });
+    return this.toRow(row);
+  }
+
+  async record(input: RecordNotificationInput): Promise<NotificationRow> {
+    const row = await this.prisma.notification.create({
+      data: {
+        userId: input.userId,
+        kind: input.kind,
+        bookingId: input.bookingId,
+        createdAt: input.createdAt,
+      },
     });
     return this.toRow(row);
   }
