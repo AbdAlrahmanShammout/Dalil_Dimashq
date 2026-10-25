@@ -13,6 +13,8 @@ import { BookingClientAppController } from '@/modules/booking/booking.client-app
 import { BookingModule } from '@/modules/booking/booking.module';
 import { FakeReportClientAppController } from '@/modules/fake-report/fake-report.client-app.controller';
 import { FakeReportModule } from '@/modules/fake-report/fake-report.module';
+import { NotificationClientAppController } from '@/modules/notification/notification.client-app.controller';
+import { NotificationModule } from '@/modules/notification/notification.module';
 import { ContactClientAppController } from '@/modules/contact/contact.client-app.controller';
 import { SuggestionClientAppController } from '@/modules/contact/suggestion.client-app.controller';
 import { SiteContactClientAppController } from '@/modules/contact/site-contact.client-app.controller';
@@ -51,6 +53,7 @@ import { UserModule } from '@/modules/user/user.module';
     ContactModule,
     BookingModule,
     FakeReportModule,
+    NotificationModule,
   ],
   controllers: [
     AuthClientAppController,
@@ -73,6 +76,7 @@ import { UserModule } from '@/modules/user/user.module';
     BookingAvailabilityClientAppController,
     BookingClientAppController,
     FakeReportClientAppController,
+    NotificationClientAppController,
   ],
 })
 export class ClientAppApiModule {}

@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 65.
+Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 66.
 
 ### 1. Foundation
 
@@ -251,7 +251,7 @@ Status: tasks 1–21 and 23–41 are done. Task 22 is skipped. Next is task 65.
 
 | # | Task | Done when |
 |---|---|---|
-| 65 | Inbox | `GET /client-app/notifications` lists booking and report rows for the caller, newest first, with read state |
+| ✅ 65 | Inbox | `GET /client-app/notifications` lists booking and report rows for the caller, newest first, with read state |
 | 66 | Mark read | `POST /client-app/notifications/:id/read` sets `readAt` only on the caller's row |
 | 67 | Open booking | The notification payload includes `bookingId` when it has one, so the client can open that booking |
 | 68 | Register device | `POST /client-app/devices` stores a Firebase token for `android`, `ios`, or `web`. The owner app uses `POST /dashboard-owner/devices` the same way. Neither route sends a push |
