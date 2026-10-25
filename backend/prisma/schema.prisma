@@ -109,6 +109,7 @@ model Place {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   hours       PlaceHour[]
+  amenities   PlaceAmenity[]
 
   @@index([areaId])
   @@index([status, type])
@@ -123,6 +124,26 @@ model PlaceHour {
   closesAt  Int
 
   @@index([placeId, dayOfWeek])
+}
+
+model Amenity {
+  id     String         @id @default(cuid())
+  code   String         @unique
+  nameAr String
+  nameEn String
+  links  PlaceAmenity[]
+}
+
+model PlaceAmenity {
+  placeId   String
+  amenityId String
+  approved  Boolean @default(false)
+  sortOrder Int     @default(0)
+  place     Place   @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  amenity   Amenity @relation(fields: [amenityId], references: [id], onDelete: Cascade)
+
+  @@id([placeId, amenityId])
+  @@index([placeId, sortOrder])
 }
 
 model RefreshToken {

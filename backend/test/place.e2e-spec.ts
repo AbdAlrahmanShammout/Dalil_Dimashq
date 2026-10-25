@@ -20,12 +20,14 @@ describe('place summary', () => {
   afterAll(async () => {
     await prisma.place.deleteMany();
     await prisma.area.deleteMany();
+    await prisma.amenity.deleteMany();
     await app.close();
   });
 
   beforeEach(async () => {
     await prisma.place.deleteMany();
     await prisma.area.deleteMany();
+    await prisma.amenity.deleteMany();
   });
 
   it('returns the public summary and omits a hidden place', async () => {
@@ -201,5 +203,34 @@ describe('place summary', () => {
       .get(`/client-app/places/${closed.id}/open-now`)
       .expect(200);
     expect(missingNow.body).toEqual({ openNow: null });
+  });
+
+  it('returns approved amenities in sort order', async () => {
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: { nameAr: 'مكان', nameEn: 'Spot', type: 'cafe', status: 'active', areaId: area.id },
+    });
+    const wifi = await prisma.amenity.create({
+      data: { code: 'wifi', nameAr: 'واي فاي', nameEn: 'Wifi' },
+    });
+    const parking = await prisma.amenity.create({
+      data: { code: 'parking', nameAr: 'موقف', nameEn: 'Parking' },
+    });
+    await prisma.placeAmenity.create({
+      data: { placeId: place.id, amenityId: parking.id, approved: true, sortOrder: 2 },
+    });
+    await prisma.placeAmenity.create({
+      data: { placeId: place.id, amenityId: wifi.id, approved: true, sortOrder: 1 },
+    });
+    const pending = await prisma.amenity.create({
+      data: { code: 'pool', nameAr: 'مسبح', nameEn: 'Pool' },
+    });
+    await prisma.placeAmenity.create({
+      data: { placeId: place.id, amenityId: pending.id, approved: false, sortOrder: 0 },
+    });
+    const response = await request(app.getHttpServer())
+      .get(`/client-app/places/${place.id}/amenities`)
+      .expect(200);
+    expect(response.body.map((item: { code: string }) => item.code)).toEqual(['wifi', 'parking']);
   });
 });
