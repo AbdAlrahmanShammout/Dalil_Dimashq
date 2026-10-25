@@ -203,6 +203,22 @@ describe('owner places', () => {
       .post(`/dashboard-owner/places/${place.id}/claims`)
       .set('Authorization', `Bearer ${token}`)
       .expect(201);
+    const user = await prisma.user.findUniqueOrThrow({
+      where: { email: 'owner-policy@example.com' },
+    });
+    await prisma.placeOwner.create({ data: { placeId: place.id, userId: user.id } });
+    const summary = await request(app.getHttpServer())
+      .get(`/dashboard-owner/places/${place.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+    expect(summary.body).toEqual({
+      id: place.id,
+      nameAr: 'مقهى',
+      nameEn: 'Cafe Policy',
+      type: 'cafe',
+      addressAr: null,
+      addressEn: null,
+    });
   });
 });
 

@@ -8,8 +8,8 @@ import { ClaimCodeRequestDto } from '@/modules/owner-place/dto/request/claim-cod
 import { OwnerPlaceSearchQueryDto } from '@/modules/owner-place/dto/request/owner-place-search-query.dto';
 import { ClaimCodeResponseDto } from '@/modules/owner-place/dto/response/claim-code-response.dto';
 import { OwnedPlaceListResponseDto } from '@/modules/owner-place/dto/response/owned-place-list-response.dto';
+import { OwnerPlaceDetailResponseDto } from '@/modules/owner-place/dto/response/owner-place-detail-response.dto';
 import { OwnerPlaceSearchResponseDto } from '@/modules/owner-place/dto/response/owner-place-search-response.dto';
-import { OwnerLinkResponseDto } from '@/modules/owner-place/dto/response/owner-link-response.dto';
 import { OwnerPlaceService } from '@/modules/owner-place/owner-place.service';
 import { PlaceChangeService } from '@/modules/change-request/place-change.service';
 import { PlaceChangeResponseDto } from '@/modules/change-request/dto/response/place-change-response.dto';
@@ -34,12 +34,12 @@ export class OwnerPlaceDashboardController {
   }
 
   @Get(':id')
-  async readLink(
+  async readSummary(
     @LoggedInUser() currentUser: Principal,
     @Param('id') placeId: string,
-  ): Promise<OwnerLinkResponseDto> {
-    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
-    return new OwnerLinkResponseDto();
+  ): Promise<OwnerPlaceDetailResponseDto> {
+    const place = await this.ownerPlaceService.readSummary(currentUser.id, placeId);
+    return new OwnerPlaceDetailResponseDto(place);
   }
 
   @Get()

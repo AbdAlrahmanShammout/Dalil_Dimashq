@@ -6,6 +6,7 @@ import { ResourceNotFoundException } from '@/common/exceptions/resource-not-foun
 import { DEFAULT_PAGE_LIMIT, DEFAULT_PAGE_OFFSET } from '@/modules/place/enum/general.enum';
 import {
   OwnedPlaceSummary,
+  OwnerPlaceDetail,
   PlaceNamePage,
   PlaceOwnerRepository,
 } from '@/modules/owner-place/repository/place-owner.repository';
@@ -63,5 +64,17 @@ export class OwnerPlaceService {
     if (!linked) {
       throw new AccessDeniedException({ message: 'Not linked', code: 'not_linked' });
     }
+  }
+
+  /**
+   * Owner summary for a linked place: both names, type, and address.
+   */
+  async readSummary(userId: string, placeId: string): Promise<OwnerPlaceDetail> {
+    await this.assertLinked(userId, placeId);
+    const place = await this.placeOwnerRepository.findDetail(placeId);
+    if (!place) {
+      throw new ResourceNotFoundException('Place', placeId);
+    }
+    return place;
   }
 }

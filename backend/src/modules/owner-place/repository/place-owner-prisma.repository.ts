@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import {
   ClaimTarget,
   OwnedPlaceSummary,
+  OwnerPlaceDetail,
   PlaceNamePage,
   PlaceOwnerRepository,
   SearchPlacesByNameInput,
@@ -110,5 +111,20 @@ export class PlaceOwnerPrismaRepository extends PlaceOwnerRepository {
       where: { placeId_userId: { placeId, userId } },
     });
     return row !== null;
+  }
+
+  override async findDetail(placeId: string): Promise<OwnerPlaceDetail | null> {
+    const place = await this.prisma.place.findUnique({ where: { id: placeId } });
+    if (!place) {
+      return null;
+    }
+    return {
+      id: place.id,
+      nameAr: place.nameAr,
+      nameEn: place.nameEn,
+      type: place.type,
+      addressAr: place.addressAr,
+      addressEn: place.addressEn,
+    };
   }
 }

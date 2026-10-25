@@ -1,6 +1,7 @@
 import { OwnerPlaceService } from '@/modules/owner-place/owner-place.service';
 import {
   OwnedPlaceSummary,
+  OwnerPlaceDetail,
   PlaceNamePage,
   PlaceOwnerRepository,
 } from '@/modules/owner-place/repository/place-owner.repository';
@@ -44,6 +45,20 @@ class MemoryPlaceOwnerRepository extends PlaceOwnerRepository {
 
   override isLinked(userId: string, placeId: string): Promise<boolean> {
     return Promise.resolve(this.linked.includes(`${userId}:${placeId}`));
+  }
+
+  async findDetail(placeId: string): Promise<OwnerPlaceDetail | null> {
+    if (placeId === 'missing') {
+      return null;
+    }
+    return {
+      id: placeId,
+      nameAr: 'مقهى',
+      nameEn: 'Cafe',
+      type: 'cafe',
+      addressAr: 'المزة',
+      addressEn: 'Mazzeh',
+    };
   }
 }
 
@@ -105,5 +120,7 @@ describe('OwnerPlaceService', () => {
     await expect(service.assertLinked('user-2', 'place-1')).rejects.toMatchObject({
       code: 'not_linked',
     });
+    const summary = await service.readSummary('user-1', 'place-1');
+    expect(summary).toMatchObject({ nameEn: 'Cafe', type: 'cafe', addressEn: 'Mazzeh' });
   });
 });
