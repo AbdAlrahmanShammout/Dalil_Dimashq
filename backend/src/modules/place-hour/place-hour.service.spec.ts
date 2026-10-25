@@ -5,7 +5,7 @@ import { PlaceCounts } from '@/modules/place/repository/place.repository';
 import { PlaceService } from '@/modules/place/place.service';
 import { PlaceHourEntity } from '@/modules/place-hour/entity/place-hour.entity';
 import { PlaceHourRepository } from '@/modules/place-hour/repository/place-hour.repository';
-import { PlaceHourService } from '@/modules/place-hour/place-hour.service';
+import { PlaceHourService, assertValidWeek } from '@/modules/place-hour/place-hour.service';
 
 class MemoryPlaceRepository extends PlaceRepository {
   async findPublicById(): Promise<PlaceEntity | null> {
@@ -110,5 +110,22 @@ describe('PlaceHourService', () => {
     expect(inside.ramadan?.[0].periods).toEqual([{ opensAt: 1080, closesAt: 1380 }]);
     const ownerWeek = await service.readRegularWeek('place-1');
     expect(ownerWeek?.[0].periods).toEqual([{ opensAt: 540, closesAt: 1020 }]);
+  });
+
+  it('refuses more than three periods or an overlap', () => {
+    const week: Array<{ dayOfWeek: number; periods: Array<{ opensAt: number; closesAt: number }> }> =
+      Array.from({ length: 7 }, (_, dayOfWeek) => ({ dayOfWeek, periods: [] }));
+    week[0].periods = [
+      { opensAt: 0, closesAt: 60 },
+      { opensAt: 60, closesAt: 120 },
+      { opensAt: 120, closesAt: 180 },
+      { opensAt: 180, closesAt: 240 },
+    ];
+    expect(() => assertValidWeek(week)).toThrow(expect.objectContaining({ code: 'hours_invalid' }));
+    week[0].periods = [
+      { opensAt: 0, closesAt: 120 },
+      { opensAt: 60, closesAt: 180 },
+    ];
+    expect(() => assertValidWeek(week)).toThrow(expect.objectContaining({ code: 'hours_invalid' }));
   });
 });

@@ -3,7 +3,11 @@ import { Injectable } from '@nestjs/common';
 import { PlaceService } from '@/modules/place/place.service';
 import { isOpenAt, readDamascusClock } from '@/modules/place-hour/damascus-clock';
 import { PlaceHourEntity } from '@/modules/place-hour/entity/place-hour.entity';
-import { PlaceHourRepository } from '@/modules/place-hour/repository/place-hour.repository';
+import {
+  PlaceHourRepository,
+  RegularHourPeriod,
+} from '@/modules/place-hour/repository/place-hour.repository';
+import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
 
 export interface OpenNowResult {
   readonly openNow: boolean | null;
@@ -74,6 +78,17 @@ export class PlaceHourService {
     }));
   }
 
+  /**
+   * Replaces the regular week. Ramadan rows are left in place.
+   */
+  async replaceRegularWeek(
+    placeId: string,
+    week: Array<{ dayOfWeek: number; periods: Array<{ opensAt: number; closesAt: number }> }>,
+  ): Promise<void> {
+    const periods = assertValidWeek(week);
+    await this.placeHourRepository.replaceRegular(placeId, periods);
+  }
+
   private async requireHours(placeId: string): Promise<PlaceHourEntity[]> {
     await this.placeService.getPublicPlace(placeId);
     return this.placeHourRepository.listByPlace(placeId, 'regular');
@@ -90,4 +105,44 @@ function buildWeek(hours: PlaceHourEntity[]): HoursWeekResult['week'] {
       .filter((hour) => hour.dayOfWeek === dayOfWeek)
       .map((hour) => ({ opensAt: hour.opensAt, closesAt: hour.closesAt })),
   }));
+}
+
+const MINUTES_PER_DAY = 24 * 60;
+
+export function assertValidWeek(
+  week: Array<{ dayOfWeek: number; periods: Array<{ opensAt: number; closesAt: number }> }>,
+): RegularHourPeriod[] {
+  if (week.length !== WEEK_LENGTH) {
+    throw new InvalidStateException({ message: 'Hours are invalid', code: 'hours_invalid' });
+  }
+  const seen = new Set<number>();
+  const periods: RegularHourPeriod[] = [];
+  for (const day of week) {
+    if (day.dayOfWeek < 0 || day.dayOfWeek > 6 || seen.has(day.dayOfWeek)) {
+      throw new InvalidStateException({ message: 'Hours are invalid', code: 'hours_invalid' });
+    }
+    seen.add(day.dayOfWeek);
+    if (day.periods.length > PERIODS_PER_DAY_LIMIT) {
+      throw new InvalidStateException({ message: 'Hours are invalid', code: 'hours_invalid' });
+    }
+    const ordered = [...day.periods].sort((left, right) => left.opensAt - right.opensAt);
+    let previousClose = -1;
+    for (const period of ordered) {
+      const overlaps = period.opensAt < previousClose;
+      const outOfRange =
+        period.opensAt < 0 ||
+        period.closesAt > MINUTES_PER_DAY ||
+        period.opensAt >= period.closesAt;
+      if (overlaps || outOfRange) {
+        throw new InvalidStateException({ message: 'Hours are invalid', code: 'hours_invalid' });
+      }
+      previousClose = period.closesAt;
+      periods.push({
+        dayOfWeek: day.dayOfWeek,
+        opensAt: period.opensAt,
+        closesAt: period.closesAt,
+      });
+    }
+  }
+  return periods;
 }

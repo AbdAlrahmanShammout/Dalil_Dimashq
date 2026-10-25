@@ -80,6 +80,13 @@ export class OwnerPlaceService {
   }
 
   /**
+   * Premium is a subscription whose end is still in the future.
+   */
+  async isPremium(placeId: string, now: Date = new Date()): Promise<boolean> {
+    return this.placeOwnerRepository.isPremium(placeId, now);
+  }
+
+  /**
    * Writes contact and description fields immediately when Premium is active.
    */
   async updateImmediate(input: {

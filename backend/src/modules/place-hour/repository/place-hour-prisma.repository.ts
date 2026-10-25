@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
 import { HourSeasonName, PlaceHourEntity } from '@/modules/place-hour/entity/place-hour.entity';
-import { PlaceHourRepository } from '@/modules/place-hour/repository/place-hour.repository';
+import {
+  PlaceHourRepository,
+  RegularHourPeriod,
+} from '@/modules/place-hour/repository/place-hour.repository';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
 
 @Injectable()
@@ -36,5 +39,20 @@ export class PlaceHourPrismaRepository extends PlaceHourRepository {
       where: { startsAt: { lte: now }, endsAt: { gt: now } },
     });
     return count > 0;
+  }
+
+  override async replaceRegular(placeId: string, periods: RegularHourPeriod[]): Promise<void> {
+    await this.prisma.$transaction([
+      this.prisma.placeHour.deleteMany({ where: { placeId, season: 'regular' } }),
+      this.prisma.placeHour.createMany({
+        data: periods.map((period) => ({
+          placeId,
+          dayOfWeek: period.dayOfWeek,
+          opensAt: period.opensAt,
+          closesAt: period.closesAt,
+          season: 'regular' as const,
+        })),
+      }),
+    ]);
   }
 }

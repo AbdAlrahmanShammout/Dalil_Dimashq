@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Patch, Post, Put, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { ApiAudience, Principal } from '@/common/auth/principal.interface';
@@ -6,6 +6,7 @@ import { LoggedInUser } from '@/common/decorators/requests/logged-in-user.decora
 import { Audience } from '@/common/decorators/route/audience.decorator';
 import { ClaimCodeRequestDto } from '@/modules/owner-place/dto/request/claim-code-request.dto';
 import { EditPlaceRequestDto } from '@/modules/owner-place/dto/request/edit-place-request.dto';
+import { SaveOwnerHoursRequestDto } from '@/modules/owner-place/dto/request/save-owner-hours-request.dto';
 import { ImmediatePlaceRequestDto } from '@/modules/owner-place/dto/request/immediate-place-request.dto';
 import { OwnerPlaceSearchQueryDto } from '@/modules/owner-place/dto/request/owner-place-search-query.dto';
 import { ClaimCodeResponseDto } from '@/modules/owner-place/dto/response/claim-code-response.dto';
@@ -14,8 +15,9 @@ import { OwnedPlaceListResponseDto } from '@/modules/owner-place/dto/response/ow
 import { OwnerPlaceDetailResponseDto } from '@/modules/owner-place/dto/response/owner-place-detail-response.dto';
 import { OwnerPlaceSearchResponseDto } from '@/modules/owner-place/dto/response/owner-place-search-response.dto';
 import { OwnerHoursResponseDto } from '@/modules/owner-place/dto/response/owner-hours-response.dto';
+import { OwnerHoursSaveResponseDto } from '@/modules/owner-place/dto/response/owner-hours-save-response.dto';
 import { OwnerPlaceService } from '@/modules/owner-place/owner-place.service';
-import { PlaceHourService } from '@/modules/place-hour/place-hour.service';
+import { PlaceHourService, assertValidWeek } from '@/modules/place-hour/place-hour.service';
 import { PlaceChangeService } from '@/modules/change-request/place-change.service';
 import { PlaceChangeResponseDto } from '@/modules/change-request/dto/response/place-change-response.dto';
 import { PlaceChangeListResponseDto } from '@/modules/change-request/dto/response/place-change-list-response.dto';
@@ -48,6 +50,28 @@ export class OwnerPlaceDashboardController {
     await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
     const week = await this.placeHourService.readRegularWeek(placeId);
     return new OwnerHoursResponseDto(week);
+  }
+
+  @Put(':id/hours')
+  async saveHours(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+    @Body() body: SaveOwnerHoursRequestDto,
+  ): Promise<OwnerHoursSaveResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    const { week } = body;
+    assertValidWeek(week);
+    const premium = await this.ownerPlaceService.isPremium(placeId);
+    if (premium) {
+      await this.placeHourService.replaceRegularWeek(placeId, week);
+      return new OwnerHoursSaveResponseDto('saved');
+    }
+    await this.placeChangeService.openEdit({
+      userId: currentUser.id,
+      placeId,
+      payload: { hours: week },
+    });
+    return new OwnerHoursSaveResponseDto('requested');
   }
 
   @Get(':id')
