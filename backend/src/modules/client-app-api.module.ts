@@ -16,6 +16,7 @@ import { PlacePhotoModule } from '@/modules/place-photo/place-photo.module';
 import { PlaceHourClientAppController } from '@/modules/place-hour/place-hour.client-app.controller';
 import { PlaceHourModule } from '@/modules/place-hour/place-hour.module';
 import { DirectoryClientAppController } from '@/modules/place/directory.client-app.controller';
+import { PlaceShareClientAppController } from '@/modules/place/place-share.client-app.controller';
 import { PlaceClientAppController } from '@/modules/place/place.client-app.controller';
 import { PlaceModule } from '@/modules/place/place.module';
 import { SearchModule } from '@/modules/search/search.module';
@@ -40,6 +41,7 @@ import { UserModule } from '@/modules/user/user.module';
     AccountClientAppController,
     AreaClientAppController,
     PlaceClientAppController,
+    PlaceShareClientAppController,
     DirectoryClientAppController,
     PlaceHourClientAppController,
     AmenityClientAppController,

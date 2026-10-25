@@ -85,6 +85,14 @@ export class PlacePrismaRepository extends PlaceRepository {
     }));
   }
 
+  override async findCoverKey(placeId: string): Promise<string | null> {
+    const photo = await this.prisma.placePhoto.findFirst({
+      where: { placeId, role: PlacePhotoRole.cover, hidden: false },
+      orderBy: { sortOrder: 'asc' },
+    });
+    return photo?.objectKey ?? null;
+  }
+
   override async saveGeocode(input: SaveGeocodeRepoInput): Promise<SaveGeocodeResult> {
     const row = await this.prisma.place.update({
       where: { id: input.id },

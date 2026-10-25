@@ -40,6 +40,10 @@ export abstract class PlaceRepository {
     return Promise.resolve([]);
   }
 
+  findCoverKey(_placeId: string): Promise<string | null> {
+    return Promise.resolve(null);
+  }
+
   findAnyById(id: string): Promise<PlaceEntity | null> {
     return this.findPublicById(id);
   }

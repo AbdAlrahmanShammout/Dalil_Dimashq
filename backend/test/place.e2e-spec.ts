@@ -329,4 +329,27 @@ describe('place summary', () => {
     ]);
     expect(response.headers['content-type']).toContain('application/json');
   });
+
+  it('returns share fields as json', async () => {
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: {
+        nameAr: 'مقهى',
+        nameEn: 'Cafe',
+        type: 'cafe',
+        status: 'active',
+        areaId: area.id,
+        addressAr: 'شارع',
+      },
+    });
+    const response = await request(app.getHttpServer())
+      .get(`/client-app/places/${place.id}/share`)
+      .expect(200);
+    expect(response.body).toEqual({
+      title: 'مقهى',
+      description: 'شارع',
+      imageUrl: null,
+    });
+    expect(response.headers['content-type']).toContain('application/json');
+  });
 });
