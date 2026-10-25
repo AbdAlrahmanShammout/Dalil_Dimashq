@@ -4,9 +4,9 @@ import { ApiTags } from '@nestjs/swagger';
 import { ApiAudience, Principal } from '@/common/auth/principal.interface';
 import { Audience } from '@/common/decorators/route/audience.decorator';
 import { PublicRoute } from '@/common/decorators/route/public-route.decorator';
+import { MessageResponseDto } from '@/common/dto/message-response.dto';
 import { ContactMessageService } from '@/modules/contact/contact-message.service';
 import { ContactMessageRequestDto } from '@/modules/contact/dto/request/contact-message-request.dto';
-import { ContactStoredResponseDto } from '@/modules/contact/dto/response/contact-stored-response.dto';
 
 @ApiTags('contact')
 @Audience(ApiAudience.ClientApp)
@@ -19,11 +19,11 @@ export class ContactClientAppController {
   async submit(
     @Body() body: ContactMessageRequestDto,
     @Req() request: { ip?: string; user?: Principal },
-  ): Promise<ContactStoredResponseDto> {
+  ): Promise<MessageResponseDto> {
     const { name, email, phone, type, message, website } = body;
     const identity = email ?? phone ?? 'anonymous';
     const visitorKey = request.user?.id ?? `ip:${request.ip ?? 'unknown'}:${identity}`;
-    const stored = await this.contactMessageService.submit({
+    await this.contactMessageService.submit({
       name,
       email,
       phone,
@@ -33,6 +33,6 @@ export class ContactClientAppController {
       visitorKey,
       bodyBytes: Buffer.byteLength(JSON.stringify(body)),
     });
-    return new ContactStoredResponseDto(stored);
+    return new MessageResponseDto('contact_received');
   }
 }

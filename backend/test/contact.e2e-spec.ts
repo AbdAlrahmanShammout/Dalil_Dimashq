@@ -42,7 +42,7 @@ describe('contact form', () => {
       .post('/client-app/contact')
       .send({ name: 'Ahmad', phone: '0944000000', type: 'question', message: 'Hi' })
       .expect(201);
-    expect(stored.body.id).toEqual(expect.any(String));
+    expect(stored.body.code).toBe('contact_received');
     expect(await prisma.contactMessage.count()).toBe(1);
   });
 });
