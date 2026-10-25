@@ -21,4 +21,5 @@ export interface CreatePlaceChangeRepoInput {
 
 export abstract class PlaceChangeRepository {
   abstract create(input: CreatePlaceChangeRepoInput): Promise<PlaceChangeRecord>;
+  abstract listByPlace(placeId: string): Promise<PlaceChangeRecord[]>;
 }

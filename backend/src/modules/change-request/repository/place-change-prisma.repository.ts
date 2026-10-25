@@ -34,4 +34,20 @@ export class PlaceChangePrismaRepository extends PlaceChangeRepository {
       decisionNote: row.decisionNote,
     };
   }
+
+  override async listByPlace(placeId: string): Promise<PlaceChangeRecord[]> {
+    const rows = await this.prisma.placeChangeRequest.findMany({
+      where: { placeId },
+      orderBy: { createdAt: 'desc' },
+    });
+    return rows.map((row) => ({
+      id: row.id,
+      placeId: row.placeId,
+      userId: row.userId,
+      kind: row.kind,
+      status: row.status,
+      reason: row.reason,
+      decisionNote: row.decisionNote,
+    }));
+  }
 }

@@ -74,4 +74,11 @@ export class PlaceChangeService {
       payload: input.payload,
     });
   }
+
+  /**
+   * Pending, approved, and rejected requests. Approved is also labeled accepted for the client.
+   */
+  async listForPlace(placeId: string): Promise<PlaceChangeRecord[]> {
+    return this.placeChangeRepository.listByPlace(placeId);
+  }
 }

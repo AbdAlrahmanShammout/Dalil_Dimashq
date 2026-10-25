@@ -280,6 +280,53 @@ describe('owner places', () => {
     expect(live.nameEn).toBe('Cafe');
     expect(live.type).toBe('cafe');
   });
+
+  it('lists pending, approved, and rejected requests with the decision note', async () => {
+    const token = await signInOwner(app, 'owner-requests@example.com');
+    const user = await prisma.user.findUniqueOrThrow({
+      where: { email: 'owner-requests@example.com' },
+    });
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    const place = await prisma.place.create({
+      data: { nameAr: 'مقهى', nameEn: 'Cafe', type: 'cafe', areaId: area.id },
+    });
+    await prisma.placeOwner.create({ data: { placeId: place.id, userId: user.id } });
+    await prisma.placeChangeRequest.create({
+      data: {
+        placeId: place.id,
+        userId: user.id,
+        kind: 'edit',
+        status: 'approved',
+        decisionNote: 'Accepted the name',
+      },
+    });
+    await prisma.placeChangeRequest.create({
+      data: {
+        placeId: place.id,
+        userId: user.id,
+        kind: 'edit',
+        status: 'rejected',
+        decisionNote: 'Address is unclear',
+      },
+    });
+    const listed = await request(app.getHttpServer())
+      .get(`/dashboard-owner/places/${place.id}/change-requests`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+    const statuses = listed.body.requests.map(
+      (row: { status: string; displayStatus: string; decisionNote: string }) => ({
+        status: row.status,
+        displayStatus: row.displayStatus,
+        decisionNote: row.decisionNote,
+      }),
+    );
+    expect(statuses).toEqual(
+      expect.arrayContaining([
+        { status: 'approved', displayStatus: 'accepted', decisionNote: 'Accepted the name' },
+        { status: 'rejected', displayStatus: 'rejected', decisionNote: 'Address is unclear' },
+      ]),
+    );
+  });
 });
 
 async function signInOwner(app: INestApplication, email: string): Promise<string> {

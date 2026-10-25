@@ -22,6 +22,10 @@ class MemoryPlaceChangeRepository extends PlaceChangeRepository {
     this.rows.push(row);
     return row;
   }
+
+  async listByPlace(placeId: string): Promise<PlaceChangeRecord[]> {
+    return this.rows.filter((row) => row.placeId === placeId);
+  }
 }
 
 describe('PlaceChangeService', () => {

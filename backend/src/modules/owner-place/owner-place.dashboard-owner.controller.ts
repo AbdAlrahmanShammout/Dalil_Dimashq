@@ -16,6 +16,7 @@ import { OwnerPlaceSearchResponseDto } from '@/modules/owner-place/dto/response/
 import { OwnerPlaceService } from '@/modules/owner-place/owner-place.service';
 import { PlaceChangeService } from '@/modules/change-request/place-change.service';
 import { PlaceChangeResponseDto } from '@/modules/change-request/dto/response/place-change-response.dto';
+import { PlaceChangeListResponseDto } from '@/modules/change-request/dto/response/place-change-list-response.dto';
 
 @ApiTags('owner-places')
 @Audience(ApiAudience.DashboardOwner)
@@ -109,5 +110,15 @@ export class OwnerPlaceDashboardController {
       payload,
     });
     return new PlaceChangeResponseDto(created);
+  }
+
+  @Get(':id/change-requests')
+  async listChangeRequests(
+    @LoggedInUser() currentUser: Principal,
+    @Param('id') placeId: string,
+  ): Promise<PlaceChangeListResponseDto> {
+    await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    const requests = await this.placeChangeService.listForPlace(placeId);
+    return new PlaceChangeListResponseDto(requests);
   }
 }
