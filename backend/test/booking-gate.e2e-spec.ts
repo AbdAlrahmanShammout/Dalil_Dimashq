@@ -87,6 +87,8 @@ describe('booking gate', () => {
       })
       .expect(201);
     expect(allowed.body.id).toEqual(expect.any(String));
+    expect(allowed.body.number).toEqual(expect.any(Number));
+    expect(allowed.body.status).toBe('pending');
     const repeat = await request(app.getHttpServer())
       .post('/client-app/bookings')
       .set('Authorization', `Bearer ${session.body.accessToken}`)

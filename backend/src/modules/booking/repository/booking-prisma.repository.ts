@@ -47,6 +47,7 @@ export class BookingPrismaRepository extends BookingRepository {
 
   private toRecord(row: {
     id: string;
+    number: number;
     clientKey: string;
     placeId: string;
     startsAt: Date;
@@ -57,6 +58,7 @@ export class BookingPrismaRepository extends BookingRepository {
   }): BookingRecord {
     return {
       id: row.id,
+      number: row.number,
       clientKey: row.clientKey,
       placeId: row.placeId,
       startsAt: row.startsAt,

@@ -282,6 +282,7 @@ enum BookingStatus {
 
 model Booking {
   id                 String        @id @default(cuid())
+  number             Int           @unique @default(autoincrement())
   clientKey          String
   userId             String
   user               User          @relation(fields: [userId], references: [id], onDelete: Cascade)

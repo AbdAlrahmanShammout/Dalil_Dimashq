@@ -20,6 +20,7 @@ class MemoryBookingRepository extends BookingRepository {
   async create(input: CreateBookingInput): Promise<BookingRecord> {
     const row: BookingRecord = {
       id: `booking-${this.rows.length + 1}`,
+      number: this.rows.length + 1,
       clientKey: input.clientKey,
       placeId: input.placeId,
       startsAt: input.startsAt,

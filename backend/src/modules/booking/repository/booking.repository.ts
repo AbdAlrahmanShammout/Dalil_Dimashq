@@ -2,6 +2,7 @@ export const BOOKING_NOTE_MAX_LENGTH = 300;
 
 export interface BookingRecord {
   readonly id: string;
+  readonly number: number;
   readonly clientKey: string;
   readonly placeId: string;
   readonly startsAt: Date;
