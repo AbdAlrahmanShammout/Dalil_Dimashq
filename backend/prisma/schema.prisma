@@ -224,6 +224,7 @@ model Place {
   ratings              Rating[]
   changeRequests       PlaceChangeRequest[]
   owners               PlaceOwner[]
+  subscriptions        Subscription[]
 
   @@index([areaId])
   @@index([status, type])
@@ -486,6 +487,16 @@ model PlaceOwner {
 
   @@id([placeId, userId])
   @@index([userId])
+}
+
+model Subscription {
+  id        String   @id @default(cuid())
+  placeId   String
+  place     Place    @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  endsAt    DateTime
+  createdAt DateTime @default(now())
+
+  @@index([placeId, endsAt])
 }
 
 model Amenity {

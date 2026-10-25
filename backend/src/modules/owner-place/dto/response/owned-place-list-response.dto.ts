@@ -21,6 +21,15 @@ class OwnedPlaceResponseDto {
   @ApiProperty({ nullable: true })
   readonly addressEn: string | null;
 
+  @ApiProperty()
+  readonly premiumActive: boolean;
+
+  @ApiProperty({ nullable: true })
+  readonly premiumEndsAt: Date | null;
+
+  @ApiProperty()
+  readonly pendingRequestCount: number;
+
   constructor(place: OwnedPlaceSummary) {
     this.id = place.id;
     this.nameAr = place.nameAr;
@@ -28,6 +37,9 @@ class OwnedPlaceResponseDto {
     this.type = place.type;
     this.addressAr = place.addressAr;
     this.addressEn = place.addressEn;
+    this.premiumActive = place.premiumActive;
+    this.premiumEndsAt = place.premiumEndsAt;
+    this.pendingRequestCount = place.pendingRequestCount;
   }
 }
 

@@ -12,7 +12,7 @@ export class OwnerPlaceService {
   /**
    * Places linked to this owner account.
    */
-  async listMine(userId: string): Promise<OwnedPlaceSummary[]> {
-    return this.placeOwnerRepository.listByUser(userId);
+  async listMine(userId: string, now: Date = new Date()): Promise<OwnedPlaceSummary[]> {
+    return this.placeOwnerRepository.listByUser(userId, now);
   }
 }

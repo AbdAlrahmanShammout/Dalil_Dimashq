@@ -13,6 +13,9 @@ class MemoryPlaceOwnerRepository extends PlaceOwnerRepository {
       type: 'cafe',
       addressAr: 'المزة',
       addressEn: 'Mazzeh',
+      premiumActive: false,
+      premiumEndsAt: null,
+      pendingRequestCount: 0,
     },
   ];
 
@@ -33,6 +36,9 @@ describe('OwnerPlaceService', () => {
         type: 'cafe',
         addressAr: 'المزة',
         addressEn: 'Mazzeh',
+        premiumActive: false,
+        premiumEndsAt: null,
+        pendingRequestCount: 0,
       },
     ]);
   });

@@ -21,6 +21,8 @@ describe('owner places', () => {
   });
 
   afterAll(async () => {
+    await prisma.placeChangeRequest.deleteMany();
+    await prisma.subscription.deleteMany();
     await prisma.placeOwner.deleteMany();
     await prisma.place.deleteMany();
     await prisma.area.deleteMany();
@@ -30,6 +32,8 @@ describe('owner places', () => {
 
   beforeEach(async () => {
     clearCapturedMail();
+    await prisma.placeChangeRequest.deleteMany();
+    await prisma.subscription.deleteMany();
     await prisma.placeOwner.deleteMany();
     await prisma.place.deleteMany();
     await prisma.area.deleteMany();
@@ -69,8 +73,29 @@ describe('owner places', () => {
         type: 'cafe',
         addressAr: 'المزة',
         addressEn: 'Mazzeh',
+        premiumActive: false,
+        premiumEndsAt: null,
+        pendingRequestCount: 0,
       },
     ]);
+    const endsAt = new Date('2027-01-01T00:00:00.000Z');
+    await prisma.subscription.create({ data: { placeId: linked.id, endsAt } });
+    await prisma.placeChangeRequest.create({
+      data: {
+        placeId: linked.id,
+        userId: user.id,
+        kind: 'report',
+        reason: 'Hours',
+        status: 'pending',
+      },
+    });
+    const premium = await request(app.getHttpServer())
+      .get('/dashboard-owner/places')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+    expect(premium.body.places[0].premiumActive).toBe(true);
+    expect(premium.body.places[0].premiumEndsAt).toBe(endsAt.toISOString());
+    expect(premium.body.places[0].pendingRequestCount).toBe(1);
   });
 });
 
