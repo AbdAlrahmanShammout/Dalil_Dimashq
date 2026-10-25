@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { LegalKind, ProfileLanguage } from '@prisma/client';
 
 import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
-import { LegalRepository, LegalText } from '@/modules/legal/repository/legal.repository';
+import {
+  LegalRepository,
+  LegalText,
+  PublishLegalInput,
+} from '@/modules/legal/repository/legal.repository';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
 
 @Injectable()
@@ -50,6 +54,24 @@ export class LegalPrismaRepository extends LegalRepository {
       where: { userId_documentId: { userId, documentId } },
       update: {},
       create: { userId, documentId },
+    });
+  }
+
+  override async publish(input: PublishLegalInput): Promise<LegalText> {
+    return this.prisma.$transaction(async (tx) => {
+      await tx.legalDocument.updateMany({
+        where: { kind: input.kind, language: input.language, isCurrent: true },
+        data: { isCurrent: false },
+      });
+      const row = await tx.legalDocument.create({
+        data: {
+          kind: input.kind,
+          language: input.language,
+          body: input.body,
+          isCurrent: true,
+        },
+      });
+      return { id: row.id, kind: input.kind, language: input.language, body: row.body };
     });
   }
 }

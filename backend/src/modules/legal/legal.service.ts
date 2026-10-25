@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
+import { InvalidStateException } from '@/common/exceptions/invalid-state.exception';
 import { ResourceNotFoundException } from '@/common/exceptions/resource-not-found.exception';
 import { LegalRepository, LegalText } from '@/modules/legal/repository/legal.repository';
 
@@ -30,5 +31,20 @@ export class LegalService {
    */
   async acceptDocument(userId: string, documentId: string): Promise<void> {
     await this.legalRepository.accept(userId, documentId);
+  }
+
+  /**
+   * Publishes a document and retires the previous current text of that kind and language.
+   */
+  async publish(input: {
+    readonly kind: 'terms' | 'privacy';
+    readonly language: 'ar' | 'en';
+    readonly body: string;
+  }): Promise<LegalText> {
+    const body = input.body.trim();
+    if (!body) {
+      throw new InvalidStateException({ message: 'Nothing to change', code: 'nothing_to_change' });
+    }
+    return this.legalRepository.publish({ kind: input.kind, language: input.language, body });
   }
 }

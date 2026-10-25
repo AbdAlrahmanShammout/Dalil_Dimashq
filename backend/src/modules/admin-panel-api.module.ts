@@ -9,6 +9,8 @@ import { AreaModule } from '@/modules/area/area.module';
 import { ChangeRequestAdminPanelController } from '@/modules/change-request/change-request.admin-panel.controller';
 import { PlaceAdminPanelController } from '@/modules/place/place.admin-panel.controller';
 import { PlaceModule } from '@/modules/place/place.module';
+import { LegalAdminPanelController } from '@/modules/legal/legal.admin-panel.controller';
+import { LegalModule } from '@/modules/legal/legal.module';
 import { OwnerLinkAdminPanelController } from '@/modules/owner-place/owner-link.admin-panel.controller';
 import { OwnerPlaceModule } from '@/modules/owner-place/owner-place.module';
 import { ProfileChangeAdminPanelController } from '@/modules/user/profile-change.admin-panel.controller';
@@ -16,11 +18,20 @@ import { StaffAdminPanelController } from '@/modules/user/staff.admin-panel.cont
 import { UserModule } from '@/modules/user/user.module';
 
 @Module({
-  imports: [AuthModule, UserModule, AreaModule, AmenityModule, PlaceModule, OwnerPlaceModule],
+  imports: [
+    AuthModule,
+    UserModule,
+    AreaModule,
+    AmenityModule,
+    PlaceModule,
+    OwnerPlaceModule,
+    LegalModule,
+  ],
   controllers: [
     AuthAdminPanelController,
     StaffAdminPanelController,
     ProfileChangeAdminPanelController,
+    LegalAdminPanelController,
     AreaAdminPanelController,
     AmenityAdminPanelController,
     PlaceAdminPanelController,

@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–118 are done. Task 22 is skipped. Next is task 119.
+Status: tasks 1–21 and 23–119 are done. Task 22 is skipped. Next is task 120.
 
 ### 1. Foundation
 
@@ -320,7 +320,7 @@ Status: tasks 1–21 and 23–118 are done. Task 22 is skipped. Next is task 119
 | ✅ 116 | Link an owner | `POST /admin-panel/places/:id/owners` links an owner account. `DELETE` removes the link. `GET /admin-panel/owners` lists links for staff |
 | ✅ 117 | Decide a change request | `POST /admin-panel/change-requests/:id/decide` approves or rejects claim, edit, remove, report, and unlink, with a note. Approve applies the stored change |
 | ✅ 118 | Decide a profile change | `POST /admin-panel/profile-change-requests/:id/decide` applies or rejects the name or birth year |
-| 119 | Publish legal | `POST /admin-panel/legal` publishes a new terms or privacy document. The previous one stops being current |
+| ✅ 119 | Publish legal | `POST /admin-panel/legal` publishes a new terms or privacy document. The previous one stops being current |
 | 120 | Site contacts | `PUT /admin-panel/site-contacts` updates the public shortcuts |
 | 121 | Suggestions queue | `GET /admin-panel/suggestions` lists them. `PATCH` sets the status. `DELETE` removes one. `editor` only |
 | 122 | Contact queue | `GET /admin-panel/contact-messages` lists contact-form rows for `editor` |
