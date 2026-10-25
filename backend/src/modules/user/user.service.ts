@@ -29,7 +29,7 @@ import {
   ProfileLanguage,
   StaffRole,
 } from '@/modules/user/enum/general.enum';
-import { StaffAccountRow } from '@/modules/user/repository/user.repository';
+import { StaffAccountRow, UserContacts } from '@/modules/user/repository/user.repository';
 import {
   isBirthYearInRange,
   isOldEnough,
@@ -259,6 +259,17 @@ export class UserService {
    */
   async listStaff(): Promise<StaffAccountRow[]> {
     return this.userRepository.listStaff();
+  }
+
+  /**
+   * Phone and email for staff. The password hash is never included.
+   */
+  async readContacts(id: string): Promise<UserContacts> {
+    const contacts = await this.userRepository.findContacts(id);
+    if (!contacts) {
+      throw new ResourceNotFoundException('User', id);
+    }
+    return contacts;
   }
 
   async findById(id: string): Promise<UserEntity | null> {

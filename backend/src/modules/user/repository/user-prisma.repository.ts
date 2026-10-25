@@ -20,6 +20,7 @@ import {
   CreateProfileChangeRepoInput,
   ProfileChangeRow,
   StaffAccountRow,
+  UserContacts,
   UpdateProfileContactRepoInput,
   UserRepository,
 } from '@/modules/user/repository/user.repository';
@@ -242,6 +243,27 @@ export class UserPrismaRepository extends UserRepository {
     return rows.flatMap((row) =>
       row.staffRole === null ? [] : [{ id: row.id, email: row.email, staffRole: row.staffRole }],
     );
+  }
+
+  override async findContacts(id: string): Promise<UserContacts | null> {
+    const row = await this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        email: true,
+        emailVerifiedAt: true,
+        profile: { select: { phone: true } },
+      },
+    });
+    if (!row) {
+      return null;
+    }
+    return {
+      id: row.id,
+      email: row.email,
+      phone: row.profile?.phone ?? null,
+      emailVerified: row.emailVerifiedAt !== null,
+    };
   }
 
   override async findProfileChange(id: string): Promise<ProfileChangeRow | null> {

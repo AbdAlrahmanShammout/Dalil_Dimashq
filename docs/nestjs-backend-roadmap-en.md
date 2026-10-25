@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–134 are done. Task 22 is skipped. Next is task 135.
+Status: tasks 1–21 and 23–135 are done. Task 22 is skipped. Next is task 136.
 
 ### 1. Foundation
 
@@ -336,7 +336,7 @@ Status: tasks 1–21 and 23–134 are done. Task 22 is skipped. Next is task 135
 | ✅ 132 | Decide a fake report | `POST /admin-panel/fake-reports/:id/decide` confirms or rejects, with a note and a bad-faith flag. Confirm may create the next ban. `moderator` |
 | ✅ 133 | Lift a ban | `POST /admin-panel/booking-bans/:id/lift` requires a note. A lifted ban does not count toward the next one |
 | ✅ 134 | No-show watch | `GET /admin-panel/no-show-watch` lists customers with many no-shows in a window. It does not punish them |
-| 135 | User contacts | `GET /admin-panel/users/:id/contacts` returns the phone and email a staff role is allowed to see |
+| ✅ 135 | User contacts | `GET /admin-panel/users/:id/contacts` returns the phone and email a staff role is allowed to see |
 | 136 | Audit log | Every decide, void, publish, link, and role change writes an audit row. `GET /admin-panel/audit-log` is `admin` only |
 | 137 | Admin alerts | `GET /admin-panel/alerts` lists unread operational alerts. `POST .../read` marks one |
 | 138 | Staff hours override | `PUT /admin-panel/places/:id/hours` always saves, including Ramadan periods, and does not create a review request. `POST` and `DELETE` on `/admin-panel/places/:id/response-hours` and `/admin-panel/places/:id/blackouts` are the same direct write for an editor |

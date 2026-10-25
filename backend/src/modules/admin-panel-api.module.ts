@@ -35,6 +35,7 @@ import { PaymentModule } from '@/modules/payment/payment.module';
 import { SubscriptionAdminPanelController } from '@/modules/subscription/subscription.admin-panel.controller';
 import { SubscriptionModule } from '@/modules/subscription/subscription.module';
 import { StaffAdminPanelController } from '@/modules/user/staff.admin-panel.controller';
+import { UserContactAdminPanelController } from '@/modules/user/user-contact.admin-panel.controller';
 import { UserModule } from '@/modules/user/user.module';
 
 @Module({
@@ -57,6 +58,7 @@ import { UserModule } from '@/modules/user/user.module';
   controllers: [
     AuthAdminPanelController,
     StaffAdminPanelController,
+    UserContactAdminPanelController,
     ProfileChangeAdminPanelController,
     LegalAdminPanelController,
     SiteContactAdminPanelController,

@@ -90,6 +90,10 @@ export abstract class UserRepository {
     return Promise.resolve([]);
   }
 
+  findContacts(_id: string): Promise<UserContacts | null> {
+    return Promise.resolve(null);
+  }
+
   findProfileChange(_id: string): Promise<ProfileChangeRow | null> {
     return Promise.resolve(null);
   }
@@ -105,6 +109,13 @@ export abstract class UserRepository {
 export interface ProfileChangeRow {
   readonly id: string;
   readonly status: 'pending' | 'approved' | 'rejected';
+}
+
+export interface UserContacts {
+  readonly id: string;
+  readonly email: string;
+  readonly phone: string | null;
+  readonly emailVerified: boolean;
 }
 
 export interface StaffAccountRow {
