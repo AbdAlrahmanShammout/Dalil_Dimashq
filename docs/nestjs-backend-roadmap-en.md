@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–129 are done. Task 22 is skipped. Next is task 130.
+Status: tasks 1–21 and 23–130 are done. Task 22 is skipped. Next is task 131.
 
 ### 1. Foundation
 
@@ -331,7 +331,7 @@ Status: tasks 1–21 and 23–129 are done. Task 22 is skipped. Next is task 130
 | ✅ 127 | Void a payment | `POST /admin-panel/payments/:id/void` requires a reason. The row is not deleted and is not edited in place |
 | ✅ 128 | Place payment history | `GET /dashboard-owner/places/:id/payments` returns that place's history. `GET /admin-panel/places/:id/payments` returns the same for sales |
 | ✅ 129 | Receipt | `GET /admin-panel/payments/:id/receipt` and `GET /dashboard-owner/payments/:id/receipt` return the receipt fields. An owner only receives their place's receipt |
-| 130 | Held ratings | `POST /admin-panel/ratings/decide` counts or rejects held ratings. `moderator` |
+| ✅ 130 | Held ratings | `POST /admin-panel/ratings/decide` counts or rejects held ratings. `moderator` |
 | 131 | Enable bookings | `POST /admin-panel/places/:id/booking-enabled` switches booking on or off. `editor` or `sales` |
 | 132 | Decide a fake report | `POST /admin-panel/fake-reports/:id/decide` confirms or rejects, with a note and a bad-faith flag. Confirm may create the next ban. `moderator` |
 | 133 | Lift a ban | `POST /admin-panel/booking-bans/:id/lift` requires a note. A lifted ban does not count toward the next one |

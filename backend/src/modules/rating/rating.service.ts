@@ -57,6 +57,21 @@ export class RatingService {
     await this.ratingRepository.markStatus(rating.id, 'rejected');
   }
 
+  /**
+   * Counts or rejects a rating that is still held. A decided rating stays as it is.
+   */
+  async decideHeld(ratingId: string, decision: 'counted' | 'rejected'): Promise<void> {
+    const rating = await this.requireRating(ratingId);
+    if (rating.status !== 'held') {
+      throw new InvalidStateException({ message: 'Already decided', code: 'invalid_state' });
+    }
+    if (decision === 'counted') {
+      await this.countRating(ratingId);
+      return;
+    }
+    await this.rejectRating(ratingId);
+  }
+
   private async refreshPublicScore(placeId: string): Promise<void> {
     const counted = await this.ratingRepository.listCounted(placeId);
     if (counted.length === 0) {

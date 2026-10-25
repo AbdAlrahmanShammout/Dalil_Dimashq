@@ -22,6 +22,8 @@ import { OwnerLinkAdminPanelController } from '@/modules/owner-place/owner-link.
 import { OwnerPlaceModule } from '@/modules/owner-place/owner-place.module';
 import { ProfileChangeAdminPanelController } from '@/modules/user/profile-change.admin-panel.controller';
 import { PaymentAdminPanelController } from '@/modules/payment/payment.admin-panel.controller';
+import { RatingAdminPanelController } from '@/modules/rating/rating.admin-panel.controller';
+import { RatingModule } from '@/modules/rating/rating.module';
 import { PlacePaymentAdminPanelController } from '@/modules/payment/place-payment.admin-panel.controller';
 import { PaymentModule } from '@/modules/payment/payment.module';
 import { SubscriptionAdminPanelController } from '@/modules/subscription/subscription.admin-panel.controller';
@@ -42,6 +44,7 @@ import { UserModule } from '@/modules/user/user.module';
     EventModule,
     SubscriptionModule,
     PaymentModule,
+    RatingModule,
   ],
   controllers: [
     AuthAdminPanelController,
@@ -58,6 +61,7 @@ import { UserModule } from '@/modules/user/user.module';
     FeaturedAdminPanelController,
     SubscriptionAdminPanelController,
     PaymentAdminPanelController,
+    RatingAdminPanelController,
     PlacePaymentAdminPanelController,
     OwnerLinkAdminPanelController,
     ChangeRequestAdminPanelController,
