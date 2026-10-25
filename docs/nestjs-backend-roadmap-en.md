@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–142 are done. Task 143 is withdrawn. Task 22 is skipped. Next is task 144.
+Status: tasks 1–21 and 23–142 are done. Tasks 143 and 144 are withdrawn. Task 22 is skipped. Next is task 145.
 
 ### 1. Foundation
 
@@ -352,7 +352,7 @@ Old Supabase rows are not copied. The schema is not required to match the old ta
 | ✅ 141 | Schema freeze | The Prisma schema covers every model in this roadmap and applies from an empty database. It is not a port of the Supabase tables |
 | ✅ 142 | Seed | `prisma:seed` creates one admin, the amenity list, the legal documents, and the site-contact row. No production places are inserted |
 | ⏭ 143 | No data import | Withdrawn. There is no mapping, copy, or reconciliation of Supabase places, owners, photos, payments, or bookings |
-| 144 | No password import | Withdrawn. Accounts are created through the three sign-up doors. Old password hashes are not read |
+| ⏭ 144 | No password import | Withdrawn. Accounts are created through the three sign-up doors. Old password hashes are not read |
 | 145 | No photo copy | Withdrawn. Photos enter only through the upload routes, which write to S3 |
 | 146 | Fresh start check | A clean migration plus seed boots, and `GET /health/ready` passes against that empty database |
 | 147 | Deploy | Not started here. Host and S3 region are chosen when deployment is planned |
