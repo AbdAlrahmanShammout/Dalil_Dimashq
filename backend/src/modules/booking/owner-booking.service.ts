@@ -9,9 +9,13 @@ import { NotificationService } from '@/modules/notification/notification.service
 import {
   BookingRepository,
   DecideBookingInput,
+  NoShowWatchRow,
   OwnerBookingRow,
   PlaceBooking,
 } from '@/modules/booking/repository/booking.repository';
+
+const NO_SHOW_WINDOW_MS = 30 * 24 * 60 * 60 * 1000;
+const NO_SHOW_MINIMUM = 3;
 
 const ATTENDANCE_LEAD_MS = 30 * 60 * 1000;
 const ATTENDANCE_GRACE_MS = 3 * 24 * 60 * 60 * 1000;
@@ -190,6 +194,14 @@ export class OwnerBookingService {
       throw new ResourceNotFoundException('Booking', bookingId);
     }
     return booking;
+  }
+
+  /**
+   * Customers with several no-shows in the recent window. This list does not punish them.
+   */
+  async listNoShowWatch(now: Date = new Date()): Promise<NoShowWatchRow[]> {
+    const from = new Date(now.getTime() - NO_SHOW_WINDOW_MS);
+    return this.bookingRepository.listNoShows(from, NO_SHOW_MINIMUM);
   }
 
   private async applyDecision(

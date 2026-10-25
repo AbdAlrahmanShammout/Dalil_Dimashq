@@ -102,4 +102,14 @@ export abstract class BookingRepository {
   decide(_input: DecideBookingInput, _context?: TransactionContext): Promise<boolean> {
     return Promise.resolve(false);
   }
+
+  listNoShows(_from: Date, _minimum: number): Promise<NoShowWatchRow[]> {
+    return Promise.resolve([]);
+  }
+}
+
+export interface NoShowWatchRow {
+  readonly userId: string;
+  readonly email: string;
+  readonly count: number;
 }

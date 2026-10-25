@@ -9,6 +9,7 @@ import {
   BookingRecord,
   BookingRepository,
   CreateBookingInput,
+  NoShowWatchRow,
   ListBookingsInput,
   OwnerBookingRow,
   PlaceBooking,
@@ -154,6 +155,29 @@ export class BookingPrismaRepository extends BookingRepository {
       },
     });
     return result.count > 0;
+  }
+
+  override async listNoShows(from: Date, minimum: number): Promise<NoShowWatchRow[]> {
+    const grouped = await this.prisma.booking.groupBy({
+      by: ['userId'],
+      where: { status: 'no_show', startsAt: { gte: from } },
+      _count: { _all: true },
+    });
+    const matches = grouped.filter((row) => row._count._all >= minimum);
+    if (matches.length === 0) {
+      return [];
+    }
+    const users = await this.prisma.user.findMany({
+      where: { id: { in: matches.map((row) => row.userId) } },
+    });
+    const emails = new Map(users.map((user) => [user.id, user.email]));
+    return matches
+      .map((row) => ({
+        userId: row.userId,
+        email: emails.get(row.userId) ?? '',
+        count: row._count._all,
+      }))
+      .sort((left, right) => right.count - left.count);
   }
 
   private toRecord(row: {
