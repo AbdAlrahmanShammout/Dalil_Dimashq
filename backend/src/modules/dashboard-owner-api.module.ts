@@ -11,12 +11,21 @@ import { OwnerBookingDashboardController } from '@/modules/booking/owner-booking
 import { OfferDashboardOwnerController } from '@/modules/offer/offer.dashboard-owner.controller';
 import { PlacePhotoDashboardOwnerController } from '@/modules/place-photo/place-photo.dashboard-owner.controller';
 import { NotificationDashboardOwnerController } from '@/modules/notification/notification.dashboard-owner.controller';
+import { PlacePaymentDashboardOwnerController } from '@/modules/payment/place-payment.dashboard-owner.controller';
+import { PaymentModule } from '@/modules/payment/payment.module';
 import { NotificationModule } from '@/modules/notification/notification.module';
 import { AccountDashboardOwnerController } from '@/modules/user/account.dashboard-owner.controller';
 import { UserModule } from '@/modules/user/user.module';
 
 @Module({
-  imports: [AuthModule, UserModule, DeviceModule, OwnerPlaceModule, NotificationModule],
+  imports: [
+    AuthModule,
+    UserModule,
+    DeviceModule,
+    OwnerPlaceModule,
+    NotificationModule,
+    PaymentModule,
+  ],
   controllers: [
     AuthDashboardOwnerController,
     AccountDashboardOwnerController,
@@ -27,6 +36,7 @@ import { UserModule } from '@/modules/user/user.module';
     OfferDashboardOwnerController,
     OwnerBookingDashboardController,
     NotificationDashboardOwnerController,
+    PlacePaymentDashboardOwnerController,
   ],
 })
 export class DashboardOwnerApiModule {}

@@ -3,6 +3,7 @@ import { PaymentMethod, Prisma } from '@prisma/client';
 
 import {
   CreatePaymentInput,
+  PaymentHistoryItem,
   PaymentRecord,
   PaymentRepository,
 } from '@/modules/payment/repository/payment.repository';
@@ -65,6 +66,19 @@ export class PaymentPrismaRepository extends PaymentRepository {
       throw error;
     }
     return toRecord(existing);
+  }
+
+  override async listByPlace(placeId: string): Promise<PaymentHistoryItem[]> {
+    const rows = await this.prisma.payment.findMany({
+      where: { placeId },
+      include: { void: true },
+      orderBy: { createdAt: 'desc' },
+    });
+    return rows.map((row) => ({
+      ...toRecord(row),
+      voidedAt: row.void?.voidedAt ?? null,
+      voidReason: row.void?.reason ?? null,
+    }));
   }
 }
 

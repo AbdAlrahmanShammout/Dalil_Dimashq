@@ -6,6 +6,7 @@ import { ResourceNotFoundException } from '@/common/exceptions/resource-not-foun
 import {
   PAYMENT_METHODS,
   PaymentMethodName,
+  PaymentHistoryItem,
   PaymentRecord,
   PaymentRepository,
 } from '@/modules/payment/repository/payment.repository';
@@ -82,6 +83,13 @@ export class PaymentService {
       throw new InvalidStateException({ message: 'Already voided', code: 'invalid_state' });
     }
     return saved;
+  }
+
+  /**
+   * Every payment for a place, including voided ones. Newest first.
+   */
+  async listForPlace(placeId: string): Promise<PaymentHistoryItem[]> {
+    return this.paymentRepository.listByPlace(placeId);
   }
 }
 

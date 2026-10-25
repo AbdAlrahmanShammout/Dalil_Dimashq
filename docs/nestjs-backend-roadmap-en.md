@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–127 are done. Task 22 is skipped. Next is task 128.
+Status: tasks 1–21 and 23–128 are done. Task 22 is skipped. Next is task 129.
 
 ### 1. Foundation
 
@@ -329,7 +329,7 @@ Status: tasks 1–21 and 23–127 are done. Task 22 is skipped. Next is task 128
 | ✅ 125 | Subscriptions | `sales` creates and updates a Premium window. Owners can read it from task 79 |
 | ✅ 126 | Record a payment | `POST /admin-panel/payments` records amount, currency, method, item, payer, period, and place. The receipt number is `DD-YY-MM-####`, issued by the service, never by the client |
 | ✅ 127 | Void a payment | `POST /admin-panel/payments/:id/void` requires a reason. The row is not deleted and is not edited in place |
-| 128 | Place payment history | `GET /dashboard-owner/places/:id/payments` returns that place's history. `GET /admin-panel/places/:id/payments` returns the same for sales |
+| ✅ 128 | Place payment history | `GET /dashboard-owner/places/:id/payments` returns that place's history. `GET /admin-panel/places/:id/payments` returns the same for sales |
 | 129 | Receipt | `GET /admin-panel/payments/:id/receipt` and `GET /dashboard-owner/payments/:id/receipt` return the receipt fields. An owner only receives their place's receipt |
 | 130 | Held ratings | `POST /admin-panel/ratings/decide` counts or rejects held ratings. `moderator` |
 | 131 | Enable bookings | `POST /admin-panel/places/:id/booking-enabled` switches booking on or off. `editor` or `sales` |

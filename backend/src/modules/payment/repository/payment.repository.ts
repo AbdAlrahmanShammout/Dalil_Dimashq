@@ -22,6 +22,11 @@ export interface PaymentRecord {
   readonly createdAt: Date;
 }
 
+export interface PaymentHistoryItem extends PaymentRecord {
+  readonly voidedAt: Date | null;
+  readonly voidReason: string | null;
+}
+
 export interface CreatePaymentInput {
   readonly placeId: string;
   readonly amount: number;
@@ -51,5 +56,9 @@ export abstract class PaymentRepository {
     _voidedAt: Date,
   ): Promise<PaymentRecord | 'missing' | 'already_void'> {
     return Promise.resolve('missing');
+  }
+
+  listByPlace(_placeId: string): Promise<PaymentHistoryItem[]> {
+    return Promise.resolve([]);
   }
 }
