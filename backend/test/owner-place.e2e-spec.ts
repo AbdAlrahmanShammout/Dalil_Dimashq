@@ -97,6 +97,38 @@ describe('owner places', () => {
     expect(premium.body.places[0].premiumEndsAt).toBe(endsAt.toISOString());
     expect(premium.body.places[0].pendingRequestCount).toBe(1);
   });
+
+  it('pages name matches without a link', async () => {
+    const token = await signInOwner(app, 'owner-search@example.com');
+    const area = await prisma.area.create({ data: { nameAr: 'المزة', nameEn: 'Mazzeh' } });
+    await prisma.place.create({
+      data: { nameAr: 'كافيه واحد', nameEn: 'Cafe One', type: 'cafe', areaId: area.id },
+    });
+    await prisma.place.create({
+      data: { nameAr: 'كافيه اثنان', nameEn: 'Cafe Two', type: 'cafe', areaId: area.id },
+    });
+    await prisma.place.create({
+      data: { nameAr: 'فندق', nameEn: 'Hotel', type: 'hotel', areaId: area.id },
+    });
+    await prisma.place.create({
+      data: {
+        nameAr: 'كافيه مخفي',
+        nameEn: 'Cafe Hidden',
+        type: 'cafe',
+        status: 'hidden',
+        areaId: area.id,
+      },
+    });
+    const page = await request(app.getHttpServer())
+      .get('/dashboard-owner/places/search')
+      .query({ name: 'cafe', limit: 1, offset: 0 })
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
+    expect(page.body.total).toBe(2);
+    expect(page.body.places).toHaveLength(1);
+    expect(page.body.nextOffset).toBe(1);
+    expect(page.body.places[0].nameEn).toBe('Cafe One');
+  });
 });
 
 async function signInOwner(app: INestApplication, email: string): Promise<string> {

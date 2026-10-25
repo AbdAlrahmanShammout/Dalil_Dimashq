@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 
 import {
   OwnedPlaceSummary,
+  PlaceNamePage,
   PlaceOwnerRepository,
+  SearchPlacesByNameInput,
 } from '@/modules/owner-place/repository/place-owner.repository';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
 
@@ -49,5 +51,37 @@ export class PlaceOwnerPrismaRepository extends PlaceOwnerRepository {
         pendingRequestCount: pendingRow?._count._all ?? 0,
       };
     });
+  }
+
+  override async searchByName(input: SearchPlacesByNameInput): Promise<PlaceNamePage> {
+    const where = {
+      status: { not: 'hidden' as const },
+      OR: [
+        { nameAr: { contains: input.name, mode: 'insensitive' as const } },
+        { nameEn: { contains: input.name, mode: 'insensitive' as const } },
+      ],
+    };
+    const [rows, total] = await Promise.all([
+      this.prisma.place.findMany({
+        where,
+        orderBy: { nameEn: 'asc' },
+        skip: input.offset,
+        take: input.limit,
+      }),
+      this.prisma.place.count({ where }),
+    ]);
+    return {
+      places: rows.map((row) => ({
+        id: row.id,
+        nameAr: row.nameAr,
+        nameEn: row.nameEn,
+        type: row.type,
+        addressAr: row.addressAr,
+        addressEn: row.addressEn,
+      })),
+      total,
+      limit: input.limit,
+      offset: input.offset,
+    };
   }
 }
