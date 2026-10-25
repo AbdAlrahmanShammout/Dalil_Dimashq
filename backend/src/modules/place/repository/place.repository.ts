@@ -63,4 +63,29 @@ export abstract class PlaceRepository {
   ): Promise<void> {
     return Promise.reject(new Error('updateVisitorScore is not implemented'));
   }
+
+  createStaffPlace(_input: StaffPlaceWrite): Promise<{ id: string }> {
+    return Promise.reject(new Error('createStaffPlace is not implemented'));
+  }
+
+  updateStaffPlace(_id: string, _input: StaffPlaceWrite): Promise<boolean> {
+    return Promise.resolve(false);
+  }
+}
+
+export interface StaffPlaceWrite {
+  readonly nameAr: string;
+  readonly nameEn: string;
+  readonly type: string;
+  readonly status: string;
+  readonly areaId: string;
+  readonly addressAr: string | null;
+  readonly addressEn: string | null;
+  readonly phone: string | null;
+  readonly website: string | null;
+  readonly email: string | null;
+  readonly facebook: string | null;
+  readonly instagram: string | null;
+  readonly descriptionAr: string | null;
+  readonly descriptionEn: string | null;
 }

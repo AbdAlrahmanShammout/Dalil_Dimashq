@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PlaceStatus, PlaceType, PlacePhotoRole } from '@prisma/client';
+import { PlaceStatus, PlaceType, PlacePhotoRole, Prisma } from '@prisma/client';
 
 import { AreaMapper } from '@/modules/area/mapper/area.mapper';
 import { PlaceEntity } from '@/modules/place/entity/place.entity';
@@ -11,6 +11,7 @@ import {
   PlaceRepository,
   SaveGeocodeRepoInput,
   SaveGeocodeResult,
+  StaffPlaceWrite,
 } from '@/modules/place/repository/place.repository';
 import { placeDetailsInclude } from '@/modules/place/types/place-details.include';
 import { PrismaProviderService } from '@/providers/database/prisma/prisma-provider.service';
@@ -119,4 +120,57 @@ export class PlacePrismaRepository extends PlaceRepository {
       data: { starValue, starSource },
     });
   }
+
+  override async createStaffPlace(input: StaffPlaceWrite): Promise<{ id: string }> {
+    for (let attempt = 0; attempt < 5; attempt += 1) {
+      try {
+        const row = await this.prisma.place.create({
+          data: {
+            ...this.toPlaceData(input),
+            claimCode: nextClaimCode(),
+          } as Prisma.PlaceUncheckedCreateInput,
+        });
+        return { id: row.id };
+      } catch (error) {
+        const duplicated =
+          error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002';
+        if (!duplicated || attempt === 4) {
+          throw error;
+        }
+      }
+    }
+    throw new Error('claim code was not issued');
+  }
+
+  override async updateStaffPlace(id: string, input: StaffPlaceWrite): Promise<boolean> {
+    const result = await this.prisma.place.updateMany({
+      where: { id },
+      data: this.toPlaceData(input),
+    });
+    return result.count > 0;
+  }
+
+  private toPlaceData(input: StaffPlaceWrite): Prisma.PlaceUncheckedUpdateInput {
+    return {
+      nameAr: input.nameAr,
+      nameEn: input.nameEn,
+      type: input.type as PlaceType,
+      status: input.status as PlaceStatus,
+      areaId: input.areaId,
+      addressAr: input.addressAr,
+      addressEn: input.addressEn,
+      phone: input.phone,
+      website: input.website,
+      email: input.email,
+      facebook: input.facebook,
+      instagram: input.instagram,
+      descriptionAr: input.descriptionAr,
+      descriptionEn: input.descriptionEn,
+    };
+  }
+}
+
+function nextClaimCode(): string {
+  const value = Math.floor(100000 + Math.random() * 900000);
+  return `DD-${value}`;
 }

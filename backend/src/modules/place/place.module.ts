@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { DirectoryService } from '@/modules/place/directory.service';
 import { PlaceGeocodeService } from '@/modules/place/place-geocode.service';
 import { PlaceService } from '@/modules/place/place.service';
+import { StaffPlaceService } from '@/modules/place/staff-place.service';
 import { PlaceShareService } from '@/modules/place/place-share.service';
 import { PlacePrismaRepository } from '@/modules/place/repository/place-prisma.repository';
 import { PlaceRepository } from '@/modules/place/repository/place.repository';
@@ -16,12 +17,19 @@ import { GoogleMapsProviderModule } from '@/providers/google-maps/google-maps-pr
   imports: [DatabaseProviderModule, GoogleMapsProviderModule, AwsS3ProviderModule],
   providers: [
     PlaceService,
+    StaffPlaceService,
     PlaceGeocodeService,
     DirectoryService,
     PlaceShareService,
     { provide: PlaceRepository, useClass: PlacePrismaRepository },
     { provide: PhotoStorage, useExisting: AwsS3ManagerService },
   ],
-  exports: [PlaceService, PlaceGeocodeService, DirectoryService, PlaceShareService],
+  exports: [
+    PlaceService,
+    StaffPlaceService,
+    PlaceGeocodeService,
+    DirectoryService,
+    PlaceShareService,
+  ],
 })
 export class PlaceModule {}
