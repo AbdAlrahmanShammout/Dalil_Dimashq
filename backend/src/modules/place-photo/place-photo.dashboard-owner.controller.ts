@@ -8,6 +8,7 @@ import { Audience } from '@/common/decorators/route/audience.decorator';
 import { OwnerPhotoResponseDto } from '@/modules/place-photo/dto/response/owner-photo-response.dto';
 import { OwnerPhotoRoleResponseDto } from '@/modules/place-photo/dto/response/owner-photo-role-response.dto';
 import { PlacePhotoService } from '@/modules/place-photo/place-photo.service';
+import { receiveClientPhoto } from '@/modules/place-photo/client-sent-photo';
 import { OwnerPlaceService } from '@/modules/owner-place/owner-place.service';
 import { PlaceAmenityChangedResponseDto } from '@/modules/amenity/dto/response/place-amenity-changed-response.dto';
 
@@ -34,7 +35,9 @@ export class PlacePhotoDashboardOwnerController {
     @UploadedFile() file?: UploadedPhoto,
   ): Promise<OwnerPhotoResponseDto> {
     await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    await this.ownerPlaceService.assertPremium(placeId);
     const bytes = this.placePhotoService.requirePhotoFile(file);
+    receiveClientPhoto({ fileName: file?.originalname ?? '', bytes }, true);
     const created = await this.placePhotoService.addOwnerPhoto({
       placeId,
       fileName: file?.originalname ?? '',
@@ -51,6 +54,7 @@ export class PlacePhotoDashboardOwnerController {
     @Param('photoId') photoId: string,
   ): Promise<OwnerPhotoRoleResponseDto> {
     await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    await this.ownerPlaceService.assertPremium(placeId);
     await this.placePhotoService.assignRole(placeId, photoId, 'cover');
     return new OwnerPhotoRoleResponseDto('cover');
   }
@@ -62,6 +66,7 @@ export class PlacePhotoDashboardOwnerController {
     @Param('photoId') photoId: string,
   ): Promise<OwnerPhotoRoleResponseDto> {
     await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    await this.ownerPlaceService.assertPremium(placeId);
     await this.placePhotoService.assignRole(placeId, photoId, 'logo');
     return new OwnerPhotoRoleResponseDto('logo');
   }
@@ -73,6 +78,7 @@ export class PlacePhotoDashboardOwnerController {
     @Param('photoId') photoId: string,
   ): Promise<PlaceAmenityChangedResponseDto> {
     await this.ownerPlaceService.assertLinked(currentUser.id, placeId);
+    await this.ownerPlaceService.assertPremium(placeId);
     await this.placePhotoService.removeOwnerPhoto(placeId, photoId);
     return new PlaceAmenityChangedResponseDto();
   }

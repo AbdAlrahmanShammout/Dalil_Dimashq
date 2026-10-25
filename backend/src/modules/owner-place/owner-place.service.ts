@@ -87,6 +87,16 @@ export class OwnerPlaceService {
   }
 
   /**
+   * Photo and offer writes require a subscription that has not ended.
+   */
+  async assertPremium(placeId: string, now: Date = new Date()): Promise<void> {
+    const premium = await this.isPremium(placeId, now);
+    if (!premium) {
+      throw new AccessDeniedException({ message: 'Premium required', code: 'premium_required' });
+    }
+  }
+
+  /**
    * Writes contact and description fields immediately when Premium is active.
    */
   async updateImmediate(input: {
