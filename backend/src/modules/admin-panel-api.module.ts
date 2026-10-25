@@ -21,6 +21,8 @@ import { LegalModule } from '@/modules/legal/legal.module';
 import { OwnerLinkAdminPanelController } from '@/modules/owner-place/owner-link.admin-panel.controller';
 import { OwnerPlaceModule } from '@/modules/owner-place/owner-place.module';
 import { ProfileChangeAdminPanelController } from '@/modules/user/profile-change.admin-panel.controller';
+import { SubscriptionAdminPanelController } from '@/modules/subscription/subscription.admin-panel.controller';
+import { SubscriptionModule } from '@/modules/subscription/subscription.module';
 import { StaffAdminPanelController } from '@/modules/user/staff.admin-panel.controller';
 import { UserModule } from '@/modules/user/user.module';
 
@@ -35,6 +37,7 @@ import { UserModule } from '@/modules/user/user.module';
     LegalModule,
     ContactModule,
     EventModule,
+    SubscriptionModule,
   ],
   controllers: [
     AuthAdminPanelController,
@@ -49,6 +52,7 @@ import { UserModule } from '@/modules/user/user.module';
     AmenityAdminPanelController,
     PlaceAdminPanelController,
     FeaturedAdminPanelController,
+    SubscriptionAdminPanelController,
     OwnerLinkAdminPanelController,
     ChangeRequestAdminPanelController,
   ],
