@@ -156,7 +156,7 @@ Providers, not domains: `prisma`, `jwt`, `swagger`, `aws-s3`, `google-maps`, `ma
 
 ## Task list
 
-Status: tasks 1–21 and 23–114 are done. Task 22 is skipped. Next is task 115.
+Status: tasks 1–21 and 23–115 are done. Task 22 is skipped. Next is task 116.
 
 ### 1. Foundation
 
@@ -316,7 +316,7 @@ Status: tasks 1–21 and 23–114 are done. Task 22 is skipped. Next is task 115
 | ✅ 112 | Areas CRUD | `POST`, `PATCH`, and `DELETE /admin-panel/areas` for `editor` |
 | ✅ 113 | Amenities CRUD | The same for amenities, including sort order and both names |
 | ✅ 114 | Create and edit a place | `POST /admin-panel/places` and `PATCH /admin-panel/places/:id` write the directory fields, then geocode. Status is active, temporarily closed, permanently closed, or hidden |
-| 115 | Place code | `GET /admin-panel/places/:id/code` returns the `DD-` code. `POST .../renew-code` rotates it |
+| ✅ 115 | Place code | `GET /admin-panel/places/:id/code` returns the `DD-` code. `POST .../renew-code` rotates it |
 | 116 | Link an owner | `POST /admin-panel/places/:id/owners` links an owner account. `DELETE` removes the link. `GET /admin-panel/owners` lists links for staff |
 | 117 | Decide a change request | `POST /admin-panel/change-requests/:id/decide` approves or rejects claim, edit, remove, report, and unlink, with a note. Approve applies the stored change |
 | 118 | Decide a profile change | `POST /admin-panel/profile-change-requests/:id/decide` applies or rejects the name or birth year |

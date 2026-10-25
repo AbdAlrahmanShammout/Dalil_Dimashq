@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { ApiAudience } from '@/common/auth/principal.interface';
@@ -7,6 +7,7 @@ import { Audience } from '@/common/decorators/route/audience.decorator';
 import { Roles } from '@/common/decorators/route/roles.decorator';
 import { PlaceAmenityChangedResponseDto } from '@/modules/amenity/dto/response/place-amenity-changed-response.dto';
 import { SaveStaffPlaceRequestDto } from '@/modules/place/dto/request/save-staff-place-request.dto';
+import { PlaceCodeResponseDto } from '@/modules/place/dto/response/place-code-response.dto';
 import { StaffPlaceCreatedResponseDto } from '@/modules/place/dto/response/staff-place-created-response.dto';
 import { StaffPlaceService } from '@/modules/place/staff-place.service';
 import { StaffPlaceWrite } from '@/modules/place/repository/place.repository';
@@ -31,6 +32,18 @@ export class PlaceAdminPanelController {
   ): Promise<PlaceAmenityChangedResponseDto> {
     await this.staffPlaceService.update(id, toWrite(body));
     return new PlaceAmenityChangedResponseDto();
+  }
+
+  @Get(':id/code')
+  async readCode(@Param('id') id: string): Promise<PlaceCodeResponseDto> {
+    const code = await this.staffPlaceService.readCode(id);
+    return new PlaceCodeResponseDto(code);
+  }
+
+  @Post(':id/renew-code')
+  async renewCode(@Param('id') id: string): Promise<PlaceCodeResponseDto> {
+    const code = await this.staffPlaceService.renewCode(id);
+    return new PlaceCodeResponseDto(code);
   }
 }
 

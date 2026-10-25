@@ -150,6 +150,36 @@ export class PlacePrismaRepository extends PlaceRepository {
     return result.count > 0;
   }
 
+  override async readClaimCode(id: string): Promise<string | null> {
+    const row = await this.prisma.place.findUnique({ where: { id }, select: { claimCode: true } });
+    return row?.claimCode ?? null;
+  }
+
+  override async renewClaimCode(id: string): Promise<string | null> {
+    const existing = await this.prisma.place.findUnique({ where: { id }, select: { id: true } });
+    if (!existing) {
+      return null;
+    }
+    for (let attempt = 0; attempt < 5; attempt += 1) {
+      const claimCode = nextClaimCode();
+      try {
+        const row = await this.prisma.place.update({
+          where: { id },
+          data: { claimCode },
+          select: { claimCode: true },
+        });
+        return row.claimCode;
+      } catch (error) {
+        const duplicated =
+          error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002';
+        if (!duplicated || attempt === 4) {
+          throw error;
+        }
+      }
+    }
+    return null;
+  }
+
   private toPlaceData(input: StaffPlaceWrite): Prisma.PlaceUncheckedUpdateInput {
     return {
       nameAr: input.nameAr,

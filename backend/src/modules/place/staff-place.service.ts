@@ -31,6 +31,28 @@ export class StaffPlaceService {
     await this.geocode(id, input);
   }
 
+  /**
+   * Returns the current DD- claim code.
+   */
+  async readCode(id: string): Promise<string> {
+    const code = await this.placeRepository.readClaimCode(id);
+    if (!code) {
+      throw new ResourceNotFoundException('Place', id);
+    }
+    return code;
+  }
+
+  /**
+   * Rotates the claim code. The previous code stops matching.
+   */
+  async renewCode(id: string): Promise<string> {
+    const code = await this.placeRepository.renewClaimCode(id);
+    if (!code) {
+      throw new ResourceNotFoundException('Place', id);
+    }
+    return code;
+  }
+
   private async geocode(placeId: string, input: StaffPlaceWrite): Promise<void> {
     const address = input.addressEn ?? input.addressAr;
     if (!address) {

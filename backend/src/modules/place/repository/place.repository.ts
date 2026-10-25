@@ -71,6 +71,14 @@ export abstract class PlaceRepository {
   updateStaffPlace(_id: string, _input: StaffPlaceWrite): Promise<boolean> {
     return Promise.resolve(false);
   }
+
+  readClaimCode(_id: string): Promise<string | null> {
+    return Promise.resolve(null);
+  }
+
+  renewClaimCode(_id: string): Promise<string | null> {
+    return Promise.resolve(null);
+  }
 }
 
 export interface StaffPlaceWrite {
