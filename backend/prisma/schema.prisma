@@ -101,6 +101,15 @@ model LegalAcceptance {
   @@unique([userId, documentId])
 }
 
+model SiteContact {
+  id        String  @id @default("site")
+  whatsapp  String?
+  phone     String?
+  email     String?
+  facebook  String?
+  instagram String?
+}
+
 model EmailCode {
   id         String    @id @default(cuid())
   userId     String
