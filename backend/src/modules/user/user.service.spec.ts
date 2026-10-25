@@ -50,6 +50,14 @@ class MemoryUserRepository extends UserRepository {
   readonly users: UserEntity[] = [];
   readonly codes: StoredCode[] = [];
   readonly tokens: StoredToken[] = [];
+  readonly pendingUserIds = new Set<string>();
+  lastChange: {
+    userId: string;
+    kind: 'name' | 'birth_year';
+    firstName: string | null;
+    lastName: string | null;
+    birthYear: number | null;
+  } | null = null;
 
   async findById(id: string): Promise<UserEntity | null> {
     return this.users.find((user) => user.id === id) ?? null;
@@ -190,6 +198,22 @@ class MemoryUserRepository extends UserRepository {
       user.profile.language = input.language;
     }
     return user;
+  }
+
+  override async hasPendingProfileChange(userId: string): Promise<boolean> {
+    return this.pendingUserIds.has(userId);
+  }
+
+  override async createProfileChange(input: {
+    userId: string;
+    kind: 'name' | 'birth_year';
+    firstName: string | null;
+    lastName: string | null;
+    birthYear: number | null;
+  }): Promise<{ id: string }> {
+    this.pendingUserIds.add(input.userId);
+    this.lastChange = input;
+    return { id: 'change-1' };
   }
 
   private async require(id: string): Promise<UserEntity> {
@@ -513,6 +537,42 @@ describe('UserService', () => {
     expect(actual.profile?.phoneVerifiedAt).toBeNull();
     expect(actual.profile?.language).toBe(ProfileLanguage.English);
     expect(actual.profile?.firstName).toBe('Ahmad');
+  });
+
+  it('stores a name change without editing the profile', async () => {
+    const created = await service.signUp({
+      email: 'change@example.com',
+      password: 'Password123',
+      door: AuthDoor.Visitor,
+      audience: ApiAudience.ClientApp,
+    });
+    await service.verifyEmail({
+      email: 'change@example.com',
+      code: created.code ?? '',
+      audience: ApiAudience.ClientApp,
+      purpose: EmailCodePurpose.Signup,
+    });
+    const userId = repository.users[0].id;
+    await service.completeProfile({
+      userId,
+      firstName: 'Ahmad',
+      lastName: 'Ali',
+      phone: '0944000000',
+      birthYear: 2000,
+      language: ProfileLanguage.Arabic,
+      now: new Date('2026-10-25T00:00:00Z'),
+    });
+    const request = await service.requestProfileChange({
+      userId,
+      firstName: 'Sami',
+      lastName: 'Nour',
+    });
+    expect(request.id).toBe('change-1');
+    expect(repository.users[0].profile?.firstName).toBe('Ahmad');
+    expect(repository.lastChange?.kind).toBe('name');
+    await expect(service.requestProfileChange({ userId, birthYear: 1990 })).rejects.toMatchObject({
+      code: 'request_pending',
+    });
   });
 
   it('sets only the visitor flag for Google', async () => {

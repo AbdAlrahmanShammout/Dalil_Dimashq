@@ -33,6 +33,7 @@ model User {
   profile         Profile?
   emailCodes      EmailCode[]
   refreshTokens   RefreshToken[]
+  profileChangeRequests ProfileChangeRequest[]
 }
 
 model Profile {
@@ -44,6 +45,31 @@ model Profile {
   phoneVerifiedAt DateTime?
   birthYear       Int?
   language        ProfileLanguage @default(ar)
+}
+
+enum ProfileChangeKind {
+  name
+  birth_year
+}
+
+enum ProfileChangeStatus {
+  pending
+  approved
+  rejected
+}
+
+model ProfileChangeRequest {
+  id        String              @id @default(cuid())
+  userId    String
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind      ProfileChangeKind
+  firstName String?
+  lastName  String?
+  birthYear Int?
+  status    ProfileChangeStatus @default(pending)
+  createdAt DateTime            @default(now())
+
+  @@index([userId, status])
 }
 
 model EmailCode {

@@ -5,8 +5,10 @@ import { ApiAudience, Principal } from '@/common/auth/principal.interface';
 import { LoggedInUser } from '@/common/decorators/requests/logged-in-user.decorator';
 import { Audience } from '@/common/decorators/route/audience.decorator';
 import { CompleteProfileRequestDto } from '@/modules/user/dto/request/complete-profile-request.dto';
+import { ProfileChangeRequestDto } from '@/modules/user/dto/request/profile-change-request.dto';
 import { UpdateProfileRequestDto } from '@/modules/user/dto/request/update-profile-request.dto';
 import { CompleteProfileResponseDto } from '@/modules/user/dto/response/complete-profile-response.dto';
+import { ProfileChangeResponseDto } from '@/modules/user/dto/response/profile-change-response.dto';
 import { UserService } from '@/modules/user/user.service';
 
 @ApiTags('profile')
@@ -46,5 +48,21 @@ export class ProfileClientAppController {
       language,
     });
     return new CompleteProfileResponseDto(user);
+  }
+
+  @Post('change-requests')
+  @HttpCode(201)
+  async requestChange(
+    @LoggedInUser() currentUser: Principal,
+    @Body() body: ProfileChangeRequestDto,
+  ): Promise<ProfileChangeResponseDto> {
+    const { firstName, lastName, birthYear } = body;
+    const created = await this.userService.requestProfileChange({
+      userId: currentUser.id,
+      firstName,
+      lastName,
+      birthYear,
+    });
+    return new ProfileChangeResponseDto(created);
   }
 }

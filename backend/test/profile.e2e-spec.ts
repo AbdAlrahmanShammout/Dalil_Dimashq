@@ -93,6 +93,20 @@ describe('complete profile', () => {
       include: { profile: true },
     });
     expect(stored?.profile?.phoneVerifiedAt).toBeNull();
+    const change = await request(app.getHttpServer())
+      .post('/client-app/profile/change-requests')
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .send({ firstName: 'Sami', lastName: 'Nour' })
+      .expect(201);
+    expect(change.body.status).toBe('pending');
+    const still = await prisma.user.findUnique({ where: { email }, include: { profile: true } });
+    expect(still?.profile?.firstName).toBe('Ahmad');
+    const pending = await request(app.getHttpServer())
+      .post('/client-app/profile/change-requests')
+      .set('Authorization', `Bearer ${session.body.accessToken}`)
+      .send({ birthYear: 1991 })
+      .expect(409);
+    expect(pending.body.code).toBe('request_pending');
   });
 });
 

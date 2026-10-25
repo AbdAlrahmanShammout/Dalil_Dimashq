@@ -29,6 +29,14 @@ export interface UpdateProfileContactRepoInput {
   readonly language?: ProfileLanguage;
 }
 
+export interface CreateProfileChangeRepoInput {
+  readonly userId: string;
+  readonly kind: 'name' | 'birth_year';
+  readonly firstName: string | null;
+  readonly lastName: string | null;
+  readonly birthYear: number | null;
+}
+
 export abstract class UserRepository {
   abstract findById(id: string): Promise<UserEntity | null>;
   abstract findByEmail(email: string): Promise<UserEntity | null>;
@@ -67,5 +75,11 @@ export abstract class UserRepository {
   }
   updateProfileContact(_input: UpdateProfileContactRepoInput): Promise<UserEntity> {
     return Promise.reject(new Error('updateProfileContact is not implemented'));
+  }
+  hasPendingProfileChange(_userId: string): Promise<boolean> {
+    return Promise.resolve(false);
+  }
+  createProfileChange(_input: CreateProfileChangeRepoInput): Promise<{ id: string }> {
+    return Promise.resolve({ id: 'change-1' });
   }
 }

@@ -17,6 +17,7 @@ import { UserEntity } from '@/modules/user/entity/user.entity';
 import { UserMapper } from '@/modules/user/mapper/user.mapper';
 import {
   CompleteProfileRepoInput,
+  CreateProfileChangeRepoInput,
   UpdateProfileContactRepoInput,
   UserRepository,
 } from '@/modules/user/repository/user.repository';
@@ -209,6 +210,26 @@ export class UserPrismaRepository extends UserRepository {
       include: userDetailsInclude,
     });
     return UserMapper.toEntity(row);
+  }
+
+  override async hasPendingProfileChange(userId: string): Promise<boolean> {
+    const count = await this.prisma.profileChangeRequest.count({
+      where: { userId, status: 'pending' },
+    });
+    return count > 0;
+  }
+
+  override async createProfileChange(input: CreateProfileChangeRepoInput): Promise<{ id: string }> {
+    const row = await this.prisma.profileChangeRequest.create({
+      data: {
+        userId: input.userId,
+        kind: input.kind,
+        firstName: input.firstName,
+        lastName: input.lastName,
+        birthYear: input.birthYear,
+      },
+    });
+    return { id: row.id };
   }
 
   private client(context?: TransactionContext): DatabaseClient {

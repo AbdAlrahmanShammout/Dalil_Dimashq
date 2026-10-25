@@ -315,6 +315,65 @@ export class UserService {
   }
 
   /**
+   * Stores a pending name or birth-year change. The live profile stays as it is.
+   */
+  async requestProfileChange(input: {
+    readonly userId: string;
+    readonly firstName?: string;
+    readonly lastName?: string;
+    readonly birthYear?: number;
+    readonly now?: Date;
+  }): Promise<{ readonly id: string }> {
+    const now = input.now ?? new Date();
+    const user = await this.requireUser(input.userId);
+    if (!user.profile?.firstName) {
+      throw new InvalidStateException({
+        message: 'Profile is incomplete',
+        code: 'profile_incomplete',
+      });
+    }
+    if (await this.userRepository.hasPendingProfileChange(user.id)) {
+      throw new ConflictException({ message: 'A request is pending', code: 'request_pending' });
+    }
+    const hasName = input.firstName !== undefined || input.lastName !== undefined;
+    const hasYear = input.birthYear !== undefined;
+    if (hasName === hasYear) {
+      throw new InvalidStateException({ message: 'Nothing to change', code: 'nothing_to_change' });
+    }
+    if (hasName) {
+      const firstName = (input.firstName ?? '').trim();
+      const lastName = (input.lastName ?? '').trim();
+      if (!isPersonName(firstName) || !isPersonName(lastName)) {
+        throw new InvalidStateException({ message: 'Name is invalid', code: 'name_invalid' });
+      }
+      return this.userRepository.createProfileChange({
+        userId: user.id,
+        kind: 'name',
+        firstName,
+        lastName,
+        birthYear: null,
+      });
+    }
+    const birthYear = input.birthYear ?? 0;
+    if (!isBirthYearInRange(birthYear, now)) {
+      throw new InvalidStateException({
+        message: 'Birth year is invalid',
+        code: 'birth_year_invalid',
+      });
+    }
+    if (!isOldEnough(birthYear, now)) {
+      throw new InvalidStateException({ message: 'Too young', code: 'too_young' });
+    }
+    return this.userRepository.createProfileChange({
+      userId: user.id,
+      kind: 'birth_year',
+      firstName: null,
+      lastName: null,
+      birthYear,
+    });
+  }
+
+  /**
    * Closes one door. The row is removed only when both doors are closed and the user is not staff.
    * Place links and bookings stay detached from the user when those tables exist.
    */
