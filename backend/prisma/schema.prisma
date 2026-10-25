@@ -111,6 +111,7 @@ model Place {
   hours       PlaceHour[]
   amenities   PlaceAmenity[]
   photos      PlacePhoto[]
+  offers      Offer[]
 
   @@index([areaId])
   @@index([status, type])
@@ -163,6 +164,24 @@ model PlacePhoto {
   sortOrder Int            @default(0)
 
   @@index([placeId, sortOrder])
+}
+
+model Offer {
+  id         String    @id @default(cuid())
+  placeId    String
+  place      Place     @relation(fields: [placeId], references: [id], onDelete: Cascade)
+  titleAr    String
+  titleEn    String
+  detailsAr  String
+  detailsEn  String
+  imageKey   String?
+  startsAt   DateTime
+  endsAt     DateTime
+  published  Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+
+  @@index([placeId, endsAt])
+  @@index([published, startsAt, endsAt])
 }
 
 model RefreshToken {

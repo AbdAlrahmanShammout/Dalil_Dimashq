@@ -6,6 +6,9 @@ import { AreaClientAppController } from '@/modules/area/area.client-app.controll
 import { AreaModule } from '@/modules/area/area.module';
 import { AmenityClientAppController } from '@/modules/amenity/amenity.client-app.controller';
 import { AmenityModule } from '@/modules/amenity/amenity.module';
+import { OfferClientAppController } from '@/modules/offer/offer.client-app.controller';
+import { OfferPlaceClientAppController } from '@/modules/offer/offer-place.client-app.controller';
+import { OfferModule } from '@/modules/offer/offer.module';
 import { PlacePhotoClientAppController } from '@/modules/place-photo/place-photo.client-app.controller';
 import { PlacePhotoModule } from '@/modules/place-photo/place-photo.module';
 import { PlaceHourClientAppController } from '@/modules/place-hour/place-hour.client-app.controller';
@@ -26,6 +29,7 @@ import { UserModule } from '@/modules/user/user.module';
     PlaceHourModule,
     AmenityModule,
     PlacePhotoModule,
+    OfferModule,
   ],
   controllers: [
     AuthClientAppController,
@@ -35,6 +39,8 @@ import { UserModule } from '@/modules/user/user.module';
     PlaceHourClientAppController,
     AmenityClientAppController,
     PlacePhotoClientAppController,
+    OfferClientAppController,
+    OfferPlaceClientAppController,
   ],
 })
 export class ClientAppApiModule {}
